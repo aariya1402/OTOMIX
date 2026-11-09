@@ -1,4 +1,4 @@
-# OTOMIX Micro-Task Plan
+﻿# OTOMIX Micro-Task Plan
 
 **Document:** `OTOMIX_MicroTask_Plan.md`  
 **Baseline:** `OTOMIX_Architecture_Spec.md` (OTOMIX-specific) and the Mother Document `Software_Arch_Spec__Main_.md` including its Engineering Delivery Addendum  
@@ -536,7 +536,7 @@ flowchart LR
 | Spec Reference | OTOMIX §9.5 · Mother Add. §1–§2 |
 | Review Checkpoint | Run `\d+ features` and compare constraints with §9.5. |
 
-###### P01-T05-S01-M02 — TODO
+###### P01-T05-S01-M02 — [x]
 
 | Field | Value |
 |---|---|

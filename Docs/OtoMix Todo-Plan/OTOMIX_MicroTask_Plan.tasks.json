@@ -1,4 +1,4 @@
-[
+﻿[
  {
   "id": "P01-T01-S01-M01",
   "status": "DONE",
@@ -139,7 +139,7 @@
  },
  {
   "id": "P01-T05-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Add RLS (`ENABLE` + `FORCE`) and the `tenant_isolation` policy to every tenant-carrying table and create an application role without BYPASSRLS that does not own the tables.",
   "prerequisites": [
    "P01-T05-S01-M01"
@@ -2428,6 +2428,7 @@
   "spec": "OTOMIX \u00a710.7 \u00b7 Mother \u00a710"
  }
 ]
+
 
 
 
