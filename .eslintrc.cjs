@@ -44,8 +44,21 @@ module.exports = {
   overrides: [
     {
       files: ['**/*.test.ts', '**/*.spec.ts'],
-      env: {
-        vitest: true,
+      globals: {
+        describe: 'readonly',
+        it: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        vi: 'readonly',
+        vitest: 'readonly',
+      },
+      rules: {
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
       },
     },
   ],

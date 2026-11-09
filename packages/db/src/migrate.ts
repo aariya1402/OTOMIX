@@ -1,16 +1,16 @@
-﻿import { Client } from 'pg';
+import { Client } from 'pg';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
 const sql = readFileSync(join(__dirname, '../migrations/001_core.sql'), 'utf-8');
 const parts = sql.split('-- Down');
-const up = parts[0];
-const down = parts[1] || '';
+const up = parts[0] ?? '';
+const down = parts[1] ?? '';
 
 const direction = process.argv[2] === 'down' ? 'down' : 'up';
 const migrationSql = direction === 'up' ? up : down;
 
-async function run() {
+async function run(): Promise<void> {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
     console.error('DATABASE_URL environment variable is required');
@@ -32,4 +32,7 @@ async function run() {
   }
 }
 
-run();
+run().catch((err) => {
+  console.error('Unhandled error in migration runner:', err);
+  process.exit(1);
+});

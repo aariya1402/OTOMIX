@@ -1,4 +1,4 @@
-﻿import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { SCORING_CONSTANTS } from '../src/constants/scoring';
 import { ACCESS_CONSTANTS } from '../../access/src/constants';
 
@@ -13,7 +13,7 @@ describe('Scoring Constants', () => {
     expect(SCORING_CONSTANTS.TEMPO_DELTA_LIMIT).toBe(0.01);
   });
 
-  it('should have all 8 access values correctly defined', () => {
+  it('should have all 9 access values correctly defined', () => {
     expect(ACCESS_CONSTANTS.WASM_HEAP_MB).toBe(512);
     expect(ACCESS_CONSTANTS.ACCESS_TTL_MIN).toBe(15);
     expect(ACCESS_CONSTANTS.REFRESH_TTL_DAYS).toBe(7);

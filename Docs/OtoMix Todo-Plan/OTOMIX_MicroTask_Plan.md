@@ -1,4 +1,4 @@
-﻿# OTOMIX Micro-Task Plan
+# OTOMIX Micro-Task Plan
 
 **Document:** `OTOMIX_MicroTask_Plan.md`  
 **Baseline:** `OTOMIX_Architecture_Spec.md` (OTOMIX-specific) and the Mother Document `Software_Arch_Spec__Main_.md` including its Engineering Delivery Addendum  
@@ -4460,3 +4460,10 @@ Every gap or contradiction found while decomposing the specification. **Blocking
 | OQ-22 | — | Scaling of `E_kick`, `C_bass`, `S_tempo`, `V_tune` to [0,1] for the Mixability Score. | Blocking | `P05-T02-S02-M06` | — |
 | OQ-23 | — | Provenance of the 'global dataset' used for genre-median interpolation and percentile bands. | Non-blocking | — | `P05-T02-S03-M01` |
 | OQ-24 | — | Meaning of 'strictly limits tempo deltas to <1%' in the MixPlan tie-break (filter, order, or both). | Blocking | `P08-T04-S01-M03` | — |
+### Additional Open Questions (P01 Quality Gate Hotfix)
+
+| ID | Spec item | Question / decision needed | Type | Blocked tasks | Related (non-blocking) tasks |
+|---|---|---|---|---|---|
+| OQ-25 | — | Does the Feature Registry schema (§9.6) require `additionalProperties: false` (strict) or default lenient? Spec is silent. | Non-blocking | — | `P01-T03-S02-M01` |
+| OQ-26 | — | Should a missing CVSS report file (`reports/snyk.json`) be fail-secure (exit 2) or fail-open (exit 0)? §7.9 is silent. | Blocking for future CVSS-report integration | — | `P01-T01-S02-M02` |
+| OQ-27 | — | Is `groove_delta` required only for `groove_mode: "swing"`, forbidden for other modes, or optional everywhere? §3.5/§9.6 are silent. | Non-blocking | — | `P01-T03-S02-M01` |

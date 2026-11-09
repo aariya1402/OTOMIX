@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://schemas.internal/feature-registry/1.2.json",
   "type": "object",
@@ -17,7 +17,7 @@
         "delta_phi_seconds": { "type": "number" },
         "groove_mode": { "enum": ["straight","triplet","swing"] },
         "groove_delta": { "type": "number", "minimum": 0.05, "maximum": 0.33 },
-        "pre_kick_beats": { "type": "integer" }
+        "pre_kick_beats": { "type": "integer", "minimum": 0 }
       }
     },
     "energy": {

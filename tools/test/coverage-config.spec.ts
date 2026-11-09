@@ -1,3 +1,10 @@
+// NOTE: This test verifies that the coverage threshold configuration is
+// PRESENT in vitest.config.ts. It does NOT test that vitest exits non-zero
+// when a threshold is violated — that is enforced by vitest itself when
+// the suite is run with `--coverage`, and a dedicated child-process test
+// is deferred to P11 (Hardening / Determinism Proof). Removing the
+// `thresholds` block entirely would make the regex matches below fail,
+// so this test catches accidental config deletion.
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
