@@ -89,7 +89,7 @@
  },
  {
   "id": "P01-T03-S02-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Add the Draft 7 JSON Schema from \u00a79.6 as `packages/contracts/schemas/feature-registry-1.2.json` with an AJV validator wrapper.",
   "prerequisites": [
    "P01-T03-S01-M02"
@@ -2428,6 +2428,7 @@
   "spec": "OTOMIX \u00a710.7 \u00b7 Mother \u00a710"
  }
 ]
+
 
 
 

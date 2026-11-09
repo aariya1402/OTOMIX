@@ -462,7 +462,7 @@ flowchart LR
 
 ##### P01-T03-S02 Feature Registry v1.2 schema
 
-###### P01-T03-S02-M01 — TODO
+###### P01-T03-S02-M01 — [x]
 
 | Field | Value |
 |---|---|

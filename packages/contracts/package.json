@@ -1,29 +1,32 @@
-{
-  "name": "@otomix/contracts",
-  "version": "0.0.1",
-  "description": "contracts package for OTOMIX platform",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "test": "vitest",
-    "lint": "eslint src --ext .ts",
-    "format": "prettier --write \"src/**/*.ts\""
-  },
-  "keywords": [
-    "otomix",
-    "contracts"
-  ],
-  "author": "",
-  "license": "MIT",
-  "dependencies": {},
-  "devDependencies": {
-    "typescript": "^5.0.0",
-    "@types/node": "^20.0.0",
-    "vitest": "^1.0.0",
-    "@vitest/ui": "^1.0.0"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+﻿{
+    "name":  "@otomix/contracts",
+    "version":  "0.0.1",
+    "description":  "contracts package for OTOMIX platform",
+    "main":  "dist/index.js",
+    "types":  "dist/index.d.ts",
+    "scripts":  {
+                    "build":  "tsc",
+                    "test":  "vitest",
+                    "lint":  "eslint src --ext .ts",
+                    "format":  "prettier --write \"src/**/*.ts\""
+                },
+    "keywords":  [
+                     "otomix",
+                     "contracts"
+                 ],
+    "author":  "",
+    "license":  "MIT",
+    "dependencies":  {
+
+                     },
+    "devDependencies":  {
+                            "typescript":  "^5.0.0",
+                            "@types/node":  "^20.0.0",
+                            "vitest":  "^1.0.0",
+                            "@vitest/ui":  "^1.0.0",
+                            "ajv":  "^8.12.0"
+                        },
+    "publishConfig":  {
+                          "access":  "public"
+                      }
 }

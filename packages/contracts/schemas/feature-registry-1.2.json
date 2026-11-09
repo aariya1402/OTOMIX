@@ -1,0 +1,70 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.internal/feature-registry/1.2.json",
+  "type": "object",
+  "required": ["schema_version","track_id","bpm","key","grid","energy","mixability","vocal_map"],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\.2\\.\\d+$" },
+    "track_id": { "type": "string", "format": "uuid" },
+    "bpm": { "type": "number", "minimum": 60.0, "maximum": 200.0 },
+    "key": { "type": "string", "pattern": "^(1[0-2]|[1-9])[AB]$" },
+    "grid": {
+      "type": "object",
+      "required": ["bpm_seed","t0_seconds","groove_mode"],
+      "properties": {
+        "bpm_seed": { "type": "number", "minimum": 60.0, "maximum": 200.0 },
+        "t0_seconds": { "type": "number" },
+        "delta_phi_seconds": { "type": "number" },
+        "groove_mode": { "enum": ["straight","triplet","swing"] },
+        "groove_delta": { "type": "number", "minimum": 0.05, "maximum": 0.33 },
+        "pre_kick_beats": { "type": "integer" }
+      }
+    },
+    "energy": {
+      "type": "object",
+      "required": ["rhythm","dynamics","loudness","spectral","scalar","stars"],
+      "properties": {
+        "rhythm":   { "type": "number", "minimum": 0, "maximum": 1 },
+        "dynamics": { "type": "number", "minimum": 0, "maximum": 1 },
+        "loudness": { "type": "number", "minimum": 0, "maximum": 1 },
+        "spectral": { "type": "number", "minimum": 0, "maximum": 1 },
+        "scalar":   { "type": "number", "minimum": 0, "maximum": 1 },
+        "stars":    { "type": "integer", "minimum": 0, "maximum": 5 }
+      }
+    },
+    "mixability": {
+      "type": "object",
+      "required": ["score","e_kick","c_bass","s_tempo","v_tune","class"],
+      "properties": {
+        "score":   { "type": "number", "minimum": 0, "maximum": 1 },
+        "e_kick":  { "type": "number" },
+        "c_bass":  { "type": "number" },
+        "s_tempo": { "type": "number" },
+        "v_tune":  { "type": "number" },
+        "class":   { "enum": ["mixable","unmixable","non_rhythmic_wildcard"] }
+      }
+    },
+    "vocal_map": {
+      "type": "object",
+      "required": ["threshold","smoothing_ms","frames"],
+      "properties": {
+        "threshold":    { "const": 0.65 },
+        "smoothing_ms": { "const": 1000 },
+        "frames": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["t","p","v"],
+            "properties": {
+              "t": { "type": "number" },
+              "p": { "type": "number", "minimum": 0, "maximum": 1 },
+              "v": { "enum": [0, 1] }
+            }
+          }
+        }
+      }
+    },
+    "interpolated_fields": { "type": "array", "items": { "type": "string" } },
+    "used_rms_fallback": { "type": "boolean" }
+  }
+}
