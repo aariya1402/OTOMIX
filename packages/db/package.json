@@ -1,4 +1,4 @@
-{
+﻿{
     "name":  "@otomix/db",
     "version":  "0.0.1",
     "description":  "db package for OTOMIX platform",
@@ -19,7 +19,7 @@
     "author":  "",
     "license":  "MIT",
     "dependencies":  {
-
+                         "pg":  "^8.11.0"
                      },
     "devDependencies":  {
                             "typescript":  "^5.0.0",

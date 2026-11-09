@@ -149,7 +149,7 @@
  },
  {
   "id": "P01-T05-S01-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `withTenant(tx, tenantId)` using `set_config('app.tenant_id', $1, true)` (transaction-local) and make the gateway repository layer require it.",
   "prerequisites": [
    "P01-T05-S01-M02"
@@ -2428,6 +2428,7 @@
   "spec": "OTOMIX \u00a710.7 \u00b7 Mother \u00a710"
  }
 ]
+
 
 
 

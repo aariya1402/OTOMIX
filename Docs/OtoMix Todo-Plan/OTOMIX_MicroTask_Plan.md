@@ -548,7 +548,7 @@ flowchart LR
 | Spec Reference | OTOMIX §9.5; §2.2 · Mother Add. §1–§2; §1; Add. §3 |
 | Review Checkpoint | Query `pg_roles` for rolbypassrls=false and `pg_class.relforcerowsecurity` for every table. |
 
-###### P01-T05-S01-M03 — TODO
+###### P01-T05-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
