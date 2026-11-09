@@ -1,4 +1,4 @@
-# OTOMIX Micro-Task Plan
+﻿# OTOMIX Micro-Task Plan
 
 **Document:** `OTOMIX_MicroTask_Plan.md`  
 **Baseline:** `OTOMIX_Architecture_Spec.md` (OTOMIX-specific) and the Mother Document `Software_Arch_Spec__Main_.md` including its Engineering Delivery Addendum  
@@ -338,7 +338,7 @@ flowchart LR
 
 ##### P01-T01-S01 Workspace and build
 
-###### P01-T01-S01-M01 — TODO
+###### P01-T01-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -352,7 +352,7 @@ flowchart LR
 
 ##### P01-T01-S02 Quality gates
 
-###### P01-T01-S02-M01 — TODO
+###### P01-T01-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -364,7 +364,7 @@ flowchart LR
 | Spec Reference | OTOMIX §10.6 · Mother §8.2 |
 | Review Checkpoint | Diff `vitest.config.ts`; confirm thresholds are per-package, not global. |
 
-###### P01-T01-S02-M02 — TODO
+###### P01-T01-S02-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -382,7 +382,7 @@ flowchart LR
 
 ##### P01-T02-S01 Frozen constants
 
-###### P01-T02-S01-M01 — TODO
+###### P01-T02-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -394,7 +394,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.3; §3.6; §3.11; §4.1; §8.3 · Mother §2.3; §2.6; §3.6, Add. §12; §3.1; §9.1; Add. §7 |
 | Review Checkpoint | Compare each constant against OTOMIX §3.13 table line by line. |
 
-###### P01-T02-S01-M02 — TODO
+###### P01-T02-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -406,7 +406,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.1; §3.2; §3.4; §3.5; §3.6; §3.7; §3.9 · Mother §2.1; §2.2; §2.4; §2.5; §2.6; §2.7; §2.9 |
 | Review Checkpoint | Cross-check each value against Mother Document §2.1–§2.9 text. |
 
-###### P01-T02-S01-M03 — TODO
+###### P01-T02-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -424,7 +424,7 @@ flowchart LR
 
 ##### P01-T03-S01 Validated domain types
 
-###### P01-T03-S01-M01 — TODO
+###### P01-T03-S01-M01 — [x]
 
 | Field | Value |
 |---|---|

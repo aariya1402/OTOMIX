@@ -1,0 +1,78 @@
+{
+  "audit_timestamp": "2026-11-09T14:17:00.000Z",
+  "repo_root": "c:\\Oto Dj - Oto Mix\\Oto Mix",
+  "micro_task": "P01-T01-S01-M01",
+  "checks": {
+    "check_1_madge": {
+      "installed_root": false,
+      "installed_any_package": false,
+      "present_in_lockfile": false,
+      "version_output": "Error: Command \"madge\" not found",
+      "exit_code": 1,
+      "verdict": "FAIL"
+    },
+    "check_2_lint_scripts": {
+      "root_lint_script": "pnpm -r lint",
+      "per_package": [
+        {"package": "core", "has_lint_script": false, "lint_script_value": null},
+        {"package": "access", "has_lint_script": false, "lint_script_value": null},
+        {"package": "adapter", "has_lint_script": false, "lint_script_value": null},
+        {"package": "gateway", "has_lint_script": false, "lint_script_value": null},
+        {"package": "workers", "has_lint_script": false, "lint_script_value": null},
+        {"package": "ui", "has_lint_script": false, "lint_script_value": null},
+        {"package": "db", "has_lint_script": false, "lint_script_value": null},
+        {"package": "proto", "has_lint_script": false, "lint_script_value": null},
+        {"package": "contracts", "has_lint_script": false, "lint_script_value": null}
+      ],
+      "packages_without_lint": ["core", "access", "adapter", "gateway", "workers", "ui", "db", "proto", "contracts"],
+      "verdict": "FAIL"
+    },
+    "check_3_format_scripts": {
+      "root_format_script": "pnpm -r format",
+      "per_package": [
+        {"package": "core", "has_format_script": false, "format_script_value": null},
+        {"package": "access", "has_format_script": false, "format_script_value": null},
+        {"package": "adapter", "has_format_script": false, "format_script_value": null},
+        {"package": "gateway", "has_format_script": false, "format_script_value": null},
+        {"package": "workers", "has_format_script": false, "format_script_value": null},
+        {"package": "ui", "has_format_script": false, "format_script_value": null},
+        {"package": "db", "has_format_script": false, "format_script_value": null},
+        {"package": "proto", "has_format_script": false, "format_script_value": null},
+        {"package": "contracts", "has_format_script": false, "format_script_value": null}
+      ],
+      "packages_without_format": ["core", "access", "adapter", "gateway", "workers", "ui", "db", "proto", "contracts"],
+      "verdict": "FAIL"
+    },
+    "check_4_build": {
+      "exit_code": 0,
+      "build_succeeds": true,
+      "stdout_summary": "packages/access build$ tsc\n\u2514\u2500 Running...\rpackages/contracts build$ tsc\n\u2514\u2500 Running...\rpackages/core build$ tsc\n\u2514\u2500 Running...\rpackages/adapter build$ tsc\n\u2514\u2500 Running...\r\u2514\u2500 Done in 672ms\r\u2514\u2500 Done in 673ms\rpackages/gateway build$ tsc\n\u2514\u2500 Running...\rpackages/db build$ tsc\n\u2514\u2500 Running...\r\u2514\u2500 Done in 679ms\rpackages/proto build$ tsc\n\u2514\u2500 Running...\r\u2514\u2500 Done in 685ms\rpackages/ui build$ tsc\n\u2514\u2500 Running...\r\u2514\u2500 Done in 898ms\rpackages/contracts build$ tsc\n\u2514\u2500 Done in 679ms\rpackages/core build$ tsc\n\u2514\u2500 Done in 672ms\rpackages/adapter build$ tsc\n\u2514\u2500 Done in 685ms\rpackages/gateway build$ tsc\n\u2514\u2500 Running...\rpackages/db build$ tsc\n\u2514\u2500 Done in 898ms\rpackages/proto build$ tsc\n\u2514\u2500 Running...\rpackages/ui build$ tsc\n\u2514\u2500 Running...\rpackages/workers build$ tsc\n\u2514\u2500 Running...\r\u2514\u2500 Done in 944ms\r\u2514\u2500 Done in 938ms\r\u2514\u2500 Done in 962ms\r\u2514\u2500 Done in 466ms",
+      "stderr_summary": "",
+      "verdict": "PASS"
+    },
+    "check_5_workspace_test": {
+      "exit_code": 0,
+      "tests_passed": 6,
+      "tests_failed": 0,
+      "assertions_failed": 0,
+      "failure_messages": [],
+      "workspace_test_passes": true,
+      "verdict": "PASS"
+    }
+  },
+  "additional_observations": {
+    "all_9_packages_present": true,
+    "rootdir_mismatch_in_core": true,
+    "scripts_pointing_to_missing_tools": [
+      "Root package.json lint script 'pnpm -r lint' delegates to package-level lint scripts, but none of the 9 packages have a lint script defined",
+      "Root package.json format script 'pnpm -r format' delegates to package-level format scripts, but none of the 9 packages have a format script defined",
+      "ESLint and Prettier are listed in root devDependencies but not installed in any package; package-level lint/format scripts would fail if they existed"
+    ]
+  },
+  "overall_verdict": {
+    "gaps_confirmed": ["madge_not_installed", "lint_scripts_missing_in_all_packages", "format_scripts_missing_in_all_packages"],
+    "gaps_refuted": ["build_fails", "workspace_test_fails"],
+    "unverifiable": [],
+    "completion_estimate_percent": 40
+  }
+}

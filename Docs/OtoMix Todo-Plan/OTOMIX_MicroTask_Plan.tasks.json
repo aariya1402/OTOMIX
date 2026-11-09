@@ -1,7 +1,7 @@
-[
+﻿[
  {
   "id": "P01-T01-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Initialize a pnpm monorepo with packages `core`, `access`, `adapter`, `gateway`, `workers`, `ui`, `db`, `proto`, `contracts`, strict TypeScript, ESLint and Prettier.",
   "prerequisites": [],
   "test": "unit|Vitest|tools/test/workspace.spec.ts|Input: workspace manifest. Expected: the 9 packages resolve and each tsconfig has strict=true. Pass: 0 failed assertions.",
@@ -9,7 +9,7 @@
  },
  {
   "id": "P01-T01-S02-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Configure Vitest coverage thresholds of 90% branches for `packages/core` and 100% branches for `packages/access`.",
   "prerequisites": [
    "P01-T01-S01-M01"
@@ -19,7 +19,7 @@
  },
  {
   "id": "P01-T01-S02-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `scripts/cvss-gate.ts` that exits non-zero when any scanner finding has CVSS \u2265 7.0 and wire it as a blocking CI step.",
   "prerequisites": [
    "P01-T01-S01-M01"
@@ -29,7 +29,7 @@
  },
  {
   "id": "P01-T02-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Create `packages/core/src/constants/timing.ts` exporting frozen constants: LOOKAHEAD_MS=50, SCHED_ACCURACY_MS=2, DRIFT_THRESHOLD_MS=4, STARVATION_FRAME_MS=10, BUFFER_NORMAL=2048, BUFFER_DEGRADED=4096, PORT_BUFFER_SAMPLES=1024, PORT_LATENCY_MS=10, ANALYSIS_TIMEOUT_MS=5000, EXTRACTION_ALERT_MS=2500, OBSERVER_CYCLE_MS=1.",
   "prerequisites": [
    "P01-T01-S01-M01"
@@ -39,7 +39,7 @@
  },
  {
   "id": "P01-T02-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Create `packages/core/src/constants/grid.ts` exporting: PERIOD_MIN=0.95, PERIOD_MAX=1.05, DRIFT_MAX_S=0.05, ANCHOR_SYNC_BARS=16, BODY_REALIGN_DBFS=-40, FALLBACK_TRANSIENT_DBFS=-12, CORR_MIN=0.85, SHAPE_VAR_MAX=0.15, STRAIGHT_VAR=0.02, TRIPLET_VAR=0.05, SWING_MIN=0.05, SWING_MAX=0.33, IRREGULAR_XFADE_EXTRA_MS=10, STATIC_GRID_BPM=120, SAFETY_XFADE_BARS=4, QUANTUM_DIVISOR=24, GLIDE_MAX=0.08, PITCH_NODE_SEMITONES=1, REALIGN_MAX_SEMITONES=0.05, RATE_MIN=0.98, RATE_MAX=1.02, RATE_SLEW_PER_S=0.005.",
   "prerequisites": [
    "P01-T02-S01-M01"
@@ -49,7 +49,7 @@
  },
  {
   "id": "P01-T02-S01-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Create `packages/core/src/constants/scoring.ts` and `packages/access/src/constants.ts` exporting: ENERGY_WEIGHTS=[0.4,0.3,0.2,0.1], MIX_WEIGHTS=[0.4,0.3,0.2,0.1], UNMIXABLE_BELOW=0.4, VOCAL_THRESHOLD=0.65, VOCAL_MEDIAN_S=1, RECO_WEIGHTS=[0.6,0.3,0.1], TEMPO_DELTA_LIMIT=0.01, WASM_HEAP_MB=512, ACCESS_TTL_MIN=15, REFRESH_TTL_DAYS=7, KEY_ROTATION_DAYS=90, IDEMPOTENCY_TTL_H=24, MAX_RETRIES=3, RPO_MIN=15, RTO_MIN=60, SLO=0.999.",
   "prerequisites": [
    "P01-T02-S01-M02"
@@ -59,7 +59,7 @@
  },
  {
   "id": "P01-T03-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `BPM.parse(n)` returning a branded type, rejecting values outside [60.0, 200.0] with INVALID_ARGUMENT.",
   "prerequisites": [
    "P01-T02-S01-M02"
@@ -2428,3 +2428,8 @@
   "spec": "OTOMIX \u00a710.7 \u00b7 Mother \u00a710"
  }
 ]
+
+
+
+
+

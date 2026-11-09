@@ -1,0 +1,52 @@
+﻿name: OTOMIX CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  cvss-gate:
+    name: CVSS Gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --no-frozen-lockfile
+      - name: Run CVSS gate unit tests
+        run: pnpm vitest run scripts/test/cvss-gate.spec.ts
+      - name: Evaluate CVSS gate
+        run: npx tsx scripts/cvss-gate.ts reports/snyk.json
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [cvss-gate]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm -r build
+
+  deploy:
+    name: Deploy (placeholder)
+    runs-on: ubuntu-latest
+    needs: [build]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy placeholder
+        run: echo "Deploy step is a placeholder. cvss-gate must pass before this job runs."
+

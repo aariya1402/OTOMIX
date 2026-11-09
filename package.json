@@ -1,24 +1,30 @@
-{
-  "name": "otomix",
-  "version": "0.0.1",
-  "description": "OTOMIX monorepo with 9 packages",
-  "private": true,
-  "scripts": {
-    "build": "pnpm -r build",
-    "test": "vitest run",
-    "lint": "pnpm -r lint",
-    "format": "pnpm -r format"
-  },
-  "keywords": ["otomix", "monorepo"],
-  "author": "",
-  "license": "MIT",
-  "devDependencies": {
-    "pnpm": "^8.0.0",
-    "typescript": "^5.0.0",
-    "eslint": "^8.0.0",
-    "prettier": "^3.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "vitest": "^1.0.0"
-  }
+﻿{
+    "name":  "otomix",
+    "version":  "0.0.1",
+    "description":  "OTOMIX monorepo with 9 packages",
+    "private":  true,
+    "scripts":  {
+                    "build":  "pnpm -r build",
+                    "test":  "vitest run",
+                    "lint":  "pnpm -r lint",
+                    "format":  "pnpm -r format"
+                },
+    "keywords":  [
+                     "otomix",
+                     "monorepo"
+                 ],
+    "author":  "",
+    "license":  "MIT",
+    "devDependencies":  {
+                            "@typescript-eslint/eslint-plugin":  "^6.0.0",
+                            "@typescript-eslint/parser":  "^6.0.0",
+                            "eslint":  "^8.0.0",
+                            "madge":  "^8.0.0",
+                            "pnpm":  "^8.0.0",
+                            "prettier":  "^3.0.0",
+                            "tsx":  "^4.0.0",
+                            "typescript":  "^5.0.0",
+                            "vitest":  "^3.0.0",
+                            "vite":  "^6.0.0"
+                        }
 }

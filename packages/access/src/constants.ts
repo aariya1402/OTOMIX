@@ -1,0 +1,28 @@
+﻿// OTOMIX §7.7 (WASM_HEAP_MB)
+// OTOMIX §7.4 (ACCESS_TTL_MIN, REFRESH_TTL_DAYS)
+// OTOMIX §7.5 (KEY_ROTATION_DAYS)
+// OTOMIX §9.3 (IDEMPOTENCY_TTL_H)
+// OTOMIX §2.5 (MAX_RETRIES)
+// OTOMIX §8.9 (RPO_MIN, RTO_MIN)
+// OTOMIX §8.12 (SLO)
+export const WASM_HEAP_MB = 512;
+export const ACCESS_TTL_MIN = 15;
+export const REFRESH_TTL_DAYS = 7;
+export const KEY_ROTATION_DAYS = 90;
+export const IDEMPOTENCY_TTL_H = 24;
+export const MAX_RETRIES = 3;
+export const RPO_MIN = 15;
+export const RTO_MIN = 60;
+export const SLO = 0.999;
+
+export const ACCESS_CONSTANTS = Object.freeze({
+  WASM_HEAP_MB,
+  ACCESS_TTL_MIN,
+  REFRESH_TTL_DAYS,
+  KEY_ROTATION_DAYS,
+  IDEMPOTENCY_TTL_H,
+  MAX_RETRIES,
+  RPO_MIN,
+  RTO_MIN,
+  SLO,
+});
