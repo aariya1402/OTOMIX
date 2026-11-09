@@ -1,0 +1,27 @@
+{
+  "name": "@otomix/core",
+  "version": "1.0.0",
+  "description": "core package for OTOMIX platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "keywords": [
+    "otomix",
+    "core"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "vitest": "^1.0.0",
+    "@vitest/ui": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

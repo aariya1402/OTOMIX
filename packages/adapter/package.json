@@ -1,0 +1,27 @@
+{
+  "name": "@otomix/adapter",
+  "version": "1.0.0",
+  "description": "adapter package for OTOMIX platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "keywords": [
+    "otomix",
+    "adapter"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "vitest": "^1.0.0",
+    "@vitest/ui": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
