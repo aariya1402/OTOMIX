@@ -1,0 +1,92 @@
+﻿syntax = "proto3";
+package otodsp.core.v1;
+
+service CoreCommandService {
+  rpc AnalyzeAudio       (AnalyzeAudioRequest)   returns (AnalyzeAudioResponse);
+  rpc PlanTransition     (TransitionPlanRequest) returns (TransitionPlanResponse);
+  rpc UpdateDspParameters(DspParameterUpdate)    returns (DspParameterAck);
+}
+
+enum Tenant {
+  TENANT_UNSPECIFIED = 0;
+  TENANT_OTOMIX = 1;
+  TENANT_OTODJ = 2;
+}
+
+message AnalyzeAudioRequest {
+  string tenant_id        = 1;
+  string track_id         = 2;
+  bytes  pcm_float32_mono = 3;
+  uint32 sample_rate_hz   = 4;
+  string schema_version   = 5;
+  string idempotency_key  = 6;
+  uint32 timeout_ms       = 7;
+}
+
+message AnalyzeAudioResponse {
+  string track_id                 = 1;
+  string schema_version           = 2;
+  bytes  feature_registry_json    = 3;
+  bool   used_rms_fallback        = 4;
+  bool   vocal_map_assumed_zero   = 5;
+  uint32 extraction_ms            = 6;
+}
+
+message TransitionPlanRequest {
+  string tenant_id            = 1;
+  string outgoing_track_id    = 2;
+  string incoming_track_id    = 3;
+  double bpm_out              = 4;
+  double bpm_in               = 5;
+  double bpm_target           = 6;
+  uint32 window_beats         = 7;
+  double crossfade_ms         = 8;
+  ChopGrid chop_grid          = 9;
+  string idempotency_key      = 10;
+}
+
+enum ChopGrid {
+  CHOP_GRID_UNSPECIFIED = 0;
+  CHOP_GRID_1_8 = 1;
+  CHOP_GRID_1_16 = 2;
+  CHOP_GRID_1_32 = 3;
+}
+
+message TransitionPlanResponse {
+  repeated GridAnchor anchors  = 1;
+  ExecutionFallback   fallback = 2;
+}
+
+message GridAnchor {
+  int32   beat_index      = 1;
+  double  t0_seconds      = 2;
+  double  drift_seconds   = 3;
+}
+
+message ExecutionFallback {
+  enum Rung {
+    RUNG_NONE = 0;
+    RUNG_GLOBAL_AVG_BPM = 1;
+    RUNG_STATIC_120_GRID = 2;
+    RUNG_FOUR_BAR_CROSSFADE = 3;
+    RUNG_SILENT_LOOP = 4;
+    RUNG_STANDARD_CROSSFADE = 5;
+    RUNG_WSOLA_LEGACY = 6;
+  }
+  Rung   rung   = 1;
+  string reason = 2;
+}
+
+message DspParameterUpdate {
+  string tenant_id     = 1;
+  double crossfade_ms  = 2;
+  ChopGrid chop_grid   = 3;
+  string message_id    = 4;
+  bytes  signature     = 5;
+  uint64 sequence      = 6;
+}
+
+message DspParameterAck {
+  string message_id = 1;
+  bool   applied    = 2;
+}

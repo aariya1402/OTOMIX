@@ -1,29 +1,37 @@
-{
-  "name": "@otomix/proto",
-  "version": "0.0.1",
-  "description": "proto package for OTOMIX platform",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "test": "vitest",
-    "lint": "eslint src --ext .ts",
-    "format": "prettier --write \"src/**/*.ts\""
-  },
-  "keywords": [
-    "otomix",
-    "proto"
-  ],
-  "author": "",
-  "license": "MIT",
-  "dependencies": {},
-  "devDependencies": {
-    "typescript": "^5.0.0",
-    "@types/node": "^20.0.0",
-    "vitest": "^1.0.0",
-    "@vitest/ui": "^1.0.0"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+﻿{
+    "name":  "@otomix/proto",
+    "version":  "0.0.1",
+    "description":  "proto package for OTOMIX platform",
+    "main":  "dist/index.js",
+    "types":  "dist/index.d.ts",
+    "scripts":  {
+                    "build":  "tsc",
+                    "test":  "vitest",
+                    "lint":  "eslint src --ext .ts",
+                    "format":  "prettier --write \"src/**/*.ts\"",
+                    "gen":  "buf generate",
+                    "lint:proto":  "buf lint",
+                    "breaking":  "buf breaking --against \".git#branch=Cline\""
+                },
+    "keywords":  [
+                     "otomix",
+                     "proto"
+                 ],
+    "author":  "",
+    "license":  "MIT",
+    "dependencies":  {
+
+                     },
+    "devDependencies":  {
+                            "typescript":  "^5.0.0",
+                            "@types/node":  "^20.0.0",
+                            "vitest":  "^1.0.0",
+                            "@vitest/ui":  "^1.0.0",
+                            "@bufbuild/buf":  "^1.0.0",
+                            "@bufbuild/protoc-gen-es":  "^1.0.0",
+                            "@bufbuild/protobuf":  "^1.0.0"
+                        },
+    "publishConfig":  {
+                          "access":  "public"
+                      }
 }

@@ -109,7 +109,7 @@
  },
  {
   "id": "P01-T04-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Write `proto/core/v1/core.proto` exactly as \u00a79.2 (messages `AnalyzeAudioRequest`, `AnalyzeAudioResponse`, `TransitionPlanRequest`, `ExecutionFallback` and the supporting types) and generate TypeScript stubs.",
   "prerequisites": [
    "P01-T01-S01-M01"
@@ -2428,6 +2428,7 @@
   "spec": "OTOMIX \u00a710.7 \u00b7 Mother \u00a710"
  }
 ]
+
 
 
 

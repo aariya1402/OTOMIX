@@ -492,7 +492,7 @@ flowchart LR
 
 ##### P01-T04-S01 Core gRPC contract
 
-###### P01-T04-S01-M01 — TODO
+###### P01-T04-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
