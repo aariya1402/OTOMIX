@@ -436,7 +436,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.2; §9.5 · Mother §3.2; Add. §1–§2 |
 | Review Checkpoint | Confirm error type is the typed INVALID_ARGUMENT result, not a thrown generic Error. |
 
-###### P01-T03-S01-M02 — TODO
+###### P01-T03-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -448,7 +448,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.2; §9.6 · Mother §3.2; Add. §1–§2 |
 | Review Checkpoint | Compare regex to the one in `features.camelot_key` CHECK (§9.5). |
 
-###### P01-T03-S01-M03 — TODO
+###### P01-T03-S01-M03 — [x]
 
 | Field | Value |
 |---|---|

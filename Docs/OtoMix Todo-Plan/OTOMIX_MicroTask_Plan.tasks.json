@@ -69,7 +69,7 @@
  },
  {
   "id": "P01-T03-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `CamelotKey.parse(s)` accepting `^(1[0-2]|[1-9])[AB]$` only.",
   "prerequisites": [
    "P01-T03-S01-M01"
@@ -79,7 +79,7 @@
  },
  {
   "id": "P01-T03-S01-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `BeatIndex.parse(i)` accepting any non-zero safe integer and rejecting 0 and non-integers.",
   "prerequisites": [
    "P01-T03-S01-M02"
@@ -2428,6 +2428,8 @@
   "spec": "OTOMIX \u00a710.7 \u00b7 Mother \u00a710"
  }
 ]
+
+
 
 
 
