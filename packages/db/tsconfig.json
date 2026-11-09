@@ -1,8 +1,15 @@
-{
-  "compilerOptions": {
-    "outDir": "./dist"
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"],
-  "extends": "../../tsconfig.json"
+﻿{
+    "compilerOptions":  {
+                            "outDir":  "./dist"
+                        },
+    "include":  [
+                    "src/**/*",
+                    "test/**/*",
+                    "migrations/**/*"
+                ],
+    "exclude":  [
+                    "node_modules",
+                    "dist"
+                ],
+    "extends":  "../../tsconfig.json"
 }

@@ -129,7 +129,7 @@
  },
  {
   "id": "P01-T05-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Write migration `001_core.sql` creating `features`, `users`, `tier_grants`, `admin_audit` (range-partitioned by month) and `outbox` exactly per \u00a79.5 CHECK constraints and indices.",
   "prerequisites": [
    "P01-T04-S01-M01"
@@ -2428,6 +2428,7 @@
   "spec": "OTOMIX \u00a710.7 \u00b7 Mother \u00a710"
  }
 ]
+
 
 
 

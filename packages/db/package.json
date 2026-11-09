@@ -1,29 +1,38 @@
-{
-  "name": "@otomix/db",
-  "version": "0.0.1",
-  "description": "db package for OTOMIX platform",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "test": "vitest",
-    "lint": "eslint src --ext .ts",
-    "format": "prettier --write \"src/**/*.ts\""
-  },
-  "keywords": [
-    "otomix",
-    "db"
-  ],
-  "author": "",
-  "license": "MIT",
-  "dependencies": {},
-  "devDependencies": {
-    "typescript": "^5.0.0",
-    "@types/node": "^20.0.0",
-    "vitest": "^1.0.0",
-    "@vitest/ui": "^1.0.0"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+﻿{
+    "name":  "@otomix/db",
+    "version":  "0.0.1",
+    "description":  "db package for OTOMIX platform",
+    "main":  "dist/index.js",
+    "types":  "dist/index.d.ts",
+    "scripts":  {
+                    "build":  "tsc",
+                    "test":  "vitest",
+                    "lint":  "eslint src --ext .ts",
+                    "format":  "prettier --write \"src/**/*.ts\"",
+                    "migrate":  "tsx src/migrate.ts up",
+                    "migrate:down":  "tsx src/migrate.ts down"
+                },
+    "keywords":  [
+                     "otomix",
+                     "db"
+                 ],
+    "author":  "",
+    "license":  "MIT",
+    "dependencies":  {
+
+                     },
+    "devDependencies":  {
+                            "typescript":  "^5.0.0",
+                            "@types/node":  "^20.0.0",
+                            "vitest":  "^1.0.0",
+                            "@vitest/ui":  "^1.0.0",
+                            "tsx":  "^4.0.0",
+                            "@testcontainers/postgresql":  "^10.0.0",
+                            "pg":  "^8.11.0",
+                            "testcontainers":  "^10.0.0",
+                            "@types/pg":  "^8.10.0"
+                        },
+    "publishConfig":  {
+                          "access":  "public"
+                      }
 }
