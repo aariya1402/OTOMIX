@@ -474,7 +474,7 @@ flowchart LR
 | Spec Reference | OTOMIX §9.6; §4.2 · Mother Add. §1–§2; §3.2 |
 | Review Checkpoint | Diff the file against OTOMIX §9.6; confirm `required` arrays are unchanged. |
 
-###### P01-T03-S02-M02 — TODO
+###### P01-T03-S02-M02 — [x]
 
 | Field | Value |
 |---|---|

@@ -99,7 +99,7 @@
  },
  {
   "id": "P01-T03-S02-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement a SemVer gate for `schema_version`: accept `1.2.x`, flag a major bump as `PURGE_AND_REANALYZE`, reject other minors.",
   "prerequisites": [
    "P01-T03-S02-M01"
@@ -2428,6 +2428,7 @@
   "spec": "OTOMIX \u00a710.7 \u00b7 Mother \u00a710"
  }
 ]
+
 
 
 
