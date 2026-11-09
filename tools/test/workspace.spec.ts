@@ -3,9 +3,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 describe('Workspace Structure', () => {
-  const rootDir = path.resolve(__dirname, '..');
+  const rootDir = path.resolve(__dirname, '..', '..');
   const packagesDir = path.join(rootDir, 'packages');
-  
+
   const expectedPackages = [
     'core',
     'access',
@@ -38,7 +38,7 @@ describe('Workspace Structure', () => {
   }
 
   let rootTsconfig: any;
-  
+
   beforeAll(() => {
     const rootTsconfigPath = path.join(rootDir, 'tsconfig.json');
     rootTsconfig = JSON.parse(fs.readFileSync(rootTsconfigPath, 'utf-8'));
@@ -47,7 +47,7 @@ describe('Workspace Structure', () => {
   it('should have all 9 packages in packages/ directory', () => {
     const actualPackages = fs.readdirSync(packagesDir)
       .filter(name => fs.statSync(path.join(packagesDir, name)).isDirectory());
-    
+
     expect(actualPackages.sort()).toEqual(expectedPackages.sort());
   });
 
@@ -55,7 +55,7 @@ describe('Workspace Structure', () => {
     for (const pkg of expectedPackages) {
       const pkgPath = path.join(packagesDir, pkg, 'package.json');
       expect(fs.existsSync(pkgPath)).toBe(true);
-      
+
       const pkgJson = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
       expect(pkgJson.name).toBe(`@otomix/${pkg}`);
     }
@@ -66,9 +66,9 @@ describe('Workspace Structure', () => {
       const pkgDir = path.join(packagesDir, pkg);
       const tsconfigPath = path.join(pkgDir, 'tsconfig.json');
       expect(fs.existsSync(tsconfigPath)).toBe(true);
-      
+
       const tsconfig = JSON.parse(fs.readFileSync(tsconfigPath, 'utf-8'));
-      
+
       // Check if strict is true either directly or via extends
       const hasStrict = checkStrictMode(tsconfig, tsconfigPath, rootTsconfig);
       expect(hasStrict).toBe(true);
@@ -91,7 +91,7 @@ describe('Workspace Structure', () => {
   it('pnpm-workspace.yaml should exist and reference packages/*', () => {
     const workspacePath = path.join(rootDir, 'pnpm-workspace.yaml');
     expect(fs.existsSync(workspacePath)).toBe(true);
-    
+
     const content = fs.readFileSync(workspacePath, 'utf-8');
     expect(content).toContain('packages:');
     expect(content).toContain('packages/*');

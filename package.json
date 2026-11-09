@@ -1,6 +1,6 @@
 {
   "name": "otomix",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "OTOMIX monorepo with 9 packages",
   "private": true,
   "scripts": {
