@@ -119,7 +119,7 @@
  },
  {
   "id": "P01-T04-S02-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the gRPC-to-HTTP status map from \u00a79.3 as `mapStatus(code)` including the nine listed codes.",
   "prerequisites": [
    "P01-T04-S01-M01"
@@ -2428,6 +2428,7 @@
   "spec": "OTOMIX \u00a710.7 \u00b7 Mother \u00a710"
  }
 ]
+
 
 
 

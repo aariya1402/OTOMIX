@@ -506,7 +506,7 @@ flowchart LR
 
 ##### P01-T04-S02 Status mapping
 
-###### P01-T04-S02-M01 — TODO
+###### P01-T04-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
