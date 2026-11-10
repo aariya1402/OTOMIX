@@ -1201,7 +1201,7 @@ flowchart LR
 
 ##### P03-T05-S01 Registry modes
 
-###### P03-T05-S01-M01 — TODO
+###### P03-T05-S01-M01 — [x]
 
 | Field | Value |
 |---|---|

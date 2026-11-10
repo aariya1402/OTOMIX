@@ -551,7 +551,7 @@
  },
  {
   "id": "P03-T05-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Classify micro-timing across 16th-note subdivisions as Straight (<2% variance), Triplet (<5% from 33.3%/66.6%) or Swing (off-beat 16ths displaced 0.05\u20130.33 beat).",
   "prerequisites": [
    "P02-T01-S01-M01"
