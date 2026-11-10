@@ -1,5 +1,6 @@
 // OTOMIX §3.1 · Mother §2.1
 import { tOfI } from './t-of-i';
+import { BPM } from '../types/bpm';
 
 export interface GridSegment {
   startBeat: number;
@@ -8,8 +9,11 @@ export interface GridSegment {
   delta: number;
 }
 
+export type GridState = 'LOCKED' | 'RECOVERY';
+
 export class GridModel {
-  private readonly segments: GridSegment[];
+  private segments: GridSegment[];
+  private state: GridState = 'LOCKED';
 
   constructor(segments: GridSegment[]) {
     if (segments.length === 0) throw new Error('GridModel requires at least one segment');
@@ -19,6 +23,29 @@ export class GridModel {
       }
     }
     this.segments = Object.freeze([...segments]);
+  }
+
+  getState(): GridState {
+    return this.state;
+  }
+
+  enterRecovery(globalAverageBpm: number, T0: number): void {
+    if (this.state === 'RECOVERY') return;
+
+    const bpmResult = BPM.parse(globalAverageBpm);
+    if (!bpmResult.ok) {
+      throw new Error(`Invalid globalAverageBpm: ${globalAverageBpm}`);
+    }
+
+    const recoverySegment: GridSegment = {
+      startBeat: 1,
+      bpmSeed: bpmResult.value,
+      T0,
+      delta: 0,
+    };
+
+    this.segments = Object.freeze([recoverySegment]);
+    this.state = 'RECOVERY';
   }
 
   t(i: number): number {

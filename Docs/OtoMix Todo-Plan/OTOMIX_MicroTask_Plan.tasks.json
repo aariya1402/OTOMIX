@@ -370,7 +370,7 @@
  },
  {
   "id": "P02-T04-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the lock-failure recovery state: fall back to the track's global average BPM and disable micro-adjustments (\u0394\u22610).",
   "prerequisites": [
    "P02-T04-S01-M01"

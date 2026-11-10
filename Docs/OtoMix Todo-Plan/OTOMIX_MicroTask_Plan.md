@@ -903,7 +903,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.1 · Mother §2.1 |
 | Review Checkpoint | Confirm segment boundaries fall on structural block boundaries. |
 
-###### P02-T04-S01-M02 — TODO
+###### P02-T04-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
