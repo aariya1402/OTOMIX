@@ -624,7 +624,7 @@ flowchart LR
 
 ##### P01-T07-S02 Degraded-mode controller
 
-###### P01-T07-S02-M01 — TODO
+###### P01-T07-S02-M01 — [x]
 
 | Field | Value |
 |---|---|

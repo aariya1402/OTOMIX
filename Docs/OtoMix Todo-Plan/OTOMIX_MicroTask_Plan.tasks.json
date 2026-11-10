@@ -199,7 +199,7 @@
  },
  {
   "id": "P01-T07-S02-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `DegradedModeController` entering on pool exhaustion or worker failure and exiting on recovery, exposing `core.degraded_mode.active`.",
   "prerequisites": [
    "P01-T07-S01-M01"
@@ -2428,6 +2428,7 @@
   "spec": "OTOMIX \u00a710.7 \u00b7 Mother \u00a710"
  }
 ]
+
 
 
 
