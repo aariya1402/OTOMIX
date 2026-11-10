@@ -302,3 +302,24 @@ This section acts as a living memory for technical debt, pending decisions, and 
 *   `P09-T01-S02-M05` (OQ-12): Serato metadata export mechanism.
 *   `P09-T02-S03-M01` (OQ-13): Payment provider.
 *   `P11-T03-S01-M03` (OQ-04): Drift compensation pitch bound.
+
+### 5. Default Transition Strategy & Future Profiles
+*   **Default Entry/Exit:** The first 16 bars (64 beats) and the last 16 bars (64 beats) are the default safe entry and exit points. 
+*   **High-Precision Sync:** The system MUST sync these two 16-bar windows with sub-millisecond precision. The `anchor-sync` module (every 16 bars) guarantees this.
+*   **Tempo Change:** During the transition window, tempo changes are executed via audio slicing (implemented in P04-T02).
+*   **Future Profiles:** The 16-bar default is a baseline. In future phases (P03-T06, P08), we will add prioritized profiles (e.g., 8-bar quick mixes, 32-bar long mixes) based on energy, vocal presence, and genre.
+
+---
+
+## Rule 23 — DSP & Real-Time Audio Rules (TypeScript)
+
+When writing DSP or audio processing code (Phase P03, P04, P05), you MUST adhere to these principles, adapted from professional C++/JUCE plugin development:
+
+1. **Real-Time Safety:** In hot audio paths (e.g., functions called in a loop per sample/frame), there must be ZERO memory allocation, ZERO locking, and ZERO I/O. Pre-allocate all typed arrays outside the loop.
+2. **TypedArrays Only:** Use `Float32Array` or `Float64Array` for audio data. Never use standard `number[]` arrays for PCM signals.
+3. **Parameter Smoothing:** Any parameter that affects the audio signal (gain, tempo, cutoff) must be smoothed over a few milliseconds (e.g., using an exponential moving average) to prevent zipper noise or clicks.
+4. **Numerical Stability:** 
+   - Protect against denormals by adding a tiny DC offset (e.g., `1e-15`) to feedback loops or using a denormal flush.
+   - Never divide by zero. Always use `Math.max(variance, 1e-12)` when normalizing.
+5. **Pure Functions:** DSP algorithms should be pure functions that take an input buffer and write to an output buffer. Avoid hidden state where possible.
+6. **No Exceptions in Hot Loops:** Do not use `throw` inside per-sample loops. Validate inputs before processing.

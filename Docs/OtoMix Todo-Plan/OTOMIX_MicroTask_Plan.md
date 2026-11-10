@@ -999,7 +999,7 @@ flowchart LR
 
 ##### P03-T01-S01 Attack Grid
 
-###### P03-T01-S01-M01 — TODO
+###### P03-T01-S01-M01 — [x]
 
 | Field | Value |
 |---|---|

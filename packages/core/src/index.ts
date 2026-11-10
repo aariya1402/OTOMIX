@@ -18,6 +18,7 @@ export * from './anchor/fallback';
 export * from './grid/model';
 export * from './grid/prekick-short';
 export * from './grid/prekick-map';
+export * from './grid/attack';
 export * from './resilience/retry';
 export * from './resilience/degraded';
 export * from './telemetry/logger';

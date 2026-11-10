@@ -41,3 +41,4 @@ Before starting ANY task (reading files, planning, or coding):
 6. In the final report, include the `## SKILLS USED` section required by Rule 20.
 7. Never activate skills listed in Section 9.9 (Forbidden Skills).
 8. If the task domain changes mid-task, re-evaluate and activate additional relevant skills.
+## Section 19 — Skill Registry (9.1–9.10)

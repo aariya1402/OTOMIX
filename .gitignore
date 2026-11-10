@@ -3,3 +3,9 @@ dist/
 temp/
 Logs/
 Dump/
+
+coverage/
+.vitest/
+*.tsbuildinfo
+heap-proof.heapsnapshot
+heap-proof.json

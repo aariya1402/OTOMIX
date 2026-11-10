@@ -410,7 +410,7 @@
  },
  {
   "id": "P03-T01-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `extractAttackGrid(pcm)` using spectral-flux peak detection with a 2048-sample Hamming window, 50% overlap, restricted to frequencies above 200 Hz.",
   "prerequisites": [
    "P02-T01-S01-M01"
