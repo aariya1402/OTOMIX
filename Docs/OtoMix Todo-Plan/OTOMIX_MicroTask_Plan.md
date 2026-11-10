@@ -1074,7 +1074,7 @@ flowchart LR
 
 ##### P03-T03-S01 Trigger and curves
 
-###### P03-T03-S01-M01 — TODO
+###### P03-T03-S01-M01 — [x]
 
 | Field | Value |
 |---|---|

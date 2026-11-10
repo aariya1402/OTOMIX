@@ -461,7 +461,7 @@
  },
  {
   "id": "P03-T03-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Detect the realignment trigger: outgoing sub-band RMS below \u221240 dBFS after crossfade completion.",
   "prerequisites": [
    "P03-T02-S01-M01"
