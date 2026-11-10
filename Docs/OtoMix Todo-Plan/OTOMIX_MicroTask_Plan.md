@@ -1295,7 +1295,7 @@ flowchart LR
 | Review Checkpoint | Confirm the rung is evaluated last and cannot be skipped. |
 | Notes | Acceptance criterion tag: AC1 (implements) |
 
-###### P03-T06-S01-M05 — TODO
+###### P03-T06-S01-M05 — [x]
 
 | Field | Value |
 |---|---|

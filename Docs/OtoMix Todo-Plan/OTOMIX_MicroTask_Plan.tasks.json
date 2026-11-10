@@ -622,7 +622,7 @@
  },
  {
   "id": "P03-T06-S01-M05",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Handle tracks shorter than 16 beats with a silent structural loop (RUNG_SILENT_LOOP).",
   "prerequisites": [
    "P03-T06-S01-M04"

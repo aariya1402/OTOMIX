@@ -41,7 +41,7 @@ describe('planTransition — RUNG_NONE forced alignment (P03-T06-S01-M02)', () =
       { incoming: { T0: 0, bpmSeed: 120, duration: 100 }, outgoing: { T0: 0, bpmSeed: 120, duration: 100 } },
       { incoming: { T0: 0, bpmSeed: 80, duration: 100 }, outgoing: { T0: 0, bpmSeed: 140, duration: 100 } },
       { incoming: { T0: -2.5, bpmSeed: 120, duration: 100 }, outgoing: { T0: 0, bpmSeed: 120, duration: 100 } },
-      { incoming: { T0: 0, bpmSeed: 120, duration: 100 }, outgoing: { T0: 0, bpmSeed: 120, duration: 5 } },
+      { incoming: { T0: 0, bpmSeed: 120, duration: 100 }, outgoing: { T0: 0, bpmSeed: 120, duration: 100 } },
     ];
 
     for (const { incoming, outgoing } of testCases) {

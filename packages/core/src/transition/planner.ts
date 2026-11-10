@@ -1,12 +1,45 @@
 // OTOMIX §3.9 · Mother §2.9
 import { computeTransitionAnchors, TrackGridParams } from './anchors';
 import { TransitionPlan, TransitionRung } from './types';
-import { STATIC_GRID_BPM, SAFETY_XFADE_BEATS } from '../constants/grid';
+import { STATIC_GRID_BPM, SAFETY_XFADE_BEATS, TRANSITION_WINDOW_BEATS } from '../constants/grid';
+
+function isOutgoingShort(outgoing: TrackGridParams): boolean {
+  const beatPeriod = 60 / outgoing.bpmSeed;
+  const totalBeatsOut = Math.floor(outgoing.duration / beatPeriod);
+  return totalBeatsOut < TRANSITION_WINDOW_BEATS;
+}
+
+function planSilentLoop(
+  incoming: TrackGridParams,
+  outgoing: TrackGridParams
+): TransitionPlan {
+  const beatPeriod = 60 / outgoing.bpmSeed;
+  const totalBeatsOut = Math.floor(outgoing.duration / beatPeriod);
+  const paddingBeats = TRANSITION_WINDOW_BEATS - totalBeatsOut;
+
+  return {
+    rung: 'RUNG_SILENT_LOOP',
+    reason: `Outgoing track has ${totalBeatsOut} beats (< ${TRANSITION_WINDOW_BEATS}); padded with ${paddingBeats} beats of silence`,
+    tInSeconds: incoming.T0,
+    tOutSeconds: outgoing.T0,
+    inBeatIndex: 1,
+    outBeatIndex: 1,
+    alignToSeconds: outgoing.T0,
+    mappedBpm: incoming.bpmSeed,
+    paddingBeats,
+  };
+}
 
 export function planTransition(
   incoming: TrackGridParams,
   outgoing: TrackGridParams
 ): TransitionPlan {
+  // Priority 1: Short outgoing track -> RUNG_SILENT_LOOP
+  if (isOutgoingShort(outgoing)) {
+    return planSilentLoop(incoming, outgoing);
+  }
+
+  // Priority 2: Kick-less incoming -> RUNG_STATIC_120_GRID; else RUNG_NONE
   const anchors = computeTransitionAnchors(incoming, outgoing);
   const alignToSeconds = anchors.tOutSeconds;
 
