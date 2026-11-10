@@ -352,3 +352,60 @@ When writing DSP or audio processing code (Phase P03, P04, P05), you MUST adhere
    - Never divide by zero. Always use `Math.max(variance, 1e-12)` when normalizing.
 5. **Pure Functions:** DSP algorithms should be pure functions that take an input buffer and write to an output buffer. Avoid hidden state where possible.
 6. **No Exceptions in Hot Loops:** Do not use `throw` inside per-sample loops. Validate inputs before processing.
+
+### 6. Global Track Metadata Library (Persistent Cross-Tenant Cache)
+
+**Decision Date:** 2026-11-10
+**Status:** REQUIRED (architectural requirement from owner)
+**Affects:** P01 (persistence), P03 (Observer), P05 (feature extraction), P07 (ingestion/dedup), P08 (MixPlan)
+
+**Requirement:**
+When any track is analyzed for the first time, the system MUST determine its kick/grid type from the kick shape and frequency content, and persist this classification PERMANENTLY in a global (cross-tenant, cross-user) metadata library indexed by `content_sha256`.
+
+**Two Grid-Type Markers:**
+- `ATTACK_DOMINANT` — hard, high-frequency kick attack (Attack Grid is the primary sync reference).
+- `BODY_DOMINANT` — soft kick, low-frequency sub-bass envelope leads the attack (Body Grid is the sync reference).
+
+**Classification Logic (P05-T03 extension):**
+- After extracting Attack Grid and Body Grid peaks:
+  - If the Attack Grid peak is significantly stronger (e.g., >6 dB above Body Grid peak at the same beat), mark `ATTACK_DOMINANT`.
+  - If the Body Grid peak leads the Attack Grid peak by more than ~5 ms AND is stronger, mark `BODY_DOMINANT`.
+- The exact threshold is a tunable constant (admin setting), stored in `constants/grid.ts` and togglable via admin dashboard.
+
+**Cache Lookup Flow (P07-T03 extension):**
+1. Compute `content_sha256` of the uploaded file (already required by P07 dedup).
+2. Look up `content_sha256` in the **global track metadata library** (not tenant-scoped).
+3. If found:
+   - Return the stored `grid_type`, `bpm_seed`, `bpm_histogram`, `t0_seconds`, `vocal_map`, `energy_profile`, and `analysis_version`.
+   - Skip re-analysis entirely (this is the speed benefit).
+   - Update the per-tenant tracking table to reference the global metadata row.
+4. If not found:
+   - Run full analysis (P05).
+   - Write the result to BOTH the tenant-scoped `features` table AND the global `track_metadata` table.
+   - Tag the analysis with the current `analysis_version` (for cache invalidation).
+
+**Schema Impact:**
+- New global table (name TBD, e.g., `global_track_metadata`) indexed by `content_sha256`.
+- **NOT** tenant-scoped (no RLS on this table — the audio itself is the same for all tenants).
+- Columns: `content_sha256` (PK), `grid_type`, `bpm_seed`, `bpm_histogram` (jsonb), `t0_seconds`, `vocal_map` (bytea or reference), `energy_profile` (jsonb), `analysis_version`, `analyzed_at`, `analyzed_by_tenant` (for attribution, not for isolation).
+- The tenant-scoped `features` table keeps a FK to this global row.
+
+**Cross-Tenant Privacy Note:**
+- The audio content is hashed (SHA-256). The hash itself is not sensitive.
+- The metadata (BPM, grid type, vocal map) is derived from the audio, not from user data.
+- User-specific data (ownership, playlists, mixplans) stays tenant-scoped.
+- **Action:** Legal review required before enabling cross-tenant sharing (add to a future security review).
+
+**Cache Invalidation:**
+- When `analysis_version` (model version) changes, the global cache entry is invalidated (re-analysis required on next upload).
+- This follows the existing `P05-T02-S03-M02` cache invalidation pattern.
+
+**Admin Dashboard Requirements:**
+- View global cache statistics (hit rate, total entries).
+- Purge specific entries (for GDPR/legal takedown).
+- Set `analysis_version` (bump to force re-analysis).
+- Tune `ATTACK_DOMINANT` / `BODY_DOMINANT` thresholds.
+- Toggle "Global Cache Enabled" flag (for debugging or legal reasons).
+
+**Live-Test Note:**
+- This requirement is empirical. The actual thresholds and cache behavior will be validated during live testing (P11) and may be adjusted.
