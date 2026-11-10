@@ -300,7 +300,7 @@
  },
  {
   "id": "P02-T02-S02-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Create an ESLint rule `no-alloc-in-structural` that fails on array/object/typed-array allocation inside files tagged `@structural`.",
   "prerequisites": [
    "P02-T02-S01-M02"

@@ -1,3 +1,4 @@
+// @structural
 // OTOMIX §3.3 · Quantum timing arithmetic
 // Zero-RAM: pure O(1) arithmetic, zero allocation.
 

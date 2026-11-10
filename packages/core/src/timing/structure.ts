@@ -1,3 +1,4 @@
+// @structural
 // OTOMIX §3.15 · Mother §2.3; Add. §4
 // Zero-RAM structural arithmetic: all functions O(1) time & space, zero allocation.
 
