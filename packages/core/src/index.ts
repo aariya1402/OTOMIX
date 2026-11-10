@@ -13,6 +13,7 @@ export * from './timing/clock';
 export * from './timing/scheduler';
 export * from './anchor/pearson';
 export * from './anchor/classify';
+export * from './anchor/realign';
 export * from './resilience/retry';
 export * from './resilience/degraded';
 export * from './telemetry/logger';
