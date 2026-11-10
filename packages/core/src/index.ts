@@ -24,6 +24,7 @@ export * from './grid/phase-offset';
 export * from './grid/dual-grid';
 export * from './grid/realign-trigger';
 export * from './grid/realign-cosine';
+export * from './observer/realign-log';
 export * from './resilience/retry';
 export * from './resilience/degraded';
 export * from './telemetry/logger';
