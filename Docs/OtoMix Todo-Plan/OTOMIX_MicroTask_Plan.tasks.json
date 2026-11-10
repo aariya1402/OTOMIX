@@ -430,7 +430,7 @@
  },
  {
   "id": "P03-T02-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `phaseOffset(T_body_peak, T_attack_onset)` returning `\u0394\u03d5 = T_body_peak \u2212 T_attack_onset`.",
   "prerequisites": [
    "P03-T01-S01-M01",

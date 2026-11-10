@@ -20,6 +20,7 @@ export * from './grid/prekick-short';
 export * from './grid/prekick-map';
 export * from './grid/attack';
 export * from './grid/body';
+export * from './grid/phase-offset';
 export * from './resilience/retry';
 export * from './resilience/degraded';
 export * from './telemetry/logger';

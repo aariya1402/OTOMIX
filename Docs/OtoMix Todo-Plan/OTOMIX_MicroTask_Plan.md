@@ -1031,7 +1031,7 @@ flowchart LR
 
 ##### P03-T02-S01 Δϕ and selection rules
 
-###### P03-T02-S01-M01 — TODO
+###### P03-T02-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
