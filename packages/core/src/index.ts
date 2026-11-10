@@ -6,6 +6,7 @@ export * from './types/camelot';
 export * from './types/beat-index';
 export * from './grid/t-of-i';
 export * from './grid/period';
+export * from './grid/anchor-sync';
 export * from './resilience/retry';
 export * from './resilience/degraded';
 export * from './telemetry/logger';

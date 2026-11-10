@@ -747,7 +747,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.1 · Mother §2.1 |
 | Review Checkpoint | Check both bounds use the constants, with inclusive edges. |
 
-###### P02-T01-S02-M02 — TODO
+###### P02-T01-S02-M02 — [x]
 
 | Field | Value |
 |---|---|
