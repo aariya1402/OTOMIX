@@ -1225,7 +1225,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.5 · Mother §2.5 |
 | Review Checkpoint | Confirm the shift is in beat units until the render boundary. |
 
-###### P03-T05-S01-M03 — TODO
+###### P03-T05-S01-M03 — [x]
 
 | Field | Value |
 |---|---|

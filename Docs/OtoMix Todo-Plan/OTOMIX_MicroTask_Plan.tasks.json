@@ -571,7 +571,7 @@
  },
  {
   "id": "P03-T05-S01-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "For irregular or hybrid grooves default to Straight and expand the micro-crossfade window by +10 ms.",
   "prerequisites": [
    "P03-T05-S01-M02"
