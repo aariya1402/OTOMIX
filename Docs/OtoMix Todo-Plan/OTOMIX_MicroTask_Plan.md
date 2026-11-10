@@ -1269,7 +1269,7 @@ flowchart LR
 | Review Checkpoint | Check no `hasSixteenKickBeats`-style predicate exists (`grep`). |
 | Notes | Acceptance criterion tag: AC1 (implements) |
 
-###### P03-T06-S01-M03 — TODO
+###### P03-T06-S01-M03 — [x]
 
 | Field | Value |
 |---|---|

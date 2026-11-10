@@ -18,32 +18,21 @@ export interface TrackGridParams {
   T0: number;
   bpmSeed: number;
   duration: number;
-  /** Optional pre-kick count (ignored for anchor computation; pre-kick is before Beat 1) */
   preKickBeats?: number;
+  /** If false, incoming track is kick-less; escalate to STATIC_120_GRID. */
+  hasKick?: boolean;
 }
 
-/**
- * Computes the transition anchors for a pair of tracks:
- * - Incoming: anchored at Beat 1 (its initial downbeat)
- * - Outgoing: anchored at the first beat of its final 16-beat block
- *
- * @param incoming - Incoming track grid params
- * @param outgoing - Outgoing track grid params
- * @returns TransitionAnchors with absolute seconds and beat indices
- */
 export function computeTransitionAnchors(
   incoming: TrackGridParams,
   outgoing: TrackGridParams
 ): TransitionAnchors {
-  // Incoming: always Beat 1
   const inBeatIndex = 1;
   const tInSeconds = incoming.T0;
 
-  // Outgoing: final 16-beat block
   const beatPeriodOut = 60 / outgoing.bpmSeed;
   const totalBeatsOut = Math.floor(outgoing.duration / beatPeriodOut);
 
-  // Short track fallback (M05 will handle properly)
   if (totalBeatsOut < TRANSITION_WINDOW_BEATS) {
     return {
       tInSeconds,
@@ -53,7 +42,7 @@ export function computeTransitionAnchors(
     };
   }
 
-  const outBeatIndex = totalBeatsOut - TRANSITION_WINDOW_BEATS + 1; // -15 for 16 beats
+  const outBeatIndex = totalBeatsOut - TRANSITION_WINDOW_BEATS + 1;
   const beatIndexResult = BeatIndex.parse(outBeatIndex);
   if (!beatIndexResult.ok) {
     throw new Error(`Invalid outgoing beat index: ${outBeatIndex}`);

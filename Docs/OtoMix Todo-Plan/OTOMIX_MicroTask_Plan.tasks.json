@@ -602,7 +602,7 @@
  },
  {
   "id": "P03-T06-S01-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Map a static 120 BPM grid for purely ambient or kick-less tracks (RUNG_STATIC_120_GRID).",
   "prerequisites": [
    "P03-T06-S01-M02"

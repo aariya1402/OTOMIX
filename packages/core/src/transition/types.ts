@@ -11,18 +11,13 @@ export type TransitionRung =
   | 'RUNG_WSOLA_LEGACY';
 
 export interface TransitionPlan {
-  /** RUNG_NONE is the default/primary path. */
   rung: TransitionRung;
-  /** Human-readable reason if a fallback rung was used. Empty for RUNG_NONE. */
   reason: string;
-  /** Incoming track anchor: absolute time of its Beat 1 (seconds). */
   tInSeconds: number;
-  /** Outgoing track anchor: absolute time of its final 16-beat block start (seconds). */
   tOutSeconds: number;
-  /** Beat index of incoming anchor (always 1). */
   inBeatIndex: number;
-  /** Beat index of outgoing anchor (totalBeats - 15). */
   outBeatIndex: number;
-  /** Absolute timeline position where incoming Beat 1 should be scheduled. */
   alignToSeconds: number;
+  /** BPM to use for scheduling the incoming track's grid. */
+  mappedBpm: number;
 }
