@@ -2,7 +2,8 @@
 // OTOMIX §3.15 · Mother §2.3; Add. §4
 // Zero-RAM structural arithmetic: all functions O(1) time & space, zero allocation.
 
-export const BEATS_PER_BAR = 4;
+import { BEATS_PER_BAR } from '../constants/grid';
+export { BEATS_PER_BAR } from '../constants/grid';
 
 /**
  * Floor modulo: returns non-negative remainder for any integer x, positive m.
@@ -32,9 +33,8 @@ export function barIndex(i: number): number {
 }
 
 /**
- * Beat position within an nBars-block (0-based: 0 .. 4*nBars-1).
+ * Beat position within an nBars-block (0-based: 0 .. BEATS_PER_BAR*nBars-1).
  * nBars must be one of {4, 8, 16, 32}.
- * blockPosition(1,16)=0, blockPosition(64,16)=63, blockPosition(65,16)=0.
  */
 export function blockPosition(i: number, nBars: number): number {
   if (!Number.isInteger(nBars) || nBars < 1) {
@@ -48,7 +48,6 @@ export function blockPosition(i: number, nBars: number): number {
 
 /**
  * True iff the beat falls on a block boundary (first beat of an nBars-block).
- * isBlockBoundary(1,16)=true, isBlockBoundary(65,16)=true, isBlockBoundary(64,16)=false.
  */
 export function isBlockBoundary(i: number, nBars: number): boolean {
   return blockPosition(i, nBars) === 0;

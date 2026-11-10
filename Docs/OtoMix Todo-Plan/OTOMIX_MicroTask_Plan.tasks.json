@@ -531,7 +531,7 @@
  },
  {
   "id": "P03-T04-S01-M04",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Benchmark the Observer loop cycle and fail if the P99 exceeds 1 ms.",
   "prerequisites": [
    "P03-T04-S01-M02"

@@ -3,7 +3,9 @@ import path from 'path';
 
 export default defineConfig({
   test: {
-    include: ['tools/test/**/*.spec.ts', 'packages/**/test/**/*.spec.ts', 'scripts/test/**/*.spec.ts'],
+    benchmark: { include: ['bench/**/*.bench.ts'] },
+    include: [
+      'bench/**/*.spec.ts','tools/test/**/*.spec.ts', 'packages/**/test/**/*.spec.ts', 'scripts/test/**/*.spec.ts'],
     environment: 'node',
     coverage: {
       provider: 'v8',

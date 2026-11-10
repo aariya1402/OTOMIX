@@ -1,18 +1,12 @@
 // OTOMIX §3.6 · Mother §2.6
 import { DRIFT_THRESHOLD_MS } from '../constants/timing';
-import { RATE_MIN, RATE_MAX, RATE_SLEW_PER_S } from '../constants/grid';
+import {
+  RATE_MIN, RATE_MAX, RATE_SLEW_PER_S,
+  OBSERVER_GAIN_RANGE, OBSERVER_MAX_EXPECTED_DRIFT_MS,
+} from '../constants/grid';
 
-/** Proportional gain so that 50 ms excess drift hits the rate bound. */
-const GAIN = (0.02 * 1000) / (50 - DRIFT_THRESHOLD_MS);
+const GAIN = (OBSERVER_GAIN_RANGE * 1000) / (OBSERVER_MAX_EXPECTED_DRIFT_MS - DRIFT_THRESHOLD_MS);
 
-/**
- * Computes the next playback rate given current rate, measured drift, and time step.
- *
- * @param currentRate - Current playback rate (clamped to [RATE_MIN, RATE_MAX])
- * @param driftMs - Phase drift in milliseconds (positive = context ahead/fast)
- * @param dtSeconds - Time since last update in seconds
- * @returns New playback rate, slew-limited and clamped to [RATE_MIN, RATE_MAX]
- */
 export function computeNextRate(
   currentRate: number,
   driftMs: number,

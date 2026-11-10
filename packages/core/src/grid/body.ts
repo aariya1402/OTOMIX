@@ -3,10 +3,10 @@ import { CascadedButterworth } from '../dsp/butterworth';
 import {
   BODY_CUTOFF_HZ, BODY_FILTER_ORDER,
   BODY_RMS_WINDOW_MS, BODY_SEARCH_WINDOW_MS,
-  BODY_GROUP_DELAY_MS,
+  BODY_GROUP_DELAY_MS, SAMPLE_RATE,
 } from '../constants/grid';
 
-const SR = 44100;
+const SR = SAMPLE_RATE;
 const RMS_WINDOW_SAMPLES = Math.round((BODY_RMS_WINDOW_MS * SR) / 1000);
 const SEARCH_WINDOW_SAMPLES = Math.round((BODY_SEARCH_WINDOW_MS * SR) / 1000);
 const GROUP_DELAY_SAMPLES = Math.round((BODY_GROUP_DELAY_MS * SR) / 1000);
@@ -16,12 +16,9 @@ export function extractBodyGrid(
   sampleRate: number,
   attackOnsetSample = 0
 ): number | null {
-  if (sampleRate !== SR) throw new Error('Only 44.1 kHz supported');
+  if (sampleRate !== SR) throw new Error(`Only ${SR / 1000} kHz supported`);
   if (pcm.length < RMS_WINDOW_SAMPLES) return null;
 
-  // All state is local to the function — no module-level mutable state.
-  // extractBodyGrid is offline analysis (called once per track), so per-call
-  // allocation (~1 KB) is acceptable. Zero-RAM applies to real-time paths only.
   const bodyFilter = new CascadedButterworth(BODY_FILTER_ORDER, BODY_CUTOFF_HZ, SR);
   const rmsBuffer = new Float32Array(RMS_WINDOW_SAMPLES);
   let rmsWriteIdx = 0;
@@ -38,9 +35,7 @@ export function extractBodyGrid(
     const filtered = bodyFilter.process(pcm[i]);
     const squared = filtered * filtered;
 
-    if (rmsFilled) {
-      rmsSumSq -= rmsBuffer[rmsWriteIdx];
-    }
+    if (rmsFilled) rmsSumSq -= rmsBuffer[rmsWriteIdx];
     rmsBuffer[rmsWriteIdx] = squared;
     rmsSumSq += squared;
     rmsWriteIdx++;
@@ -58,7 +53,6 @@ export function extractBodyGrid(
     }
   }
 
-  // Compensate for filter group delay
   const correctedPeakIdx = Math.max(0, peakIdx - GROUP_DELAY_SAMPLES);
   return correctedPeakIdx;
 }

@@ -1,12 +1,17 @@
 // OTOMIX §3.2 · Mother §2.2
 import { hammingWindow, WINDOW_SIZE } from './hamming';
 import { fft } from './fft';
+import {
+  ATTACK_HOP_SIZE,
+  ATTACK_CUTOFF_HZ,
+  SAMPLE_RATE,
+} from '../constants/grid';
 
-const HOP_SIZE = 1024;
-const CUTOFF_HZ = 200;
+const HOP_SIZE = ATTACK_HOP_SIZE;
+const CUTOFF_HZ = ATTACK_CUTOFF_HZ;
 
 export function extractAttackGrid(pcm: Float32Array, sampleRate: number): number[] {
-  if (sampleRate !== 44100) throw new Error('Only 44.1 kHz supported');
+  if (sampleRate !== SAMPLE_RATE) throw new Error(`Only ${SAMPLE_RATE / 1000} kHz supported`);
   if (pcm.length < WINDOW_SIZE) return [];
 
   const binWidth = sampleRate / WINDOW_SIZE;
@@ -48,7 +53,7 @@ export function extractAttackGrid(pcm: Float32Array, sampleRate: number): number
   const sortedFlux = new Float32Array(numFrames);
   sortedFlux.set(flux);
   sortedFlux.sort();
-  
+
   const median = sortedFlux[Math.floor(numFrames / 2)];
   let madSum = 0;
   for (let i = 0; i < numFrames; i++) {

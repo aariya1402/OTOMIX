@@ -1168,7 +1168,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.6 · Mother §2.6 |
 | Review Checkpoint | Confirm degradation emits `system.thread.starvation`. |
 
-###### P03-T04-S01-M04 — TODO
+###### P03-T04-S01-M04 — [x]
 
 | Field | Value |
 |---|---|
