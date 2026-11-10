@@ -1,12 +1,8 @@
 {
     "compilerOptions":  {
-                            "outDir":  "./dist"
+                            "outDir": "./dist", "rootDir": "./src"
                         },
-    "include":  [
-                    "src/**/*",
-                    "test/**/*",
-                    "migrations/**/*"
-                ],
+    "include": ["src/**/*"],
     "exclude":  [
                     "node_modules",
                     "dist"

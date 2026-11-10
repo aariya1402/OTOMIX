@@ -1,4 +1,4 @@
-﻿import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { GRID_CONSTANTS } from '../src/constants/grid';
 
 describe('Grid Constants', () => {

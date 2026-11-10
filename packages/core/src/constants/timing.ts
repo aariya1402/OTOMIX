@@ -1,4 +1,4 @@
-﻿// OTOMIX §3.3; §3.6; §3.11; §4.1; §8.3
+// OTOMIX §3.3; §3.6; §3.11; §4.1; §8.3
 export const LOOKAHEAD_MS = 50;
 export const SCHED_ACCURACY_MS = 2;
 export const DRIFT_THRESHOLD_MS = 4;

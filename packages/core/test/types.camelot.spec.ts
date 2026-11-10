@@ -1,4 +1,4 @@
-﻿import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { CamelotKey } from '../src/types/camelot';
 
 describe('CamelotKey.parse', () => {

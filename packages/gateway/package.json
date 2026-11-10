@@ -1,33 +1,37 @@
 {
-    "name":  "@otomix/gateway",
-    "version":  "0.0.1",
-    "description":  "gateway package for OTOMIX platform",
-    "main":  "dist/index.js",
-    "types":  "dist/index.d.ts",
-    "scripts":  {
-                    "build":  "tsc",
-                    "test":  "vitest",
-                    "lint":  "eslint src --ext .ts",
-                    "format":  "prettier --write \"src/**/*.ts\""
-                },
-    "keywords":  [
-                     "otomix",
-                     "gateway"
-                 ],
-    "author":  "",
-    "license":  "MIT",
-    "dependencies":  {
-                         "ioredis":  "^5.4.0"
-                     },
-    "devDependencies":  {
-                            "typescript":  "^5.0.0",
-                            "@types/node":  "^20.0.0",
-                            "vitest":  "^1.0.0",
-                            "@vitest/ui":  "^1.0.0",
-                            "@testcontainers/redis":  "^10.0.0",
-                            "testcontainers":  "^10.0.0"
-                        },
-    "publishConfig":  {
-                          "access":  "public"
-                      }
+  "private": true,
+  "name": "@otomix/gateway",
+  "version": "0.0.1",
+  "description": "gateway package for OTOMIX platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run --passWithNoTests",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\""
+  },
+  "keywords": [
+    "otomix",
+    "gateway"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@otomix/db": "workspace:*",
+    "@types/pg": "^8.23.1",
+    "ioredis": "^5.4.0",
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "@testcontainers/redis": "^10.0.0",
+    "@types/node": "^20.0.0",
+    "@vitest/ui": "^1.0.0",
+    "testcontainers": "^10.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }

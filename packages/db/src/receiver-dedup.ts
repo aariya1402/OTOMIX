@@ -100,12 +100,7 @@ export function createReceiverDedupStore(
       // 3. Claim dedup key atomically.
       const dedupKey = `${prefix}${msg.tenantId}:${msg.messageId}`;
       const claimed = await config.redis.set(
-        dedupKey,
-        msg.sequence.toString(),
-        'NX',
-        'EX',
-        ttl,
-      );
+        dedupKey, msg.sequence.toString(), 'EX', ttl, 'NX');
       if (claimed !== 'OK') {
         return { status: 'duplicate' };
       }

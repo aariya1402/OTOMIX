@@ -1,4 +1,4 @@
-﻿// OTOMIX §4.1; §4.2 · Mother §3.1; §3.2
+// OTOMIX §4.1; §4.2 · Mother §3.1; §3.2
 import { describe, it, expect } from 'vitest';
 import { validateSchemaVersion } from '../src/semver-gate';
 

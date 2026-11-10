@@ -1,5 +1,9 @@
-// Placeholder export
-export const core = { name: '@otomix/core' };
+export * from './constants/timing';
+export * from './constants/grid';
+export * from './constants/scoring';
+export * from './types/bpm';
+export * from './types/camelot';
+export * from './types/beat-index';
 export * from './resilience/retry';
 export * from './resilience/degraded';
 export * from './telemetry/logger';

@@ -1,4 +1,4 @@
-﻿// OTOMIX §9.3 · Mother Add. §1–§2
+// OTOMIX §9.3 · Mother Add. §1–§2
 import { describe, it, expect } from 'vitest';
 import { mapStatus } from '../src/status-map';
 

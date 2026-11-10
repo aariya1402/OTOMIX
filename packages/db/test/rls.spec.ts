@@ -26,11 +26,11 @@ describe('RLS tenant_isolation', () => {
 
     // Apply both migrations
     const sql001 = readFileSync(join(__dirname, '../migrations/001_core.sql'), 'utf-8');
-    const up001 = sql001.split('-- Down')[0];
+    const up001 = sql001.split('-- Down')[0]!;
     await superClient.query(up001);
 
     const sql002 = readFileSync(join(__dirname, '../migrations/002_rls.sql'), 'utf-8');
-    const up002 = sql002.split('-- Down')[0];
+    const up002 = sql002.split('-- Down')[0]!;
     await superClient.query(up002);
 
     // Seed all 5 tables: 1 row per tenant each

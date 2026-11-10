@@ -1,4 +1,4 @@
-﻿// OTOMIX §9.3 · Mother Add. §1–§2
+// OTOMIX §9.3 · Mother Add. §1–§2
 
 export type GrpcStatus =
   | 'INVALID_ARGUMENT'

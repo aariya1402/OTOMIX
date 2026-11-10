@@ -55,7 +55,7 @@ export function parseTraceparent(header: string): ExtractedContext | null {
   if (!match) return null;
   const [, version, traceId, parentId, flags] = match;
   if (traceId === ZERO_TRACE || parentId === ZERO_SPAN) return null;
-  return { version, traceId, parentId, flags };
+  return { version: version!, traceId: traceId!, parentId: parentId!, flags: flags! };
 }
 
 export function formatTraceparent(ctx: { version: string; traceId: string; spanId: string; flags: string }): string {

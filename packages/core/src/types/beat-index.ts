@@ -1,4 +1,4 @@
-﻿// OTOMIX §3.10 · Mother §2.10
+// OTOMIX §3.10 · Mother §2.10
 declare const __beatIndexBrand: unique symbol;
 
 export type BeatIndex = number & { readonly [__beatIndexBrand]: true };

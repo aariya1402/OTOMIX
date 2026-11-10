@@ -1,4 +1,4 @@
-﻿import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { BeatIndex } from '../src/types/beat-index';
 
 describe('BeatIndex.parse', () => {

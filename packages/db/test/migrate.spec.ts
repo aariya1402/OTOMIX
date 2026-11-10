@@ -1,4 +1,4 @@
-﻿import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
 import { Client } from 'pg';
 import { readFileSync } from 'fs';
@@ -15,7 +15,7 @@ describe('Migration 001_core', () => {
   beforeAll(async () => {
     const fileContent = readFileSync(join(__dirname, '../migrations/001_core.sql'), 'utf-8');
     const parts = fileContent.split('-- Down');
-    upSql = parts[0];
+    upSql = parts[0]!;
     downSql = parts[1] || '';
 
     container = await new PostgreSqlContainer('postgres:16-alpine')

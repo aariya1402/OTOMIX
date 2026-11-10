@@ -43,7 +43,7 @@ async function attemptClaim(
 ): Promise<ClaimResult> {
   const rk = redisKeyFor(key);
   const marker: StoredRecord = { fingerprint, status: 'in_progress' };
-  const claimed = await redis.set(rk, JSON.stringify(marker), 'NX', 'EX', TTL_SECONDS);
+  const claimed = await redis.set(rk, JSON.stringify(marker), 'EX', TTL_SECONDS,'NX');
   if (claimed === 'OK') return 'fresh';
   const raw = await redis.get(rk);
   if (!raw) return null;

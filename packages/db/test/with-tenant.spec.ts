@@ -3,7 +3,7 @@ import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers
 import { Pool } from 'pg';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { withTenant, TenantId } from '../src/with-tenant';
+import { withTenant } from '../src/with-tenant';
 
 const TEST_TIMEOUT = 180_000;
 
@@ -24,10 +24,10 @@ describe('withTenant transaction wrapper', () => {
     });
 
     const sql001 = readFileSync(join(__dirname, '../migrations/001_core.sql'), 'utf-8');
-    await superClient.query(sql001.split('-- Down')[0]);
+    await superClient.query(sql001.split('-- Down')[0]!);
 
     const sql002 = readFileSync(join(__dirname, '../migrations/002_rls.sql'), 'utf-8');
-    await superClient.query(sql002.split('-- Down')[0]);
+    await superClient.query(sql002.split('-- Down')[0]!);
 
     pool = new Pool({
       host: container.getHost(),

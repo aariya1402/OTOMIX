@@ -1,4 +1,4 @@
-﻿// OTOMIX §4.2; §9.5 · Mother §3.2; Add. §1–§2
+// OTOMIX §4.2; §9.5 · Mother §3.2; Add. §1–§2
 declare const __bpmBrand: unique symbol;
 
 export type BPM = number & { readonly [__bpmBrand]: true };

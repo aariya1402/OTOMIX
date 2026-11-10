@@ -1,4 +1,4 @@
-﻿// OTOMIX §9.6; §4.2 · Mother Add. §1–§2; §3.2
+// OTOMIX §9.6; §4.2 · Mother Add. §1–§2; §3.2
 import { describe, it, expect } from 'vitest';
 import { validateRegistry } from '../src/validate';
 

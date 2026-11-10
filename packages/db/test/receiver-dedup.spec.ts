@@ -77,7 +77,7 @@ describe('receiver dedup store', () => {
       ...msg,
       signature: Buffer.from(msg.signature),
     };
-    tampered.signature[0] ^= 0xff;
+    tampered.signature[0] = tampered.signature[0]! ^ 0xff;
 
     const result = await store.processMessage(tampered);
     expect(result.status).toBe('invalid_signature');

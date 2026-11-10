@@ -1,4 +1,4 @@
-﻿// OTOMIX §4.1; §4.2 · Mother §3.1; §3.2
+// OTOMIX §4.1; §4.2 · Mother §3.1; §3.2
 
 export type SemVerGateResult =
   | { ok: true; action: 'ACCEPT' }
@@ -13,7 +13,9 @@ export function validateSchemaVersion(version: string): SemVerGateResult {
   if (!match) {
     return { ok: false, action: 'REJECT', reason: 'MALFORMED_VERSION' };
   }
-  const [, majorStr, minorStr, patchStr] = match;
+  const majorStr = match[1]!;
+  const minorStr = match[2]!;
+  const patchStr = match[3]!;
   
   // Reject leading zeros (e.g., "01.2.0")
   if (majorStr.length > 1 && majorStr.startsWith('0')) {
@@ -26,8 +28,8 @@ export function validateSchemaVersion(version: string): SemVerGateResult {
     return { ok: false, action: 'REJECT', reason: 'MALFORMED_VERSION' };
   }
 
-  const major = Number(majorStr);
-  const minor = Number(minorStr);
+  const major = Number(majorStr!);
+  const minor = Number(minorStr!);
   // patch is parsed but not used for gating logic
 
   // 2. Major version bump → PURGE_AND_REANALYZE
