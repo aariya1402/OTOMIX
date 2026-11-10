@@ -1,7 +1,7 @@
 // OTOMIX §3.9 · Mother §2.9
 import { computeTransitionAnchors, TrackGridParams } from './anchors';
 import { TransitionPlan, TransitionRung } from './types';
-import { STATIC_GRID_BPM } from '../constants/grid';
+import { STATIC_GRID_BPM, SAFETY_XFADE_BEATS } from '../constants/grid';
 
 export function planTransition(
   incoming: TrackGridParams,
@@ -24,5 +24,33 @@ export function planTransition(
     outBeatIndex: anchors.outBeatIndex,
     alignToSeconds,
     mappedBpm,
+  };
+}
+
+/**
+ * Ultimate safety net: 4-bar volume crossfade independent of grid locks.
+ *
+ * This rung is evaluated LAST in the fallback chain (after RUNG_NONE,
+ * RUNG_STATIC_120_GRID, and RUNG_SILENT_LOOP). It MUST NEVER throw and
+ * MUST ALWAYS return a valid plan for ANY input, including NaN BPM,
+ * negative T0, zero/negative duration, etc.
+ *
+ * The crossfade duration is exactly SAFETY_XFADE_BARS bars = 16 beats
+ * at STATIC_GRID_BPM (120 BPM) = 8 seconds.
+ */
+export function planSafetyNetCrossfade(
+  incoming: TrackGridParams,
+  outgoing: TrackGridParams
+): TransitionPlan {
+  // Ignore all input — grid-independent crossfade
+  return {
+    rung: 'RUNG_FOUR_BAR_CROSSFADE',
+    reason: 'Safety net: grid-independent 4-bar crossfade',
+    tInSeconds: 0,
+    tOutSeconds: 0,
+    inBeatIndex: 1,
+    outBeatIndex: 1,
+    alignToSeconds: 0,
+    mappedBpm: STATIC_GRID_BPM,
   };
 }

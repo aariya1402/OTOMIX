@@ -1282,7 +1282,7 @@ flowchart LR
 | Review Checkpoint | Confirm 120 is `STATIC_GRID_BPM`. |
 | Notes | Acceptance criterion tag: AC1 (implements) |
 
-###### P03-T06-S01-M04 — TODO
+###### P03-T06-S01-M04 — [x]
 
 | Field | Value |
 |---|---|

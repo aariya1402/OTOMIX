@@ -612,7 +612,7 @@
  },
  {
   "id": "P03-T06-S01-M04",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the ultimate safety net: a clean 4-bar volume crossfade independent of grid locks (RUNG_FOUR_BAR_CROSSFADE).",
   "prerequisites": [
    "P03-T06-S01-M03"
