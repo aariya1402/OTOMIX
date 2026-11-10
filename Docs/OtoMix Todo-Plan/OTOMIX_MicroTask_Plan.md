@@ -1086,7 +1086,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.2 · Mother §2.2 |
 | Review Checkpoint | Confirm the comparison is strict (below −40). |
 
-###### P03-T03-S01-M02 — TODO
+###### P03-T03-S01-M02 — [x]
 
 | Field | Value |
 |---|---|

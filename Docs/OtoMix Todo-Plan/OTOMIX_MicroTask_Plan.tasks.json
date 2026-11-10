@@ -471,7 +471,7 @@
  },
  {
   "id": "P03-T03-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the 4-bar cosine interpolation realignment at about 1 ms per beat.",
   "prerequisites": [
    "P03-T03-S01-M01"

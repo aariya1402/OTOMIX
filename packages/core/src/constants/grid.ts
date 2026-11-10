@@ -61,3 +61,6 @@ export const BODY_SEARCH_WINDOW_MS = 50;
 // OTOMIX §3.2 · Group delay of 4th-order Butterworth @ 80Hz at 60Hz signal
 // Compensated in extractBodyGrid() to report the true body peak position.
 export const BODY_GROUP_DELAY_MS = 7.3;
+// OTOMIX §3.2 · 4-bar cosine realignment duration
+export const REALIGN_BARS = 4;
+export const REALIGN_BEATS = 16; // 4 bars × 4 beats/bar
