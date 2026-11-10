@@ -360,7 +360,7 @@
  },
  {
   "id": "P02-T04-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement a piecewise `GridModel` with BPM_seed updates at predefined structural boundaries and continuity at each boundary.",
   "prerequisites": [
    "P02-T01-S02-M02"
