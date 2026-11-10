@@ -735,7 +735,7 @@ flowchart LR
 
 ##### P02-T01-S02 Period and anchor discipline
 
-###### P02-T01-S02-M01 — TODO
+###### P02-T01-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
