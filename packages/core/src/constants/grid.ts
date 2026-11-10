@@ -94,7 +94,8 @@ export const OBSERVER_GAIN_RANGE = 0.02;
 
 /** Observer scale: maximum expected drift before rate hits bound (ms) */
 export const OBSERVER_MAX_EXPECTED_DRIFT_MS = 50;
-/** Transition window size: exactly 16 beats, independent of bar/beat interpretation (OQ-02) */
-export const TRANSITION_WINDOW_BEATS = 16;
+/** Transition window: 16 bars (4/4 time) = 64 beats */
+export const TRANSITION_WINDOW_BARS = 16;
+export const TRANSITION_WINDOW_BEATS = TRANSITION_WINDOW_BARS * BEATS_PER_BAR;
 /** Safety net crossfade duration: 4 bars × 4 beats/bar = 16 beats */
 export const SAFETY_XFADE_BEATS = SAFETY_XFADE_BARS * BEATS_PER_BAR;

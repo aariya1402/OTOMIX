@@ -409,3 +409,20 @@ When any track is analyzed for the first time, the system MUST determine its kic
 
 **Live-Test Note:**
 - This requirement is empirical. The actual thresholds and cache behavior will be validated during live testing (P11) and may be adjusted.
+
+### OQ-02 Resolution (RESOLVED — 16 Bars = 64 Beats)
+
+**Decision Date:** 2026-11-10
+**Status:** RESOLVED
+
+**The owner has confirmed:**
+- The transition window is **16 bars** = 64 beats (in 4/4 time).
+- The chopping window equals the transition window (16 bars = 64 beats).
+- During transition, both tracks' BPM is set to the outgoing track's BPM, then over 64 beats shifts to the incoming track's BPM.
+- Future profiles will make this duration configurable (8, 16, 32 bars).
+
+**Code impact:**
+- `TRANSITION_WINDOW_BARS = 16` (new constant)
+- `TRANSITION_WINDOW_BEATS = 64` (derived)
+- `SAFETY_XFADE_BEATS = 16` (unchanged — this is the fallback 4-bar crossfade, not the main window)
+- `P03-T06-S01-M06` (the blocked decision task) is now resolved and marked `[x]`.

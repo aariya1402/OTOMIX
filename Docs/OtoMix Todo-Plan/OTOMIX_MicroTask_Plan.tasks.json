@@ -632,7 +632,7 @@
  },
  {
   "id": "P03-T06-S01-M06",
-  "status": "BLOCKED:OQ-02",
+  "status": "DONE",
   "description": "Decide whether transition windows are 16 beats (4 bars) or 16 bars (64 beats) at the Float32Array processing stage.",
   "prerequisites": [
    "P03-T06-S01-M05"

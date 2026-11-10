@@ -17,9 +17,9 @@ describe('planTransition — RUNG_NONE forced alignment (P03-T06-S01-M02)', () =
     expect(plan.rung).toBe('RUNG_NONE');
     expect(plan.reason).toBe('');
     expect(plan.inBeatIndex).toBe(1);
-    expect(plan.outBeatIndex).toBe(385);
+    expect(plan.outBeatIndex).toBe(337);
     expect(plan.tInSeconds).toBeCloseTo(10.0, 9);
-    expect(plan.tOutSeconds).toBeCloseTo(192.25, 9);
+    expect(plan.tOutSeconds).toBeCloseTo(168.25, 9);
     expect(plan.alignToSeconds).toBe(plan.tOutSeconds);
     expect(plan.alignToSeconds).not.toBe(plan.tInSeconds);
   });
@@ -33,7 +33,7 @@ describe('planTransition — RUNG_NONE forced alignment (P03-T06-S01-M02)', () =
     expect(Number.isInteger(plan.inBeatIndex)).toBe(true);
     expect(Number.isInteger(plan.outBeatIndex)).toBe(true);
     expect(plan.inBeatIndex).toBe(1);
-    expect(plan.outBeatIndex).toBe(185);
+    expect(plan.outBeatIndex).toBe(137);
   });
 
   it('produces a plan for any valid input (guaranteed, no exceptions)', () => {
@@ -51,12 +51,12 @@ describe('planTransition — RUNG_NONE forced alignment (P03-T06-S01-M02)', () =
     }
   });
 
-  it('uses TRANSITION_WINDOW_BEATS (16), not derived from bars', () => {
-    expect(TRANSITION_WINDOW_BEATS).toBe(16);
+  it('uses TRANSITION_WINDOW_BEATS (64), derived from 16 bars', () => {
+    expect(TRANSITION_WINDOW_BEATS).toBe(64);
     const incoming = { T0: 0, bpmSeed: BPM_120, duration: 100 };
     const outgoing = { T0: 0, bpmSeed: BPM_120, duration: 100 };
     const plan = planTransition(incoming, outgoing);
-    expect(plan.outBeatIndex).toBe(185);
+    expect(plan.outBeatIndex).toBe(137);
   });
 
   it('REVIEW CHECKPOINT: no kick-check predicate in transition/', () => {

@@ -1308,7 +1308,7 @@ flowchart LR
 | Review Checkpoint | Confirm padding is generated at render time, not stored (zero-RAM). |
 | Notes | Acceptance criterion tag: AC1 (implements) |
 
-###### P03-T06-S01-M06 — [BLOCKED: OWNER DECISION OQ-02]
+###### P03-T06-S01-M06 — [x]
 
 | Field | Value |
 |---|---|
