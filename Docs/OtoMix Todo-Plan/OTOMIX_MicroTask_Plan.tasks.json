@@ -189,7 +189,7 @@
  },
  {
   "id": "P01-T07-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `retry(fn, {idempotent})` with at most 3 retries, base 200 ms, multiplier 2, full jitter, 5 000 ms cap, and a hard refusal to retry non-idempotent calls.",
   "prerequisites": [
    "P01-T02-S01-M03"
@@ -2428,6 +2428,7 @@
   "spec": "OTOMIX \u00a710.7 \u00b7 Mother \u00a710"
  }
 ]
+
 
 
 

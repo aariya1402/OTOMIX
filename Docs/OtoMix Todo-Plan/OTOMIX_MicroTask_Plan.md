@@ -610,7 +610,7 @@ flowchart LR
 
 ##### P01-T07-S01 Retry and timeouts
 
-###### P01-T07-S01-M01 — TODO
+###### P01-T07-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
