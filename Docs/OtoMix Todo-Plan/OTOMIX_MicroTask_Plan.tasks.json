@@ -179,7 +179,7 @@
  },
  {
   "id": "P01-T06-S02-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement a receiver dedup store keyed by `message_id` (TTL \u2265 24 h) with per-tenant monotonic `sequence` ordering and signature validation performed before the dedup write.",
   "prerequisites": [
    "P01-T04-S02-M01"
@@ -2428,6 +2428,7 @@
   "spec": "OTOMIX \u00a710.7 \u00b7 Mother \u00a710"
  }
 ]
+
 
 
 
