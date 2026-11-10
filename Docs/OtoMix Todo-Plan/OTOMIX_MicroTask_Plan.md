@@ -765,7 +765,7 @@ flowchart LR
 
 ##### P02-T02-S01 Structural helpers
 
-###### P02-T02-S01-M01 — TODO
+###### P02-T02-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
