@@ -310,7 +310,7 @@
  },
  {
   "id": "P02-T02-S02-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Write `scripts/heap-proof.ts` that generates timelines for 1-minute and 120-minute tracks and reports the retained-size delta using V8 heap statistics and a heap snapshot.",
   "prerequisites": [
    "P02-T02-S02-M01"

@@ -818,7 +818,7 @@ flowchart LR
 | Review Checkpoint | Run `eslint packages/core/src/timing` and confirm 0 violations. |
 | Notes | Acceptance criterion tag: AC2 (implements) |
 
-###### P02-T02-S02-M02 — TODO
+###### P02-T02-S02-M02 — [x]
 
 | Field | Value |
 |---|---|
