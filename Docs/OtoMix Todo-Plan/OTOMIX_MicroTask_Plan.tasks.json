@@ -320,7 +320,7 @@
  },
  {
   "id": "P02-T03-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement Pearson correlation over 100 ms low-frequency energy envelopes, returning 0 for zero-variance inputs with a flag.",
   "prerequisites": [
    "P01-T03-S01-M03"

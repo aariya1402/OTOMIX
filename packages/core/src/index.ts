@@ -11,6 +11,7 @@ export * from './timing/structure';
 export * from './timing/quantum';
 export * from './timing/clock';
 export * from './timing/scheduler';
+export * from './anchor/pearson';
 export * from './resilience/retry';
 export * from './resilience/degraded';
 export * from './telemetry/logger';
