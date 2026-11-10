@@ -259,3 +259,46 @@ only consume credit:
 For every Cline prompt, the response MUST include a one-line header:
     Skills: <comma-separated list>
 immediately after the report block, so the operator can verify the choice.
+
+---
+
+## ⚠️ PROJECT REMINDERS & AMBIGUITIES (LIVE DOCUMENT)
+
+This section acts as a living memory for technical debt, pending decisions, and critical phase-specific overrides.
+
+### 1. Essentia Features Overrides (For Phase P04 & P05)
+*   **Energy Formula Override:** In `P05-T02-S02-M01`, the generic energy formula MUST be replaced by the exact 6-parameter formula from `Essentia Features.xlsx`:
+    `Energy_Raw = (0.30 * norm_danceability) + (0.20 * norm_onset_rate) + (0.15 * norm_rms_energy) + (0.15 * norm_dynamic_inverse) + (0.10 * norm_spectral_centroid) + (0.10 * norm_beat_bass_ratio)`
+*   **TensorFlow Models:** `P05-T03` MUST use the `voice_instrumental` model (not just a spectral threshold). Playlist similarity (`P05/P08`) SHOULD use `MAEST` or `Discogs-EffNet` embeddings.
+*   **Loudness Bug:** `LoudnessEBUR128` in `Essentia.js` has known bugs with stereo. Use the custom wrapper from `export/loudness.js` in `P04-T04-S02-M04` for validation.
+
+### 2. Pending Integration Tests
+*   `P02-IT`: Phase 2 integration test (synthetic 64-bar track monotonicity & recovery state) is NOT yet written.
+*   `X-P02-P03`: Cross-phase integration test (GridAnchor validation) is NOT yet written.
+    *   *Action:* Write and run these before officially closing P02 and moving fully to P03.
+
+### 3. Technical Debt & Flaky Tests
+*   **Heap-Proof Flakiness:** `scripts/test/heap-proof.spec.ts` can occasionally fail due to V8 heap noise during parallel test execution. It requires `NODE_OPTIONS="--expose-gc"`. If it fails, re-run or isolate the test.
+*   **Floating-Point EPSILON:** `prekick-short.ts` uses `EPSILON = 1e-9` to correctly handle IEEE 754 floating-point rounding (e.g., `-1.0000000000000002` should floor to `-1`, not `-2`).
+*   **Missing Spec File:** `OTOMIX_Architecture_Spec.md` is not in the repository. Formulas (like `beatInBar`) are inferred from the MicroTask Plan and test cases.
+
+### 4. Blocked Tasks (Awaiting Owner Decision - OQ)
+*   `P02-T05-S01-M02` (OQ-07): Exact numbering for shifted pre-kick anchor >= 1 bar.
+*   `P03-T02-S01-M02` (OQ-17): Numeric criterion for "devoid of a strong kick body".
+*   `P03-T03-S01-M03` (OQ-01): Relationship between 4-bar cosine and 16-bar log realignment.
+*   `P03-T04-S02-M01` (OQ-04): Runtime drift compensation pitch bound.
+*   `P03-T06-S01-M06` (OQ-02): Transition window size (16 beats vs 16 bars).
+*   `P04-T01-S01-M03` (OQ-18): Numeric rule for half-time/double-time detection.
+*   `P04-T01-S02-M03` (OQ-03): Pitch node engagement threshold.
+*   `P04-T02-S02-M02` (OQ-06): `crossfadeMs` bound unit conversion.
+*   `P04-T04-S03-M01` (OQ-05): DSP latency definition (<10ms).
+*   `P05-T02-S01-M02` (OQ-20): Static vs dynamic BPM rule.
+*   `P05-T02-S02-M03` (OQ-21): Dynamics penalty function.
+*   `P05-T02-S02-M06` (OQ-22): Mixability terms normalization.
+*   `P06-T02-S03-M01` (OQ-10): Publisher/buyer authorization model.
+*   `P07-T05-S01-M01` (OQ-11): Local copyright declaration controls.
+*   `P08-T04-S01-M01` (OQ-09): Recommendation scoring formulas.
+*   `P08-T04-S01-M03` (OQ-24): Tie-break strictness.
+*   `P09-T01-S02-M05` (OQ-12): Serato metadata export mechanism.
+*   `P09-T02-S03-M01` (OQ-13): Payment provider.
+*   `P11-T03-S01-M03` (OQ-04): Drift compensation pitch bound.
