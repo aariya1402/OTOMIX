@@ -1256,7 +1256,7 @@ flowchart LR
 | Review Checkpoint | Confirm the 16-beat constant is independent of the bar/beat decision OQ-02. |
 | Notes | Acceptance criterion tag: AC1 (implements); Related open question (non-blocking): OQ-02 |
 
-###### P03-T06-S01-M02 — TODO
+###### P03-T06-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
