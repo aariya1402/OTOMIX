@@ -642,7 +642,7 @@ flowchart LR
 
 ##### P01-T08-S01 Logging and trace propagation
 
-###### P01-T08-S01-M01 — TODO
+###### P01-T08-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
