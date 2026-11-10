@@ -708,7 +708,7 @@ flowchart LR
 
 ##### P02-T01-S01 t(i) function
 
-###### P02-T01-S01-M01 — TODO
+###### P02-T01-S01-M01 — [x]
 
 | Field | Value |
 |---|---|

@@ -6,11 +6,20 @@ export default defineWorkspace([
     test: {
       name: 'default',
       include: ['packages/**/test/**/*.spec.ts', 'tools/test/**/*.spec.ts', 'scripts/test/**/*.spec.ts'],
-      exclude: ['**/p01-it.spec.ts', '**/x-p01-*.spec.ts', '**/migrate.spec.ts', '**/rls.spec.ts', '**/with-tenant.spec.ts', '**/idem-store.spec.ts']
+      exclude: [
+        '**/p01-it.spec.ts',
+        '**/x-p01-*.spec.ts',
+        '**/migrate.spec.ts',
+        '**/rls.spec.ts',
+        '**/with-tenant.spec.ts',
+        '**/idem-store.spec.ts'
+      ]
     }
   },
   {
-    extends: './vitest.config.ts',
+    // NOTE: no 'extends' here on purpose. When extending, Vitest concatenates
+    // the parent's `include` array with the child's, which would cause this
+    // project to run every test in the repo. We want it isolated.
     test: {
       name: 'p01-integration',
       include: [
@@ -18,8 +27,10 @@ export default defineWorkspace([
         'packages/db/test/rls.spec.ts',
         'packages/db/test/with-tenant.spec.ts',
         'packages/gateway/test/idem-store.spec.ts',
-        'packages/contracts/test/p01-it.spec.ts'
+        'packages/contracts/test/p01-it.spec.ts',
+        'packages/contracts/test/x-p01-*.spec.ts'
       ],
+      environment: 'node',
       testTimeout: 300000
     }
   }

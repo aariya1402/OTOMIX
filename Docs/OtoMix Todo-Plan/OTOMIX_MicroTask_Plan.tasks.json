@@ -229,7 +229,7 @@
  },
  {
   "id": "P02-T01-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `tOfI(i, T0, bpmSeed, delta)` as `T0 + n\u00b7(60/bpmSeed) + delta` with n=i\u22121 for i\u22651 and n=i for i\u2264\u22121.",
   "prerequisites": [
    "P01-T03-S01-M01",
