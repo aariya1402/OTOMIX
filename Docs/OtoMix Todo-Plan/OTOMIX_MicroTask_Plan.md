@@ -921,7 +921,7 @@ flowchart LR
 
 ##### P02-T05-S01 Dual-offset strategy
 
-###### P02-T05-S01-M01 — TODO
+###### P02-T05-S01-M01 — [x]
 
 | Field | Value |
 |---|---|

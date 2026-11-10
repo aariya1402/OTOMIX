@@ -16,6 +16,7 @@ export * from './anchor/classify';
 export * from './anchor/realign';
 export * from './anchor/fallback';
 export * from './grid/model';
+export * from './grid/prekick-short';
 export * from './resilience/retry';
 export * from './resilience/degraded';
 export * from './telemetry/logger';

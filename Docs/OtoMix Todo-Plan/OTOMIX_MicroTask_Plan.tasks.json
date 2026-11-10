@@ -380,7 +380,7 @@
  },
  {
   "id": "P02-T05-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement pre-kick gap < 1 bar: assign the kick downbeat Beat 1 and earlier frames Beat \u22121, \u22122, \u22123.",
   "prerequisites": [
    "P02-T01-S01-M01"
