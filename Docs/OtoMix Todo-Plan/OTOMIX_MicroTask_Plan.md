@@ -947,7 +947,7 @@ flowchart LR
 | Review Checkpoint | After the decision, re-read §3.10 and Appendix A item A8. |
 | Notes | Blocked by: OQ-07 |
 
-###### P02-T05-S01-M03 — TODO
+###### P02-T05-S01-M03 — [x]
 
 | Field | Value |
 |---|---|

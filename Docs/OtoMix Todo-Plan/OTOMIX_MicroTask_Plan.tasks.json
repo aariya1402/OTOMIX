@@ -400,7 +400,7 @@
  },
  {
   "id": "P02-T05-S01-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the localized pre-kick tempo map for long variable-tempo introductions, counting backwards from `T0`.",
   "prerequisites": [
    "P02-T05-S01-M01"
