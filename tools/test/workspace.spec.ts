@@ -2,6 +2,10 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
 
+function stripBom(s: string): string {
+  return s.charCodeAt(0) === 0xFEFF ? s.slice(1) : s;
+}
+
 describe('Workspace Structure', () => {
   const rootDir = path.resolve(__dirname, '..', '..');
   const packagesDir = path.join(rootDir, 'packages');
@@ -20,7 +24,7 @@ describe('Workspace Structure', () => {
 
   function loadTsconfig(pkgDir: string): any {
     const tsconfigPath = path.join(pkgDir, 'tsconfig.json');
-    return JSON.parse(fs.readFileSync(tsconfigPath, 'utf-8'));
+    return JSON.parse(stripBom(fs.readFileSync(tsconfigPath, 'utf-8')));
   }
 
   function checkStrictMode(tsconfig: any, tsconfigPath: string, rootTsconfig: any): boolean {
@@ -31,7 +35,7 @@ describe('Workspace Structure', () => {
     // If it extends another config, check the extended config
     if (tsconfig.extends) {
       const extendedPath = path.join(path.dirname(tsconfigPath), tsconfig.extends);
-      const extendedConfig = JSON.parse(fs.readFileSync(extendedPath, 'utf-8'));
+      const extendedConfig = JSON.parse(stripBom(fs.readFileSync(extendedPath, 'utf-8')));
       return checkStrictMode(extendedConfig, extendedPath, rootTsconfig);
     }
     return false;
@@ -41,7 +45,7 @@ describe('Workspace Structure', () => {
 
   beforeAll(() => {
     const rootTsconfigPath = path.join(rootDir, 'tsconfig.json');
-    rootTsconfig = JSON.parse(fs.readFileSync(rootTsconfigPath, 'utf-8'));
+    rootTsconfig = JSON.parse(stripBom(fs.readFileSync(rootTsconfigPath, 'utf-8')));
   });
 
   it('should have all 9 packages in packages/ directory', () => {
@@ -56,7 +60,7 @@ describe('Workspace Structure', () => {
       const pkgPath = path.join(packagesDir, pkg, 'package.json');
       expect(fs.existsSync(pkgPath)).toBe(true);
 
-      const pkgJson = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
+      const pkgJson = JSON.parse(stripBom(fs.readFileSync(pkgPath, 'utf-8')));
       expect(pkgJson.name).toBe(`@otomix/${pkg}`);
     }
   });
@@ -67,7 +71,7 @@ describe('Workspace Structure', () => {
       const tsconfigPath = path.join(pkgDir, 'tsconfig.json');
       expect(fs.existsSync(tsconfigPath)).toBe(true);
 
-      const tsconfig = JSON.parse(fs.readFileSync(tsconfigPath, 'utf-8'));
+      const tsconfig = JSON.parse(stripBom(fs.readFileSync(tsconfigPath, 'utf-8')));
 
       // Check if strict is true either directly or via extends
       const hasStrict = checkStrictMode(tsconfig, tsconfigPath, rootTsconfig);
@@ -84,7 +88,7 @@ describe('Workspace Structure', () => {
 
   it('root tsconfig.json should have strict: true', () => {
     const rootTsconfigPath = path.join(rootDir, 'tsconfig.json');
-    const rootTsconfig = JSON.parse(fs.readFileSync(rootTsconfigPath, 'utf-8'));
+    const rootTsconfig = JSON.parse(stripBom(fs.readFileSync(rootTsconfigPath, 'utf-8')));
     expect(rootTsconfig.compilerOptions.strict).toBe(true);
   });
 
