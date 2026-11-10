@@ -511,7 +511,7 @@
  },
  {
   "id": "P03-T04-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Apply `playbackRate` micro-scaling when drift exceeds 4 ms, bounded to \u00b10.5% per second and clamped to [0.98, 1.02].",
   "prerequisites": [
    "P03-T04-S01-M01"

@@ -1143,7 +1143,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.6 · Mother §2.6 |
 | Review Checkpoint | Confirm units are converted at the boundary only. |
 
-###### P03-T04-S01-M02 — TODO
+###### P03-T04-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
