@@ -159,7 +159,7 @@
  },
  {
   "id": "P01-T06-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement middleware validating `Idempotency-Key` as UUIDv4 on POST/PUT/PATCH/DELETE; missing or malformed returns INVALID_ARGUMENT/400.",
   "prerequisites": [
    "P01-T04-S01-M01"
@@ -2428,6 +2428,7 @@
   "spec": "OTOMIX \u00a710.7 \u00b7 Mother \u00a710"
  }
 ]
+
 
 
 

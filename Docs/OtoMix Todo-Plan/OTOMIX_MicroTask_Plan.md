@@ -566,7 +566,7 @@ flowchart LR
 
 ##### P01-T06-S01 Idempotency-Key
 
-###### P01-T06-S01-M01 — TODO
+###### P01-T06-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
