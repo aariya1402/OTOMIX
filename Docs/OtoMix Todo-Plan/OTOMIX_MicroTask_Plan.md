@@ -1213,7 +1213,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.5 · Mother §2.5 |
 | Review Checkpoint | Re-read the §3.5 table and confirm modes are mutually exclusive. |
 
-###### P03-T05-S01-M02 — TODO
+###### P03-T05-S01-M02 — [x]
 
 | Field | Value |
 |---|---|

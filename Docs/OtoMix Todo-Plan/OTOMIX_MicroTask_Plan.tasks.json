@@ -561,7 +561,7 @@
  },
  {
   "id": "P03-T05-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Compute `\u0394_groove` and shift chopping window boundaries by that swing displacement.",
   "prerequisites": [
    "P03-T05-S01-M01"
