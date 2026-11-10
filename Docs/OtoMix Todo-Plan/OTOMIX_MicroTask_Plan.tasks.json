@@ -240,7 +240,7 @@
  },
  {
   "id": "P02-T01-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Clamp `delta` to \u00b10.05 s inside `tOfI` and increment counter `core.grid.delta_clamped` when clamping occurs.",
   "prerequisites": [
    "P02-T01-S01-M01"

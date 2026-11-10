@@ -721,7 +721,7 @@ flowchart LR
 | Review Checkpoint | Re-read the §3.1 worked reference and §3.10 negative-index convention; confirm no code path reads or writes an array. |
 | Notes | Acceptance criterion tag: AC1 (implements); Related open question (non-blocking): OQ-07 |
 
-###### P02-T01-S01-M02 — TODO
+###### P02-T01-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
