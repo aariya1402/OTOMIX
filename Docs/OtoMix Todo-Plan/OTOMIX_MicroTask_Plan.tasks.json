@@ -169,7 +169,7 @@
  },
  {
   "id": "P01-T06-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the Redis store: `SET NX` with an in-progress marker, 24 h TTL, request fingerprint; same key and fingerprint replays the stored response, different fingerprint returns ABORTED/409.",
   "prerequisites": [
    "P01-T06-S01-M01"
@@ -2428,6 +2428,7 @@
   "spec": "OTOMIX \u00a710.7 \u00b7 Mother \u00a710"
  }
 ]
+
 
 
 

@@ -578,7 +578,7 @@ flowchart LR
 | Spec Reference | OTOMIX §9.3 · Mother Add. §1–§2 |
 | Review Checkpoint | Confirm GET/HEAD are exempt. |
 
-###### P01-T06-S01-M02 — TODO
+###### P01-T06-S01-M02 — [x]
 
 | Field | Value |
 |---|---|

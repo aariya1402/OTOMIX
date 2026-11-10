@@ -158,3 +158,104 @@ At the start of every response, you MUST re-read the current state and confirm w
 - Never modify configs unless the micro-task's `Expected Outcome` explicitly requires it.
 - Never leave a `*.bak` file or temp file in the repo.
 - Never mark a task `[x]` / `DONE` unless the exact `Tests N passed (N)` line was observed.
+
+## 19. Skills Rule
+
+Before generating every prompt for the Cline agent, you MUST dynamically select
+and invoke the most relevant skills from the **OTOMIX Skill Registry** below,
+based on the specific domain of the current micro-task.
+
+Invocation syntax (first line of every Cline prompt):
+    /system skill activate <skill-a> <skill-b> ...
+
+### 9.1 OTOMIX Core (ALWAYS ON — mandatory for every micro-task)
+- otomix-agent                  (7-step loop, Halt, Dump, Language)
+- code-reviewer-auditor        (OTOMIX compliance review)
+- token-optimization-specialist (context window management)
+
+### 9.2 Backend & Database
+- database-security-rbac       (RLS, JWT, RBAC, tenant isolation — P06)
+- postgres-best-practices      (schema, indexes, query plans)
+- postgresql                   (CHECK constraints, partitions)
+- postgresql-optimization      (query tuning for features)
+- database-design              (bounded contexts, ERD)
+- database-migrations-sql-migrations (zero-downtime, reversible)
+- nodejs-backend-patterns      (gateway, middleware, error handling)
+- error-handling-patterns      (retry, abort, DLQ, typed errors)
+- js-ts-performance            (real-time, zero-RAM, hot paths)
+
+### 9.3 Testing
+- Vitest Testing               (primary framework — use one version)
+- Docker Testcontainers        (PostgreSQL / Redis / Kafka containers)
+- Testcontainers Reuse (Node)  (faster test startup)
+- MSW API Mocking              (UI tests — P08)
+- Playwright E2E Testing       (E2E — P08, P09)
+- k6 Performance Testing       (load tests — P11)
+- TDD Patterns                 (Red-Green-Refactor discipline)
+- Code Coverage Analysis       (90% core / 100% access gates)
+- Property-based               (fast-check for P03-T06-S01-M07)
+
+### 9.4 Security
+- security-auditor             (pre-commit security sweep)
+- security-checklist           (review architecture controls)
+- sast-scanning                (Semgrep for CVSS gate)
+- dependency-scanning          (offline alternative to Snyk)
+- semgrep-rule-creator         (custom rules for OTOMIX)
+
+### 9.5 Frontend (P08)
+- react-best-practices         (React 19, hooks, data fetch)
+- react-state-management       (Redux Toolkit — library/queue slices)
+- react-component-performance  (waveform canvas, memoization)
+- react-ui-patterns            (loading / error / empty states)
+
+### 9.6 Observability & Deployment (P10)
+- opentelemetry                (metrics, traces, in-memory exporter)
+- datadog                      (monitors as code, P99 alerts)
+- observability-engineer       (SLO, burn-rate, runbooks)
+- kubernetes-deployment        (Blue/Green, HPA)
+- helm-charts                  (chart scaffolding)
+- k8s-security-policies        (NetworkPolicies, RBAC)
+- github-actions               (CI workflow hardening)
+
+### 9.7 Debugging & Review
+- systematic-debugging         (find root cause before fixing)
+- phase-gated-debugging        (block edits until RCA confirmed)
+- code-review-and-quality      (pre-merge multi-axis review)
+- review-team                  (parallel specialized reviewer agents)
+- five-axis-code-review        (correctness, security, readability,
+                                performance, tests)
+
+### 9.8 Phase → Skill Mapping (mandatory lookup)
+
+| Phase | Required skills |
+|---|---|
+| P01 (Foundation) | otomix-agent, code-reviewer-auditor, token-optimization-specialist, database-security-rbac, postgres-best-practices, nodejs-backend-patterns, Vitest Testing, Docker Testcontainers, TDD Patterns |
+| P02 (Beat-Index) | otomix-agent, code-reviewer-auditor, js-ts-performance, Vitest Testing, Property-based, Code Coverage Analysis |
+| P03 (Dual Grid / Observer) | otomix-agent, code-reviewer-auditor, js-ts-performance, Vitest Testing, Property-based |
+| P04 (DSP / RT-safe) | otomix-agent, js-ts-performance, Vitest Testing, systematic-debugging |
+| P05 (Feature Extraction) | otomix-agent, database-security-rbac, Vitest Testing, Docker Testcontainers, error-handling-patterns |
+| P06 (Security / RBAC) | otomix-agent, database-security-rbac, security-auditor, security-checklist, sast-scanning, Vitest Testing, Docker Testcontainers |
+| P07 (Local Ingestion) | otomix-agent, database-security-rbac, error-handling-patterns, Vitest Testing, Docker Testcontainers |
+| P08 (MixPlan / UI) | otomix-agent, react-best-practices, react-state-management, MSW API Mocking, Playwright E2E Testing, Vitest Testing |
+| P09 (Export / Set Shop) | otomix-agent, database-security-rbac, Vitest Testing, Docker Testcontainers, Playwright E2E Testing |
+| P10 (Observability) | otomix-agent, opentelemetry, datadog, observability-engineer, kubernetes-deployment, helm-charts, github-actions |
+| P11 (Acceptance) | otomix-agent, k6 Performance Testing, Playwright E2E Testing, Code Coverage Analysis, Property-based, review-team |
+
+### 9.9 Forbidden Skills
+Do NOT activate the following categories — they are outside OTOMIX scope and
+only consume credit:
+- All `hunt-*` bug-bounty / red-team skills
+- `xiaohongshu-*`, `wechat-*`, `douyin-*`, `zhongcao-*` (Chinese social)
+- `leiloeiro-*`, `payment-*`, `invoice-*`, `payroll-*` (finance / legal)
+- `game-*`, `unity-*`, `godot-*`, `pc-games`, `mobile-games` (games)
+- `stripe`, `paypal`, `shopify`, `woocommerce` (commerce — not in scope)
+- `django-*`, `laravel-*`, `rails-*`, `php-*`, `ruby-*`, `go-*`, `rust-*`,
+  `swift-*`, `kotlin-*`, `cpp-*`, `java-*`, `csharp-*` (wrong language)
+- `ios-*`, `android-*`, `mobile-*` (mobile apps — not in scope)
+- `frontend-design` (classic) — conflicts with OTOMIX design taste
+- `brainstorming`, `copywriting-*`, `marketing-*`, `pitch-*` (marketing)
+
+### 9.10 Skill selection output
+For every Cline prompt, the response MUST include a one-line header:
+    Skills: <comma-separated list>
+immediately after the report block, so the operator can verify the choice.
