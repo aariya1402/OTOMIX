@@ -8,6 +8,7 @@ export * from './grid/t-of-i';
 export * from './grid/period';
 export * from './grid/anchor-sync';
 export * from './timing/structure';
+export * from './timing/quantum';
 export * from './resilience/retry';
 export * from './resilience/degraded';
 export * from './telemetry/logger';

@@ -778,7 +778,7 @@ flowchart LR
 | Review Checkpoint | Re-read §3.15 and confirm every function is O(1) with no allocation. |
 | Notes | Acceptance criterion tag: AC2 (implements) |
 
-###### P02-T02-S01-M02 — TODO
+###### P02-T02-S01-M02 — [x]
 
 | Field | Value |
 |---|---|

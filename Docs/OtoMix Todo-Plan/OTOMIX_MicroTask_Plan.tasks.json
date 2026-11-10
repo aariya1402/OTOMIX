@@ -280,7 +280,7 @@
  },
  {
   "id": "P02-T02-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `quantumSeconds(bpm)=(60/bpm)/24` and `quantumIndex(beatFloat)=round(beatFloat\u00b724)`, operating on floating-point beat indices.",
   "prerequisites": [
    "P02-T02-S01-M01"
