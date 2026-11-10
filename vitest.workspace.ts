@@ -7,6 +7,8 @@ export default defineWorkspace([
       name: 'default',
       include: ['packages/**/test/**/*.spec.ts', 'tools/test/**/*.spec.ts', 'scripts/test/**/*.spec.ts'],
       exclude: [
+        '**/node_modules/**',
+        '**/dist/**',
         '**/p01-it.spec.ts',
         '**/x-p01-*.spec.ts',
         '**/migrate.spec.ts',
