@@ -330,7 +330,7 @@
  },
  {
   "id": "P02-T03-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `classifyKick(candidate, refs)` returning OFF_BEAT when correlation < 0.85 or shape variance > 15% against the kicks at bars 5, 8 and 16.",
   "prerequisites": [
    "P02-T03-S01-M01"

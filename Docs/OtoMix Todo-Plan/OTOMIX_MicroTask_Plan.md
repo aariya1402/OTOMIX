@@ -849,7 +849,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.4 · Mother §2.4 |
 | Review Checkpoint | Check the envelope window constant is 100 ms. |
 
-###### P02-T03-S01-M02 — TODO
+###### P02-T03-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
