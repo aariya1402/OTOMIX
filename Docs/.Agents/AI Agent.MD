@@ -168,6 +168,35 @@ based on the specific domain of the current micro-task.
 Invocation syntax (first line of every Cline prompt):
     /system skill activate <skill-a> <skill-b> ...
 
+
+## Rule 24 — Root-Cause Before Fix (MANDATORY)
+
+When any test fails (unit, integration, or full suite), you MUST:
+
+1. **STOP** — Do NOT immediately generate a corrective PowerShell script.
+2. **Analyze with Cline** — Send a dedicated diagnostic prompt to Cline that:
+   - Reads the exact failing test output
+   - Reads the source files involved
+   - Reads the test files involved
+   - Performs line-by-line/syntax-by-syntax comparison
+   - Identifies the EXACT root cause (not a hypothesis, not a "maybe", not "let's try this")
+   - Explains WHY the test failed with concrete evidence (specific line, specific value, specific mismatch)
+3. **Confirm the Root Cause** — The human operator must approve the root cause analysis.
+4. **Only Then** — Generate the corrective script.
+
+**Forbidden behaviors:**
+- Sending a "fix" script based on a guess or a hunch
+- Sending multiple "fix" scripts in a row without analysis between them
+- Modifying test assertions to make them pass without fixing the underlying code (unless the test itself is provably wrong)
+- Changing constants, EPSILONs, or thresholds just to make a test pass
+
+**Allowed behavior:**
+- Running a read-only diagnostic script (e.g., verbose test output, git log, file content display) to gather evidence
+- Sending a Cline prompt that asks for root-cause analysis only (no code changes)
+
+**Test** — No test script needed for this rule (it's a process rule, not a code rule).
+
+
 ### 9.1 OTOMIX Core (ALWAYS ON — mandatory for every micro-task)
 - otomix-agent                  (7-step loop, Halt, Dump, Language)
 - code-reviewer-auditor        (OTOMIX compliance review)

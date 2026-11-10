@@ -53,3 +53,11 @@ export const GRID_CONSTANTS = Object.freeze({
   RATE_MAX,
   RATE_SLEW_PER_S,
 });
+// OTOMIX §3.2 · Body Grid constants
+export const BODY_CUTOFF_HZ = 80;
+export const BODY_FILTER_ORDER = 4;
+export const BODY_RMS_WINDOW_MS = 5;
+export const BODY_SEARCH_WINDOW_MS = 50;
+// OTOMIX §3.2 · Group delay of 4th-order Butterworth @ 80Hz at 60Hz signal
+// Compensated in extractBodyGrid() to report the true body peak position.
+export const BODY_GROUP_DELAY_MS = 7.3;

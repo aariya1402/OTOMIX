@@ -420,7 +420,7 @@
  },
  {
   "id": "P03-T01-S02-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `extractBodyGrid(pcm)` using an 80 Hz Butterworth low-pass filter followed by RMS amplitude detection to locate the sub-bass envelope peak.",
   "prerequisites": [
    "P03-T01-S01-M01"

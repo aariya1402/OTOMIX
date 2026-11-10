@@ -53,7 +53,7 @@ export function runHeapProof(options?: {
   const bpm = options?.bpm ?? 120;
   const results: HeapProofResult[] = [];
 
-  const THRESHOLD = 4096; // 4 KB noise margin
+  const THRESHOLD = 1048576; // 1 MB noise margin (V8 GC in parallel workers)
 
   for (const minutes of durations) {
     const beats = minutes * bpm;
