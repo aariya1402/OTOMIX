@@ -1056,7 +1056,7 @@ flowchart LR
 | Review Checkpoint | After the decision, re-read §3.2 last bullet. |
 | Notes | Blocked by: OQ-17 |
 
-###### P03-T02-S01-M03 — TODO
+###### P03-T02-S01-M03 — [x]
 
 | Field | Value |
 |---|---|

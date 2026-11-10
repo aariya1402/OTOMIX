@@ -451,7 +451,7 @@
  },
  {
   "id": "P03-T02-S01-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Keep the Dual Grid dormant for negative beat indices and initialize it only at Beat 1.",
   "prerequisites": [
    "P03-T02-S01-M01"

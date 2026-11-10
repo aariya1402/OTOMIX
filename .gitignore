@@ -9,3 +9,6 @@ coverage/
 *.tsbuildinfo
 heap-proof.heapsnapshot
 heap-proof.json
+
+# Local music files (not for commit)
+MP3/

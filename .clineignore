@@ -1,0 +1,35 @@
+# Cline ignore file - prevents Cline from scanning these folders
+# (helps with token usage and keeps private files out of AI context)
+
+# Local music files - not for AI analysis
+MP3/
+*.mp3
+*.wav
+*.flac
+*.m4a
+*.aiff
+*.ogg
+
+# Build artifacts
+node_modules/
+dist/
+coverage/
+.vitest/
+*.tsbuildinfo
+
+# Dump folder (contains full project snapshots)
+Dump/
+
+# Large binary files
+*.zip
+*.tar
+*.gz
+*.7z
+*.exe
+*.dll
+
+# Environment and secrets
+.env
+.env.local
+*.pem
+*.key
