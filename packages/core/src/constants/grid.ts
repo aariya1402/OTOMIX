@@ -53,3 +53,49 @@ export const GRID_CONSTANTS = Object.freeze({
   RATE_MAX,
   RATE_SLEW_PER_S,
 });
+// OTOMIX §3.2 · Body Grid constants
+export const BODY_CUTOFF_HZ = 80;
+export const BODY_FILTER_ORDER = 4;
+export const BODY_RMS_WINDOW_MS = 5;
+export const BODY_SEARCH_WINDOW_MS = 50;
+// OTOMIX §3.2 · Group delay of 4th-order Butterworth @ 80Hz at 60Hz signal
+// Compensated in extractBodyGrid() to report the true body peak position.
+export const BODY_GROUP_DELAY_MS = 7.3;
+// OTOMIX §3.2 · 4-bar cosine realignment duration
+export const REALIGN_BARS = 4;
+export const REALIGN_BEATS = 16; // 4 bars × 4 beats/bar
+// ============================================================================
+// OTOMIX §3.2; §3.6 — Constants that were previously hardcoded
+// ============================================================================
+
+/** Beats per bar (standard 4/4 time signature) */
+export const BEATS_PER_BAR = 4;
+
+/** Sample rate for all DSP operations (Hz) */
+export const SAMPLE_RATE = 44100;
+
+/** Attack Grid: FFT window size (samples) */
+export const ATTACK_WINDOW_SIZE = 2048;
+
+/** Attack Grid: FFT hop size (samples) — 50% overlap */
+export const ATTACK_HOP_SIZE = 1024;
+
+/** Attack Grid: frequency cutoff (Hz) — ignore bins below this */
+export const ATTACK_CUTOFF_HZ = 200;
+
+/** Observer log realignment: curve shape parameter (k) */
+export const LOG_REALIGN_K = 3;
+
+/** Pre-kick mapping: tolerance for floating-point beat boundary detection */
+export const BEAT_EPSILON = 1e-9;
+
+/** Observer scale: rate range span (RATE_MAX - RATE_MIN = 0.04, half = 0.02) */
+export const OBSERVER_GAIN_RANGE = 0.02;
+
+/** Observer scale: maximum expected drift before rate hits bound (ms) */
+export const OBSERVER_MAX_EXPECTED_DRIFT_MS = 50;
+/** Transition window: 16 bars (4/4 time) = 64 beats */
+export const TRANSITION_WINDOW_BARS = 16;
+export const TRANSITION_WINDOW_BEATS = TRANSITION_WINDOW_BARS * BEATS_PER_BAR;
+/** Safety net crossfade duration: 4 bars × 4 beats/bar = 16 beats */
+export const SAFETY_XFADE_BEATS = SAFETY_XFADE_BARS * BEATS_PER_BAR;

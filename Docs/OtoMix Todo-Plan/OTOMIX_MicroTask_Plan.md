@@ -735,7 +735,7 @@ flowchart LR
 
 ##### P02-T01-S02 Period and anchor discipline
 
-###### P02-T01-S02-M01 — TODO
+###### P02-T01-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -747,7 +747,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.1 · Mother §2.1 |
 | Review Checkpoint | Check both bounds use the constants, with inclusive edges. |
 
-###### P02-T01-S02-M02 — TODO
+###### P02-T01-S02-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -765,7 +765,7 @@ flowchart LR
 
 ##### P02-T02-S01 Structural helpers
 
-###### P02-T02-S01-M01 — TODO
+###### P02-T02-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -778,7 +778,7 @@ flowchart LR
 | Review Checkpoint | Re-read §3.15 and confirm every function is O(1) with no allocation. |
 | Notes | Acceptance criterion tag: AC2 (implements) |
 
-###### P02-T02-S01-M02 — TODO
+###### P02-T02-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -791,7 +791,7 @@ flowchart LR
 | Review Checkpoint | Confirm the divisor 24 is read from `QUANTUM_DIVISOR`. |
 | Notes | Related open question (non-blocking): OQ-16 |
 
-###### P02-T02-S01-M03 — TODO
+###### P02-T02-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -805,7 +805,7 @@ flowchart LR
 
 ##### P02-T02-S02 Zero-RAM tooling
 
-###### P02-T02-S02-M01 — TODO
+###### P02-T02-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -818,7 +818,7 @@ flowchart LR
 | Review Checkpoint | Run `eslint packages/core/src/timing` and confirm 0 violations. |
 | Notes | Acceptance criterion tag: AC2 (implements) |
 
-###### P02-T02-S02-M02 — TODO
+###### P02-T02-S02-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -837,7 +837,7 @@ flowchart LR
 
 ##### P02-T03-S01 Primary kick validation
 
-###### P02-T03-S01-M01 — TODO
+###### P02-T03-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -849,7 +849,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.4 · Mother §2.4 |
 | Review Checkpoint | Check the envelope window constant is 100 ms. |
 
-###### P02-T03-S01-M02 — TODO
+###### P02-T03-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -861,7 +861,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.4 · Mother §2.4 |
 | Review Checkpoint | Confirm comparisons are strict (`<`, `>`) per spec. |
 
-###### P02-T03-S01-M03 — TODO
+###### P02-T03-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -873,7 +873,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.4 · Mother §2.4 |
 | Review Checkpoint | Check realignment never moves T0 backward. |
 
-###### P02-T03-S01-M04 — TODO
+###### P02-T03-S01-M04 — [x]
 
 | Field | Value |
 |---|---|
@@ -891,7 +891,7 @@ flowchart LR
 
 ##### P02-T04-S01 Grid model states
 
-###### P02-T04-S01-M01 — TODO
+###### P02-T04-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -903,7 +903,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.1 · Mother §2.1 |
 | Review Checkpoint | Confirm segment boundaries fall on structural block boundaries. |
 
-###### P02-T04-S01-M02 — TODO
+###### P02-T04-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -921,7 +921,7 @@ flowchart LR
 
 ##### P02-T05-S01 Dual-offset strategy
 
-###### P02-T05-S01-M01 — TODO
+###### P02-T05-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -947,7 +947,7 @@ flowchart LR
 | Review Checkpoint | After the decision, re-read §3.10 and Appendix A item A8. |
 | Notes | Blocked by: OQ-07 |
 
-###### P02-T05-S01-M03 — TODO
+###### P02-T05-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -999,7 +999,7 @@ flowchart LR
 
 ##### P03-T01-S01 Attack Grid
 
-###### P03-T01-S01-M01 — TODO
+###### P03-T01-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1013,7 +1013,7 @@ flowchart LR
 
 ##### P03-T01-S02 Body Grid
 
-###### P03-T01-S02-M01 — TODO
+###### P03-T01-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1031,7 +1031,7 @@ flowchart LR
 
 ##### P03-T02-S01 Δϕ and selection rules
 
-###### P03-T02-S01-M01 — TODO
+###### P03-T02-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1056,7 +1056,7 @@ flowchart LR
 | Review Checkpoint | After the decision, re-read §3.2 last bullet. |
 | Notes | Blocked by: OQ-17 |
 
-###### P03-T02-S01-M03 — TODO
+###### P03-T02-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -1074,7 +1074,7 @@ flowchart LR
 
 ##### P03-T03-S01 Trigger and curves
 
-###### P03-T03-S01-M01 — TODO
+###### P03-T03-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1086,7 +1086,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.2 · Mother §2.2 |
 | Review Checkpoint | Confirm the comparison is strict (below −40). |
 
-###### P03-T03-S01-M02 — TODO
+###### P03-T03-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -1112,7 +1112,7 @@ flowchart LR
 | Review Checkpoint | Re-read both sections and Appendix A item A1. |
 | Notes | Blocked by: OQ-01 |
 
-###### P03-T03-S01-M04 — TODO
+###### P03-T03-S01-M04 — [x]
 
 | Field | Value |
 |---|---|
@@ -1131,7 +1131,7 @@ flowchart LR
 
 ##### P03-T04-S01 Drift compensation and degradation
 
-###### P03-T04-S01-M01 — TODO
+###### P03-T04-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1143,7 +1143,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.6 · Mother §2.6 |
 | Review Checkpoint | Confirm units are converted at the boundary only. |
 
-###### P03-T04-S01-M02 — TODO
+###### P03-T04-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -1156,7 +1156,7 @@ flowchart LR
 | Review Checkpoint | Check the clamp and slew use separate constants. |
 | Notes | Acceptance criterion tag: AC3 (implements); Related open question (non-blocking): OQ-04 |
 
-###### P03-T04-S01-M03 — TODO
+###### P03-T04-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -1168,7 +1168,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.6 · Mother §2.6 |
 | Review Checkpoint | Confirm degradation emits `system.thread.starvation`. |
 
-###### P03-T04-S01-M04 — TODO
+###### P03-T04-S01-M04 — [x]
 
 | Field | Value |
 |---|---|
@@ -1201,7 +1201,7 @@ flowchart LR
 
 ##### P03-T05-S01 Registry modes
 
-###### P03-T05-S01-M01 — TODO
+###### P03-T05-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1213,7 +1213,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.5 · Mother §2.5 |
 | Review Checkpoint | Re-read the §3.5 table and confirm modes are mutually exclusive. |
 
-###### P03-T05-S01-M02 — TODO
+###### P03-T05-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -1225,7 +1225,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.5 · Mother §2.5 |
 | Review Checkpoint | Confirm the shift is in beat units until the render boundary. |
 
-###### P03-T05-S01-M03 — TODO
+###### P03-T05-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -1243,7 +1243,7 @@ flowchart LR
 
 ##### P03-T06-S01 Plan construction
 
-###### P03-T06-S01-M01 — TODO
+###### P03-T06-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1256,7 +1256,7 @@ flowchart LR
 | Review Checkpoint | Confirm the 16-beat constant is independent of the bar/beat decision OQ-02. |
 | Notes | Acceptance criterion tag: AC1 (implements); Related open question (non-blocking): OQ-02 |
 
-###### P03-T06-S01-M02 — TODO
+###### P03-T06-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -1269,7 +1269,7 @@ flowchart LR
 | Review Checkpoint | Check no `hasSixteenKickBeats`-style predicate exists (`grep`). |
 | Notes | Acceptance criterion tag: AC1 (implements) |
 
-###### P03-T06-S01-M03 — TODO
+###### P03-T06-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -1282,7 +1282,7 @@ flowchart LR
 | Review Checkpoint | Confirm 120 is `STATIC_GRID_BPM`. |
 | Notes | Acceptance criterion tag: AC1 (implements) |
 
-###### P03-T06-S01-M04 — TODO
+###### P03-T06-S01-M04 — [x]
 
 | Field | Value |
 |---|---|
@@ -1295,7 +1295,7 @@ flowchart LR
 | Review Checkpoint | Confirm the rung is evaluated last and cannot be skipped. |
 | Notes | Acceptance criterion tag: AC1 (implements) |
 
-###### P03-T06-S01-M05 — TODO
+###### P03-T06-S01-M05 — [x]
 
 | Field | Value |
 |---|---|
@@ -1308,7 +1308,7 @@ flowchart LR
 | Review Checkpoint | Confirm padding is generated at render time, not stored (zero-RAM). |
 | Notes | Acceptance criterion tag: AC1 (implements) |
 
-###### P03-T06-S01-M06 — [BLOCKED: OWNER DECISION OQ-02]
+###### P03-T06-S01-M06 — [x]
 
 | Field | Value |
 |---|---|
@@ -1321,7 +1321,7 @@ flowchart LR
 | Review Checkpoint | Re-read Appendix A item A2. |
 | Notes | Blocked by: OQ-02 |
 
-###### P03-T06-S01-M07 — TODO
+###### P03-T06-S01-M07 — [x]
 
 | Field | Value |
 |---|---|

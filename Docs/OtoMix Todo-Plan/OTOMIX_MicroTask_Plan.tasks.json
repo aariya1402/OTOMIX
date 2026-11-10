@@ -250,7 +250,7 @@
  },
  {
   "id": "P02-T01-S02-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `boundPeriod(measured, seedPeriod)` constraining the result to [0.95, 1.05]\u00d7seedPeriod.",
   "prerequisites": [
    "P02-T01-S01-M01"
@@ -260,7 +260,7 @@
  },
  {
   "id": "P02-T01-S02-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement hard anchor synchronization every 16 bars (every 64 beats) that resets \u0394 to the measured anchor error.",
   "prerequisites": [
    "P02-T01-S02-M01"
@@ -270,7 +270,7 @@
  },
  {
   "id": "P02-T02-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `floorMod`, `beatInBar`, `barIndex`, `blockPosition`, `isBlockBoundary` exactly as \u00a73.15.",
   "prerequisites": [
    "P01-T03-S01-M03"
@@ -280,7 +280,7 @@
  },
  {
   "id": "P02-T02-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `quantumSeconds(bpm)=(60/bpm)/24` and `quantumIndex(beatFloat)=round(beatFloat\u00b724)`, operating on floating-point beat indices.",
   "prerequisites": [
    "P02-T02-S01-M01"
@@ -290,7 +290,7 @@
  },
  {
   "id": "P02-T02-S01-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `LookaheadScheduler` with a 50 ms lookahead and an injected clock, scheduling events on beat-based units.",
   "prerequisites": [
    "P02-T02-S01-M02"
@@ -300,7 +300,7 @@
  },
  {
   "id": "P02-T02-S02-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Create an ESLint rule `no-alloc-in-structural` that fails on array/object/typed-array allocation inside files tagged `@structural`.",
   "prerequisites": [
    "P02-T02-S01-M02"
@@ -310,7 +310,7 @@
  },
  {
   "id": "P02-T02-S02-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Write `scripts/heap-proof.ts` that generates timelines for 1-minute and 120-minute tracks and reports the retained-size delta using V8 heap statistics and a heap snapshot.",
   "prerequisites": [
    "P02-T02-S02-M01"
@@ -320,7 +320,7 @@
  },
  {
   "id": "P02-T03-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement Pearson correlation over 100 ms low-frequency energy envelopes, returning 0 for zero-variance inputs with a flag.",
   "prerequisites": [
    "P01-T03-S01-M03"
@@ -330,7 +330,7 @@
  },
  {
   "id": "P02-T03-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `classifyKick(candidate, refs)` returning OFF_BEAT when correlation < 0.85 or shape variance > 15% against the kicks at bars 5, 8 and 16.",
   "prerequisites": [
    "P02-T03-S01-M01"
@@ -340,7 +340,7 @@
  },
  {
   "id": "P02-T03-S01-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement forward realignment of `T0` to the first validated primary downbeat in subsequent 4-bar blocks for OFF_BEAT candidates.",
   "prerequisites": [
    "P02-T03-S01-M02"
@@ -350,7 +350,7 @@
  },
  {
   "id": "P02-T03-S01-M04",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the fallback anchor: when no kick is found at bars 5, 8 or 16 (or the track is kick-less), anchor at the first transient exceeding \u221212 dBFS.",
   "prerequisites": [
    "P02-T03-S01-M03"
@@ -360,7 +360,7 @@
  },
  {
   "id": "P02-T04-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement a piecewise `GridModel` with BPM_seed updates at predefined structural boundaries and continuity at each boundary.",
   "prerequisites": [
    "P02-T01-S02-M02"
@@ -370,7 +370,7 @@
  },
  {
   "id": "P02-T04-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the lock-failure recovery state: fall back to the track's global average BPM and disable micro-adjustments (\u0394\u22610).",
   "prerequisites": [
    "P02-T04-S01-M01"
@@ -380,7 +380,7 @@
  },
  {
   "id": "P02-T05-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement pre-kick gap < 1 bar: assign the kick downbeat Beat 1 and earlier frames Beat \u22121, \u22122, \u22123.",
   "prerequisites": [
    "P02-T01-S01-M01"
@@ -400,7 +400,7 @@
  },
  {
   "id": "P02-T05-S01-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the localized pre-kick tempo map for long variable-tempo introductions, counting backwards from `T0`.",
   "prerequisites": [
    "P02-T05-S01-M01"
@@ -410,7 +410,7 @@
  },
  {
   "id": "P03-T01-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `extractAttackGrid(pcm)` using spectral-flux peak detection with a 2048-sample Hamming window, 50% overlap, restricted to frequencies above 200 Hz.",
   "prerequisites": [
    "P02-T01-S01-M01"
@@ -420,7 +420,7 @@
  },
  {
   "id": "P03-T01-S02-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `extractBodyGrid(pcm)` using an 80 Hz Butterworth low-pass filter followed by RMS amplitude detection to locate the sub-bass envelope peak.",
   "prerequisites": [
    "P03-T01-S01-M01"
@@ -430,7 +430,7 @@
  },
  {
   "id": "P03-T02-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `phaseOffset(T_body_peak, T_attack_onset)` returning `\u0394\u03d5 = T_body_peak \u2212 T_attack_onset`.",
   "prerequisites": [
    "P03-T01-S01-M01",
@@ -451,7 +451,7 @@
  },
  {
   "id": "P03-T02-S01-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Keep the Dual Grid dormant for negative beat indices and initialize it only at Beat 1.",
   "prerequisites": [
    "P03-T02-S01-M01"
@@ -461,7 +461,7 @@
  },
  {
   "id": "P03-T03-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Detect the realignment trigger: outgoing sub-band RMS below \u221240 dBFS after crossfade completion.",
   "prerequisites": [
    "P03-T02-S01-M01"
@@ -471,7 +471,7 @@
  },
  {
   "id": "P03-T03-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the 4-bar cosine interpolation realignment at about 1 ms per beat.",
   "prerequisites": [
    "P03-T03-S01-M01"
@@ -491,7 +491,7 @@
  },
  {
   "id": "P03-T03-S01-M04",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the Observer's post-transition 16-bar logarithmic realignment with induced pitch shift below 0.05 semitones.",
   "prerequisites": [
    "P03-T03-S01-M02"
@@ -501,7 +501,7 @@
  },
  {
   "id": "P03-T04-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the drift calculation: phase delta between the rendering clock position and the Absolute Locked Grid.",
   "prerequisites": [
    "P02-T01-S01-M01"
@@ -511,7 +511,7 @@
  },
  {
   "id": "P03-T04-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Apply `playbackRate` micro-scaling when drift exceeds 4 ms, bounded to \u00b10.5% per second and clamped to [0.98, 1.02].",
   "prerequisites": [
    "P03-T04-S01-M01"
@@ -521,7 +521,7 @@
  },
  {
   "id": "P03-T04-S01-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Expand the audio buffer from 2048 to 4096 samples when frame processing exceeds 10 ms.",
   "prerequisites": [
    "P03-T04-S01-M02"
@@ -531,7 +531,7 @@
  },
  {
   "id": "P03-T04-S01-M04",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Benchmark the Observer loop cycle and fail if the P99 exceeds 1 ms.",
   "prerequisites": [
    "P03-T04-S01-M02"
@@ -551,7 +551,7 @@
  },
  {
   "id": "P03-T05-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Classify micro-timing across 16th-note subdivisions as Straight (<2% variance), Triplet (<5% from 33.3%/66.6%) or Swing (off-beat 16ths displaced 0.05\u20130.33 beat).",
   "prerequisites": [
    "P02-T01-S01-M01"
@@ -561,7 +561,7 @@
  },
  {
   "id": "P03-T05-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Compute `\u0394_groove` and shift chopping window boundaries by that swing displacement.",
   "prerequisites": [
    "P03-T05-S01-M01"
@@ -571,7 +571,7 @@
  },
  {
   "id": "P03-T05-S01-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "For irregular or hybrid grooves default to Straight and expand the micro-crossfade window by +10 ms.",
   "prerequisites": [
    "P03-T05-S01-M02"
@@ -581,7 +581,7 @@
  },
  {
   "id": "P03-T06-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Anchor the incoming track at Beat 1 of its initial 16-beat block (bars 1\u20134) and the outgoing track at its final 16-beat block.",
   "prerequisites": [
    "P02-T01-S01-M01",
@@ -592,7 +592,7 @@
  },
  {
   "id": "P03-T06-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Force mathematical alignment across the 16-beat timeline when the incoming track has no kick transients in its first 16 beats.",
   "prerequisites": [
    "P03-T06-S01-M01"
@@ -602,7 +602,7 @@
  },
  {
   "id": "P03-T06-S01-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Map a static 120 BPM grid for purely ambient or kick-less tracks (RUNG_STATIC_120_GRID).",
   "prerequisites": [
    "P03-T06-S01-M02"
@@ -612,7 +612,7 @@
  },
  {
   "id": "P03-T06-S01-M04",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the ultimate safety net: a clean 4-bar volume crossfade independent of grid locks (RUNG_FOUR_BAR_CROSSFADE).",
   "prerequisites": [
    "P03-T06-S01-M03"
@@ -622,7 +622,7 @@
  },
  {
   "id": "P03-T06-S01-M05",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Handle tracks shorter than 16 beats with a silent structural loop (RUNG_SILENT_LOOP).",
   "prerequisites": [
    "P03-T06-S01-M04"
@@ -632,7 +632,7 @@
  },
  {
   "id": "P03-T06-S01-M06",
-  "status": "BLOCKED:OQ-02",
+  "status": "DONE",
   "description": "Decide whether transition windows are 16 beats (4 bars) or 16 bars (64 beats) at the Float32Array processing stage.",
   "prerequisites": [
    "P03-T06-S01-M05"
@@ -642,7 +642,7 @@
  },
  {
   "id": "P03-T06-S01-M07",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Add a property-based test generating 10 000 random plan requests (BPM, lengths, kick presence, tempo deltas) and asserting a plan is always returned.",
   "prerequisites": [
    "P03-T06-S01-M04"

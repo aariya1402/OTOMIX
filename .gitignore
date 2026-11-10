@@ -3,3 +3,12 @@ dist/
 temp/
 Logs/
 Dump/
+
+coverage/
+.vitest/
+*.tsbuildinfo
+heap-proof.heapsnapshot
+heap-proof.json
+
+# Local music files (not for commit)
+MP3/

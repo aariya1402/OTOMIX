@@ -1,8 +1,0 @@
-# OTOMIX Cline Rules
-
-1. Language: All explanations must be in English. All code and code comments must be in English.
-2. Prompt ID: Every report you generate must include the current Prompt Number/ID at the top.
-3. Source of Truth: The TODO file (`Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan.md`) and Architecture Spec (`Docs/OTOMIX_Architecture_Spec.md`) are the absolute reference at all times. You must not go beyond the defined tasks.
-4. Plan First: Always provide a plan before taking action.
-5. No Summarization: Summarization is strictly forbidden. If a task is too long, break it into shorter, manageable steps.
-6. Master Dump: Create a "Master Dump" file/process. After every change, take a dump of the entire project that includes all changes. Every dump file must have an ID number and date in its name so we can track which file changed at which stage.

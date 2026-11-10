@@ -168,6 +168,35 @@ based on the specific domain of the current micro-task.
 Invocation syntax (first line of every Cline prompt):
     /system skill activate <skill-a> <skill-b> ...
 
+
+## Rule 24 — Root-Cause Before Fix (MANDATORY)
+
+When any test fails (unit, integration, or full suite), you MUST:
+
+1. **STOP** — Do NOT immediately generate a corrective PowerShell script.
+2. **Analyze with Cline** — Send a dedicated diagnostic prompt to Cline that:
+   - Reads the exact failing test output
+   - Reads the source files involved
+   - Reads the test files involved
+   - Performs line-by-line/syntax-by-syntax comparison
+   - Identifies the EXACT root cause (not a hypothesis, not a "maybe", not "let's try this")
+   - Explains WHY the test failed with concrete evidence (specific line, specific value, specific mismatch)
+3. **Confirm the Root Cause** — The human operator must approve the root cause analysis.
+4. **Only Then** — Generate the corrective script.
+
+**Forbidden behaviors:**
+- Sending a "fix" script based on a guess or a hunch
+- Sending multiple "fix" scripts in a row without analysis between them
+- Modifying test assertions to make them pass without fixing the underlying code (unless the test itself is provably wrong)
+- Changing constants, EPSILONs, or thresholds just to make a test pass
+
+**Allowed behavior:**
+- Running a read-only diagnostic script (e.g., verbose test output, git log, file content display) to gather evidence
+- Sending a Cline prompt that asks for root-cause analysis only (no code changes)
+
+**Test** — No test script needed for this rule (it's a process rule, not a code rule).
+
+
 ### 9.1 OTOMIX Core (ALWAYS ON — mandatory for every micro-task)
 - otomix-agent                  (7-step loop, Halt, Dump, Language)
 - code-reviewer-auditor        (OTOMIX compliance review)
@@ -259,3 +288,146 @@ only consume credit:
 For every Cline prompt, the response MUST include a one-line header:
     Skills: <comma-separated list>
 immediately after the report block, so the operator can verify the choice.
+
+---
+
+## ⚠️ PROJECT REMINDERS & AMBIGUITIES (LIVE DOCUMENT)
+
+This section acts as a living memory for technical debt, pending decisions, and critical phase-specific overrides.
+
+### 1. Essentia Features Overrides (For Phase P04 & P05)
+*   **Energy Formula Override:** In `P05-T02-S02-M01`, the generic energy formula MUST be replaced by the exact 6-parameter formula from `Essentia Features.xlsx`:
+    `Energy_Raw = (0.30 * norm_danceability) + (0.20 * norm_onset_rate) + (0.15 * norm_rms_energy) + (0.15 * norm_dynamic_inverse) + (0.10 * norm_spectral_centroid) + (0.10 * norm_beat_bass_ratio)`
+*   **TensorFlow Models:** `P05-T03` MUST use the `voice_instrumental` model (not just a spectral threshold). Playlist similarity (`P05/P08`) SHOULD use `MAEST` or `Discogs-EffNet` embeddings.
+*   **Loudness Bug:** `LoudnessEBUR128` in `Essentia.js` has known bugs with stereo. Use the custom wrapper from `export/loudness.js` in `P04-T04-S02-M04` for validation.
+
+### 2. Pending Integration Tests
+- [x] P01-IT: `packages/contracts/test/p01-it.spec.ts` (Foundation)
+- [x] P02-IT: `packages/core/test/p02-it.spec.ts` (Beat-Index Engine)
+- [x] X-P01-P02: `packages/contracts/test/x-p01-p02.spec.ts` (P01→P02 boundary)
+- [x] X-P02-P03: `packages/contracts/test/x-p02-p03.spec.ts` (P02→P03 boundary)
+- [x] P03-IT: `packages/core/test/p03-it.spec.ts` (Dual Grid / Observer, beat-based) ← **THIS COMMIT**
+- [ ] X-P03-P04: `packages/contracts/test/x-p03-p04.spec.ts` — **DEFERRED to P04** (renderer interface not defined yet)
+- [ ] X-P03-P05: `packages/contracts/test/x-p03-p05.spec.ts` — **DEFERRED to P05**
+- [ ] X-P03-P08: `packages/contracts/test/x-p03-p08.spec.ts` — **DEFERRED to P08**
+
+### 3. Technical Debt & Flaky Tests
+*   **Heap-Proof Flakiness:** `scripts/test/heap-proof.spec.ts` can occasionally fail due to V8 heap noise during parallel test execution. It requires `NODE_OPTIONS="--expose-gc"`. If it fails, re-run or isolate the test.
+*   **Floating-Point EPSILON:** `prekick-short.ts` uses `EPSILON = 1e-9` to correctly handle IEEE 754 floating-point rounding (e.g., `-1.0000000000000002` should floor to `-1`, not `-2`).
+*   **Missing Spec File:** `OTOMIX_Architecture_Spec.md` is not in the repository. Formulas (like `beatInBar`) are inferred from the MicroTask Plan and test cases.
+
+### 4. Blocked Tasks (Awaiting Owner Decision - OQ)
+*   `P02-T05-S01-M02` (OQ-07): Exact numbering for shifted pre-kick anchor >= 1 bar.
+*   `P03-T02-S01-M02` (OQ-17): Numeric criterion for "devoid of a strong kick body".
+*   `P03-T03-S01-M03` (OQ-01): Relationship between 4-bar cosine and 16-bar log realignment.
+*   `P03-T04-S02-M01` (OQ-04): Runtime drift compensation pitch bound.
+*   `P03-T06-S01-M06` (OQ-02): Transition window size (16 beats vs 16 bars).
+*   `P04-T01-S01-M03` (OQ-18): Numeric rule for half-time/double-time detection.
+*   `P04-T01-S02-M03` (OQ-03): Pitch node engagement threshold.
+*   `P04-T02-S02-M02` (OQ-06): `crossfadeMs` bound unit conversion.
+*   `P04-T04-S03-M01` (OQ-05): DSP latency definition (<10ms).
+*   `P05-T02-S01-M02` (OQ-20): Static vs dynamic BPM rule.
+*   `P05-T02-S02-M03` (OQ-21): Dynamics penalty function.
+*   `P05-T02-S02-M06` (OQ-22): Mixability terms normalization.
+*   `P06-T02-S03-M01` (OQ-10): Publisher/buyer authorization model.
+*   `P07-T05-S01-M01` (OQ-11): Local copyright declaration controls.
+*   `P08-T04-S01-M01` (OQ-09): Recommendation scoring formulas.
+*   `P08-T04-S01-M03` (OQ-24): Tie-break strictness.
+*   `P09-T01-S02-M05` (OQ-12): Serato metadata export mechanism.
+*   `P09-T02-S03-M01` (OQ-13): Payment provider.
+*   `P11-T03-S01-M03` (OQ-04): Drift compensation pitch bound.
+
+### 5. Default Transition Strategy & Future Profiles
+*   **Default Entry/Exit:** The first 16 bars (64 beats) and the last 16 bars (64 beats) are the default safe entry and exit points. 
+*   **High-Precision Sync:** The system MUST sync these two 16-bar windows with sub-millisecond precision. The `anchor-sync` module (every 16 bars) guarantees this.
+*   **Tempo Change:** During the transition window, tempo changes are executed via audio slicing (implemented in P04-T02).
+*   **Future Profiles:** The 16-bar default is a baseline. In future phases (P03-T06, P08), we will add prioritized profiles (e.g., 8-bar quick mixes, 32-bar long mixes) based on energy, vocal presence, and genre.
+
+---
+
+## Rule 23 — DSP & Real-Time Audio Rules (TypeScript)
+
+When writing DSP or audio processing code (Phase P03, P04, P05), you MUST adhere to these principles, adapted from professional C++/JUCE plugin development:
+
+1. **Real-Time Safety:** In hot audio paths (e.g., functions called in a loop per sample/frame), there must be ZERO memory allocation, ZERO locking, and ZERO I/O. Pre-allocate all typed arrays outside the loop.
+2. **TypedArrays Only:** Use `Float32Array` or `Float64Array` for audio data. Never use standard `number[]` arrays for PCM signals.
+3. **Parameter Smoothing:** Any parameter that affects the audio signal (gain, tempo, cutoff) must be smoothed over a few milliseconds (e.g., using an exponential moving average) to prevent zipper noise or clicks.
+4. **Numerical Stability:** 
+   - Protect against denormals by adding a tiny DC offset (e.g., `1e-15`) to feedback loops or using a denormal flush.
+   - Never divide by zero. Always use `Math.max(variance, 1e-12)` when normalizing.
+5. **Pure Functions:** DSP algorithms should be pure functions that take an input buffer and write to an output buffer. Avoid hidden state where possible.
+6. **No Exceptions in Hot Loops:** Do not use `throw` inside per-sample loops. Validate inputs before processing.
+
+### 6. Global Track Metadata Library (Persistent Cross-Tenant Cache)
+
+**Decision Date:** 2026-11-10
+**Status:** REQUIRED (architectural requirement from owner)
+**Affects:** P01 (persistence), P03 (Observer), P05 (feature extraction), P07 (ingestion/dedup), P08 (MixPlan)
+
+**Requirement:**
+When any track is analyzed for the first time, the system MUST determine its kick/grid type from the kick shape and frequency content, and persist this classification PERMANENTLY in a global (cross-tenant, cross-user) metadata library indexed by `content_sha256`.
+
+**Two Grid-Type Markers:**
+- `ATTACK_DOMINANT` — hard, high-frequency kick attack (Attack Grid is the primary sync reference).
+- `BODY_DOMINANT` — soft kick, low-frequency sub-bass envelope leads the attack (Body Grid is the sync reference).
+
+**Classification Logic (P05-T03 extension):**
+- After extracting Attack Grid and Body Grid peaks:
+  - If the Attack Grid peak is significantly stronger (e.g., >6 dB above Body Grid peak at the same beat), mark `ATTACK_DOMINANT`.
+  - If the Body Grid peak leads the Attack Grid peak by more than ~5 ms AND is stronger, mark `BODY_DOMINANT`.
+- The exact threshold is a tunable constant (admin setting), stored in `constants/grid.ts` and togglable via admin dashboard.
+
+**Cache Lookup Flow (P07-T03 extension):**
+1. Compute `content_sha256` of the uploaded file (already required by P07 dedup).
+2. Look up `content_sha256` in the **global track metadata library** (not tenant-scoped).
+3. If found:
+   - Return the stored `grid_type`, `bpm_seed`, `bpm_histogram`, `t0_seconds`, `vocal_map`, `energy_profile`, and `analysis_version`.
+   - Skip re-analysis entirely (this is the speed benefit).
+   - Update the per-tenant tracking table to reference the global metadata row.
+4. If not found:
+   - Run full analysis (P05).
+   - Write the result to BOTH the tenant-scoped `features` table AND the global `track_metadata` table.
+   - Tag the analysis with the current `analysis_version` (for cache invalidation).
+
+**Schema Impact:**
+- New global table (name TBD, e.g., `global_track_metadata`) indexed by `content_sha256`.
+- **NOT** tenant-scoped (no RLS on this table — the audio itself is the same for all tenants).
+- Columns: `content_sha256` (PK), `grid_type`, `bpm_seed`, `bpm_histogram` (jsonb), `t0_seconds`, `vocal_map` (bytea or reference), `energy_profile` (jsonb), `analysis_version`, `analyzed_at`, `analyzed_by_tenant` (for attribution, not for isolation).
+- The tenant-scoped `features` table keeps a FK to this global row.
+
+**Cross-Tenant Privacy Note:**
+- The audio content is hashed (SHA-256). The hash itself is not sensitive.
+- The metadata (BPM, grid type, vocal map) is derived from the audio, not from user data.
+- User-specific data (ownership, playlists, mixplans) stays tenant-scoped.
+- **Action:** Legal review required before enabling cross-tenant sharing (add to a future security review).
+
+**Cache Invalidation:**
+- When `analysis_version` (model version) changes, the global cache entry is invalidated (re-analysis required on next upload).
+- This follows the existing `P05-T02-S03-M02` cache invalidation pattern.
+
+**Admin Dashboard Requirements:**
+- View global cache statistics (hit rate, total entries).
+- Purge specific entries (for GDPR/legal takedown).
+- Set `analysis_version` (bump to force re-analysis).
+- Tune `ATTACK_DOMINANT` / `BODY_DOMINANT` thresholds.
+- Toggle "Global Cache Enabled" flag (for debugging or legal reasons).
+
+**Live-Test Note:**
+- This requirement is empirical. The actual thresholds and cache behavior will be validated during live testing (P11) and may be adjusted.
+
+### OQ-02 Resolution (RESOLVED — 16 Bars = 64 Beats)
+
+**Decision Date:** 2026-11-10
+**Status:** RESOLVED
+
+**The owner has confirmed:**
+- The transition window is **16 bars** = 64 beats (in 4/4 time).
+- The chopping window equals the transition window (16 bars = 64 beats).
+- During transition, both tracks' BPM is set to the outgoing track's BPM, then over 64 beats shifts to the incoming track's BPM.
+- Future profiles will make this duration configurable (8, 16, 32 bars).
+
+**Code impact:**
+- `TRANSITION_WINDOW_BARS = 16` (new constant)
+- `TRANSITION_WINDOW_BEATS = 64` (derived)
+- `SAFETY_XFADE_BEATS = 16` (unchanged — this is the fallback 4-bar crossfade, not the main window)
+- `P03-T06-S01-M06` (the blocked decision task) is now resolved and marked `[x]`.
