@@ -219,7 +219,7 @@
  },
  {
   "id": "P01-T08-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement W3C `traceparent` propagation across REST headers, gRPC metadata and a `postMessage` envelope into Web Workers.",
   "prerequisites": [
    "P01-T08-S01-M01"
@@ -2428,6 +2428,7 @@
   "spec": "OTOMIX \u00a710.7 \u00b7 Mother \u00a710"
  }
 ]
+
 
 
 

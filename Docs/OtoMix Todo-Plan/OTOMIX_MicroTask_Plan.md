@@ -654,7 +654,7 @@ flowchart LR
 | Spec Reference | OTOMIX §8.4 · Mother §9.1; Add. §7 |
 | Review Checkpoint | Run the logger against a fixture and `grep` the output for the raw IP; expect 0 hits. |
 
-###### P01-T08-S01-M02 — TODO
+###### P01-T08-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
