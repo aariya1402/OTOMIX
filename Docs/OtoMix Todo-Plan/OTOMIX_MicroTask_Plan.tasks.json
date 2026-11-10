@@ -521,7 +521,7 @@
  },
  {
   "id": "P03-T04-S01-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Expand the audio buffer from 2048 to 4096 samples when frame processing exceeds 10 ms.",
   "prerequisites": [
    "P03-T04-S01-M02"

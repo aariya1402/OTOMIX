@@ -1156,7 +1156,7 @@ flowchart LR
 | Review Checkpoint | Check the clamp and slew use separate constants. |
 | Notes | Acceptance criterion tag: AC3 (implements); Related open question (non-blocking): OQ-04 |
 
-###### P03-T04-S01-M03 — TODO
+###### P03-T04-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
