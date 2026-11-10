@@ -501,7 +501,7 @@
  },
  {
   "id": "P03-T04-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the drift calculation: phase delta between the rendering clock position and the Absolute Locked Grid.",
   "prerequisites": [
    "P02-T01-S01-M01"

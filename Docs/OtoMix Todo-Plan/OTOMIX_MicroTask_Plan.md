@@ -1131,7 +1131,7 @@ flowchart LR
 
 ##### P03-T04-S01 Drift compensation and degradation
 
-###### P03-T04-S01-M01 — TODO
+###### P03-T04-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
