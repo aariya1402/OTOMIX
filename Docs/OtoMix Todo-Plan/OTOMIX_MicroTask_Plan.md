@@ -873,7 +873,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.4 · Mother §2.4 |
 | Review Checkpoint | Check realignment never moves T0 backward. |
 
-###### P02-T03-S01-M04 — TODO
+###### P02-T03-S01-M04 — [x]
 
 | Field | Value |
 |---|---|

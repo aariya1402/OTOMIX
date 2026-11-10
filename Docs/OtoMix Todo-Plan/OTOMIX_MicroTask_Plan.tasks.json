@@ -350,7 +350,7 @@
  },
  {
   "id": "P02-T03-S01-M04",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the fallback anchor: when no kick is found at bars 5, 8 or 16 (or the track is kick-less), anchor at the first transient exceeding \u221212 dBFS.",
   "prerequisites": [
    "P02-T03-S01-M03"
