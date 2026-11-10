@@ -302,9 +302,14 @@ This section acts as a living memory for technical debt, pending decisions, and 
 *   **Loudness Bug:** `LoudnessEBUR128` in `Essentia.js` has known bugs with stereo. Use the custom wrapper from `export/loudness.js` in `P04-T04-S02-M04` for validation.
 
 ### 2. Pending Integration Tests
-*   `P02-IT`: Phase 2 integration test (synthetic 64-bar track monotonicity & recovery state) is NOT yet written.
-*   `X-P02-P03`: Cross-phase integration test (GridAnchor validation) is NOT yet written.
-    *   *Action:* Write and run these before officially closing P02 and moving fully to P03.
+- [x] P01-IT: `packages/contracts/test/p01-it.spec.ts` (Foundation)
+- [x] P02-IT: `packages/core/test/p02-it.spec.ts` (Beat-Index Engine)
+- [x] X-P01-P02: `packages/contracts/test/x-p01-p02.spec.ts` (P01→P02 boundary)
+- [x] X-P02-P03: `packages/contracts/test/x-p02-p03.spec.ts` (P02→P03 boundary)
+- [x] P03-IT: `packages/core/test/p03-it.spec.ts` (Dual Grid / Observer, beat-based) ← **THIS COMMIT**
+- [ ] X-P03-P04: `packages/contracts/test/x-p03-p04.spec.ts` — **DEFERRED to P04** (renderer interface not defined yet)
+- [ ] X-P03-P05: `packages/contracts/test/x-p03-p05.spec.ts` — **DEFERRED to P05**
+- [ ] X-P03-P08: `packages/contracts/test/x-p03-p08.spec.ts` — **DEFERRED to P08**
 
 ### 3. Technical Debt & Flaky Tests
 *   **Heap-Proof Flakiness:** `scripts/test/heap-proof.spec.ts` can occasionally fail due to V8 heap noise during parallel test execution. It requires `NODE_OPTIONS="--expose-gc"`. If it fails, re-run or isolate the test.
