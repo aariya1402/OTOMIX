@@ -1,7 +1,7 @@
 // OTOMIX §3.9 · Mother §2.9
 import { computeTransitionAnchors, TrackGridParams } from './anchors';
 import { TransitionPlan, TransitionRung } from './types';
-import { STATIC_GRID_BPM, SAFETY_XFADE_BEATS, TRANSITION_WINDOW_BEATS } from '../constants/grid';
+import { STATIC_GRID_BPM, TRANSITION_WINDOW_BEATS } from '../constants/grid';
 
 function isOutgoingShort(outgoing: TrackGridParams): boolean {
   const beatPeriod = 60 / outgoing.bpmSeed;
@@ -30,36 +30,6 @@ function planSilentLoop(
   };
 }
 
-export function planTransition(
-  incoming: TrackGridParams,
-  outgoing: TrackGridParams
-): TransitionPlan {
-  // Priority 1: Short outgoing track -> RUNG_SILENT_LOOP
-  if (isOutgoingShort(outgoing)) {
-    return planSilentLoop(incoming, outgoing);
-  }
-
-  // Priority 2: Kick-less incoming -> RUNG_STATIC_120_GRID; else RUNG_NONE
-  const anchors = computeTransitionAnchors(incoming, outgoing);
-  const alignToSeconds = anchors.tOutSeconds;
-
-  const isKickLess = incoming.hasKick === false;
-  const rung: TransitionRung = isKickLess ? 'RUNG_STATIC_120_GRID' : 'RUNG_NONE';
-  const mappedBpm = isKickLess ? STATIC_GRID_BPM : incoming.bpmSeed;
-  const reason = isKickLess ? 'Incoming track has no kick; mapped to static 120 BPM grid' : '';
-
-  return {
-    rung,
-    reason,
-    tInSeconds: anchors.tInSeconds,
-    tOutSeconds: anchors.tOutSeconds,
-    inBeatIndex: anchors.inBeatIndex,
-    outBeatIndex: anchors.outBeatIndex,
-    alignToSeconds,
-    mappedBpm,
-  };
-}
-
 /**
  * Ultimate safety net: 4-bar volume crossfade independent of grid locks.
  *
@@ -67,15 +37,11 @@ export function planTransition(
  * RUNG_STATIC_120_GRID, and RUNG_SILENT_LOOP). It MUST NEVER throw and
  * MUST ALWAYS return a valid plan for ANY input, including NaN BPM,
  * negative T0, zero/negative duration, etc.
- *
- * The crossfade duration is exactly SAFETY_XFADE_BARS bars = 16 beats
- * at STATIC_GRID_BPM (120 BPM) = 8 seconds.
  */
 export function planSafetyNetCrossfade(
   incoming: TrackGridParams,
   outgoing: TrackGridParams
 ): TransitionPlan {
-  // Ignore all input — grid-independent crossfade
   return {
     rung: 'RUNG_FOUR_BAR_CROSSFADE',
     reason: 'Safety net: grid-independent 4-bar crossfade',
@@ -86,4 +52,42 @@ export function planSafetyNetCrossfade(
     alignToSeconds: 0,
     mappedBpm: STATIC_GRID_BPM,
   };
+}
+
+export function planTransition(
+  incoming: TrackGridParams,
+  outgoing: TrackGridParams
+): TransitionPlan {
+  let plan: TransitionPlan;
+  try {
+    if (isOutgoingShort(outgoing)) {
+      plan = planSilentLoop(incoming, outgoing);
+    } else {
+      const anchors = computeTransitionAnchors(incoming, outgoing);
+      const alignToSeconds = anchors.tOutSeconds;
+      const isKickLess = incoming.hasKick === false;
+      const rung: TransitionRung = isKickLess ? 'RUNG_STATIC_120_GRID' : 'RUNG_NONE';
+      const mappedBpm = isKickLess ? STATIC_GRID_BPM : incoming.bpmSeed;
+      const reason = isKickLess ? 'Incoming track has no kick; mapped to static 120 BPM grid' : '';
+      plan = {
+        rung,
+        reason,
+        tInSeconds: anchors.tInSeconds,
+        tOutSeconds: anchors.tOutSeconds,
+        inBeatIndex: anchors.inBeatIndex,
+        outBeatIndex: anchors.outBeatIndex,
+        alignToSeconds,
+        mappedBpm,
+      };
+    }
+  } catch {
+    return planSafetyNetCrossfade(incoming, outgoing);
+  }
+
+  // Final safety check: if plan fields are unusable, fall back to safety net
+  if (!Number.isFinite(plan.alignToSeconds) || !Number.isFinite(plan.mappedBpm)) {
+    return planSafetyNetCrossfade(incoming, outgoing);
+  }
+
+  return plan;
 }

@@ -642,7 +642,7 @@
  },
  {
   "id": "P03-T06-S01-M07",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Add a property-based test generating 10 000 random plan requests (BPM, lengths, kick presence, tempo deltas) and asserting a plan is always returned.",
   "prerequisites": [
    "P03-T06-S01-M04"

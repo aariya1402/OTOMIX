@@ -1321,7 +1321,7 @@ flowchart LR
 | Review Checkpoint | Re-read Appendix A item A2. |
 | Notes | Blocked by: OQ-02 |
 
-###### P03-T06-S01-M07 — TODO
+###### P03-T06-S01-M07 — [x]
 
 | Field | Value |
 |---|---|
