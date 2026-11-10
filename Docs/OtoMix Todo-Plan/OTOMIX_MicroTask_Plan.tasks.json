@@ -581,7 +581,7 @@
  },
  {
   "id": "P03-T06-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Anchor the incoming track at Beat 1 of its initial 16-beat block (bars 1\u20134) and the outgoing track at its final 16-beat block.",
   "prerequisites": [
    "P02-T01-S01-M01",

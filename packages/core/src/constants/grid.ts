@@ -94,3 +94,5 @@ export const OBSERVER_GAIN_RANGE = 0.02;
 
 /** Observer scale: maximum expected drift before rate hits bound (ms) */
 export const OBSERVER_MAX_EXPECTED_DRIFT_MS = 50;
+/** Transition window size: exactly 16 beats, independent of bar/beat interpretation (OQ-02) */
+export const TRANSITION_WINDOW_BEATS = 16;

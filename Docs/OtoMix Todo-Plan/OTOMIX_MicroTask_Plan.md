@@ -1243,7 +1243,7 @@ flowchart LR
 
 ##### P03-T06-S01 Plan construction
 
-###### P03-T06-S01-M01 — TODO
+###### P03-T06-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
