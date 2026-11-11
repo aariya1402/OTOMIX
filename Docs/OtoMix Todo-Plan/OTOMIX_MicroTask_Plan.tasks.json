@@ -8,7 +8,7 @@
                           ],
         "test":  "unit|Vitest|tools/test/workspace.spec.ts|Input: workspace manifest. Expected: the 9 packages resolve and each tsconfig has strict=true. Pass: 0 failed assertions.",
         "spec":  "OTOMIX §9.1 · Mother Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: یک مونوروپو از نوع pnpm را با بسته‌های `core`، `access`، `adapter`، `gateway`، `workers`، `ui`، `db`، `proto`، `contracts`، تیپ اسکریپت سخت، ESLint و Prettier ایجاد کنید."
     },
     {
         "id":  "P01-T01-S02-M01",
@@ -19,7 +19,7 @@
                           ],
         "test":  "unit|Vitest|tools/test/coverage-config.spec.ts|Input: parsed config. Expected: thresholds core.branches=90 and access.branches=100. Pass: strict equality.",
         "spec":  "OTOMIX §10.6 · Mother §8.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: مقدار پوشش Vitest را برای بسته‌های `packages/core` به میزان 90٪ در ساختارهای شاخه و برای بسته‌های `packages/access` به میزان 100٪ در ساختارهای شاخه تنظیم کنید."
     },
     {
         "id":  "P01-T01-S02-M02",
@@ -30,7 +30,7 @@
                           ],
         "test":  "unit|Vitest|scripts/test/cvss-gate.spec.ts|Input: fixtures with max CVSS 6.9 and 7.0. Expected: exit codes 0 and 1 respectively. Pass: both match.",
         "spec":  "OTOMIX §7.9 · Mother §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فایل `scripts/cvss-gate.ts` را اجرا کنید که در صورتی که هر یک از یافته‌های سکن دارای CVSS بیش از 7.0 باشد، خروجی را غیر صفر می‌کند و آن را به عنوان یک مرحله CI مانع اعمال کنید."
     },
     {
         "id":  "P01-T02-S01-M01",
@@ -41,7 +41,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/constants.timing.spec.ts|Input: import constants. Expected: values equal the list in the description and `Object.isFrozen` is true. Pass: 11 equalities.",
         "spec":  "OTOMIX §3.3; §3.6; §3.11; §4.1; §8.3 · Mother §2.3; §2.6; §3.6, Add. §12; §3.1; §9.1; Add. §7",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ایجاد فایل `packages/core/src/constants/timing.ts` با خروجی ثابت‌های مُجمَع: LOOKAHEAD_MS=50، SCHED_ACCURACY_MS=2، DRIFT_THRESHOLD_MS=4، STARVATION_FRAME_MS=10، BUFFER_NORMAL=2048، BUFFER_DEGRADED=4096، PORT_BUFFER_SAMPLES=1024، PORT_LATENCY_MS=10، ANALYSIS_TIMEOUT_MS=5-000، EXTRACTION_ALERT_MS=2500، OBSERVER_CYCLE_MS=1."
     },
     {
         "id":  "P01-T02-S01-M02",
@@ -52,7 +52,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/constants.grid.spec.ts|Input: import constants. Expected: 22 values equal the description. Pass: all equal.",
         "spec":  "OTOMIX §3.1; §3.2; §3.4; §3.5; §3.6; §3.7; §3.9 · Mother §2.1; §2.2; §2.4; §2.5; §2.6; §2.7; §2.9",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ایجاد `packages/core/src/constants/grid.ts` با خروجی: PERIOD_MIN=0.95، PERIOD_MAX=1.05، DRIFT_MAX_S=0.05، ANCHOR_SYNC_BARS=16، BODY_REALIGN_DBFS=-40، FALLBACK_TRANSIENT_DBFS=-12، CORR_MIN=0.85، SHAPE_VAR_MAX=0.15، STRAIGHT_VAR=0. 02، TRIPLET_VAR=0.05، SWING_MIN=0.05، SWING_MAX=0.33، IRREGULAR_XFADE_EXTRA_MS=10، STATIC_GRID_BPM=120، SAFETY_XFADE_BARS=4، QUANTUM_DIVISOR=24، GLIDE_MAX=0.08، PITCH_NODE_SEMITONES=1، REALIGN_MAX_SEMITONES=0.05، RATE_MIN=0.98، RATE_MAX=1.02، RATE_SLEW_PER_S=0.005."
     },
     {
         "id":  "P01-T02-S01-M03",
@@ -63,7 +63,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/constants.scoring.spec.ts|Input: import constants. Expected: 15 values equal the description. Pass: all equal.",
         "spec":  "OTOMIX §4.3; §4.4; §4.5; §4.9; §7.4; §7.5; §8.9; §9.3 · Mother §3.3; §3.4; §3.5; §6; Add. §11; §8.3; Add. §6; §9.3; Add. §8; Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ایجاد کنید `packages/core/src/constants/scoring.ts` و `packages/access/src/constants.ts` با صدور: ENERGY_WEIGHTS=[0.4,0.3,0.2,0.1], MIX_WEIGHTS=[0.4,0.3,0.2,0.1], UNMIXABLE_BELOW=0.4, VOCAL_THRESHOLD=0.65, VOCAL_MEDIAN_S=1, RECO_WEIGHTS=[0.6,0.3,0.1], TEMPO_DELTA_LIMIT=0.01, WASM_HEAP_MB=512, ACCESS_TTL_MIN=15, REFRESH_TTL_DAYS=7, KEY_ROTATION_DAYS=90, IDEMPOTENCY_TTL_H=24, MAX_RETRIES=3, RPO_MIN=15, RTO_MIN=60, SLO=0.999."
     },
     {
         "id":  "P01-T03-S01-M01",
@@ -74,7 +74,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/types.bpm.spec.ts|Input: 59.999, 60.0, 200.0, 200.001, NaN. Expected: reject, accept, accept, reject, reject. Pass: matches.",
         "spec":  "OTOMIX §4.2; §9.5 · Mother §3.2; Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Implementation `BPM.parse(n)` بازگشت نوع مارکه شده، مقدارهای خارج از [60.0، 200.0] را با INVALID_ARGUMENT رد میکند."
     },
     {
         "id":  "P01-T03-S01-M02",
@@ -85,7 +85,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/types.camelot.spec.ts|Input: \u00271A\u0027,\u002712B\u0027,\u002713A\u0027,\u00270B\u0027,\u00275C\u0027,\u0027a5\u0027. Expected: accept, accept, reject x4. Pass: matches.",
         "spec":  "OTOMIX §4.2; §9.6 · Mother §3.2; Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فراخوانی `CamelotKey.parse(s)` را با پذیرش `^(1[0-2]|[1-9])[AB]$` انجام بده."
     },
     {
         "id":  "P01-T03-S01-M03",
@@ -96,7 +96,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/types.beat-index.spec.ts|Input: -5,-1,0,1,1.5. Expected: accept,accept,reject,accept,reject. Pass: matches.",
         "spec":  "OTOMIX §3.10 · Mother §2.10",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه ریزی `BeatIndex.parse(i)` که هر عدد صحیح غیر صفر را می‌پذیرد و 0 و اعداد غیر صحیح را رد می‌کند."
     },
     {
         "id":  "P01-T03-S02-M01",
@@ -107,7 +107,7 @@
                           ],
         "test":  "unit|Vitest|packages/contracts/test/registry-schema.spec.ts|Input: valid fixture, fixture with bpm 59.9, fixture with `vocal_map.threshold` 0.6. Expected: valid, invalid, invalid. Pass: matches.",
         "spec":  "OTOMIX §9.6; §4.2 · Mother Add. §1–§2; §3.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: افزودن شکل JSON 7 از 9.6 به عنوان `packages/contracts/schemas/feature-registry-1.2.json` با یک wrapper اعتبارسنج AJV."
     },
     {
         "id":  "P01-T03-S02-M02",
@@ -118,7 +118,7 @@
                           ],
         "test":  "unit|Vitest|packages/contracts/test/semver-gate.spec.ts|Input: \u00271.2.7\u0027,\u00271.3.0\u0027,\u00272.0.0\u0027. Expected: ACCEPT, REJECT, PURGE_AND_REANALYZE. Pass: matches.",
         "spec":  "OTOMIX §4.1; §4.2 · Mother §3.1; §3.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای `schema_version` یک دروازه SemVer اجرا کن: `1.2.x` را می‌پذیرد، افزایش اصلی را به عنوان `PURGE_AND_REANALYZE` نشان می‌دهد و افزایش‌های دیگر را رد می‌کند."
     },
     {
         "id":  "P01-T04-S01-M01",
@@ -129,7 +129,7 @@
                           ],
         "test":  "contract|buf|proto/core/v1/core.proto|Input: file. Expected: `buf lint` exit 0 and `buf breaking --against baseline` reports no breaks; descriptor field numbers for `AnalyzeAudioRequest.idempotency_key`=6 and `DspParameterUpdate.sequence`=6. Pass: all true.",
         "spec":  "OTOMIX §9.2; §2.3 · Mother Add. §1–§2; §1; Add. §3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فایل `proto/core/v1/core.proto` را دقیقاً به صورت 9.2 نوشته و موارد `AnalyzeAudioRequest`، `AnalyzeAudioResponse`، `TransitionPlanRequest`، `ExecutionFallback` و نوع‌های مربوط به آنها را تولید کن و فایل‌های استب (stub) TypeScript ایجاد کن."
     },
     {
         "id":  "P01-T04-S02-M01",
@@ -140,7 +140,7 @@
                           ],
         "test":  "unit|Vitest|packages/gateway/test/status-map.spec.ts|Input: each of INVALID_ARGUMENT, UNAUTHENTICATED, PERMISSION_DENIED, NOT_FOUND, ABORTED, RESOURCE_EXHAUSTED, DEADLINE_EXCEEDED, UNAVAILABLE, INTERNAL. Expected: 400,401,403,404,409,429,504,503,500. Pass: 9/9.",
         "spec":  "OTOMIX §9.3 · Mother Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای اجرای ماتریس وضعیت gRPC به HTTP از نسخه 9.3 به عنوان `mapStatus(code)` با در نظر گرفتن کد های مذکور در ۹ نمایش داده شود."
     },
     {
         "id":  "P01-T05-S01-M01",
@@ -151,7 +151,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/db/test/migrate.spec.ts|Input: migrate up/down; insert bpm 59.9, camelot \u002713A\u0027, tenant \u0027x\u0027. Expected: up/down succeed; 3 inserts fail on CHECK. Pass: 3 constraint violations.",
         "spec":  "OTOMIX §9.5 · Mother Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فایل میگریسیون `001_core.sql` را نوشته و باید `features`، `users`، `tier_grants`، `admin_audit` (با تقسیم ماهانه) و `outbox` را با توجه به محدودیت‌های چک و شاخص‌های بخش 9.5 ایجاد کند."
     },
     {
         "id":  "P01-T05-S01-M02",
@@ -162,7 +162,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/db/test/rls.spec.ts|Input: rows for \u0027otomix\u0027 and \u0027otodj\u0027; sessions with app.tenant_id=\u0027otomix\u0027,\u0027otodj\u0027, unset. Expected: sees own rows only; unset sees 0. Pass: counts 1/1/0.",
         "spec":  "OTOMIX §9.5; §2.2 · Mother Add. §1–§2; §1; Add. §3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: RLS (فعالسازی + مجبورسازی) و سیاست `tenant_isolation` را به هر جدولی که میان تیاننتها را حمل میکند اضافه کن و یک نقش کاربری ایجاد کن که بدون تغییر RLS و متعلق به جدولها نباشد."
     },
     {
         "id":  "P01-T05-S01-M03",
@@ -173,7 +173,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/db/test/with-tenant.spec.ts|Input: commit a transaction and start a new one on the same connection. Expected: `current_setting(\u0027app.tenant_id\u0027, true)` is empty in the new transaction. Pass: empty string/null.",
         "spec":  "OTOMIX §9.5; §7.10 · Mother Add. §1–§2; §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فراخوانی `withTenant(tx, tenantId)` را با استفاده از `set_config(\u0027app.tenant_id\u0027, $1, true)` (محلی تراکنش) و اینکه لایه مخزن دروازه را نیاز به آن داشته باشد، انجام دهید."
     },
     {
         "id":  "P01-T06-S01-M01",
@@ -184,7 +184,7 @@
                           ],
         "test":  "unit|Vitest|packages/gateway/test/idem-validate.spec.ts|Input: missing header, UUIDv1, UUIDv4. Expected: 400,400,pass-through. Pass: matches.",
         "spec":  "OTOMIX §9.3 · Mother Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: میان‌سیستم را اجرا کنید که `Idempotency-Key` را به عنوان UUIDv4 تأیید کند در POST/PUT/PATCH/DELETE؛ در صورت عدم وجود یا ساختار نادرست، باید به INVALID_ARGUMENT/400 بازگردانده شود."
     },
     {
         "id":  "P01-T06-S01-M02",
@@ -195,7 +195,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers Redis|packages/gateway/test/idem-store.spec.ts|Input: two requests with the same key; one with a different body. Expected: handler runs once; replay equals the first response; third returns 409; TTL=86400±5 s. Pass: all four.",
         "spec":  "OTOMIX §9.3 · Mother Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فراخوانی ذخیره ساز Redis: SET NX با نشانگر در حال اجرا، مدت زمان 24 ساعت، فهرست درخواست؛ در صورت تکرار کلید و فهرست درخواست، پاسخ ذخیره شده بازگردانده میشود، در صورت تفاوت فهرست، پاسخ ABORTED/409 بازگردانده میشود."
     },
     {
         "id":  "P01-T06-S02-M01",
@@ -206,7 +206,7 @@
                           ],
         "test":  "unit|Vitest|packages/db/test/receiver-dedup.spec.ts|Input: duplicate message_id; sequence 5 before 4; tampered signature. Expected: second dropped; out-of-order rejected or held; tampered rejected with no dedup record written. Pass: 3 outcomes.",
         "spec":  "OTOMIX §9.9; §7.2 · Mother Add. §1–§2; §5.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای دریافت‌کننده، یک ذخیره‌گاه تکرارگر با کلید `message_id` (محدودیت زمانی؟ 24 ساعت) با ترتیب مونوتونی برای هر تیانت و اعتبارسنجی امضای انجام شده قبل از نوشتن در تکرارگر."
     },
     {
         "id":  "P01-T07-S01-M01",
@@ -217,7 +217,7 @@
                           ],
         "test":  "unit|Vitest (fake timers)|packages/core/test/retry.spec.ts|Input: always-failing fn with a seeded RNG, idempotent true and false. Expected: 4 total attempts when idempotent, delays ≤ min(5000, 200·2^n); 1 attempt when false. Pass: matches.",
         "spec":  "OTOMIX §2.5; §9.3 · Mother §1; Add. §3; Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Implementation `retry(fn, {idempotent})` با حداکثر 3 بار تلاش، مبنای 200 میلی‌سекوند، ضرب 2، جریان کامل، محدودیت 5000 میلی‌سекوند و رد سخت برای تلاش در موارد غیر-متمم."
     },
     {
         "id":  "P01-T07-S02-M01",
@@ -228,7 +228,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/degraded.spec.ts|Input: events POOL_EXHAUSTED, WORKER_FAILED, RECOVERED. Expected: state enters on the first two, exits on RECOVERED, gauge 1→0. Pass: transitions match.",
         "spec":  "OTOMIX §2.5; §2.12 · Mother §1; Add. §3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: درخواست اجرای `DegradedModeController` در صورت خستگی مجموعه یا شکست کاربردی و خروج در صورت بازگشت، ارائه `core.degraded_mode.active`."
     },
     {
         "id":  "P01-T08-S01-M01",
@@ -239,7 +239,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/logger.spec.ts|Input: record with ip \u0027203.0.113.7\u0027, email, country \u0027Germany\u0027, lat/long. Expected: ip/email masked or absent, country rejected unless 2-letter, lat/long dropped. Pass: none of the raw values appear in output JSON.",
         "spec":  "OTOMIX §8.4 · Mother §9.1; Add. §7",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فیلتر JSON با فیلدهای مورد نیاز (ts، level، service، tenant_id، trace_id، span_id، event، outcome، country، duration_ms) و مخفی کردن اطلاعات شخصی در مرز (edge PII) و کوتاه کردن کشور به صورت ISO 316-1 Alpha-2 را اجرا کنید."
     },
     {
         "id":  "P01-T08-S01-M02",
@@ -250,7 +250,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/propagation.spec.ts|Input: inject then extract through a simulated postMessage hop. Expected: same trace_id, new span_id with the original as parent. Pass: ids match.",
         "spec":  "OTOMIX §8.2 · Mother §9.1; Add. §7",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در اجرای پیمایش W3C `traceparent` در سرورهای REST، متادیت gRPC و یک بسته `postMessage` در به کار بردن کاربردهای وب را انجام می‌دهد."
     },
     {
         "id":  "P02-T01-S01-M01",
@@ -262,7 +262,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/grid.t-of-i.spec.ts|Input: bpmSeed=120, T0=0.25, delta=0, i=1,2,17. Expected: 0.25, 0.75, 8.25 s. Pass: |actual−expected|\u003c1e-9.",
         "spec":  "OTOMIX §3.1; §3.10 · Mother §2.1; §2.10",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: تابع `tOfI(i, T0, bpmSeed, delta)` را به صورت `T0 + n�(60/bpmSeed) + delta` به صورتی که برای i?1، n=i?1 و برای i??1، n=i، اجرا کنید."
     },
     {
         "id":  "P02-T01-S01-M02",
@@ -273,7 +273,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/grid.delta-clamp.spec.ts|Input: delta=0.06, −0.06, 0.05. Expected: 0.05, −0.05, 0.05 and counter increments 2. Pass: matches.",
         "spec":  "OTOMIX §3.1 · Mother §2.1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: مقدار `delta` را درون `tOfI` به مقدار 0.05 سیکل محدود کن و در صورت اتفاق افتادن محدود کردن، مقدار `core.grid.delta_clamped` را افزایش دهید."
     },
     {
         "id":  "P02-T01-S02-M01",
@@ -284,7 +284,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/grid.period.spec.ts|Input: seedPeriod=0.5, measured=0.52, 0.4, 0.6. Expected: 0.52, 0.475, 0.525. Pass: matches within 1e-9.",
         "spec":  "OTOMIX §3.1 · Mother §2.1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Implementation `boundPeriod(measured, seedPeriod)` که نتیجه را به [0.95، 1.05]×seedPeriod محدود می‌کند."
     },
     {
         "id":  "P02-T01-S02-M02",
@@ -295,7 +295,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/grid.anchor-sync.spec.ts|Input: 256 beats with linear drift 0.0005 s/beat. Expected: |Δ| at beats 64, 128, 192 resets to the measured error; |Δ|≤0.05 throughout. Pass: both.",
         "spec":  "OTOMIX §3.1 · Mother §2.1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: هر 16 بار (هر 64 بار) مقدار را به طور سخت با خطای مرجع اندازه گیری شده بازنشانی کنید."
     },
     {
         "id":  "P02-T02-S01-M01",
@@ -306,7 +306,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/timing.structure.spec.ts|Input: i in {-5,-1,1,4,5,17,64,65} with nBars 4/8/16/32. Expected: beatInBar(−1)=3, beatInBar(5)=1, blockPosition(65,16)=0, isBlockBoundary(65,16)=true. Pass: full table matches.",
         "spec":  "OTOMIX §3.3; §3.15 · Mother §2.3; Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فراخوانی `floorMod`، `beatInBar`، `barIndex`، `blockPosition`، `isBlockBoundary` را دقیقاً بر اساس 3.15 انجام دهید."
     },
     {
         "id":  "P02-T02-S01-M02",
@@ -317,7 +317,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/timing.quantum.spec.ts|Input: bpm=120; beatFloat=1.0208, 1.0417. Expected: 0.0208333 s; index 24, 25. Pass: matches within 1e-6.",
         "spec":  "OTOMIX §3.3 · Mother §2.3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه‌ریزی `quantumSeconds(bpm)=(60/bpm)/24` و `quantumIndex(beatFloat)=round(beatFloat*24)` را در مورد شاخص‌های نمایشی اعشاری اجرا کنید."
     },
     {
         "id":  "P02-T02-S01-M03",
@@ -328,7 +328,7 @@
                           ],
         "test":  "unit|Vitest (fake clock)|packages/core/test/timing.scheduler.spec.ts|Input: 1 000 events with injected ±1.9 ms clock jitter. Expected: scheduled times within ±2 ms of target. Pass: max error ≤2 ms; a 2.1 ms jitter fixture reports a violation.",
         "spec":  "OTOMIX §3.3 · Mother §2.3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه ریزی `LookaheadScheduler` با یک بازدید 50 میلی‌سیکوند و یک ساعت وارد شده، رویدادها را بر اساس واحد‌های تکرار نمودار قرار می‌دهد."
     },
     {
         "id":  "P02-T02-S02-M01",
@@ -339,7 +339,7 @@
                           ],
         "test":  "unit|ESLint RuleTester|tools/eslint-rules/test/no-alloc.spec.ts|Input: snippets with `[]`, `new Array`, `new Float32Array`, and a pure arithmetic function. Expected: 3 errors, 0 errors. Pass: matches.",
         "spec":  "OTOMIX §3.3; §3.15; §10.2 · Mother §2.3; Add. §4; §8.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ایجاد قانون ESLint `no-alloc-in-structural` که در فایل‌های برچسب‌گذاری شده با `@structural`، اجرای تخصیص آرایه/شی/آرایه‌ای با نوع را ممنوع می‌کند."
     },
     {
         "id":  "P02-T02-S02-M02",
@@ -350,7 +350,7 @@
                           ],
         "test":  "integration|Node + v8 heap snapshot (Vitest)|scripts/test/heap-proof.spec.ts|Input: run the script against the structural helpers. Expected: `retainedDeltaBytes`=0 and identical for both durations. Pass: 0 and equal.",
         "spec":  "OTOMIX §10.2; §3.15 · Mother §8.2; Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فایل `scripts/heap-proof.ts` را نوشته و برای یک مسیر 1 دقیقه و 120 دقیقه، مسیرهای زمانی را تولید و با استفاده از آمار حافظه V8 و یک نمونه حافظه، تفاوت اندازه حفظ شده را گزارش دهید."
     },
     {
         "id":  "P02-T03-S01-M01",
@@ -361,7 +361,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/anchor.pearson.spec.ts|Input: [1,2,3,4] vs [2,4,6,8], vs [4,3,2,1], vs [5,5,5,5]. Expected: 1.0, −1.0, 0 with flag. Pass: within 1e-9.",
         "spec":  "OTOMIX §3.4 · Mother §2.4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه‌ریزی میانگین پیرس برای ۱۰۰ میلی‌سیکوند از بسته‌های انرژی فرکانس پایین، با بازگشت ۰ برای ورودی‌هایی که واریانس آن‌ها صفر است و با یک پرکش."
     },
     {
         "id":  "P02-T03-S01-M02",
@@ -372,7 +372,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/anchor.classify.spec.ts|Input: r=0.85, 0.8499; variance 0.15, 0.1501. Expected: ON_BEAT, OFF_BEAT, ON_BEAT, OFF_BEAT. Pass: matches.",
         "spec":  "OTOMIX §3.4 · Mother §2.4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Implementation `classifyKick(candidate, refs)` که در صورتی که میانگین تطابق \u003c 0.85 یا واریانس شکل \u003e 15٪ نسبت به حملات در بارهای 5، 8 و 16، مقدار OFF_BEAT را بازگرداند."
     },
     {
         "id":  "P02-T03-S01-M03",
@@ -383,7 +383,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/anchor.realign.spec.ts|Input: candidate at 0.10 s, validated downbeats at 8.10, 14.10, 30.10 s. Expected: T0 \u003e 0.10 and equals the earliest validated downbeat. Pass: equality.",
         "spec":  "OTOMIX §3.4 · Mother §2.4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای موارد OFF_BEAT، اجرای تطبیق جلویی T0 به اولین ضربه اصلی معتبر در بلوک‌های بعدی 4 بار را انجام می‌دهد."
     },
     {
         "id":  "P02-T03-S01-M04",
@@ -394,7 +394,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/anchor.fallback.spec.ts|Input: signal with transients at −20, −13, −11.9 dBFS. Expected: anchor at the −11.9 dBFS transient. Pass: timestamp equality.",
         "spec":  "OTOMIX §3.4 · Mother §2.4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: انواع پشتیبانی را اجرا کن: در صورتی که در بارهای 5، 8 یا 16 (یا در صورتی که مسیر بدون باره است) باری یافت نشود، در اولین تغییر مفهومی که بیش از 12 دی بی فیسی است، مرجع قرار دهید."
     },
     {
         "id":  "P02-T04-S01-M01",
@@ -405,7 +405,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/grid.piecewise.spec.ts|Input: segments 120 BPM for 32 beats then 124 BPM. Expected: t(33) from segment two equals t(32)+60/120 within 1e-9; strictly increasing across the boundary. Pass: both.",
         "spec":  "OTOMIX §3.1 · Mother §2.1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه ریزی یک مدل چندبخت با به‌روزرسانی BPM_seed در محدوده‌های ساختاری اصلی و ادامه در هر محدوده."
     },
     {
         "id":  "P02-T04-S01-M02",
@@ -416,7 +416,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/grid.recovery.spec.ts|Input: forced lock failure on a drifting fixture. Expected: state=RECOVERY, bpm=global average, delta=0 for all i. Pass: all true.",
         "spec":  "OTOMIX §3.1 · Mother §2.1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: وضعیت بازیابی پس از خطا در بسته‌بندی را اجرا کن: به میانگین BPM جهانی ردیف بازگشت و تنظیم میکرو (??0) را غیرفعال کن."
     },
     {
         "id":  "P02-T05-S01-M01",
@@ -427,7 +427,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/grid.prekick-short.spec.ts|Input: BPM 120, kick at 1.2 s, gap 1.2 s (\u003c1 bar of 2.0 s). Expected: frame at 0.7 s → Beat −1, 0.2 s → Beat −2... within the gap. Pass: indices match the skip-zero convention.",
         "spec":  "OTOMIX §3.10 · Mother §2.10",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: اجرا کردن فاصله قبل از کیک \u003c 1 بار: تخصیص به فراوانی کیک در بار 1 و فریم‌های قبلی 1، 2، 3."
     },
     {
         "id":  "P02-T05-S01-M02",
@@ -438,7 +438,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/prekick-long.spec.ts|Shift T0 backward by 4 beats. Verify pre-kick gap uses beats -3, -2, -1, 0 before Beat 1. Pass: matches.",
         "spec":  "OTOMIX §3.10 · Mother §2.10",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: اجرا کردن فاصله قبل از کیک؟ 1 بار: تغییر `T0` به صورت دقیق مضاعف‌های 4 بار، به گونه‌ای که کیک با ضربه اصلی (بار 5 یا بار 9) هماهنگ شود."
     },
     {
         "id":  "P02-T05-S01-M03",
@@ -449,7 +449,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/grid.prekick-map.spec.ts|Input: intro with 100 BPM for 8 beats then 110 BPM for 8 beats before T0. Expected: negative-index timestamps strictly decreasing and piecewise-consistent. Pass: monotonic and boundary-continuous.",
         "spec":  "OTOMIX §3.10 · Mother §2.10",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: متن را برای معرفی‌های طولانی با سرعت متغیر، با استفاده از نقشه سرعت قبل از شروع، از `T0` به صورت عکس شمارش کنید."
     },
     {
         "id":  "P03-T01-S01-M01",
@@ -460,7 +460,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/grid.attack.spec.ts|Input: 8-bar click train at 120 BPM (44.1 kHz) and a 60 Hz sine-burst train. Expected: click onsets detected within ±1 024 samples; 0 onsets for the sub-200 Hz train. Pass: both.",
         "spec":  "OTOMIX §3.2 · Mother §2.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Implementation `extractAttackGrid(pcm)` با استفاده از تشخیص قله‌های س펙ترال با یک پنل همینگ با 2048 نمونه، 50% تداخل، محدود به فرکانس‌های بالای 200 هرتز."
     },
     {
         "id":  "P03-T01-S02-M01",
@@ -471,7 +471,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/grid.body.spec.ts|Input: synthetic kick with attack at t and body peak at t+12 ms. Expected: detected `T_body_peak` within ±5 ms of t+12 ms. Pass: tolerance met.",
         "spec":  "OTOMIX §3.2 · Mother §2.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: استفاده از فیلتر پایین‌گذر باتورویت با فرکانس 80 هرتز و سپس تشخیص امپدیویت RMS برای شناسایی قله بیشینه پوشش زیرباز در اجرای extractBodyGrid(pcm)"
     },
     {
         "id":  "P03-T02-S01-M01",
@@ -483,7 +483,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/grid.phase-offset.spec.ts|Input: (0.512, 0.500), (0.500, 0.512). Expected: 0.012, −0.012. Pass: within 1e-9.",
         "spec":  "OTOMIX §3.2 · Mother §2.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Implementation `phaseOffset(T_body_peak, T_attack_onset)` بازگرداندن `?? = T_body_peak ? T_attack_onset`."
     },
     {
         "id":  "P03-T02-S01-M02",
@@ -494,7 +494,7 @@
                           ],
         "test":  "[BLOCKED] Decision needed: a numeric criterion for \u0027devoid of a strong kick body\u0027 (for example a minimum sub-80 Hz to full-band RMS ratio) and whether it is genre-driven.",
         "spec":  "OTOMIX §3.2 · Mother §2.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: مقدار حمله را با مقدار بدن مقایسه کن. اگر بدن بیشتر از حمله باشد، برچسب BODY_DOMINANT را بگذار. به مetadata جهانی ذخیره کن."
     },
     {
         "id":  "P03-T02-S01-M03",
@@ -505,7 +505,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/grid.dormant.spec.ts|Input: i=−3,−1,1,2. Expected: inactive, inactive, active, active. Pass: matches.",
         "spec":  "OTOMIX §3.10; §3.2 · Mother §2.10; §2.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای اندیس‌های منفی، دویل گرید را باید بست و تنها در بیت ۱ آن را اجرا کنید."
     },
     {
         "id":  "P03-T03-S01-M01",
@@ -516,7 +516,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/grid.realign-trigger.spec.ts|Input: RMS series −35, −39.9, −40.1 dBFS. Expected: trigger fires on −40.1 only. Pass: single fire.",
         "spec":  "OTOMIX §3.2 · Mother §2.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: دریافت تریگر بازسازی واقعی: مقدار RMS باند فرستاده شده پس از پایان تغییر مسیر، کمتر از ?40 دیبی فیس."
     },
     {
         "id":  "P03-T03-S01-M02",
@@ -527,7 +527,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/grid.realign-cosine.spec.ts|Input: Δϕ=16 ms over 4 bars (16 beats). Expected: curve starts 0, ends Δϕ, monotonic, mean slope ≈1 ms/beat (±0.1). Pass: all three.",
         "spec":  "OTOMIX §3.2 · Mother §2.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در حدود ۱ میلی‌سیکوند بر هر ضرب، اجرای تطبیق مجدد با استفاده از تداخل چهار بار کسینوسی را انجام دهید."
     },
     {
         "id":  "P03-T03-S01-M03",
@@ -538,7 +538,7 @@
                           ],
         "test":  "[BLOCKED] Decision needed: relationship between the 4-bar cosine realignment (§3.2) and the Runtime Observer\u0027s 16-bar logarithmic shift (§3.6); are they sequential, alternative, or the same.",
         "spec":  "OTOMIX §3.2; §3.6 · Mother §2.2; §2.6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: لغو شده: تغییر مقدار پیش فرض به 16 بار با هماهنگی، بارگذاری فرکانس و اثرات تنظیم می‌شود."
     },
     {
         "id":  "P03-T03-S01-M04",
@@ -549,7 +549,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/observer.realign-log.spec.ts|Input: Δϕ=40 ms over 16 bars at 120 BPM. Expected: max instantaneous rate deviation r gives 12·log2(1+r)\u003c0.05 semitones and the curve ends at Δϕ. Pass: both.",
         "spec":  "OTOMIX §3.6 · Mother §2.6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای اجرای تنظیم لگاریتمی 16 باری مربوط به پس از تغییر وضعیت مراقب، از تقسیم بر اساس ضربه (beat-grid) استفاده کنید (بدون تغییر نرخ صدا)."
     },
     {
         "id":  "P03-T04-S01-M01",
@@ -560,7 +560,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/observer.drift.spec.ts|Input: grid time 10.000 s vs context 10.0035 s. Expected: drift=+3.5 ms. Pass: within 1e-6.",
         "spec":  "OTOMIX §3.6 · Mother §2.6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه ریزی محاسبه جابه جایی: فاز دلت بین موقعیت کلید رسم و شبکه مطلق محدود."
     },
     {
         "id":  "P03-T04-S01-M02",
@@ -571,7 +571,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/observer.scale.spec.ts|Input: drift 3.9 ms, 4.1 ms, 50 ms sustained over 10 s. Expected: no change; scaling begins; slew ≤0.005/s and rate within [0.98,1.02]. Pass: all three.",
         "spec":  "OTOMIX §3.6 · Mother §2.6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در صورتی که جابجایی بیش از آستانه کوانتومی رخ دهد، از روش قطع و قطعه‌بندی برای بازسازی استفاده کنید. اجازه‌ای برای افزایش سرعت بازگشت (playbackRate) و تغییر زمان نمی‌شود."
     },
     {
         "id":  "P03-T04-S01-M03",
@@ -582,7 +582,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/observer.degrade.spec.ts|Input: frame times 9.9 ms and 10.1 ms. Expected: buffer stays 2048; becomes 4096. Pass: matches.",
         "spec":  "OTOMIX §3.6 · Mother §2.6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: عندی که فریم پردازش بیش از آستانه مرز ویب آوایی می‌شود، بُفر صدا را از 2048 به 4096 نمونه افزایش دهید."
     },
     {
         "id":  "P03-T04-S01-M04",
@@ -593,7 +593,7 @@
                           ],
         "test":  "benchmark|Vitest bench|bench/observer-cycle.bench.ts|Input: 100 000 cycles with 4 decks of state. Expected: P99 \u003c 1 ms. Pass: threshold met on the CI reference runner.",
         "spec":  "OTOMIX §3.6 · Mother §2.6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: میانگین چرخه چک کننده میانگین را بررسی کن و در صورتی که مقدار P99 بیش از 48 نمونه (1 میلی‌سیکوند در 48 کیلوزیکل) باشد، خطا را ایجاد کن."
     },
     {
         "id":  "P03-T04-S02-M01",
@@ -604,7 +604,7 @@
                           ],
         "test":  "[BLOCKED] Decision needed: whether the ±0.05 semitone acceptance (§10.7 item 3) applies to drift compensation or only to post-transition realignment; the [0.98, 1.02] range spans about ±0.34 semitones.",
         "spec":  "OTOMIX §3.6; §10.7 · Mother §2.6; §10",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: استفاده از تقسیم قطعات برای تطابق BPM تا هرگونه تغییر نوت جلوگیری شود. کلید اصلی حفظ می‌شود."
     },
     {
         "id":  "P03-T05-S01-M01",
@@ -615,7 +615,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/groove.classify.spec.ts|Input: three fixtures plus boundary values 1.99%/2.01% and 0.049/0.05 displacement. Expected: Straight, Triplet, Swing and correct boundary results. Pass: all.",
         "spec":  "OTOMIX §3.5 · Mother §2.5",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در بخش‌های 16‌نوتی، گروه‌بندی زمان‌های کوچک را به صورت مستقیم (\u003c2% تغییر)، سه‌گانه (\u003c5% از 33.3%/66.6%) یا سوئنگ (نوت‌های خارج از ضرب‌الفضل 16‌نوتی که 0.05 تا 0.33 بار می‌شود) در نظر بگیرید."
     },
     {
         "id":  "P03-T05-S01-M02",
@@ -626,7 +626,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/groove.delta.spec.ts|Input: swing displacement 0.15 beat at 120 BPM. Expected: boundary shift 0.075 s. Pass: within 1e-9.",
         "spec":  "OTOMIX §3.5 · Mother §2.5",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: محاسبه `?_groove` و جابجایی محدوده پنجره قطعی با این مقدار جابجایی را انجام دهید."
     },
     {
         "id":  "P03-T05-S01-M03",
@@ -637,7 +637,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/groove.irregular.spec.ts|Input: a fixture matching no mode, base crossfade 5 ms. Expected: mode=Straight and crossfade=15 ms. Pass: both.",
         "spec":  "OTOMIX §3.5 · Mother §2.5",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای جهت‌های نامنظم یا هیبرید، به صورت پیش‌فرض به صورت مستقیم می‌شود و فاصله میکروکرُس فیم را به مقدار +10 میلی‌سیکوند افزایش می‌دهد."
     },
     {
         "id":  "P03-T06-S01-M01",
@@ -649,7 +649,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/transition.anchors.spec.ts|Input: out track 200 s at 120 BPM, in track with negative pre-kick. Expected: T_in=Beat 1; T_out block starts at beat count−15 (inclusive 16 beats). Pass: indices match.",
         "spec":  "OTOMIX §3.9 · Mother §2.9",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ورودی را در بار 1 از بلوک 16 بار اولی (بارهای 1 تا 4) و خروجی را در بلوک 16 بار نهایی آن به صورت ثابت کن."
     },
     {
         "id":  "P03-T06-S01-M02",
@@ -660,7 +660,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/transition.forced.spec.ts|Input: ambient intro with no transients. Expected: plan produced; anchors lie on the grid; no exception. Pass: all.",
         "spec":  "OTOMIX §3.9 · Mother §2.9",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در صورتی که مسیر ورودی در 16 بار اول خود تغییری در بیان کردن ندارد، تطابق ریاضی قوی را در طول 16 بار اعمال کن."
     },
     {
         "id":  "P03-T06-S01-M03",
@@ -671,7 +671,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/transition.static120.spec.ts|Input: kick-less fixture. Expected: grid bpmSeed=120 and rung RUNG_STATIC_120_GRID. Pass: both.",
         "spec":  "OTOMIX §3.9 · Mother §2.9",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: مصفوفه‌ای ثابت با فرمت 120 بیت در دقیقه را برای آهنگ‌های صرفاً محیطی یا بدون ضربه (RUNG_STATIC_120_GRID) تنظیم کنید."
     },
     {
         "id":  "P03-T06-S01-M04",
@@ -682,7 +682,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/transition.safety.spec.ts|Input: NaN BPM and negative T0 fixtures. Expected: rung RUNG_FOUR_BAR_CROSSFADE of exactly 4 bars; no throw. Pass: both fixtures.",
         "spec":  "OTOMIX §3.9 · Mother §2.9",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: اجرا کنید: یک میانگین حجم چهار بار مستقل از قفل‌های شبکه (RUNG_FOUR_BAR_CROSSFADE)."
     },
     {
         "id":  "P03-T06-S01-M05",
@@ -693,7 +693,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/transition.short.spec.ts|Input: 6-beat track. Expected: loop pads to 16 beats with silence; rung RUNG_SILENT_LOOP. Pass: length=16 beats.",
         "spec":  "OTOMIX §3.9 · Mother §2.9",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای تراک‌های کوتاه‌تر از 16 بیت، یک حلقه ساختاری صوتی (RUNG_SILENT_LOOP) را استفاده کنید."
     },
     {
         "id":  "P03-T06-S01-M06",
@@ -704,7 +704,7 @@
                           ],
         "test":  "[BLOCKED] Decision needed: §3.8 says \u002716-bar transition window\u0027 while §3.9, §4.4 and §4.8 say \u002716-beat\u0027; confirm which applies to the chopping window.",
         "spec":  "OTOMIX §3.8; §3.9 · Mother §2.8; §2.9",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: تعیین کنید که فاصله‌های تغییر 16 ضربه (4 بار) یا 16 بار (64 ضربه) در مرحله پردازش Float32Array چیست."
     },
     {
         "id":  "P03-T06-S01-M07",
@@ -715,7 +715,7 @@
                           ],
         "test":  "property|fast-check (Vitest)|packages/core/test/transition.property.spec.ts|Input: 10 000 seeded cases. Expected: 0 thrown exceptions, 0 out-of-bounds index accesses, 0 cancelled plans. Pass: all counts zero.",
         "spec":  "OTOMIX §3.9; §10.1 · Mother §2.9; §8.1; Add. §5",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه‌ای اضافه کن که 10,000 درخواست برنامه تصادفی (BPM، طول، وجود یک ضرب، تفاوت سرعت) تولید کند و باید یک برنامه همیشه بازگشت داشته باشد."
     },
     {
         "id":  "P04-T01-S01-M01",
@@ -726,7 +726,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/glide.target.spec.ts|Input: (120,128), (90,90). Expected: 124, 90. Pass: exact.",
         "spec":  "OTOMIX §3.7 · Mother §2.7",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: مقدار BPM_target را به صورت پیش فرض به صورت (BPM_out+BPM_in)/2 محاسبه کنید."
     },
     {
         "id":  "P04-T01-S01-M02",
@@ -737,7 +737,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/glide.half-double.spec.ts|Input: BPM_in=70 flagged double → 140; BPM_in=280 flagged half → 140. Expected: 140, 140. Pass: exact.",
         "spec":  "OTOMIX §3.7 · Mother §2.7",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: لغو شده: با قوانین جدید متناقض دارد (بدون تغییر نمودار، بدون تغییر زمان)."
     },
     {
         "id":  "P04-T01-S01-M03",
@@ -748,7 +748,7 @@
                           ],
         "test":  "[BLOCKED] Decision needed: numeric rule for \u0027extreme structural differences such as half-time or double-time\u0027 (for example a BPM ratio window around 2:1 and 1:2).",
         "spec":  "OTOMIX §3.7 · Mother §2.7",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: لغو شده: با قوانین جدید متناقض دارد (بدون تغییر نمودار، بدون تغییر زمان)."
     },
     {
         "id":  "P04-T01-S02-M01",
@@ -759,7 +759,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/glide.schedule.spec.ts|Input: window 32 s, rates 1.00→1.03 and 1.00→0.97. Expected: two ramps, endTime−startTime=32 s, curve type \u0027linear\u0027. Pass: matches.",
         "spec":  "OTOMIX §3.7; §3.11 · Mother §2.7; §3.6, Add. §12",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای هر دو مسیر، اتومیزاسیون `linearRampToValueAtTime` را با هدف شروع/پایان و مدت زمان تدریج دقیقاً برابر با فاصله تغییر ایجاد کنید."
     },
     {
         "id":  "P04-T01-S02-M02",
@@ -770,7 +770,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/glide.clamp.spec.ts|Input: requested rates 1.09, 1.08, 0.91, 0.92. Expected: 1.08, 1.08, 0.92, 0.92. Pass: exact.",
         "spec":  "OTOMIX §3.7 · Mother §2.7",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: لغو شده: با قوانین جدید متناقض دارد (بدون تغییر نمودار، بدون تغییر زمان)."
     },
     {
         "id":  "P04-T01-S02-M03",
@@ -781,7 +781,7 @@
                           ],
         "test":  "[BLOCKED] Decision needed: whether the pitch node engages at \u003e±1 semitone (about ±5.95% rate) or only beyond the ±8% cap; ±8% is about 1.36 semitones.",
         "spec":  "OTOMIX §3.7; §3.16 · Mother §2.7; Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: لغو شده: با قوانین جدید متناقض دارد (بدون تغییر تونی، بدون تغییر زمان)."
     },
     {
         "id":  "P04-T02-S01-M01",
@@ -793,7 +793,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/chop.slice.spec.ts|Input: 4 beats at 120 BPM, chopGrid 1/16. Expected: slice boundaries at multiples of the 1/16 grid on the beat axis; sample counts sum to the input length. Pass: both.",
         "spec":  "OTOMIX §3.8 · Mother §2.8",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برش دادن آرایه `Float32Array` صدای داخل فنی محدوده در گرید قطع (1/8، 1/16، 1/32) با محدوده‌های مبتنی بر نهاد صدای میانی."
     },
     {
         "id":  "P04-T02-S01-M02",
@@ -804,7 +804,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/chop.passthrough.spec.ts|Input: buffer before/after the window. Expected: output view shares the same `ArrayBuffer` (reference equality). Pass: `out.buffer===in.buffer`.",
         "spec":  "OTOMIX §3.8 · Mother §2.8",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: صدا خارج فنر تغییر از طریق آن بدون کپی یا پردازش عبور میکند."
     },
     {
         "id":  "P04-T02-S01-M03",
@@ -815,7 +815,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/chop.groove-shift.spec.ts|Input: Swing Δ_groove=0.15 beat, 120 BPM. Expected: off-beat boundaries shifted by 0.075 s; on-beat unchanged. Pass: matches.",
         "spec":  "OTOMIX §3.5; §3.8 · Mother §2.5; §2.8",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در صورتی که حالت گریف برابر سوئنگ باشد، محدوده‌های قطعه را توسط `?_groove` جابجا کنید."
     },
     {
         "id":  "P04-T02-S02-M01",
@@ -826,7 +826,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/chop.fade.spec.ts|Input: crossfadeBeats=8; t=0,4,8. Expected: 1.0, 0.5, 0.0. Pass: within 1e-12.",
         "spec":  "OTOMIX §3.8 · Mother §2.8",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای t در بازه [0, crossfadeBeats] در محدوده‌های قطعه، `F_fade=0.5�(1+cos(?�t/crossfadeBeats))` را اجرا کنید."
     },
     {
         "id":  "P04-T02-S02-M02",
@@ -837,7 +837,7 @@
                           ],
         "test":  "Test that `crossfadeBeats ≤ chopGrid_fraction / 4` is enforced as a pure beat comparison (no seconds/ms conversion).",
         "spec":  "OTOMIX §3.8 · Mother §2.8",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای مقایسه صرفاً بر اساس نهارها (بدون ثانیه)، `crossfadeBeats ? chopGrid_fraction / 4` را تقویت کنید."
     },
     {
         "id":  "P04-T02-S02-M03",
@@ -848,7 +848,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/chop.shed.spec.ts|Input: load signal above and below the shed threshold. Expected: grid 1/8 when shedding, 1/32 otherwise. Pass: matches.",
         "spec":  "OTOMIX §3.8 · Mother §2.8",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در شرایط مرزی با بار بالا یا تأخیر پایین، `chopGrid` را از 1/32 به 1/8 گسترش دهید."
     },
     {
         "id":  "P04-T02-S02-M04",
@@ -859,7 +859,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/chop.wsola-gate.spec.ts|Input: predicate stub returning pass/fail. Expected: WSOLA path chosen only on fail; RUNG_WSOLA_LEGACY recorded. Pass: matches.",
         "spec":  "OTOMIX §3.8 · Mother §2.8",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: لغو شده: با قوانین جدید متناقض دارد (بدون تغییر نمودار، بدون تغییر زمان)."
     },
     {
         "id":  "P04-T03-S01-M01",
@@ -870,7 +870,7 @@
                           ],
         "test":  "unit|Vitest + AudioWorklet harness|packages/workers/test/processor.spec.ts|Input: 1 000 `process()` calls. Expected: preallocated buffer identities unchanged; no new typed arrays created. Pass: identity checks true.",
         "spec":  "OTOMIX §3.12 · Mother Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ساخت ساختار `AudioWorkletProcessor` که حالت شبکه، بُفرهای قطعه و حالت سیمگی را در زمان آماده‌سازی پیش‌بینی می‌کند و در فункشن `process()` هیچ یک از این بُفرها را ایجاد نمی‌کند."
     },
     {
         "id":  "P04-T03-S01-M02",
@@ -881,7 +881,7 @@
                           ],
         "test":  "integration|Vitest + worker_threads|packages/workers/test/ring.spec.ts|Input: 1 000 000 events from a producer thread to a consumer thread. Expected: 0 lost, 0 reordered, 0 torn reads. Pass: counts zero.",
         "spec":  "OTOMIX §3.12 · Mother Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای رویدادهای پارامتر، یک بُفر چرخه‌ای بدون قفل (lock-free) بر پایه `SharedArrayBuffer` با `Atomics` اجرا کن."
     },
     {
         "id":  "P04-T03-S01-M03",
@@ -892,7 +892,7 @@
                           ],
         "test":  "unit|Vitest|packages/workers/test/smooth.spec.ts|Input: step 0→1 at 44.1 kHz with a 20 ms time constant (default). Expected: output monotonic, reaches 0.632 at 20 ms ±2%, no sample-to-sample jump above 0.05. Pass: all.",
         "spec":  "OTOMIX §3.12 · Mother Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای پارامترهای مسیر صوت، یک سیستم ساده یک‌پلی برای هر نمونه را اجرا کن."
     },
     {
         "id":  "P04-T03-S01-M04",
@@ -903,7 +903,7 @@
                           ],
         "test":  "unit|Vitest|packages/workers/test/param-apply.spec.ts|Input: update posted mid-slice. Expected: value in effect remains unchanged until the next boundary, then changes once. Pass: matches.",
         "spec":  "OTOMIX §3.12; §7.2 · Mother Add. §4; §5.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: لغو شده: تنظیم در طول جلسه قابل تغییر نیست. تغییرات فقط در صورت به‌روزرسانی (نمونه جدید AudioWorklet) می‌گیرند."
     },
     {
         "id":  "P04-T03-S01-M05",
@@ -914,7 +914,7 @@
                           ],
         "test":  "unit|Vitest|packages/workers/test/denormal.spec.ts|Input: decaying filter state starting at 1e-30 for 10 000 samples. Expected: state becomes exactly 0 and no value is subnormal. Pass: `Math.abs(x)\u003c1e-37 ⇒ x===0`.",
         "spec":  "OTOMIX §3.12 · Mother Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در مسیر صوتی، نرمال‌های خالی را در حالت بازگشت و فیلتر حذف کنید."
     },
     {
         "id":  "P04-T03-S02-M01",
@@ -925,7 +925,7 @@
                           ],
         "test":  "integration|Node --trace-gc harness (Vitest)|tools/rt-audit/test/audit.spec.ts|Input: the processor from the skeleton task and a deliberately allocating fixture. Expected: 0 allocations for the processor; ≥1 for the fixture. Pass: both.",
         "spec":  "OTOMIX §3.12; §10.3 · Mother Add. §4; §8.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ساخت یک سیستم بررسی امنیت RT که تعداد تخصیص های پشته و گرفتن لکه را در 10000 فراخوانی `process()` می‌شمارد."
     },
     {
         "id":  "P04-T03-S02-M02",
@@ -936,7 +936,7 @@
                           ],
         "test":  "unit|ESLint RuleTester|tools/eslint-rules/test/rt-safe.spec.ts|Input: snippets using each banned construct and a clean snippet. Expected: 4 errors, 0 errors. Pass: matches.",
         "spec":  "OTOMIX §3.12 · Mother Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در فایل‌هایی که بر روی `@rt-safe` تگ گذاشته شده است، قانونی را اضافه کن که `new`، لیترال‌های آرایه یا شیء، `console` و `await` را ممنوع کند."
     },
     {
         "id":  "P04-T04-S01-M01",
@@ -947,7 +947,7 @@
                           ],
         "test":  "contract|Vitest + AJV|packages/contracts/test/dsp-port-schema.spec.ts|Input: valid and invalid automation entries (missing time, unknown curve). Expected: valid accepted; invalid rejected. Pass: matches.",
         "spec":  "OTOMIX §3.11 · Mother §3.6, Add. §12",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فهرست `DspPort` را تعریف کن و ساختار `AudioParamAutomation` (مقدار هدف، زمان، نوع منحنی) را تعریف کن."
     },
     {
         "id":  "P04-T04-S01-M02",
@@ -958,7 +958,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/dsp-mock.spec.ts|Input: buffer through the bypass module. Expected: output equals input sample for sample; automation calls are recorded in order. Pass: both.",
         "spec":  "OTOMIX §3.11; §10.1 · Mother §3.6, Add. §12; §8.1; Add. §5",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای آزمایش‌های روند سیگنال بدون نمایش، مودول دیسپ دیجیتال مجازی و مودول بایپاس را اجرا کنید."
     },
     {
         "id":  "P04-T04-S02-M01",
@@ -969,7 +969,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/dsp-eq.spec.ts|Input: +6 dB peaking filter at 1 kHz, Q=1, at 44.1 and 48 kHz. Expected: measured gain at 1 kHz = 6.0 dB ±0.1 at both rates. Pass: both.",
         "spec":  "OTOMIX §3.11 · Mother §3.6, Add. §12",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای اجرای سه بان EQ، باید بی‌قاب‌های IIR (بی‌قاب‌های دو بان) را به صورت متوالی (کاسکد) اجرا کنید و ضرایع را در صورت تغییر نرخ نمونه‌گیری، مجدد محاسبه کنید."
     },
     {
         "id":  "P04-T04-S02-M02",
@@ -980,7 +980,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/dsp-comp.spec.ts|Input: −10 dBFS band tone with threshold −20 dB, ratio 4:1. Expected: gain reduction 7.5 dB ±0.3. Pass: within tolerance.",
         "spec":  "OTOMIX §3.11 · Mother §3.6, Add. §12",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه ریزی کنید میان باند کمپرسور (باند سپلیت بیوکاد، دستگاه تشخیص برای هر باند و محاسبه کمیت)."
     },
     {
         "id":  "P04-T04-S02-M03",
@@ -991,7 +991,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/dsp-limiter.spec.ts|Input: 1 kHz sine at +6 dB over the ceiling (ceiling −1.0 dBFS default). Expected: peak ≤ −1.0 dBFS and reported latency equals look-ahead samples. Pass: both.",
         "spec":  "OTOMIX §3.11; §3.13 · Mother §3.6, Add. §12; Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: الگوریتم لیمیت‌کننده نمایش قبلی را با 4 بار افزایش نمایش اجرا کنید و تأخیر الگوریتمی آن را گزارش دهید."
     },
     {
         "id":  "P04-T04-S02-M04",
@@ -1002,7 +1002,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/dsp-input-gain.spec.ts|Input: two fixtures at −18 and −12 LUFS, target −14. Expected: gains +4 dB and −2 dB. Pass: within 0.05 dB.",
         "spec":  "OTOMIX §3.11; §4.2 · Mother §3.6, Add. §12; §3.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: مقدار کسب و کار ورودی را از loudness_ebu128 به عنوان مرحله اول در سری مراحل اعمال کنید."
     },
     {
         "id":  "P04-T04-S02-M05",
@@ -1013,7 +1013,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/dsp-encoder.spec.ts|Input: 5 s stereo fixture. Expected: WAV header length matches; FLAC decodes bit-exact to input; MP3 decodes with duration ±30 ms. Pass: all three.",
         "spec":  "OTOMIX §3.11; §5.7 · Mother §3.6, Add. §12; §1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فازه کدگذاری خروجی (MP3، WAV، FLAC) را بیرون از بازخورد زمان واقعی اجرا کنید."
     },
     {
         "id":  "P04-T04-S03-M01",
@@ -1024,7 +1024,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/dsp-latency.spec.ts|Input: all DSP stages at 44.1 kHz. Expected: summed algorithmic latency \u003c= 441 samples. Pass: true.",
         "spec":  "OTOMIX §3.11; §3.13 · Mother §3.6, Add. §12; Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: میزان تأخیر پردازش بلوکی در پورت DSP را نسبت به بودجه کمتر از 10 میلی‌سекوند می‌سازد."
     },
     {
         "id":  "P04-T04-S03-M02",
@@ -1035,7 +1035,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/dsp-degraded.spec.ts|Input: degraded state during a transition. Expected: 0 chop slices, equal-length crossfade, rung RUNG_STANDARD_CROSSFADE. Pass: all.",
         "spec":  "OTOMIX §2.5; §2.12 · Mother §1; Add. §3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: راه حل مسیر حالت کاهشی: میانگین معمولی بدون تقسیم میکرو (RUNG_STANDARD_CROSSFADE)."
     },
     {
         "id":  "P05-T01-S01-M01",
@@ -1046,7 +1046,7 @@
                           ],
         "test":  "unit|Vitest|packages/adapter/test/normalize.spec.ts|Input: 1 kHz sine, 48 kHz stereo, 2 s. Expected: 44 100 Hz mono, length 88 200±1, dominant frequency 1 000±0.5 Hz. Pass: all three.",
         "spec":  "OTOMIX §4.1 · Mother §3.1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه ریزی کردن `normalizeInput(AudioBuffer)` برای بازسازی به 44.1 kHz و کاهش فرمت به یک فرمت مونو `Float32Array`."
     },
     {
         "id":  "P05-T01-S02-M01",
@@ -1057,7 +1057,7 @@
                           ],
         "test":  "contract|Pact + AJV|packages/adapter/test/pact/map.pact.spec.ts|Input: engine output v1.2.4 and v2.0.0. Expected: v1.2.4 maps; v2.0.0 flagged PURGE_AND_REANALYZE. Pass: matches; Pact file generated.",
         "spec":  "OTOMIX §4.1; §9.8 · Mother §3.1; Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ورود و خروج آداپتر را به JSON Schema Draft 7 متصل کن و در زمان متناسب کردن جدول JSON موتور به ثبت‌نام، سطح ورودی ورودی (SemVer) را اجرا کن."
     },
     {
         "id":  "P05-T01-S03-M01",
@@ -1068,7 +1068,7 @@
                           ],
         "test":  "unit|Vitest|packages/workers/test/release.spec.ts|Input: engine stub that throws, and one that succeeds. Expected: `releaseResult` called exactly once in each case. Pass: call count 1 and 1.",
         "spec":  "OTOMIX §4.1; §4.6 · Mother §3.1; Add. §10",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: هر استخراج را در `try/finally` بگذارید که `releaseResult` را فراخوانی می‌کند."
     },
     {
         "id":  "P05-T01-S03-M02",
@@ -1079,7 +1079,7 @@
                           ],
         "test":  "integration|Vitest + worker_threads|packages/workers/test/leak.spec.ts|Input: 200 extractions of a 4-minute fixture. Expected: linear regression slope of heap size \u003c 1 KB per extraction. Pass: slope below the threshold.",
         "spec":  "OTOMIX §4.1; §10.4 · Mother §3.1; §8.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: افزودن یک بررسی قبل/بعد از `performance.memory` و یک آزمون بازگشت سریع در استخراج تکراری."
     },
     {
         "id":  "P05-T01-S03-M03",
@@ -1090,7 +1090,7 @@
                           ],
         "test":  "integration|Vitest|packages/adapter/test/fallback.spec.ts|Input: kill the worker mid-job; run a second job. Expected: first job returns a schema-valid registry with `used_rms_fallback=true`; second job completes. Pass: both.",
         "spec":  "OTOMIX §4.1; §4.7 · Mother §3.1; Add. §10",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در صورت خرابی کارگر یا تایم آут مودول بیش از 5000 میلی‌سیکوند، بُفر را از طریق نوودهای تحلیل RMS ویب آویو راه‌اندازی کن و یک مجموعه از ویژگی‌های پایه را با اینکه صف متوقف نشود، بازگردانید."
     },
     {
         "id":  "P05-T02-S01-M01",
@@ -1101,7 +1101,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/features.bpm-seed.spec.ts|Input: bimodal histogram (60 and 120 BPM) with the energy peak consistent with 120. Expected: BPM_seed=120. Pass: exact.",
         "spec":  "OTOMIX §3.1; §4.2 · Mother §2.1; §3.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: با استفاده از کلسترینگ K-میانگین از هیستوگرام سرعت محلی، `BPM_seed` را مشتق کن و آن را با بیشترین قله انرژی ساختاری مقایسه کن."
     },
     {
         "id":  "P05-T02-S01-M02",
@@ -1112,7 +1112,7 @@
                           ],
         "test":  "[BLOCKED] Decision needed: numeric rule separating static from dynamic BPM (for example histogram spread or segment count).",
         "spec":  "OTOMIX §4.2 · Mother §3.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: از `bpm_histogram`، بین BPM ساکت و دینامیک تفاوت را تعیین کنید."
     },
     {
         "id":  "P05-T02-S02-M01",
@@ -1123,7 +1123,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/features.energy.spec.ts|Input: components (1,0,0,0), (0,0,0,1), (0.5,0.5,0.5,0.5). Expected: 0.4, 0.1, 0.5. Pass: within 1e-9.",
         "spec":  "OTOMIX §4.3 · Mother §3.3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: محاسبه E=0.4×Rhythm+0.3×Dynamics+0.2×Loudness+0.1×Spectral با توجه به نرمال سازی هر بخش به صورت [0،1]."
     },
     {
         "id":  "P05-T02-S02-M02",
@@ -1134,7 +1134,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/features.energy-silence.spec.ts|Input: block of all zeros. Expected: E=0, stars=0. Pass: exact.",
         "spec":  "OTOMIX §4.3 · Mother §3.3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: بازگشت E=0 و یک نمره 0 برای بلوک‌های ساختاری که کاملاً خنثی هستند."
     },
     {
         "id":  "P05-T02-S02-M03",
@@ -1145,7 +1145,7 @@
                           ],
         "test":  "[BLOCKED] Decision needed: threshold for \u0027near-zero dynamic range\u0027 and the penalty function (\u0027proportional\u0027 to what).",
         "spec":  "OTOMIX §4.3 · Mother §3.3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای محدوده دینامیکی نزدیک به صفر، پیگیری مناسبی را به عنصر دینامیک اعمال کنید."
     },
     {
         "id":  "P05-T02-S02-M04",
@@ -1156,7 +1156,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/features.stars.spec.ts|Input: E at the 85th and 79th percentile of a fixed dataset. Expected: 5 stars and a value below 5. Pass: both.",
         "spec":  "OTOMIX §4.3 · Mother §3.3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: مپ E به صورت یک امتیاز 1 تا 5 ستاره با استفاده از پر سطح داده‌ها، با اینکه E بالای صداسیم 80 برابر 5 ستاره است."
     },
     {
         "id":  "P05-T02-S02-M05",
@@ -1167,7 +1167,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/features.mixability.spec.ts|Input: components (1,1,1,1), (0.39,0.39,0.39,0.39), unknown-tempo fixture. Expected: M=1 mixable; M=0.39 unmixable; M=0 wildcard. Pass: matches.",
         "spec":  "OTOMIX §4.5 · Mother §3.5",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: مقدار M را با رابطه M=0.4×E_kick+0.3×C_bass+0.2×S_tempo+0.1×V_tune محاسبه کن، اگر M\u003c0.4 باشد، آن را ناقابل تفکیک در نظر بگیر و در صورت عدم شناختن سرعت یا کلید، مقدار M را با کلاس Non-Rhythmic Wildcard تنظیم کن."
     },
     {
         "id":  "P05-T02-S02-M06",
@@ -1178,7 +1178,7 @@
                           ],
         "test":  "[BLOCKED] Decision needed: how each mixability term is scaled to [0,1] (min-max over a dataset, fixed ranges, or per-term transfer curves).",
         "spec":  "OTOMIX §4.5 · Mother §3.5",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: بین [0،1] نرمال سازی کنید `E_kick`، `C_bass`، `S_tempo` و `V_tune` بر اساس تعریف سیگنال‌هایشان."
     },
     {
         "id":  "P05-T02-S03-M01",
@@ -1189,7 +1189,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/features.interpolate.spec.ts|Input: registry missing `danceability`, genre \u0027house\u0027 median 1.2. Expected: danceability=1.2 and `interpolated_fields=[\u0027danceability\u0027]`. Pass: both.",
         "spec":  "OTOMIX §4.2; §4.6 · Mother §3.2; Add. §10",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ویژگی‌های مفقود را با میانگین داده‌های جهانی برای سریع‌ترین ژانر پر کن و آنها را در `interpolated_fields` قرار دهید."
     },
     {
         "id":  "P05-T02-S03-M02",
@@ -1200,7 +1200,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers PostgreSQL/Redis|packages/core/test/features.cache.spec.ts|Input: cached rows at 1.2.x; model version bumps to 2.0.0. Expected: cache keys deleted; re-analysis jobs enqueued equal to the row count. Pass: counts match.",
         "spec":  "OTOMIX §4.2 · Mother §3.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: پاکسازی رجیسترها و در نتیجه بازخوانی مجدد را در صورت افزایش نسخه اصلی مدل‌های استخراجی انجام دهید."
     },
     {
         "id":  "P05-T03-S01-M01",
@@ -1211,7 +1211,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/vocal.binarize.spec.ts|Input: probabilities 0.64, 0.65, 0.651. Expected: 0, 0, 1. Pass: exact.",
         "spec":  "OTOMIX §4.4 · Mother §3.4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در صورتی که احتمال صدایی بیش از 0.65 باشد، فقط با استفاده از `V_map[t]=1`، احتمال‌ها را باینرایز کنید."
     },
     {
         "id":  "P05-T03-S01-M02",
@@ -1222,7 +1222,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/vocal.median.spec.ts|Input: map with isolated 1-frame spikes and a 2-second vocal region. Expected: spikes removed; the region retained. Pass: both.",
         "spec":  "OTOMIX §4.4 · Mother §3.4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: از یک فیلتر میانگین 1 ثانیه بر روی نقشه صوتی دوگانه استفاده کن."
     },
     {
         "id":  "P05-T03-S01-M03",
@@ -1233,7 +1233,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/vocal.fallback.spec.ts|Input: model loader that rejects. Expected: all-zero map and flag true; extraction completes. Pass: all.",
         "spec":  "OTOMIX §4.4; §4.7 · Mother §3.4; §3.1; Add. §10",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در صورتی که مدل تورس فیلدها به‌خوبی بارگذاری نشود یا خراب شود، به `V_map=0` بازگردید و `vocal_map_assumed_zero` را تنظیم کنید."
     },
     {
         "id":  "P05-T03-S01-M04",
@@ -1244,7 +1244,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/vocal.nearest.spec.ts|Input: vocal at beats 1–40, instrumental from 41. Expected: offset moves to the block starting at beat 41; a tie picks the smaller shift. Pass: both.",
         "spec":  "OTOMIX §4.4 · Mother §3.4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای تغییر یک تغییر به بلوک مجاور 16 باری که `?V_map=0` است."
     },
     {
         "id":  "P05-T04-S01-M01",
@@ -1258,7 +1258,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/core/test/pipeline.extract.spec.ts|Input: 3 fixtures; one forced DB failure after the row insert. Expected: 2 rows + 2 outbox events; the failed run leaves 0 rows. Pass: counts match.",
         "spec":  "OTOMIX §4.8; §9.5 · Mother §7; Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فراخوانی `extract()` را اجرا کنید که آداپتر را اجرا می‌کند، تمام موارد ثبت‌شده در رجیستر را محاسبه می‌کند، نتیجه را تأیید می‌کند و در یک تراکنش در زیر `withTenant`، سطر را با رویداد خروجی نوشته می‌شود."
     },
     {
         "id":  "P05-T04-S01-M02",
@@ -1269,7 +1269,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/pipeline.metric.spec.ts|Input: durations 2499 ms and 2501 ms. Expected: histogram records both; critical event only for 2501. Pass: matches.",
         "spec":  "OTOMIX §8.1; §8.3 · Mother §9.1; Add. §7",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ارسال `core.wasm.extraction_duration` و ایجاد رویدادی اصلی در صورتی که استخراج بیش از 2500 میلی‌سекунد می‌شود."
     },
     {
         "id":  "P05-T04-S01-M03",
@@ -1280,7 +1280,7 @@
                           ],
         "test":  "benchmark|Vitest bench|bench/extract.bench.ts|Input: reference MP3 (240 s). Expected: wall time below 1.5×240 s = 360 s. Pass: measured time under 360 s on the reference runner and recorded in the bench output.",
         "spec":  "OTOMIX §4.1; §4.6 · Mother §3.1; Add. §10",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: استخراج میزان مرجع در میزان کمتر از 1.5 برابر سرعت واقعی برای یک فایل MP3 4 دقیقه با سرعت 320 کیلوبیت در یک دستگاه AWS M5.large."
     },
     {
         "id":  "P06-T01-S01-M01",
@@ -1291,7 +1291,7 @@
                           ],
         "test":  "unit|Vitest|packages/access/test/token.issue.spec.ts|Input: issue for tenant \u0027otomix\u0027. Expected: exp−iat=900 s; claims present; tenant_id=\u0027otomix\u0027. Pass: all.",
         "spec":  "OTOMIX §7.4 · Mother §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ایجاد تکنیک‌های دسترسی (15 دقیقه) با `sub`، `tenant_id`، `scopes[]`، `tier`، `jti`، `exp`."
     },
     {
         "id":  "P06-T01-S01-M02",
@@ -1302,7 +1302,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers Redis|packages/access/test/token.refresh.spec.ts|Input: refresh twice, then reuse the first token. Expected: second works; first reuse is rejected and the family is revoked (third token denied). Pass: all.",
         "spec":  "OTOMIX §7.4 · Mother §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: به‌روزرسانی توکن‌های مشکل (7 روز) با چرخیدن: هر بار استفاده، یک توکن جدید بازگردانده و قبلی را ناکارا می‌کند؛ باز استفاده از یک توکن ناکارا، تمام خانواده توکن‌ها را لغو می‌کند."
     },
     {
         "id":  "P06-T01-S02-M01",
@@ -1313,7 +1313,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers Redis|packages/access/test/token.denylist.spec.ts|Input: revoke a valid token. Expected: next request returns 401 UNAUTHENTICATED; key TTL ≤ remaining lifetime. Pass: both.",
         "spec":  "OTOMIX §7.4 · Mother §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: متن مجاز `jti`/شناسه‌های خانواده را به یک لیست ممنوع در Redis (محدودیت زمانی تا انقضای طبیعی) نوشته و در هر درخواست در فیلتر درگاه، آن را بررسی کنید."
     },
     {
         "id":  "P06-T01-S02-M02",
@@ -1324,7 +1324,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers Redis|packages/access/test/token.revoke-user.spec.ts|Input: user with 3 active families, revoke role. Expected: all 3 denied on next request. Pass: 3/3 denied.",
         "spec":  "OTOMIX §7.1; §7.4 · Mother §5.1; §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در صورت بازگشت نقش، هر sesion/خانواده فعال برای کاربر به صورت جهانی را می‌لغیم."
     },
     {
         "id":  "P06-T02-S01-M01",
@@ -1335,7 +1335,7 @@
                           ],
         "test":  "unit|Vitest|packages/gateway/test/scope-registry.spec.ts|Input: enumerate mounted routes. Expected: every route has ≥1 scope and none equals \u0027*\u0027. Pass: 0 violations.",
         "spec":  "OTOMIX §7.1; §9.4 · Mother §5.1; Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ایجاد کنید مجموعه دامنه مسیر، که در هر پایان‌نقطه (endpoint) محدودیت‌های صریح مورد نیاز را مشخص می‌کند (بدون استفاده از `*` به عنوان گیرنده کلی) و یک آزمون استاتیک که در صورت عدم وجود محدودیت در هر مسیر، خطا می‌دهد."
     },
     {
         "id":  "P06-T02-S01-M02",
@@ -1346,7 +1346,7 @@
                           ],
         "test":  "unit|Vitest|packages/access/test/scope-allowlist.spec.ts|Input: request each of ddex:*, rights:*, stream:consume, dsp:*, local:process. Expected: first three rejected; last two issued. Pass: matches.",
         "spec":  "OTOMIX §7.11; §7.1 · Mother §8.3; Add. §6; §5.1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فراخوانی لیست مجاز محدوده OTOMIX را اجرا کن: امکان انتقال `ddex:*`، `rights:*` و `stream:consume` برای `tenant_id=\u0027otomix\u0027` را رد کن."
     },
     {
         "id":  "P06-T02-S01-M03",
@@ -1358,7 +1358,7 @@
                           ],
         "test":  "integration|Vitest + supertest|packages/gateway/test/interceptor.spec.ts|Input: PATCH /api/v1/dsp/parameters with scopes dsp:*, audio:tuning, sys:*, none. Expected: 200, 200, 403, 401. Pass: matches.",
         "spec":  "OTOMIX §7.1; §9.4 · Mother §5.1; Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه ریزی کنید، فیلتر درگاهی که محدودیت مورد نیاز را اجرا و در صورت عدم تطابق، مقدار ممنوع/403 را بازگرداند."
     },
     {
         "id":  "P06-T02-S02-M01",
@@ -1369,7 +1369,7 @@
                           ],
         "test":  "integration|Vitest + mock HTTP server|packages/access/test/escalation.spec.ts|Input: grant `dsp:*` as emergency scope. Expected: one POST with actor, scope, tenant, timestamp. Pass: 1 request with required fields.",
         "spec":  "OTOMIX §7.1 · Mother §5.1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در هر ارتقا نقش یا اعطای دامن اضطراری، یک پیام ورودی Slack را فعال کنید."
     },
     {
         "id":  "P06-T02-S02-M02",
@@ -1380,7 +1380,7 @@
                           ],
         "test":  "integration|Cucumber.js|features/authz.feature|Input: 4 roles × all routes. Expected: allowed pairs 2xx/4xx-by-validation, denied pairs 403. Pass: 0 mismatches.",
         "spec":  "OTOMIX §7.1; §10.4 · Mother §5.1; §8.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ماتریس تأیید Cucumber را از ثبت‌نام (نقش - پایانه) تولید کن و وضعیت مورد انتظار را برای هر جفت تأیید کن."
     },
     {
         "id":  "P06-T02-S03-M01",
@@ -1391,7 +1391,7 @@
                           ],
         "test":  "[BLOCKED] Decision needed: the Mother Document defines four roles only; confirm whether publishers and buyers use new scopes under End User or a new role.",
         "spec":  "OTOMIX §7.1; §5.6 · Mother §5.1; §1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: تعریف و اجرای محدودیت‌های `publisher:manage` و `store:purchase` (یا یک نقش اختصاصی) برای پنل‌های ناشر و سایت فروش."
     },
     {
         "id":  "P06-T03-S01-M01",
@@ -1402,7 +1402,7 @@
                           ],
         "test":  "unit|Vitest (frozen clock)|packages/access/test/tier.grant.spec.ts|Input: expiry T; clocks T−1 ms, T, T+1 ms. Expected: active, active, expired. Pass: matches.",
         "spec":  "OTOMIX §7.3 · Mother §5.3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ارزیابی منابع محدود به زمان در UTC: یک منبع فعال است هنگامی که `Timestamp_current ? Timestamp_expiration`."
     },
     {
         "id":  "P06-T03-S01-M02",
@@ -1413,7 +1413,7 @@
                           ],
         "test":  "unit|Vitest (frozen clock)|packages/access/test/tier.fallback.spec.ts|Input: Tier 1 user with an expired lossless-export grant. Expected: capability set equals the Tier 1 set. Pass: set equality.",
         "spec":  "OTOMIX §7.3; §7.13 · Mother §5.3; §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در صورت انقضاء، کاربر به طور خودکار به میزان قابلیت‌های پایه بازگردانده می‌شود."
     },
     {
         "id":  "P06-T04-S01-M01",
@@ -1424,7 +1424,7 @@
                           ],
         "test":  "integration|Vitest + supertest|packages/gateway/test/unmounted.spec.ts|Input: requests to /api/v1/ingest/ddex, /api/v1/rights/overrides, /api/v1/dsr/reports, /api/v1/stream/license with valid tokens. Expected: 404 for all four. Pass: 4/4.",
         "spec":  "OTOMIX §2.9; §9.10 · Mother §1; Add. §3; Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: مطمئن شوید روت‌های `/ddex`، `/rights`، `/dsr` و `stream-license` مونت نشوند و به HTTP 404 بازگردند."
     },
     {
         "id":  "P06-T04-S02-M01",
@@ -1435,7 +1435,7 @@
                           ],
         "test":  "integration|Vitest + worker_threads|packages/workers/test/pool-bulkhead.spec.ts|Input: saturate tenant A\u0027s pool. Expected: tenant B jobs still complete within their normal time; A enters degraded mode. Pass: both.",
         "spec":  "OTOMIX §2.2; §2.5 · Mother §1; Add. §3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ایجاد یک مجموعه کارکنان اختصاصی برای هر کاربر با یک بلوک که جلوی خالی شدن مجموعه کاربران دیگر کاربران را می‌گیرد."
     },
     {
         "id":  "P06-T04-S02-M02",
@@ -1446,7 +1446,7 @@
                           ],
         "test":  "unit|Vitest|packages/access/test/dek.spec.ts|Input: encrypt a blob with tenant A\u0027s DEK; decrypt with A\u0027s and B\u0027s. Expected: A succeeds; B fails authentication. Pass: both.",
         "spec":  "OTOMIX §2.2; §7.5 · Mother §1; Add. §3; §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای ذخیره سازی صوت، کلیدهای امنیت داده مربوط به هر کاربر (میانه امنیت) را اجرا کنید."
     },
     {
         "id":  "P06-T04-S02-M03",
@@ -1457,7 +1457,7 @@
                           ],
         "test":  "unit|Vitest (fake clock)|packages/access/test/rotate.spec.ts|Input: advance 90 days. Expected: new KEK version; blobs written before rotation still decrypt. Pass: both.",
         "spec":  "OTOMIX §7.5 · Mother §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: اجرای کار 90 روزه برای تغییر کلید که کلیدهای DEK را مجدد بسته و متن مشکل قدیمی را قابل خواندن نگه می دارد."
     },
     {
         "id":  "P06-T04-S02-M04",
@@ -1468,7 +1468,7 @@
                           ],
         "test":  "unit|Vitest|packages/db/test/namespaced.spec.ts|Input: attempt keys \u0027otodj:x\u0027, \u0027x\u0027, \u0027otomix:x\u0027. Expected: first two rejected; third accepted. Pass: matches.",
         "spec":  "OTOMIX §2.11 · Mother §1; Add. §3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: از طریق کلاینت‌های پوشش دهنده، `otomix:` پیشوند redis، `otomix/` پیشوند ذخیره سازی و نام‌های موضوع `otomix.*` را تقویت کنید."
     },
     {
         "id":  "P06-T05-S01-M01",
@@ -1479,7 +1479,7 @@
                           ],
         "test":  "integration|Vitest + supertest|packages/gateway/test/csp.spec.ts|Input: GET /. Expected: header contains script-src, worker-src with explicit origins and no \u0027unsafe-inline\u0027/\u0027*\u0027. Pass: all.",
         "spec":  "OTOMIX §7.7 · Mother §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: سرمایه‌گذاری سرورهای CSP با لیست‌های مجاز سخت `script-src` و `worker-src` و `object-src \u0027none\u0027`، `base-uri \u0027none\u0027`، `frame-ancestors \u0027none\u0027`."
     },
     {
         "id":  "P06-T05-S01-M02",
@@ -1490,7 +1490,7 @@
                           ],
         "test":  "unit|Vitest|packages/workers/test/wasm-memory.spec.ts|Input: attempt to grow memory past 8 192 pages. Expected: `RangeError`/grow failure; pages never exceed 8 192. Pass: both.",
         "spec":  "OTOMIX §7.7; §2.2 · Mother §8.3; Add. §6; §1; Add. §3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ایجاد مموری WASM با حد بیشتر سخت 512 مگابایت (8192 صفحه از 64 کیلوبایت) برای کاربران تحلیل."
     },
     {
         "id":  "P06-T05-S01-M03",
@@ -1501,7 +1501,7 @@
                           ],
         "test":  "e2e|Playwright|e2e/worker-isolation.spec.ts|Input: probe worker evaluating `typeof document`, `typeof localStorage`, and `fetch(\u0027https://example.invalid\u0027)`. Expected: \u0027undefined\u0027,\u0027undefined\u0027 and a blocked request. Pass: all three.",
         "spec":  "OTOMIX §7.7 · Mother §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: بررسی کنید که کاربران تحلیلی با دسترسی محدود اجرا شوند: بدون DOM، بدون اطلاعات و بدون شبکه بیش از مسیر پیام."
     },
     {
         "id":  "P06-T06-S01-M01",
@@ -1512,7 +1512,7 @@
                           ],
         "test":  "unit|conftest (OPA)|policy/secrets.rego|Input: manifests with a plaintext `data:` Secret and an ExternalSecret. Expected: first denied, second allowed. Pass: matches.",
         "spec":  "OTOMIX §7.5 · Mother §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: سرمایه‌گذاری مخفی‌های Kubernetes با HashiCorp Vault (فقط مراجعه به ExternalSecret؛ داده‌های متنی در مانیفست‌ها وجود ندارد)."
     },
     {
         "id":  "P06-T06-S01-M02",
@@ -1523,7 +1523,7 @@
                           ],
         "test":  "unit|Vitest|tools/test/ci-snyk.spec.ts|Input: parsed CI workflow. Expected: `snyk-scan` job exists and `build`/`deploy` jobs list it in `needs`. Pass: both.",
         "spec":  "OTOMIX §7.8; §7.9 · Mother §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در هر بار ساخت، تحلیل وابستگی‌های سینک را اجرا کن و نتایج را بر اساس دروازه CVSS مسدود کن."
     },
     {
         "id":  "P06-T06-S01-M03",
@@ -1534,7 +1534,7 @@
                           ],
         "test":  "unit|conftest (OPA)|policy/pod-hardening.rego|Input: pod specs with and without hardening. Expected: unhardened denied; hardened allowed; a namespace without default-deny NetworkPolicy denied. Pass: 3/3.",
         "spec":  "OTOMIX §7.8 · Mother §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: پوست‌های سخت شده: فایل سیستم ریشه غیرمی‌ریز، خواندن فقط برای ریشه، قابلیت‌های انتقال کاهش یافته و سیاست‌های شبکه با محدودیت پیش‌فرض."
     },
     {
         "id":  "P06-T07-S01-M01",
@@ -1546,7 +1546,7 @@
                           ],
         "test":  "integration|Vitest + supertest|packages/gateway/test/dsp-parameters.spec.ts|Input: chopGrid \u00271/16\u0027, \u00271/64\u0027; crossfadeBeats \u0027abc\u0027. Expected: 200, 400, 400. Pass: matches.",
         "spec":  "OTOMIX §7.2; §9.4 · Mother §5.2; Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: اجرا کنید `PATCH /api/v1/dsp/parameters` با اعتبارسنجی `chopGrid ? {1/8,1/16,1/32}` و عددی `crossfadeBeats`."
     },
     {
         "id":  "P06-T07-S01-M02",
@@ -1557,7 +1557,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/access/test/audit.spec.ts|Input: accepted change. Expected: row in the current monthly partition with actor, action, detail, at_utc; partition retention config ≥ 7 years. Pass: both.",
         "spec":  "OTOMIX §7.2; §8.4 · Mother §5.2; §9.1; Add. §7",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای هر تغییر پارامتر، فایل مراجعه ادمین با مدت 7 سال را نوشته شود."
     },
     {
         "id":  "P06-T07-S01-M03",
@@ -1569,7 +1569,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers PostgreSQL/Redis|packages/gateway/test/dsp-propagate.spec.ts|Input: updates seq 1,2,2(dup),4. Expected: applied once each in order, duplicate dropped, gap held or rejected. Pass: matches.",
         "spec":  "OTOMIX §7.2; §9.9 · Mother §5.2; Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: به عنوان پیام‌های معتبر با دنباله مونوتونی مخصوص هر تیانت، به بسته خروجی اطلاعات به‌روزرسانی پارامترها را انتقال می‌دهد."
     },
     {
         "id":  "P07-T01-S01-M01",
@@ -1580,7 +1580,7 @@
                           ],
         "test":  "unit|Vitest|packages/gateway/test/sniff.spec.ts|Input: MP3 named .wav, FLAC named .mp3, WAV named .flac, random bytes. Expected: mp3, flac, wav, unknown; `ingest.ext_mismatch` logged 3 times. Pass: matches.",
         "spec":  "OTOMIX §5.2 · Mother §1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: دریافت MP3، WAV و FLAC با بایت‌های مغزی و تحلیل کانتینر (سینک ID3/MPEG، RIFF.WAVE، fLaC)، هرگز با امتداد، و ثبت موارد عدم تطابق امتداد."
     },
     {
         "id":  "P07-T01-S02-M01",
@@ -1591,7 +1591,7 @@
                           ],
         "test":  "unit|Vitest|packages/gateway/test/limits.spec.ts|Input: stream of 500 MB+1 byte; header declaring 4 h+1 s. Expected: both rejected; the oversized stream aborts before reading the whole body. Pass: both and bytes read \u003c 501 MB.",
         "spec":  "OTOMIX §5.2 · Mother §1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فایل‌های بیش از 500 مگابایت یا 4 ساعت صدا با خطا ورودی نمی‌شوند، در حالی که در انتقال، حجم آن مورد بررسی قرار می‌گیرد."
     },
     {
         "id":  "P07-T01-S02-M02",
@@ -1602,7 +1602,7 @@
                           ],
         "test":  "unit|Vitest|packages/gateway/test/confine.spec.ts|Input: \u0027../../etc/passwd\u0027, symlink pointing outside root, nested valid path. Expected: rejected, rejected, accepted. Pass: matches.",
         "spec":  "OTOMIX §5.2 · Mother §1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: دسترسی به دایرکتوری را به ریشه مجاز محدود کن و لینک‌های سیمیلیک را حل کن و ترافیک `..` را رد کن."
     },
     {
         "id":  "P07-T01-S03-M01",
@@ -1614,7 +1614,7 @@
                           ],
         "test":  "integration|Vitest + worker_threads|packages/workers/test/decode.spec.ts|Input: 5 s WAV, FLAC and MP3 fixtures. Expected: 44 100 Hz mono outputs of 220 500 samples ±2 304 (MP3) and ±1 (WAV/FLAC). Pass: all three.",
         "spec":  "OTOMIX §5.2 · Mother §1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: دریافت کردن به PCM، کاهش میانگین به مونو و بازسازی به 44.1 کیلوزیکت به طور مداوم از طریق P05 `normalizeInput`، با اجرای دکدربه یک کارگر."
     },
     {
         "id":  "P07-T02-S01-M01",
@@ -1625,7 +1625,7 @@
                           ],
         "test":  "unit|dependency-cruiser (Vitest)|tools/test/no-decoder-main.spec.ts|Input: dependency graph. Expected: 0 edges from `gateway` or `ui` entry points to `workers/decoders`. Pass: 0 violations.",
         "spec":  "OTOMIX §5.3; §7.7 · Mother §1; §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: مطمئن شوید که خطوط اصلی درگاه و رابط کاربر هرگز دکدربهای کانتینر (فقط برای تشخیص سربرگ) را وارد نکنند."
     },
     {
         "id":  "P07-T02-S01-M02",
@@ -1636,7 +1636,7 @@
                           ],
         "test":  "unit|Vitest|packages/gateway/test/reject.spec.ts|Input: truncated WAV header, MP3 with invalid frame sync, FLAC with bad STREAMINFO. Expected: INVALID_ARGUMENT for each and retry attempts = 0. Pass: 3/3.",
         "spec":  "OTOMIX §5.3; §2.5 · Mother §1; Add. §3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: بسته‌های نامعتبر یا قطع‌شده را با خطا INVALID_ARGUMENT رد کن و هرگونه خطا در تحلیل تابعی را هرگز دوباره اجرا نکن."
     },
     {
         "id":  "P07-T02-S01-M03",
@@ -1647,7 +1647,7 @@
                           ],
         "test":  "unit|Vitest|packages/gateway/test/tags.spec.ts|Input: file tags BPM=999, key=\u002799Z\u0027. Expected: registry bpm/key come from analysis; tag values stored only in display metadata. Pass: both.",
         "spec":  "OTOMIX §5.2 · Mother §1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برچسب‌های داخلی (عنوان، BPM، کلید) را به عنوان نشانه‌های نمایشی غیرقابل اعتماد در نظر بگیرید که هرگز خروجی تحلیل را عوض نمی‌کنند."
     },
     {
         "id":  "P07-T02-S02-M01",
@@ -1658,7 +1658,7 @@
                           ],
         "test":  "integration|Jazzer.js (Vitest harness)|fuzz/decoder.fuzz.spec.ts|Input: 300 corpus files. Expected: every file terminates within 5 000 ms, heap ≤ 512 MB, 0 worker escapes, 0 unhandled exceptions. Pass: all counters zero.",
         "spec":  "OTOMIX §5.3; §7.7 · Mother §1; §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: افزودن یک مجموعه داده فیزیکی برای تحلیل کانتینر (چارچوب‌های قطعی، اندازه‌های بزرگ بلوک، ساختارهای تکراری برای تگ‌ها) که در محیط CI اجرا می‌شود و با محدودیت زمان و حافظه."
     },
     {
         "id":  "P07-T03-S01-M01",
@@ -1669,7 +1669,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/db/test/tracks.migration.spec.ts|Input: insert format \u0027ogg\u0027, duration_ms 0, tenant \u0027otodj\u0027, duplicate hash. Expected: 4 failures (CHECK x3, UNIQUE). Pass: 4 violations.",
         "spec":  "OTOMIX §9.11 · Mother Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فایل میگریت `003_tracks.sql` را برای `tracks` با نسخه 9.11 با چک‌های، ویژگی منحصر به فرد `(tenant_id, owner_id, content_sha256)` و RLS ایجاد کنید."
     },
     {
         "id":  "P07-T03-S02-M01",
@@ -1681,7 +1681,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/gateway/test/dedup.spec.ts|Input: same audio as WAV and FLAC; the same audio as lossy MP3. Expected: WAV and FLAC share one track_id; the MP3 is a different track. Pass: both.",
         "spec":  "OTOMIX §5.4 · Mother §1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: تکرار حذف مسیرها بر اساس مالک و تیانت با استفاده از SHA-256 از PCM متعادل شده."
     },
     {
         "id":  "P07-T03-S02-M02",
@@ -1694,7 +1694,7 @@
                           ],
         "test":  "integration|Vitest + supertest|packages/gateway/test/ingest-local.spec.ts|Input: request without scope, without key, valid, valid replay. Expected: 403, 400, 201, 200 with the stored body. Pass: matches.",
         "spec":  "OTOMIX §5.1; §9.10 · Mother §1; Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: درخواست اجرای `POST /api/v1/ingest/local` را با نیاز به `local:process` و یک `Idempotency-Key` معتبر اجرا کنید."
     },
     {
         "id":  "P07-T03-S02-M03",
@@ -1706,7 +1706,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/gateway/test/ingest-commit.spec.ts|Input: forced failure after the track insert. Expected: 0 rows in `tracks`, `features` and `outbox`. Pass: all zero.",
         "spec":  "OTOMIX §5.1; §9.5 · Mother §1; Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در یک تراکنش، ردیف مسیر، ردیف ثبت و رویداد خروج را ثبت کنید."
     },
     {
         "id":  "P07-T03-S02-M04",
@@ -1717,7 +1717,7 @@
                           ],
         "test":  "unit|Vitest (fake clock)|packages/gateway/test/ratelimit.spec.ts|Input: burst of 2× bucket capacity, then idle for one drain interval. Expected: overflow requests get 429 with Retry-After; after draining requests pass. Pass: matches.",
         "spec":  "OTOMIX §9.1; §7.12 · Mother Add. §1–§2; §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: محدودیت سرعت با استفاده از مقدار بسته‌ای ناپایدار را در مواردی که فرآیند ورود داده‌ها به صورت فراوانی اتفاق می‌افتد، با بازگشت HTTP 429 و `Retry-After` اعمال کنید."
     },
     {
         "id":  "P07-T04-S01-M01",
@@ -1728,7 +1728,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers queue|packages/gateway/test/dlq-park.spec.ts|Input: job that always fails. Expected: 4 total attempts, then 1 DLQ message with reason and trace_id. Pass: counts match.",
         "spec":  "OTOMIX §5.8; §2.5 · Mother §1; Add. §3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: پارک کردن یک وظیفه در `otomix.dlq` پس از یک تلاش و 3 بار تلاش مجدد، ثبت دلیل شکست و شناسه ردیف."
     },
     {
         "id":  "P07-T04-S01-M02",
@@ -1739,7 +1739,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers queue|packages/gateway/test/dlq-replay.spec.ts|Input: replay the same message twice. Expected: effect applied once; second replay is a no-op. Pass: side-effect count 1.",
         "spec":  "OTOMIX §5.8; §8.8 · Mother §1; §9.3; Add. §8",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: با استفاده از دستور رونبک، پیام‌های DLQ را به صورت آسون و با استفاده از شناسه کار، مجدد تکرار کنید."
     },
     {
         "id":  "P07-T05-S01-M01",
@@ -1750,7 +1750,7 @@
                           ],
         "test":  "[BLOCKED] Decision needed: whether the proposed declaration and accountability controls are adequate for the target market (OTOMIX Appendix B item B1) and the legal text/terms version to bind.",
         "spec":  "OTOMIX §6.2 · Mother §1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: دریافت و ثبت اعلامیه منبع کاربر (دریافت، انتشار، خروج) با نسخه شرایط و زمان UTC."
     },
     {
         "id":  "P08-T01-S01-M01",
@@ -1762,7 +1762,7 @@
                           ],
         "test":  "integration|Vitest + supertest + Testcontainers PostgreSQL|packages/gateway/test/catalog-features.spec.ts|Input: 250 rows, limit=100, a second tenant\u0027s rows present. Expected: pages of 100,100,50; last next_cursor null; no rows from the other tenant; 403 without scope. Pass: all.",
         "spec":  "OTOMIX §9.4; §9.10 · Mother Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: اجرا کردن `GET /api/v1/catalog/features` با نیاز به `user:read` با پیمایش صفحه (cursor pagination) (`next_cursor`, ثابت `(created_at,id)` ترتیب)."
     },
     {
         "id":  "P08-T01-S01-M02",
@@ -1773,7 +1773,7 @@
                           ],
         "test":  "unit|Vitest|packages/ui/test/library.slice.spec.ts|Input: rows with M=0.39, 0.40, wildcard. Expected: selectable ids contain 0.40 only; wildcard flagged; byId has all three. Pass: matches.",
         "spec":  "OTOMIX §4.9; §4.5 · Mother §6; Add. §11; §3.5",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: باید بیان کنید قطعه کتابخانه استاندارد (`byId`, `allIds`) را ایجاد کنید که قطعاتی را که قابل ترکیب نیستند، از مجموعه قابل انتخاب خارج کند."
     },
     {
         "id":  "P08-T01-S02-M01",
@@ -1784,7 +1784,7 @@
                           ],
         "test":  "unit|Vitest|packages/ui/test/queue.slice.spec.ts|Input: add A,B,C; move C to index 0; remove B. Expected: queue [C,A]; slot 1 = C. Pass: exact.",
         "spec":  "OTOMIX §4.9 · Mother §6; Add. §11",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ایجاد کنید `queueIndex` سلیس با عملیات اضافه، حذف و ترتیب دادن که در آن گوشه 1 مسیر اولیه است."
     },
     {
         "id":  "P08-T01-S02-M02",
@@ -1796,7 +1796,7 @@
                           ],
         "test":  "unit|Vitest|packages/ui/test/timeline.selector.spec.ts|Input: 3 mutations. Expected: `computeTimeline` called once per mutation and 0 times on unrelated actions; output equals the pure function. Pass: call counts 3 and 0, equality.",
         "spec":  "OTOMIX §4.9; §4.8 · Mother §6; Add. §11; §7",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در هر تغییر در صف، یک محاسبه مجدد ذخیره شده از زمان خطی مسدود شده مطلق را فعال کن."
     },
     {
         "id":  "P08-T02-S01-M01",
@@ -1807,7 +1807,7 @@
                           ],
         "test":  "component|Vitest + React Testing Library|packages/ui/test/LibraryColumn.spec.tsx|Input: loading=true then 3 loaded rows. Expected: skeletons visible then replaced by 3 rows with all four attributes. Pass: both.",
         "spec":  "OTOMIX §4.9 · Mother §6; Add. §11",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: چپ ستون کتابخانه را با BPM، کلید، انرژی ستاره و میکسپذیری، در طول استخراج WASM نشان دهید و جایگاه‌های پیش‌فرض ساختاری را نمایش بدهید."
     },
     {
         "id":  "P08-T02-S01-M02",
@@ -1818,7 +1818,7 @@
                           ],
         "test":  "e2e|Playwright|e2e/queue-dnd.spec.ts|Input: drag a library row into the empty queue, then reorder. Expected: empty-state text disappears; queue order changes; a timeline-recalculated event fires each time. Pass: all.",
         "spec":  "OTOMIX §4.9 · Mother §6; Add. §11",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: راهنمای ستون راست را با اضافه کردن و تغییر ترتیب با استفاده از کشیدن و رها کردن و وضعیت خالی مشخص ارائه دهید."
     },
     {
         "id":  "P08-T03-S01-M01",
@@ -1829,7 +1829,7 @@
                           ],
         "test":  "unit|Vitest|packages/ui/test/starter-warning.spec.ts|Input: same key with delta 0.9%, same key with 1.0%, different key with 0.5%. Expected: warn, no warn, no warn. Pass: matches.",
         "spec":  "OTOMIX §4.9 · Mother §6; Add. §11",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: هنگامی که فاصله هارمونی در ردیف 1 برابر صفر (کلید یکسان) و فاصله سرعت کمتر از 1٪ نسبت به ردیف‌های مجاور باشد، هشدار مسیر آغازین را نمایش دهید."
     },
     {
         "id":  "P08-T04-S01-M01",
@@ -1840,7 +1840,7 @@
                           ],
         "test":  "[BLOCKED] Decision needed: the formulas for Camelot proximity (wheel distance and mode handling), tempo-delta scoring and energy progression; the spec gives only the 60/30/10 weights.",
         "spec":  "OTOMIX §4.9 · Mother §6; Add. §11",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: مقدار نزدیکی، تیم-دلتا و مولفه پیشرفت انرژی کاملوت (هر کدام در [0,1]) را تعریف کنید."
     },
     {
         "id":  "P08-T04-S01-M02",
@@ -1851,7 +1851,7 @@
                           ],
         "test":  "unit|Vitest|packages/ui/test/mixplan.score.spec.ts|Input: components (1,0,0), (0,1,0), (0,0,1). Expected: 0.6, 0.3, 0.1. Pass: within 1e-9.",
         "spec":  "OTOMIX §4.9 · Mother §6; Add. §11",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: بین دو مجموعه از اجزا به صورت 0.40×Mixability + 0.30×Camelot + 0.20×Tempo + 0.10×Energy."
     },
     {
         "id":  "P08-T04-S01-M03",
@@ -1862,7 +1862,7 @@
                           ],
         "test":  "[BLOCKED] Decision needed: whether \u0027strictly limits tempo deltas to \u003c1%\u0027 filters candidates, orders ties, or both.",
         "spec":  "OTOMIX §4.9 · Mother §6; Add. §11",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: مقدار تیم براز را اعمال کن: اولین مورد، نزدیکی به کمبلوت، سپس تفاوت سرعت را به صورت صریح محدود کن تا کمتر از 1٪ باشد."
     },
     {
         "id":  "P08-T04-S02-M01",
@@ -1873,7 +1873,7 @@
                           ],
         "test":  "unit|Vitest|packages/ui/test/mixplan.vocal-gate.spec.ts|Input: window overlapping vocal beats 1–40. Expected: window moves to the first block starting at or after beat 41. Pass: exact.",
         "spec":  "OTOMIX §4.4 · Mother §3.4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: هنگامی که یک پنجره تغییر با `V_map=1` همگرا میشود، آن را به بلوک ابزاری نزدیک تری منتقل کنید."
     },
     {
         "id":  "P08-T04-S02-M02",
@@ -1886,7 +1886,7 @@
                           ],
         "test":  "integration|Vitest + supertest|packages/gateway/test/mixplan.spec.ts|Input: valid request, same key replay, bpm=300. Expected: 200 with plan, 200 identical replay, 400 INVALID_ARGUMENT. Pass: all.",
         "spec":  "OTOMIX §9.2; §9.4 · Mother Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: اجرا کردن `POST /api/v1/mixplan` که نیازمند `local:process` است و با کلید یکتا `PlanTransition` فراخوانی میشود."
     },
     {
         "id":  "P08-T04-S02-M03",
@@ -1898,7 +1898,7 @@
                           ],
         "test":  "unit|Vitest + MSW|packages/ui/test/mixplan.client.spec.ts|Input: server response with rung RUNG_FOUR_BAR_CROSSFADE. Expected: node stored with `fallback` set and a non-fatal notice raised. Pass: both.",
         "spec":  "OTOMIX §4.9; §3.9 · Mother §6; Add. §11; §2.9",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ساخت کلاینتی که اجرا می‌کند `TransitionPlanRequest` برای ردیف‌های مجاور صف و فراخوانی مراحل پیش‌فرض را مدیریت می‌کند."
     },
     {
         "id":  "P08-T04-S02-M04",
@@ -1909,7 +1909,7 @@
                           ],
         "test":  "unit|Vitest|packages/ui/test/mixplan.nodes.spec.ts|Input: queue grows 1→2→3 tracks. Expected: 0, 1, 2 nodes; reordering rebuilds affected nodes only. Pass: matches.",
         "spec":  "OTOMIX §4.9 · Mother §6; Add. §11",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: نودهای تغییر را به صورت دینامیکی ساخته و هنگامی که مسیرها به صف اضافه میشوند."
     },
     {
         "id":  "P08-T05-S01-M01",
@@ -1920,7 +1920,7 @@
                           ],
         "test":  "component|Vitest + React Testing Library|packages/ui/test/VocalOverlay.spec.tsx|Input: vocal map with 2 vocal regions; an all-instrumental map. Expected: 2 striped overlay rects with the red pattern fill; 0 for instrumental. Pass: both.",
         "spec":  "OTOMIX §4.4; §4.9 · Mother §3.4; §6; Add. §11",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: زونه‌های صوتی (`V_map\u003e0.65`) را به صورت پیکسل‌های قرمز با طراحی خطی روی پیکسل‌های موج نمایش دهید."
     },
     {
         "id":  "P08-T05-S01-M02",
@@ -1931,7 +1931,7 @@
                           ],
         "test":  "component|Vitest + React Testing Library|packages/ui/test/PreKickOverlay.spec.tsx|Input: track with pre_kick_beats=8; track with 0. Expected: one overlay spanning 8 beats; none. Pass: both.",
         "spec":  "OTOMIX §3.10; §4.9 · Mother §2.10; §6; Add. §11",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: بازسازی بخش‌های پیش‌ازتکانی به صورت پیش‌نویس‌های هشداری."
     },
     {
         "id":  "P08-T06-S01-M01",
@@ -1944,7 +1944,7 @@
                           ],
         "test":  "integration|Vitest + mock driver|packages/ui/test/preview.controller.spec.ts|Input: 2-track plan. Expected: the mock driver records two playbackRate ramps whose durations equal the window and slice events on the chopGrid. Pass: both.",
         "spec":  "OTOMIX §4.8 · Mother §7",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای کنترل‌کننده ایجاد شده، یک برنامه تهیه شده را به اتوماسیون غلیظ، موتور قطع و ورودی DSP (در آزمایش‌ها، گیرنده مجازی) متصل کنید."
     },
     {
         "id":  "P08-T06-S01-M02",
@@ -1955,7 +1955,7 @@
                           ],
         "test":  "integration|Vitest + mock driver|packages/ui/test/preview.observer.spec.ts|Input: inject a 12 ms frame. Expected: buffer switches 2048→4096 and the UI state shows degraded. Pass: both.",
         "spec":  "OTOMIX §3.6 · Mother §2.6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Observer در زمان اجرا را به پیش نمایش و وضعیت کم شدن یا کاهش عملکرد در رابط کاربری متصل کنید."
     },
     {
         "id":  "P09-T01-S01-M01",
@@ -1966,7 +1966,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/db/test/sets-exports.migration.spec.ts|Input: target \u0027foo\u0027, duplicate (tenant,set,target,version), tenant \u0027otodj\u0027. Expected: 3 violations. Pass: 3.",
         "spec":  "OTOMIX §9.11 · Mother Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فایل میگریسیون `004_sets_exports.sql` را برای `sets` و `export_jobs` در نسخه 9.11 با چک‌ها، محدودیت منحصر به فرد `(tenant_id,set_id,target,schema_version)` و RLS ایجاد کنید."
     },
     {
         "id":  "P09-T01-S01-M02",
@@ -1978,7 +1978,7 @@
                           ],
         "test":  "integration|Vitest + supertest|packages/gateway/test/sets.spec.ts|Input: queue of 3 valid ids; one unknown id; one unmixable id. Expected: 201, 404/400, 400. Pass: matches.",
         "spec":  "OTOMIX §9.10; §4.5 · Mother Add. §1–§2; §3.5",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Implementation `POST/GET /api/v1/sets` با تعریف `local:process` و رد شناسه‌های ردیف ناشناخته یا قابل ترکیب نبودن."
     },
     {
         "id":  "P09-T01-S01-M03",
@@ -1990,7 +1990,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/export.positions.spec.ts|Input: BPM 120, T0=0.25, cues at beats 1, 17, 65. Expected: 0.25, 8.25, 32.25 s within 2 ms. Pass: all three.",
         "spec":  "OTOMIX §5.5; §3.1 · Mother §1; §2.1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: مختصات شبکه و نشانه‌های خروجی را با استفاده از `t(i)` در محدوده‌های 16 بار و 16 بار محاسبه کن."
     },
     {
         "id":  "P09-T01-S01-M04",
@@ -2003,7 +2003,7 @@
                           ],
         "test":  "integration|Vitest + supertest|packages/gateway/test/exports-xml.spec.ts|Input: Tier 1 without grant; with grant; same Idempotency-Key replay; new key for the same set/target/version. Expected: 403, 202, same job id, existing job returned. Pass: matches.",
         "spec":  "OTOMIX §5.5; §7.3 · Mother §1; §5.3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه‌ریزی کردن `POST /api/v1/exports/xml` با `local:process`، کنترل سطح یا اجازه دادن، ایجاد وظیفه تکراری و یک وظیفه آسیمبولیک."
     },
     {
         "id":  "P09-T01-S02-M01",
@@ -2014,7 +2014,7 @@
                           ],
         "test":  "unit|Vitest|tools/test/xml-mapping-doc.spec.ts|Input: parse the mapping table. Expected: every row has `source_url` and `verified_on`. Pass: 0 rows missing either.",
         "spec":  "OTOMIX §5.5 · Mother §1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: میزان مطابقی از موارد فرمت تأمین کننده (رکورد بوكس، تراکتور، ویرتوی دی جی، سرتو) با لینک‌های منبع و تاریخ تأیید را ثبت کنید."
     },
     {
         "id":  "P09-T01-S02-M02",
@@ -2026,7 +2026,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/export.rekordbox.spec.ts|Input: 3-track set fixture. Expected: output equals the canonical golden XML and re-parsing yields BPM and first-beat offset within 2 ms. Pass: both.",
         "spec":  "OTOMIX §5.5; §10.9 · Mother §1; Add. §5",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فراخوانی صادرکننده Rekordbox و یک آزمون فایل طلایی را اجرا کنید."
     },
     {
         "id":  "P09-T01-S02-M03",
@@ -2037,7 +2037,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/export.traktor.spec.ts|Input: same fixture. Expected: canonical golden match; BPM and cue start within 2 ms after re-parse. Pass: both.",
         "spec":  "OTOMIX §5.5; §10.9 · Mother §1; Add. §5",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه ریزی کنید و تست فایل طلایی را اجرا کنید."
     },
     {
         "id":  "P09-T01-S02-M04",
@@ -2048,7 +2048,7 @@
                           ],
         "test":  "unit|Vitest|packages/core/test/export.virtualdj.spec.ts|Input: same fixture. Expected: canonical golden match; BPM and phase within 2 ms after re-parse. Pass: both.",
         "spec":  "OTOMIX §5.5; §10.9 · Mother §1; Add. §5",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه ریزی صادرکننده VirtualDJ و یک آزمون فایل طلایی را اجرا کنید."
     },
     {
         "id":  "P09-T01-S02-M05",
@@ -2059,7 +2059,7 @@
                           ],
         "test":  "[BLOCKED] Decision needed: Serato library metadata is not natively XML; confirm the supported interchange mechanism before specifying the golden output.",
         "spec":  "OTOMIX §5.5 · Mother §1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه‌ریزی کنید، صادرکننده سرتو را اجرا کنید."
     },
     {
         "id":  "P09-T02-S01-M01",
@@ -2070,7 +2070,7 @@
                           ],
         "test":  "unit|Vitest|packages/gateway/test/store.provider-port.spec.ts|Input: valid signature, altered body, expired timestamp. Expected: accept, reject, reject. Pass: matches.",
         "spec":  "OTOMIX §5.7 · Mother §1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: تعریف `PaymentProviderPort` (بررسی署名، تحلیل رویداد) با یک نمونه اجرا برای HMAC و یک تأمین کننده مجازی برای تستها."
     },
     {
         "id":  "P09-T02-S01-M02",
@@ -2081,7 +2081,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/db/test/store.migration.spec.ts|Input: duplicate provider_event_id, format \u0027ogg\u0027, negative amount. Expected: 3 violations. Pass: 3.",
         "spec":  "OTOMIX §9.11 · Mother Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فایل میگریت `005_store.sql` را برای `purchases` و `entitlements` با نسخه 9.11 با ویژگی منحصر به فرد `(tenant_id,provider_event_id)` و RLS ایجاد کنید."
     },
     {
         "id":  "P09-T02-S02-M01",
@@ -2094,7 +2094,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/gateway/test/store.webhook.spec.ts|Input: valid event twice; forged signature. Expected: 1 purchase, 1 entitlement, 1 outbox row; forged → 401 with 0 rows. Pass: counts match.",
         "spec":  "OTOMIX §5.7; §7.12 · Mother §1; §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه‌ریزی کنید `POST /api/v1/store/webhooks/payment` که پیام را تأیید کند، تکراری را با `provider_event_id` بکنند و در یک تراکنش، سطرهای خرید، مجوز و خروجی را نوشته باشد."
     },
     {
         "id":  "P09-T02-S02-M02",
@@ -2106,7 +2106,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers|packages/gateway/test/store.bundle.spec.ts|Input: request each format twice. Expected: 3 bundles total; second request returns the existing artifact. Pass: 3 artifacts.",
         "spec":  "OTOMIX §5.7 · Mother §1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: بUNDل‌های دریافتی را به صورت مجزا در فرمت‌های MP3، WAV و FLAC با استفاده از کدیک ورودی DSP تولید کنید."
     },
     {
         "id":  "P09-T02-S02-M03",
@@ -2117,7 +2117,7 @@
                           ],
         "test":  "unit|Vitest (frozen clock)|packages/gateway/test/store.download.spec.ts|Input: valid link, other user\u0027s link, expired link, tampered signature. Expected: 200, 403, 403/410, 403. Pass: matches.",
         "spec":  "OTOMIX §5.7; §7.12 · Mother §1; §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: لینک‌های دریافتی با محدودیت خرید یکجا، با تاریخ انقضاء و امضا."
     },
     {
         "id":  "P09-T02-S02-M04",
@@ -2129,7 +2129,7 @@
                           ],
         "test":  "integration|Vitest + supertest|packages/gateway/test/store.lossless.spec.ts|Input: Tier 1 requesting WAV; with grant; MP3 on Tier 1. Expected: 403, 200, 200. Pass: matches.",
         "spec":  "OTOMIX §7.3; §7.13 · Mother §5.3; §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: بسته‌های بدون از دست رفتن (WAV، FLAC) بر اساس سطح یا اجازه فعال."
     },
     {
         "id":  "P09-T02-S03-M01",
@@ -2140,7 +2140,7 @@
                           ],
         "test":  "[BLOCKED] Decision needed: the payment provider, supported currencies and webhook schema (OTOMIX Appendix B item B5).",
         "spec":  "OTOMIX §5.7 · Mother §1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه ریزی و اجرای آداپتور پرداخت ملموس و مدیریت валیت پرداخت."
     },
     {
         "id":  "P09-T03-S01-M01",
@@ -2151,7 +2151,7 @@
                           ],
         "test":  "[BLOCKED] Decision needed: authorization model for publishers (scope or role) — dependent on OQ-10 — and the publisher namespace data model.",
         "spec":  "OTOMIX §5.6 · Mother §1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای مجموعه‌ها، صفحه‌های معرفی و بسته‌های منابع در زیر نام فعال‌کننده، API بارگذاری شود."
     },
     {
         "id":  "P09-T03-S01-M02",
@@ -2162,7 +2162,7 @@
                           ],
         "test":  "unit|Vitest|packages/gateway/test/publisher.render.spec.ts|Input: XSS corpus (script tag, onerror attribute, javascript: URL, SVG script, CSS expression). Expected: sanitized output contains none and CSP header present on the response. Pass: 0 executable payloads.",
         "spec":  "OTOMIX §5.6; §7.7 · Mother §1; §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: صفحه‌های ورود را از محتوای ساخته شده با تهیه و تصفیه، در زیر محدودیت‌های CSP ارائه دهید."
     },
     {
         "id":  "P09-T04-S01-M01",
@@ -2173,7 +2173,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/gateway/test/takedown.approval.spec.ts|Input: approve by the requester; approve by a second principal. Expected: first rejected; second accepted; both audited. Pass: matches.",
         "spec":  "OTOMIX §6.2; §7.1 · Mother §1; §5.1",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فراخوانی روند تأیید دو سطحی را اجرا کنید که در آن مخواه و تأییدکننده باید متفاوت باشند."
     },
     {
         "id":  "P09-T04-S01-M02",
@@ -2184,7 +2184,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/gateway/test/takedown.execute.spec.ts|Input: execute twice. Expected: listing unavailable after first run; second run no-op; 1 audit row. Pass: all.",
         "spec":  "OTOMIX §6.2; §8.4 · Mother §1; §9.1; Add. §7",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای اجرای یک حذف مجاز، محتوای اعلان یا صفحه هدف را به طور مطابق با قوانین، به صورت مکرر و با ثبت رکورد مراجعه، از دسترسی عمومی خارج کنید."
     },
     {
         "id":  "P10-T01-S01-M01",
@@ -2197,7 +2197,7 @@
                           ],
         "test":  "unit|Vitest + OTel in-memory metric reader|packages/core/test/metrics.core.spec.ts|Input: run a transition with a forced 12 ms frame. Expected: 5 named instruments exist with types Histogram, Histogram, Rate, Gauge, Gauge and starvation gauge \u003e0. Pass: names and types match the registry.",
         "spec":  "OTOMIX §8.1 · Mother §9.1; Add. §7",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ایمیت `core.dsp.latency`، `core.observer.cycle_duration`، `core.transition.failure_rate`، `core.degraded_mode.active` و `system.thread.starvation` از مسیرهای کد که آنها را مالی می‌کنند."
     },
     {
         "id":  "P10-T01-S01-M02",
@@ -2208,7 +2208,7 @@
                           ],
         "test":  "unit|Vitest + OTel in-memory metric reader|packages/gateway/test/metrics.otomix.spec.ts|Input: ingest, reject, export, failed webhook, DLQ park. Expected: 6 instruments with correct types and the DLQ gauge ≥1. Pass: matches §8.12.",
         "spec":  "OTOMIX §8.12 · Mother Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: متریک‌های OTOMIX را ارسال کنید: `otomix.ingest.duration`, `otomix.ingest.rejected_files`, `otomix.export.xml_duration`, `otomitecture.store.webhook_failures`, `otomix.dlq.depth`, `otomix.store.bundle_generation_duration`."
     },
     {
         "id":  "P10-T01-S02-M01",
@@ -2219,7 +2219,7 @@
                           ],
         "test":  "unit|Vitest + terraform show -json|deploy/test/monitors-core.spec.ts|Input: planned monitor JSON. Expected: monitors with thresholds 2500 and 10, plus one P99 monitor per histogram, grouped by tenant_id and region. Pass: counts and thresholds match.",
         "spec":  "OTOMIX §8.1; §8.3 · Mother §9.1; Add. §7",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: مونیتورهای داتاگی داده شونده به صورت کد: در صورتی که مدت زمان استخراج بیش از ۲۵۰۰ میلی‌سیکوند باشد، در صورتی که مدت زمان بلوک کردن خیلی بیش از ۱۰ میلی‌سیکوند باشد، و همچنین هشدارهای P99 برای هر هیستوگرام در هر تینت و منطقه."
     },
     {
         "id":  "P10-T01-S02-M02",
@@ -2230,7 +2230,7 @@
                           ],
         "test":  "unit|Vitest + terraform show -json|deploy/test/monitors-otomix.spec.ts|Input: planned monitor JSON. Expected: 4 monitor groups present with notification channels set. Pass: all present.",
         "spec":  "OTOMIX §8.12 · Mother Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: تعریف مانیتورهای OTOMIX: عمیت DLQ به مقدار ثابت و غیرصفر، بلوک سریع شکست پیوند، P99 برای تاریخچه ورود، خروج و بسته‌بندی."
     },
     {
         "id":  "P10-T02-S01-M01",
@@ -2241,7 +2241,7 @@
                           ],
         "test":  "integration|Vitest + OTel in-memory exporter|packages/gateway/test/tracing.chain.spec.ts|Input: one analysis request. Expected: 5 spans sharing one trace_id with correct parent-child links. Pass: 5 spans, 4 parent links.",
         "spec":  "OTOMIX §8.2 · Mother §9.1; Add. §7",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: بررسی زنجیره فراخوانی مانیتی؟ درگواهی نود؟ gRPC؟ دستورالعمل هسته؟ کارگر WASM با پیوند W3C `traceparent`."
     },
     {
         "id":  "P10-T02-S01-M02",
@@ -2252,7 +2252,7 @@
                           ],
         "test":  "unit|Vitest|deploy/test/sampling.spec.ts|Input: collector config. Expected: error policy 100%, latency policy at thresholds 2500 ms/10 ms, probabilistic default present. Pass: all three.",
         "spec":  "OTOMIX §8.2 · Mother §9.1; Add. §7",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: تنظیم نمونه‌گیری بر پایه پایان‌های داده‌ها: ۱۰۰٪ از خطاها و سپان‌های بیش از آستانه‌های هشدار، برای بقیه با استفاده از روش احتمالی."
     },
     {
         "id":  "P10-T03-S01-M01",
@@ -2263,7 +2263,7 @@
                           ],
         "test":  "unit|Vitest|deploy/test/retention.spec.ts|Input: parsed configs. Expected: app log hot retention 90 days; audit partition retention ≥ 7 years. Pass: both.",
         "spec":  "OTOMIX §8.4; §9.7 · Mother §9.1; Add. §7; Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: تنظیم نگهداری: ذخیره سازی 90 روزه برای لاگ‌های برنامه و 7 سال برای لاگ‌های امنیتی مدیریت."
     },
     {
         "id":  "P10-T03-S01-M02",
@@ -2274,7 +2274,7 @@
                           ],
         "test":  "integration|Vitest + Testcontainers PostgreSQL/Redis|packages/db/test/cache-invalidate.spec.ts|Input: update a cached row; 20 concurrent readers right after. Expected: key evicted within 1 s; exactly 1 database reload. Pass: both.",
         "spec":  "OTOMIX §9.7 · Mother Add. §1–§2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: استفاده از ویژگی‌های مبتنی بر رویدادها برای نقض کش با PostgreSQL `LISTEN/NOTIFY`، یک محدودیت زمانی (TTL) و بازآپدیت یکجا."
     },
     {
         "id":  "P10-T04-S01-M01",
@@ -2285,7 +2285,7 @@
                           ],
         "test":  "integration|kind + k6|deploy/test/bluegreen.k6.js|Input: 1 000 requests while switching the selector to green. Expected: 0 failed requests. Pass: failure count 0.",
         "spec":  "OTOMIX §8.5 · Mother §9.2; Add. §8",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: باید نمودارهای آبی/سبز و یک سویچ انتخاب سرویس برای هسته و دروازه فراهم شود."
     },
     {
         "id":  "P10-T04-S01-M02",
@@ -2296,7 +2296,7 @@
                           ],
         "test":  "unit|conftest (OPA)|policy/hpa.rego|Input: HPA manifest(s). Expected: `targetCPUUtilizationPercentage=60` (or equivalent metric target) and min/max replicas set. Pass: policy passes; a 70% fixture fails.",
         "spec":  "OTOMIX §8.5; §8.11 · Mother §9.2; Add. §8; Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: تنظیم HPA برای هدف 60٪ CPU."
     },
     {
         "id":  "P10-T04-S02-M01",
@@ -2308,7 +2308,7 @@
                           ],
         "test":  "unit|Vitest|scripts/test/rollback-gate.spec.ts|Input: metric series 0.9% and 1.1% 5xx within 5 min; audio failure 0.09% and 0.11%. Expected: rollback only for 1.1% and 0.11%. Pass: matches.",
         "spec":  "OTOMIX §8.7 · Mother §9.2; Add. §8",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: عکس‌گیری خودکار را در صورتی که میزان 5xx بیش از 1٪ در 5 دقیقه پس از اجرا یا میزان شکست مسیر صدا بیش از 0.1٪ باشد، فعال کنید."
     },
     {
         "id":  "P10-T04-S02-M02",
@@ -2319,7 +2319,7 @@
                           ],
         "test":  "unit|Vitest (LD offline mode)|packages/core/test/flags.spec.ts|Input: SDK failure; kill switch off; call inside `process()` spy. Expected: fallback value returned; prior behavior restored; 0 SDK calls on the audio thread. Pass: all three.",
         "spec":  "OTOMIX §8.6; §3.12 · Mother §9.2; Add. §8; Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ارزیابی LaunchDarkly را بسته و وضعیت فلگ در خارج از تاریخچه صدا ثبت می‌شود، به رفتار امن تحویل بازگشت می‌یابد و می‌تواند به عنوان یک مانع عمل کند."
     },
     {
         "id":  "P10-T04-S02-M03",
@@ -2330,7 +2330,7 @@
                           ],
         "test":  "unit|Vitest|deploy/test/guarded-rollout.spec.ts|Input: config JSON. Expected: four stages with the stated percentages and windows and four monitored metrics with rollback on failure rate and 5xx. Pass: all fields present.",
         "spec":  "OTOMIX §8.6 · Mother §9.2; Add. §8",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: مقدار گیری مراحل را تعریف کنید: مراحل 1٪ (1 ساعت)، 10٪ (24 ساعت)، 50٪ (24 ساعت)، 100٪ (24 ساعت) با نظارت بر نرخ تغییر مراحل، استخراج P99، نسبت 5xx و دیری P99 دیسپاتچ."
     },
     {
         "id":  "P10-T04-S02-M04",
@@ -2341,7 +2341,7 @@
                           ],
         "test":  "unit|Vitest|scripts/test/stale-flags.spec.ts|Input: inventory with one flag past its removal date. Expected: report lists exactly that flag. Pass: 1 stale entry.",
         "spec":  "OTOMIX §8.6; §8.13 · Mother §9.2; Add. §8; Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: فیلدهای فهرست OTOMIX را (otomix.export.\u003ctarget\u003e-xml-v2، core.dsp.chop-grid-*، core.analysis.voice-instrumental-model-*) با مالکان، تاریخ‌های حذف و گزارش شرایط منقضی ایجاد کنید."
     },
     {
         "id":  "P10-T05-S01-M01",
@@ -2352,7 +2352,7 @@
                           ],
         "test":  "unit|Vitest|deploy/test/rpo-monitor.spec.ts|Input: lag series 14 min and 16 min. Expected: alert only at 16 min. Pass: matches.",
         "spec":  "OTOMIX §8.9 · Mother §9.3; Add. §8",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: تنظیم دوباره انتقال غیرهمزمان بین مناطق PostgreSQL با نظارتگر RPO که در ۱۵ دقیقه تأخیر، هشدار می‌دهد."
     },
     {
         "id":  "P10-T05-S01-M02",
@@ -2363,7 +2363,7 @@
                           ],
         "test":  "integration|MinIO object-lock (Vitest)|deploy/test/blob-lock.spec.ts|Input: write an object then attempt delete. Expected: delete denied; retention=30 days; replica object exists. Pass: all three.",
         "spec":  "OTOMIX §8.9 · Mother §9.3; Add. §8",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: بلاک‌های داده را در دو منطقه جغرافیایی مجزا تکرار کنید و قفل‌های غیرقابل تغییری را برای جلوگیری از حذف در 30 روز پس از ورود داده‌ها فعال کنید."
     },
     {
         "id":  "P10-T05-S01-M03",
@@ -2374,7 +2374,7 @@
                           ],
         "test":  "unit|Vitest|deploy/test/chaos-spec.spec.ts|Input: experiment specs and schedule. Expected: each has hypothesis, blast radius, abort condition; cron fires quarterly. Pass: fields present and 4 runs per year.",
         "spec":  "OTOMIX §8.10 · Mother §9.3; Add. §8",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه ریزی آزمایش‌های ناپیوستگی فصلی (کنترل پود و تقسیم شبکه نویسگر پوستگریس) با فرضیه، محدودیت شعاع تأثیر و شرط قطعی."
     },
     {
         "id":  "P10-T05-S01-M04",
@@ -2385,7 +2385,7 @@
                           ],
         "test":  "unit|Vitest|tools/test/runbook-lint.spec.ts|Input: runbook files. Expected: each has trigger metric, verification query, action steps, rollback and escalation owner. Pass: 3/3 complete.",
         "spec":  "OTOMIX §8.8 · Mother §9.3; Add. §8",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای اجرا، دستورالعمل‌های نوشتن برای پیکربندی منطقه‌ای، حالت کاهشی به دلیل کمبود خودکار و بازیابی دیتایی در صف باید نوشته شود."
     },
     {
         "id":  "P10-T05-S01-M05",
@@ -2397,7 +2397,7 @@
                           ],
         "test":  "unit|Vitest|scripts/test/dr-report.spec.ts|Input: drill report JSON. Expected: measured RPO \u003c 900 s and RTO \u003c 3 600 s. Pass: both thresholds met.",
         "spec":  "OTOMIX §8.9 · Mother §9.3; Add. §8",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: یک شبیه سازی DR را اجرا کن و مقدار RPO و RTO را ثبت کن."
     },
     {
         "id":  "P10-T06-S01-M01",
@@ -2408,7 +2408,7 @@
                           ],
         "test":  "unit|Vitest|deploy/test/slo.spec.ts|Input: SLO config. Expected: target 99.9; error budget 43.2 minutes per 30 days; burn-rate monitors present. Pass: all three.",
         "spec":  "OTOMIX §8.12 · Mother Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: افزودن جهت‌گیری‌های سنتیک و پنجره‌ای با نمودار 99.9٪ ماهانه و هشدارهای مربوط به نرخ مصرف."
     },
     {
         "id":  "P11-T01-S01-M01",
@@ -2419,7 +2419,7 @@
                           ],
         "test":  "unit|Vitest|packages/testkit/test/pairings.spec.ts|Input: seed S twice. Expected: identical manifest hash; total=10 000; each of the 8 classes ≥ 300 pairings. Pass: all three.",
         "spec":  "OTOMIX §10.1 · Mother §8.1; Add. §5",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: یک تولیدکننده مبتنی بر داده‌های اولیه برای ۱۰۰۰۰ ترکیب متفاوت بدون صدا، که شامل تفاوت‌های بسیار بزرگ در سرعت، نمادهای ۵/۴، ترکیب‌های سه‌گانه و تغییرات، پد‌های میانی ۱۲۰ ثانیه، ترانه‌های بدون یکتی، ترانه‌های خالی، ترانه‌های کوتاه‌تر از ۱۶ بیت و ترانه‌های استاندارد ۴/۴ باشد، ساخته شود."
     },
     {
         "id":  "P11-T01-S02-M01",
@@ -2431,7 +2431,7 @@
                           ],
         "test":  "integration|Vitest|packages/testkit/test/runner.spec.ts|Input: 100-pair smoke subset. Expected: 100 result objects each with `oob_errors`, `cancelled`, `grid_locked`, `unhandled_fallback`. Pass: 100/100 with fields.",
         "spec":  "OTOMIX §10.1 · Mother §8.1; Add. §5",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای هر ترکیب، اجرای راننده بدون سریع که با دیویس دیجیتال مجازی می‌باشد، برنامه‌ریزی و اجرا را انجام می‌دهد."
     },
     {
         "id":  "P11-T01-S02-M02",
@@ -2442,7 +2442,7 @@
                           ],
         "test":  "unit|Vitest|packages/testkit/test/criteria.spec.ts|Input: result sets with one OOB error; with one cancellation; with grid_locked 99.99%; clean. Expected: fail, fail, fail, pass. Pass: matches.",
         "spec":  "OTOMIX §10.1; §10.7 · Mother §8.1; Add. §5; §10",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: میزان ارزیابی شرایط موفق: 0% خطا در بیرون محدوده، 0% لغو، حفظ 100% محدودیت شبکه و پاسخ‌های بی‌پیشنهادی صفر."
     },
     {
         "id":  "P11-T01-S02-M03",
@@ -2453,7 +2453,7 @@
                           ],
         "test":  "unit|Vitest|tools/test/determinism-workflow.spec.ts|Input: parsed workflow. Expected: daily cron, full corpus flag, artifact upload `if: failure()`. Pass: all three.",
         "spec":  "OTOMIX §10.1; §10.8 · Mother §8.1; Add. §5",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در سیستم CI، رانش کامل 10000 تا پاری در روز برنامه ریز شود و در صورت خطا، فایل مشخصه پاریهای خطا آپلود شود."
     },
     {
         "id":  "P11-T02-S01-M01",
@@ -2464,7 +2464,7 @@
                           ],
         "test":  "integration|Node v8 heap snapshot (Vitest)|scripts/test/heap-proof-final.spec.ts|Input: block sizes 4/8/16 bars × durations 1/120 min. Expected: retainedDeltaBytes=0 for all six combinations and no growth with duration. Pass: 6 zeros.",
         "spec":  "OTOMIX §10.2; §3.15 · Mother §8.2; Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای چهار، هشت و شانزده بار بلوک، در مسیرهای یک دقیقه و ۱۲۰ دقیقه، حلقه ای امن در برابر خراش باید اجرا شود و باید ۰ بایت باقیمانده در تخصیص آرایه‌های پایدار تأیید شود."
     },
     {
         "id":  "P11-T02-S01-M02",
@@ -2475,7 +2475,7 @@
                           ],
         "test":  "benchmark|Vitest bench|bench/timing-cpu.bench.ts|Input: 60 s of playback simulation with 4 active threads. Expected: timing CPU / thread CPU \u003c 0.02. Pass: ratio below 0.02 for every thread.",
         "spec":  "OTOMIX §10.2; §3.3 · Mother §8.2; §2.3",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: مقدار زمان مصرفی در محاسبه زمان برای هر خودکار فعال را اندازه گیری کن و مقدار آن را تحت 2% تأیید کن."
     },
     {
         "id":  "P11-T03-S01-M01",
@@ -2487,7 +2487,7 @@
                           ],
         "test":  "integration|Vitest + offline render|tools/null-test/test/null.spec.ts|Input: aligned identical material through the transition; and a deliberately offset (6 ms) fixture. Expected: aligned case has 20–120 Hz summed RMS within 0.5 dB of the equal-gain sum; offset case is flagged. Pass: both.",
         "spec":  "OTOMIX §10.3 · Mother §8.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در محلهای تغییر فاز، سیستم آزمون نیم‌فاز را ساخته تا مسیرهای لغو و نرم‌شدن موقت را تشخیص دهد."
     },
     {
         "id":  "P11-T03-S01-M02",
@@ -2498,7 +2498,7 @@
                           ],
         "test":  "integration|Vitest + offline render|tools/null-test/test/pitch.spec.ts|Input: 1 kHz sine through the 16-bar realignment with Δϕ=40 ms. Expected: measured frequency within 1 000 Hz ± 2.9 Hz (0.05 semitones) throughout. Pass: all analysis frames within range.",
         "spec":  "OTOMIX §10.3; §10.7 · Mother §8.2; §10",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: بررسی تصحیح پس از تغییر وضعیت میان ۰٫۰۵ سیمیتون را حفظ می‌کند."
     },
     {
         "id":  "P11-T03-S01-M03",
@@ -2509,7 +2509,7 @@
                           ],
         "test":  "[BLOCKED] Decision needed: whether drift compensation (range [0.98, 1.02]) is bound by ±0.05 semitones (OTOMIX Appendix A item A4).",
         "spec":  "OTOMIX §10.3; §10.7 · Mother §8.2; §10",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: بررسی تصحیح تغییر در زمان با محدودیت 0/05 سمتون."
     },
     {
         "id":  "P11-T03-S01-M04",
@@ -2520,7 +2520,7 @@
                           ],
         "test":  "integration|Vitest|tools/null-test/test/bitsafe.spec.ts|Input: scalar vs scalar; scalar vs a fixture with a 1e-3 error. Expected: residual ≤ −120 dBFS pass; the error fixture fails. Pass: both.",
         "spec":  "OTOMIX §10.3 · Mother §8.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در برابر مرجع مقدار متناسب (مثلاً SIMD) با مقدار باقیمانده صفر یا کمتر از -120 دیبی فیسیکس، درخواست کنید."
     },
     {
         "id":  "P11-T03-S01-M05",
@@ -2531,7 +2531,7 @@
                           ],
         "test":  "unit|Vitest|tools/test/ci-rt-audit.spec.ts|Input: parsed workflow. Expected: `rt-audit` job exists and release job `needs` it. Pass: both.",
         "spec":  "OTOMIX §10.3; §3.12 · Mother §8.2; Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه‌ای ایجاد کنید که بررسی امنیت RT را به عنوان یک وظیفه CI مانع کند (0 تخصیص، 0 قفل در 10,000 فراخوانی `process()`)."
     },
     {
         "id":  "P11-T04-S01-M01",
@@ -2543,7 +2543,7 @@
                           ],
         "test":  "load|k6|load/extraction.k6.js|Input: 500 VUs for 5 minutes against staging. Expected: P99 of the `extraction_ms` response header \u003c 2 500 ms and 0 failed requests. Pass: thresholds met.",
         "spec":  "OTOMIX §10.4; §8.11 · Mother §8.2; Add. §4",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: یک کارخانه k6 با 500 درخواست استخراج همزمان در هر منطقه را با HPA در 60٪ CPU اجرا کنید."
     },
     {
         "id":  "P11-T04-S01-M02",
@@ -2555,7 +2555,7 @@
                           ],
         "test":  "integration|Vitest + worker_threads|load/deck-soak.spec.ts|Input: 10-minute run with 4 simulated decks. Expected: 0 buffer under-runs and heap slope ~0. Pass: both.",
         "spec":  "OTOMIX §10.4 · Mother §8.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برنامه ریزی کردن یک آزمون مداوم با میزان بالایConcurrency در حافظه، برای موتور chop و نظارت روی رانتایم، با شبیه سازی 4 دیک (پیش فرض)."
     },
     {
         "id":  "P11-T04-S01-M03",
@@ -2566,7 +2566,7 @@
                           ],
         "test":  "benchmark|Vitest bench|bench/extract.pinned.bench.ts|Input: reference MP3 on the pinned runner. Expected: wall time \u003c 360 s. Pass: below threshold.",
         "spec":  "OTOMIX §10.4; §4.6 · Mother §8.2; Add. §10",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای یک فایل MP3 با سرعت 320 کیلوبیت در دقیقه و مدت 4 دقیقه، اجرای میزان استخراج را بر روی رانر M5.large که مقدار آن ثابت است، با نیاز به کمتر از 1.5 برابر زمان واقعی انجام بدهید."
     },
     {
         "id":  "P11-T05-S01-M01",
@@ -2579,7 +2579,7 @@
                           ],
         "test":  "integration|Cucumber.js|features/isolation.feature|Input: 6 scenarios. Expected: every attack returns denied/empty (403/404/0 rows/rejected). Pass: 6/6.",
         "spec":  "OTOMIX §10.5; §7.9 · Mother §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای شش حمله: پارامتر `tenant_id` مصنوعی، بازگشت تکنیکی بین تیانت، SQL مستقیم به عنوان نقش برنامه، بررسی تصادفی کلید کش، دسترسی به مسیرهای غیرنصب شده و انتقال محدوده ممنوع، بسته BDD بین تیانت را اجرا کنید."
     },
     {
         "id":  "P11-T05-S01-M02",
@@ -2590,7 +2590,7 @@
                           ],
         "test":  "unit|Vitest|tools/test/pentest-doc.spec.ts|Input: parse doc. Expected: sections for RBAC escalation, API contract vulnerabilities, OTOMIX-token vs OTODJ-data isolation, and the CVSS 7.0 halt rule. Pass: 4 sections.",
         "spec":  "OTOMIX §7.9; §10.5 · Mother §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای آزمون ورودی دوباره از طریق چک لیست (افزایش RBAC، ضعف‌های متفاوت API، موارد مربوط به ایزولاسیون تیانت) نوشته شود."
     },
     {
         "id":  "P11-T05-S01-M03",
@@ -2601,7 +2601,7 @@
                           ],
         "test":  "integration|Jazzer.js (Vitest harness)|fuzz/iam.fuzz.spec.ts|Input: 5 000 seeded token/scope/route combinations. Expected: 0 requests allowed outside the role × endpoint matrix. Pass: 0 bypasses.",
         "spec":  "OTOMIX §10.4; §7.6 · Mother §8.2; §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: هر روز در طول شب، یک بررسی تصادفی IAM برای بالا بردن نقش و اجرا شدن محدوده را اجرا کنید."
     },
     {
         "id":  "P11-T05-S01-M04",
@@ -2613,7 +2613,7 @@
                           ],
         "test":  "e2e|GitHub Actions (act) + Vitest|tools/test/cvss-drill.spec.ts|Input: pipeline run with a fixture finding of 7.0. Expected: deploy job skipped/failed; 6.9 fixture proceeds. Pass: both.",
         "spec":  "OTOMIX §7.9 · Mother §8.3; Add. §6",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: بررسی کنید که در پایان دریج CVSS یک ساخت با 7.0 باید پروتکل نصب را متوقف کند."
     },
     {
         "id":  "P11-T06-S01-M01",
@@ -2624,7 +2624,7 @@
                           ],
         "test":  "unit|Vitest|tools/test/coverage-gate.spec.ts|Input: coverage summaries with core 89.9% and 90.0%; access 99.9% and 100%. Expected: fail, pass; fail, pass. Pass: matches.",
         "spec":  "OTOMIX §10.6 · Mother §8.2",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: در سیستم CI، پوشش 90٪ را برای موتور اصلی و 100٪ را برای مودولهای حقوق/دسترسی تقویت کنید و یک وسیله گزارش ایجاد کنید."
     },
     {
         "id":  "P11-T07-S01-M01",
@@ -2640,7 +2640,7 @@
                           ],
         "test":  "integration|Vitest|scripts/test/acceptance-map.spec.ts|Input: parse §10.9 table. Expected: 0 unmapped rows; each mapped path exists. Pass: 0 unmapped.",
         "spec":  "OTOMIX §10.9 · Mother Add. §5",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: روش ساختن رانر پذیرش که هر ردیف OTOMIX 10.9 را به آزمون‌های قابل اجرا تبدیل می‌کند و آنها را اجرا می‌کند."
     },
     {
         "id":  "P11-T07-S01-M02",
@@ -2654,7 +2654,7 @@
                           ],
         "test":  "unit|Vitest|scripts/test/evidence.spec.ts|Input: sample results. Expected: JSON has 4 criteria entries each with `passed` and ≥1 artifact path. Pass: structure valid.",
         "spec":  "OTOMIX §10.7 · Mother §10",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: بسته اثبات را برای شرایط ۴×۱۰.۷ با لینک‌های وسیله و پرداخت فلگ تولید کنید."
     },
     {
         "id":  "P11-T07-S01-M03",
@@ -2665,6 +2665,6 @@
                           ],
         "test":  "unit|Vitest|scripts/test/signoff.spec.ts|Input: task status file with one BLOCKED task marked DONE. Expected: report generation fails. Pass: non-zero exit.",
         "spec":  "OTOMIX §10.7 · Mother §10",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: Ø®Ø·Ø§ Ø¯Ø± ØªØ±Ø¬Ù…Ù‡"
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: گزارش تاییدی را تولید کن که هر وظیفه مسدود شده را با تصمیم مالک وظیفه و اطمینان از اینکه هیچ وظیفه مسدود شده ای به صورت \"کامل\" نشان داده نشود، شامل شود."
     }
 ]
