@@ -35,7 +35,7 @@ describe('RT-safety audit (P04-T03-S02-M01)', () => {
     }
 
     // Warm-up
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 20000; i++) {
       processor.process(inputs, outputs, i % 64, 16);
     }
 
@@ -60,7 +60,7 @@ describe('RT-safety audit (P04-T03-S02-M01)', () => {
     const allocatingProcessor = new AllocatingProcessor();
 
     // Warm-up
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 20000; i++) {
       allocatingProcessor.process(inputs, outputs);
     }
 
