@@ -106,7 +106,19 @@ describe('DspPort interface (mock implementation)', () => {
   it('should initialize with a DspEngineConfig and store it', () => {
     const config: DspEngineConfig = {
       adminConfig: { chopGrid: 8, crossfadeBeats: 0.015625, rateMin: 0.98, rateMax: 1.02, swingThreshold: 0.05 },
-      userConfig: { entryBeat: 1, exitBeat: 65, transitionWindowBars: 16, bpmTolerance: 0.10, targetEnergy: 0.7 },
+      userConfig: { entryBeat: 1, exitBeat: 65, transitionWindowBars: 16, bpmTolerance: 0.10, targetEnergy: 0.7, profileId: 'default' },
+    transitionProfile: {
+      id: 'default',
+      name: 'Default Profile',
+      windowBars: 16,
+      bpmCurve: 'cosine',
+      eqProfile: {
+        low: { frequency: 100, gainDb: 0, q: 0.7 },
+        mid: { frequency: 1000, gainDb: 0, q: 0.7 },
+        high: { frequency: 10000, gainDb: 0, q: 0.7 }
+      },
+      effects: []
+    },
     };
     port.initialize(config);
     expect(port.initialized).toBe(true);

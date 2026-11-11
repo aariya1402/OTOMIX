@@ -7,7 +7,19 @@ import type { TransitionPlan } from '../src/transition/types';
 describe('MockDspDriver', () => {
   const mockConfig: DspEngineConfig = {
     adminConfig: { chopGrid: 16, crossfadeBeats: 0.015625, rateMin: 0.98, rateMax: 1.02, swingThreshold: 0.05 },
-    userConfig: { entryBeat: 0, exitBeat: 64, transitionWindowBars: 16, bpmTolerance: 0.1, targetEnergy: 0.7 }
+    userConfig: { entryBeat: 0, exitBeat: 64, transitionWindowBars: 16, bpmTolerance: 0.1, targetEnergy: 0.7, profileId: 'default' },
+    transitionProfile: {
+      id: 'default',
+      name: 'Default Profile',
+      windowBars: 16,
+      bpmCurve: 'cosine',
+      eqProfile: {
+        low: { frequency: 100, gainDb: 0, q: 0.7 },
+        mid: { frequency: 1000, gainDb: 0, q: 0.7 },
+        high: { frequency: 10000, gainDb: 0, q: 0.7 }
+      },
+      effects: []
+    }
   };
 
   const mockPlan: TransitionPlan = {
