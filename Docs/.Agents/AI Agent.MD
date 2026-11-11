@@ -571,6 +571,20 @@ The DSP layer (AudioWorklet) and Transition logic must NEVER hardcode these valu
 The DSP/AudioWorklet layer MUST ONLY consume `AdminTuningConfig` for its internal parameters. End-users must NEVER be able to modify these deep DSP values.
 
 ---
+### Master Transition Profile (Directive 2026-11-11)
+
+**ALL parameters governing a transition (EQ, Effects, BPM curves, Window length) MUST be grouped into a single JSON-serializable `TransitionProfile`.**
+
+A `TransitionProfile` is the master preset created by Admins in the Dashboard. It includes:
+1. **Window:** Transition length (e.g., 4, 8, 16 bars).
+2. **EQ Settings:** Frequencies, Q, and gain curves for Low/Mid/High bands.
+3. **Effects Chain:** Reverb, Delay, or other effects applied during the transition.
+4. **BPM Matching:** The curve type and speed for aligning the tempo of the outgoing/incoming tracks.
+5. **Automation:** Timing curves for how these parameters change over the transition window.
+
+The DSP modules (EQ, Effects, etc.) MUST NOT hardcode their settings. They must receive their specific configuration from the `TransitionProfile` passed to them at initialization.
+
+---
 ## Rule 25 — Mixability-First Architecture (CORE MISSION)
 
 **The primary mission of OTOMIX is SET BUILDING, not mixing.**

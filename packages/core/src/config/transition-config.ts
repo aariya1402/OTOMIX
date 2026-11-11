@@ -5,9 +5,33 @@
 export interface UserFacingConfig {
   entryBeat: number;
   exitBeat: number;
-  transitionWindowBars: number; // e.g., 4, 8, 16
   bpmTolerance: number;         // e.g., 0.10 (10%)
   targetEnergy: number;         // 0.0 to 1.0
+  profileId: string;            // ID of the chosen TransitionProfile
+}
+
+export interface EqBandConfig {
+  frequency: number;
+  gainDb: number;
+  q: number;
+}
+
+export interface EqProfile {
+  low: EqBandConfig;
+  mid: EqBandConfig;
+  high: EqBandConfig;
+}
+
+export type BpmCurveType = 'linear' | 'exponential' | 'cosine';
+
+export interface TransitionProfile {
+  id: string;
+  name: string;
+  windowBars: number;           // e.g., 4, 8, 16
+  bpmCurve: BpmCurveType;
+  eqProfile: EqProfile;
+  effects: string[];            // e.g., ['reverb', 'delay']
+  // Future expansion for automation curves of each parameter over the window
 }
 
 /**
@@ -28,4 +52,5 @@ export interface AdminTuningConfig {
 export interface DspEngineConfig {
   adminConfig: AdminTuningConfig;
   userConfig: UserFacingConfig;
+  transitionProfile: TransitionProfile;
 }
