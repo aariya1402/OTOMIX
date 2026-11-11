@@ -45,3 +45,4 @@ export * from './config/transition-config';
 export * from './dsp/spsc-ring-buffer';
 export * from './dsp/smoother';
 export * from './dsp/denormal';
+export * from './dsp/port';

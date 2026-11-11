@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["paramId", "targetValue", "time", "curve"],
+  "properties": {
+    "paramId": { "type": "string" },
+    "targetValue": { "type": "number" },
+    "time": { "type": "number" },
+    "curve": { "enum": ["linear", "exponential", "step"] }
+  },
+  "additionalProperties": false
+}

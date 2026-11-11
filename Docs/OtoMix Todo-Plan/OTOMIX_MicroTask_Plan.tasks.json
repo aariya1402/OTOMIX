@@ -853,7 +853,7 @@
  },
  {
   "id": "P04-T04-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Define the `DspPort` interface and the `AudioParamAutomation` schema (target value, time, curve type).",
   "prerequisites": [
    "P04-T01-S02-M01"
