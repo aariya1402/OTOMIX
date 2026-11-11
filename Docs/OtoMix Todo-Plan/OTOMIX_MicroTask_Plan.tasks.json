@@ -652,7 +652,7 @@
  },
  {
   "id": "P04-T01-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Compute `BPM_target=(BPM_out+BPM_in)/2` as the default glide target.",
   "prerequisites": [
    "P03-T06-S01-M01"

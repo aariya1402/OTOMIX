@@ -1,4 +1,4 @@
-﻿# OTOMIX Micro-Task Plan
+# OTOMIX Micro-Task Plan
 
 **Document:** `OTOMIX_MicroTask_Plan.md`  
 **Baseline:** `OTOMIX_Architecture_Spec.md` (OTOMIX-specific) and the Mother Document `Software_Arch_Spec__Main_.md` including its Engineering Delivery Addendum  
@@ -1377,7 +1377,7 @@ flowchart LR
 
 ##### P04-T01-S01 Target tempo and mapping
 
-###### P04-T01-S01-M01 — TODO
+###### P04-T01-S01-M01 — [x]
 
 | Field | Value |
 |---|---|

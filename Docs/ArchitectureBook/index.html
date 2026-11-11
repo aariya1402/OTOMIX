@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OTOMIX Architecture Book</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header id="topbar">
+    <button id="menu-toggle" aria-label="Toggle menu">☰</button>
+    <div id="brand" onclick="location.hash='#/'">OTOMIX Architecture Book</div>
+    <input id="search-input" type="search" placeholder="Search (press /)" aria-label="Search">
+    <button id="theme-toggle" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+  </header>
+  <div id="app">
+    <aside id="sidebar">
+      <nav id="toc" role="navigation" aria-label="Table of contents"></nav>
+    </aside>
+    <main id="content" role="main"></main>
+  </div>
+  <div id="search-results" hidden></div>
+  <script src="content.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
