@@ -431,3 +431,24 @@ When any track is analyzed for the first time, the system MUST determine its kic
 - `TRANSITION_WINDOW_BEATS = 64` (derived)
 - `SAFETY_XFADE_BEATS = 16` (unchanged — this is the fallback 4-bar crossfade, not the main window)
 - `P03-T06-S01-M06` (the blocked decision task) is now resolved and marked `[x]`.
+---
+
+### RULE 10 ADDENDUM — Clues Workflow (2026-11-11)
+
+**Per micro-task (after Strict Verification passes, before commit):**
+1. `pwsh -File Docs/ArchitectureBook/clues/generate-clue.ps1 -TaskId "<id>" -CommitSha "HEAD"`
+   → Appends a markdown clue block to `clues/<phase>.md` (extracts file list from `git show`, new exports, new test counts, plan fields).
+2. `git add Docs/ArchitectureBook/clues/<phase>.md`
+3. Commit includes the clue (same commit as the task).
+
+**At phase boundary (last micro-task of a phase):**
+1. `pwsh -File Docs/ArchitectureBook/clues/consolidate-phase.ps1 -Phase Pnn` → prints Cline prompt.
+2. Send prompt to Cline (Ask→Act). Cline rewrites `narratives/Pnn/README.md` (~500 words) using the clues.
+3. Verify: narrative > 400 words, ≥ 5 file:line refs, all OQ IDs mentioned.
+4. `pwsh -File Docs/ArchitectureBook/clues/consolidate-phase.ps1 -Phase Pnn -Archive` → moves `clues/Pnn.md` to `clues/archive/Pnn_<ts>.md`, resets it, rebuilds `content.js`.
+5. Commit: `docs(Pnn): consolidate phase narrative from clues`.
+
+**Files:**
+- `clues/generate-clue.ps1` — auto-generate a clue from a commit
+- `clues/consolidate-phase.ps1` — print Cline prompt / archive
+- `clues/archive/` — archived clues (audit trail)
