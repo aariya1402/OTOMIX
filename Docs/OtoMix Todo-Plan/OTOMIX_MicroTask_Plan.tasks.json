@@ -913,7 +913,7 @@
  },
  {
   "id": "P04-T04-S02-M05",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the export encoding stage (MP3, WAV, FLAC) outside the real-time callback.",
   "prerequisites": [
    "P04-T04-S02-M04"

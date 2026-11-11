@@ -52,3 +52,4 @@ export * from './dsp/three-band-eq';
 export * from './dsp/comp';
 export * from './dsp/limiter';
 export * from './dsp/input-gain';
+export * from './dsp/encoder';

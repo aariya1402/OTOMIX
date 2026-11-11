@@ -1720,7 +1720,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.11; §4.2 · Mother §3.6, Add. §12; §3.2 |
 | Review Checkpoint | Confirm the stage is first in the chain order. |
 
-###### P04-T04-S02-M05 — TODO
+###### P04-T04-S02-M05 — DONE
 
 | Field | Value |
 |---|---|
