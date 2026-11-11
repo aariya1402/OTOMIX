@@ -214,23 +214,20 @@ pre.mermaid, .mermaid {
   a { color: #000 !important; text-decoration: underline !important; }
   pre, code { border: 1px solid #ccc !important; background: #f8f8f8 !important; }
 }
-/* --- RTL & Persian Overrides --- */
-body {
+/* --- RTL & Persian Overrides (Conditional) --- */
+[dir="rtl"] body {
   font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
-/* Keep code and pre blocks LTR */
-pre, code, .file-link {
+[dir="rtl"] pre, [dir="rtl"] code, [dir="rtl"] .file-link {
   direction: ltr !important;
   text-align: left !important;
   font-family: var(--mono) !important;
 }
-/* Fix list padding in RTL */
-#content ul, #content ol {
+[dir="rtl"] #content ul, [dir="rtl"] #content ol {
   padding-right: 24px;
   padding-left: 0;
 }
-/* Fix blockquote border */
-#content blockquote {
+[dir="rtl"] #content blockquote {
   border-left: none;
   border-right: 4px solid var(--accent);
   padding-right: 10px;
@@ -238,7 +235,10 @@ pre, code, .file-link {
   margin-right: 0;
   margin-left: 1em;
 }
-/* Table alignment */
-table th, table td {
+[dir="rtl"] table th, [dir="rtl"] table td {
   text-align: right;
+}
+[dir="rtl"] #lang-toggle {
+  left: auto !important;
+  right: 20px;
 }

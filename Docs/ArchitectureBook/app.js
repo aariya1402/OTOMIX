@@ -163,10 +163,10 @@
   }
 
   function statusOf(task) {
-    var s = (task && task.status) || "در انتظار";
-    if (s.indexOf("بلاک شده") === 0) return "بلاک شده";
-    if (s === "انجام شده") return "انجام شده";
-    return "در انتظار";
+    var s = (task && task.status) || 'TODO';
+    if (s.indexOf('BLOCKED') === 0) return 'blocked';
+    if (s === 'DONE') return 'done';
+    return 'todo';
   }
 
   // ====== TOC ======
@@ -179,10 +179,10 @@
     var homeLabel = el('div', { class: 'toc-label', text: 'Home' });
     toc.appendChild(homeLabel);
     var home = el('a', { class: 'toc-item', href: '#/' });
-    home.textContent = "نمای کلی";
+    home.textContent = 'Overview';
     toc.appendChild(home);
 
-    var phaseLabel = el('div', { class: 'toc-label', text: "فازها" });
+    var phaseLabel = el('div', { class: 'toc-label', text: 'Phases' });
     toc.appendChild(phaseLabel);
 
     var phases = getPhases();
@@ -193,17 +193,17 @@
         total = p.tasks.length;
         for (var j = 0; j < p.tasks.length; j++) {
           var st = statusOf(p.tasks[j]);
-          if (st === "انجام شده") done++;
-          else if (st === "بلاک شده") blocked++;
+          if (st === 'done') done++;
+          else if (st === 'blocked') blocked++;
         }
       }
       var link = el('a', { class: 'toc-item', href: '#/' + p.id });
       link.setAttribute('data-phase', p.id);
       link.textContent = p.id + ' — ' + t(p.title).replace(/^Phase \d+ — /, '');
-      var badgeClass = "در حال انجام";
-            if (done === total && total > 0) badgeClass = "انجام شده";
-            else if (done === 0) badgeClass = "در انتظار";
-            else if (blocked > 0) badgeClass = "بلاک شده";
+      var badgeClass = 'in-progress';
+            if (done === total && total > 0) badgeClass = 'done';
+            else if (done === 0) badgeClass = 'todo';
+            else if (blocked > 0) badgeClass = 'blocked';
             var badge = el('span', { class: 'badge ' + badgeClass });
       badge.textContent = done + '/' + total + (blocked > 0 ? ' + ' + blocked : '');
       link.appendChild(badge);
@@ -211,13 +211,13 @@
     }
 
     // Appendices
-    var appLabel = el('div', { class: 'toc-label', text: "ضمائم" });
+    var appLabel = el('div', { class: 'toc-label', text: 'Appendices' });
     toc.appendChild(appLabel);
     var cLink = el('a', { class: 'toc-item', href: '#/constants' });
-    cLink.textContent = "مرجع ثابت‌ها";
+    cLink.textContent = 'Constants Reference';
     toc.appendChild(cLink);
     var gLink = el('a', { class: 'toc-item', href: '#/glossary' });
-    gLink.textContent = "واژه‌نامه";
+    gLink.textContent = 'Glossary';
     toc.appendChild(gLink);
 
     // highlight active
@@ -257,7 +257,7 @@
       + ' · Tests: ' + (meta.total_tests || '—');
     container.appendChild(info);
 
-    container.appendChild(el('h2', { text: "فازها" }));
+    container.appendChild(el('h2', { text: 'Phases' }));
     var phases = getPhases();
     for (var i = 0; i < phases.length; i++) {
       var ph = phases[i];
@@ -283,7 +283,7 @@
     }
     container.appendChild(el('h1', { text: t(phase.title) || phaseId }));
     var status = el('p');
-    var badge = el('span', { class: 'badge-status ' + (phase.status || "در انتظار") });
+    var badge = el('span', { class: 'badge-status ' + (phase.status || 'todo') });
     badge.textContent = phase.status || 'unknown';
     status.appendChild(badge);
     var lbl = document.createTextNode('  ' + (t(phase.status_label) || ''));
@@ -327,14 +327,14 @@
 
     var tbl = el('table', { class: 'field-table' });
     var rows = [
-      ["وضعیت", task.status || "در انتظار"],
-      ["توضیحات", t(task.description)],
-      ["خروجی مورد انتظار", t(task.expected_outcome)],
-      ["پیش‌نیازها", Array.isArray(task.prerequisites) ? task.prerequisites.join(', ') : ''],
-      ["تست", t(task.test)],
-      ["مرجع مشخصات", t(task.spec_reference)],
-      ["نقطه بازبینی", t(task.review_checkpoint)],
-      ["یادداشت‌ها", t(task.notes)],
+      ['Status', task.status || 'TODO'],
+      ['Description', t(task.description)],
+      ['Expected Outcome', t(task.expected_outcome)],
+      ['Prerequisites', Array.isArray(task.prerequisites) ? task.prerequisites.join(', ') : ''],
+      ['Test', t(task.test)],
+      ['Spec Reference', t(task.spec_reference)],
+      ['Review Checkpoint', t(task.review_checkpoint)],
+      ['Notes', t(task.notes)],
       ['Test File', task.test_file || ''],
       ['Test Count', task.test_count != null ? String(task.test_count) : ''],
       ['MD Line', task.md_line != null ? String(task.md_line) : '']
@@ -361,7 +361,7 @@
   }
 
   function renderConstants(container) {
-    container.appendChild(el('h1', { text: "مرجع ثابت‌ها" }));
+    container.appendChild(el('h1', { text: 'Constants Reference' }));
     if (!BOOK || !BOOK.constants) return;
     var groups = BOOK.constants;
     for (var cat in groups) {
@@ -391,7 +391,7 @@
   }
 
   function renderGlossary(container) {
-    container.appendChild(el('h1', { text: "واژه‌نامه" }));
+    container.appendChild(el('h1', { text: 'Glossary' }));
     if (!BOOK || !Array.isArray(BOOK.glossary)) return;
     for (var i = 0; i < BOOK.glossary.length; i++) {
       var g = BOOK.glossary[i];
@@ -419,7 +419,7 @@
     var parts = hash.split('/').filter(Boolean);
     if (parts.length === 0) return renderHome(content);
     if (parts[0] === 'constants') return renderConstants(content);
-    if (parts[0] === "واژه‌نامه") return renderGlossary(content);
+    if (parts[0] === 'glossary') return renderGlossary(content);
     if (parts[0] === 'ch0' || parts[0] === 'ch1') {
       return renderPhase(content, parts[0]);
     }
@@ -462,7 +462,7 @@
     if (Array.isArray(BOOK.glossary)) {
       for (var g = 0; g < BOOK.glossary.length; g++) {
         var gl = BOOK.glossary[g];
-        idx.push({ type: "واژه‌نامه", id: t(gl.term), label: t(gl.term), text: (t(gl.term) + ' ' + t(gl.definition)).toLowerCase(), href: '#/glossary' });
+        idx.push({ type: 'glossary', id: t(gl.term), label: t(gl.term), text: (t(gl.term) + ' ' + t(gl.definition)).toLowerCase(), href: '#/glossary' });
       }
     }
     return idx;
@@ -598,4 +598,80 @@
   } else {
     boot();
   }
+})();
+// --- Language Toggle Logic ---
+(function() {
+  const i18n = {
+    'Overview': 'نمای کلی',
+    'Phases': 'فازها',
+    'Appendices': 'ضمائم',
+    'Constants Reference': 'مرجع ثابت‌ها',
+    'Glossary': 'واژه‌نامه',
+    'Tasks': 'تسک‌ها',
+    'blocked': 'بلاک شده',
+    'todo': 'در انتظار',
+    'done': 'انجام شده',
+    'in-progress': 'در حال انجام',
+    'Status': 'وضعیت',
+    'Description': 'توضیحات',
+    'Test': 'تست',
+    'Spec Reference': 'مرجع مشخصات',
+    'Review Checkpoint': 'نقطه بازبینی',
+    'Notes': 'یادداشت‌ها',
+    'Prerequisites': 'پیش‌نیازها',
+    'Expected Outcome': 'خروجی مورد انتظار',
+    'Search (press /)': 'جستجو (دکمه /)'
+  };
+
+  const reverseI18n = {};
+  for (const [en, fa] of Object.entries(i18n)) {
+    reverseI18n[fa] = en;
+  }
+
+  function translateDOM(lang) {
+    const dict = lang === 'fa' ? i18n : reverseI18n;
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+    let node;
+    const nodesToReplace = [];
+    
+    while (node = walker.nextNode()) {
+      const text = node.nodeValue.trim();
+      if (dict[text]) {
+        nodesToReplace.push({ node, newText: dict[text] });
+      }
+    }
+    
+    nodesToReplace.forEach(item => {
+      item.node.nodeValue = item.node.nodeValue.replace(item.node.nodeValue.trim(), item.newText);
+    });
+  }
+
+  function setLanguage(lang) {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+    localStorage.setItem('otomix_book_lang', lang);
+    const btn = document.getElementById('lang-toggle');
+    if (btn) btn.textContent = lang === 'fa' ? 'EN' : 'FA';
+    translateDOM(lang);
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('lang-toggle');
+    const currentLang = localStorage.getItem('otomix_book_lang') || 'en';
+    
+    // Initial set
+    setTimeout(() => setLanguage(currentLang), 100);
+
+    if (btn) {
+      btn.addEventListener('click', () => {
+        const newLang = localStorage.getItem('otomix_book_lang') === 'fa' ? 'en' : 'fa';
+        setLanguage(newLang);
+      });
+    }
+  });
+
+  // Hook into hashchange to translate newly rendered content
+  window.addEventListener('hashchange', () => {
+    setTimeout(() => translateDOM(localStorage.getItem('otomix_book_lang') || 'en'), 100);
+  });
 })();
