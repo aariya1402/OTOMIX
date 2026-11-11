@@ -712,7 +712,7 @@
  },
  {
   "id": "P04-T02-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Slice `Float32Array` audio inside the transition window onto the chopGrid (1/8, 1/16, 1/32) using beat-based boundaries.",
   "prerequisites": [
    "P03-T06-S01-M01",

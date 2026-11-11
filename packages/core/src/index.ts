@@ -35,3 +35,4 @@ export * from './resilience/degraded';
 export * from './telemetry/logger';
 export * from './telemetry/propagation';
 export * from './glide/target';
+export * from './chop/slice';
