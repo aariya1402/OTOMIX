@@ -306,7 +306,7 @@ This section acts as a living memory for technical debt, pending decisions, and 
 - [x] P02-IT: `packages/core/test/p02-it.spec.ts` (Beat-Index Engine)
 - [x] X-P01-P02: `packages/contracts/test/x-p01-p02.spec.ts` (P01→P02 boundary)
 - [x] X-P02-P03: `packages/contracts/test/x-p02-p03.spec.ts` (P02→P03 boundary)
-- [x] P03-IT: `packages/core/test/p03-it.spec.ts` (Dual Grid / Observer, beat-based) ← **THIS COMMIT**
+- [x] P03-IT: `packages/core/test/p03-it.spec.ts` (Dual Grid / Observer, beat-based)
 - [ ] X-P03-P04: `packages/contracts/test/x-p03-p04.spec.ts` — **DEFERRED to P04** (renderer interface not defined yet)
 - [ ] X-P03-P05: `packages/contracts/test/x-p03-p05.spec.ts` — **DEFERRED to P05**
 - [ ] X-P03-P08: `packages/contracts/test/x-p03-p08.spec.ts` — **DEFERRED to P08**
@@ -324,7 +324,7 @@ This section acts as a living memory for technical debt, pending decisions, and 
 *   `P03-T06-S01-M06` (OQ-02): Transition window size (16 beats vs 16 bars).
 *   `P04-T01-S01-M03` (OQ-18): Numeric rule for half-time/double-time detection.
 *   `P04-T01-S02-M03` (OQ-03): Pitch node engagement threshold.
-*   `P04-T02-S02-M02` (OQ-06): `crossfadeMs` bound unit conversion.
+*   `P04-T02-S02-M02` (OQ-06): `crossfadeBeats` bound unit conversion.
 *   `P04-T04-S03-M01` (OQ-05): DSP latency definition (<10ms).
 *   `P05-T02-S01-M02` (OQ-20): Static vs dynamic BPM rule.
 *   `P05-T02-S02-M03` (OQ-21): Dynamics penalty function.
@@ -436,16 +436,16 @@ When any track is analyzed for the first time, the system MUST determine its kic
 ### RULE 10 ADDENDUM — Clues Workflow (2026-11-11)
 
 **Per micro-task (after Strict Verification passes, before commit):**
-1. `pwsh -File Docs/ArchitectureBook/clues/generate-clue.ps1 -TaskId "<id>" -CommitSha "HEAD"`
+1. `powershell.exe -File Docs/ArchitectureBook/clues/generate-clue.ps1 -TaskId "<id>" -CommitSha "HEAD"`
    → Appends a markdown clue block to `clues/<phase>.md` (extracts file list from `git show`, new exports, new test counts, plan fields).
 2. `git add Docs/ArchitectureBook/clues/<phase>.md`
 3. Commit includes the clue (same commit as the task).
 
 **At phase boundary (last micro-task of a phase):**
-1. `pwsh -File Docs/ArchitectureBook/clues/consolidate-phase.ps1 -Phase Pnn` → prints Cline prompt.
+1. `powershell.exe -File Docs/ArchitectureBook/clues/consolidate-phase.ps1 -Phase Pnn` → prints Cline prompt.
 2. Send prompt to Cline (Ask→Act). Cline rewrites `narratives/Pnn/README.md` (~500 words) using the clues.
 3. Verify: narrative > 400 words, ≥ 5 file:line refs, all OQ IDs mentioned.
-4. `pwsh -File Docs/ArchitectureBook/clues/consolidate-phase.ps1 -Phase Pnn -Archive` → moves `clues/Pnn.md` to `clues/archive/Pnn_<ts>.md`, resets it, rebuilds `content.js`.
+4. `powershell.exe -File Docs/ArchitectureBook/clues/consolidate-phase.ps1 -Phase Pnn -Archive` → moves `clues/Pnn.md` to `clues/archive/Pnn_<ts>.md`, resets it, rebuilds `content.js`.
 5. Commit: `docs(Pnn): consolidate phase narrative from clues`.
 
 **Files:**
@@ -566,12 +566,12 @@ ONLY at two boundaries:
   internal musical logic — drift, realignment, tempo, grid, transition
   planning, crossfade, chopping, groove.
 - Any variable or local named driftSeconds, beatPeriodSeconds,
-  swingDeltaSeconds, crossfadeMs, deltaPhiMs, or similar.
+  swingDeltaSeconds, crossfadeBeats, deltaPhiMs, or similar.
 - Any internal computation of the form beats * (60 / bpm) to obtain
   seconds — that conversion is ONLY allowed inside tOfI or at the
   DSP Port output boundary.
 
-### Allowed Bridges (the only functions that know about seconds)
+### Allowed Bridges and Boundary Values
 
 - tOfI(beatIndex, T0, bpm, deltaQuanta) — beat index to absolute timestamp
   in seconds. This is the sole beat-to-seconds conversion function in the

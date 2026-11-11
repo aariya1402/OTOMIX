@@ -1503,22 +1503,22 @@ flowchart LR
 | Field | Value |
 |---|---|
 | ID | `P04-T02-S02-M01` |
-| Description | Implement `F_fade=0.5·(1+cos(π·t/crossfadeMs))` for t∈[0, crossfadeMs] applied at slice boundaries. |
+| Description | Implement `F_fade=0.5·(1+cos(π·t/crossfadeBeats))` for t∈[0, crossfadeBeats] applied at slice boundaries. |
 | Expected Outcome | `packages/core/src/chop/fade.ts`. |
 | Prerequisites | `P04-T02-S01-M01` |
-| Independent Test(s) | **unit** · Vitest · `packages/core/test/chop.fade.spec.ts`<br>Input: crossfadeMs=8; t=0,4,8. Expected: 1.0, 0.5, 0.0. Pass: within 1e-12. |
+| Independent Test(s) | **unit** · Vitest · `packages/core/test/chop.fade.spec.ts`<br>Input: crossfadeBeats=8; t=0,4,8. Expected: 1.0, 0.5, 0.0. Pass: within 1e-12. |
 | Spec Reference | OTOMIX §3.8 · Mother §2.8 |
-| Review Checkpoint | Compare the code with the formula in §3.8; confirm domain clamp for t outside [0, crossfadeMs]. |
+| Review Checkpoint | Compare the code with the formula in §3.8; confirm domain clamp for t outside [0, crossfadeBeats]. |
 
 ###### P04-T02-S02-M02 — [BLOCKED: OWNER DECISION OQ-06]
 
 | Field | Value |
 |---|---|
 | ID | `P04-T02-S02-M02` |
-| Description | Enforce `crossfadeMs ≤ 60/BPM × chopGrid_fraction / 4` including its unit conversion. |
+| Description | Enforce `crossfadeBeats ≤ 60/BPM × chopGrid_fraction / 4` including its unit conversion. |
 | Expected Outcome | Blocked until unit and fraction definition are confirmed. |
 | Prerequisites | `P04-T02-S02-M01` |
-| Independent Test(s) | **[BLOCKED]** Decision needed: the bound evaluates to seconds while `crossfadeMs` is milliseconds; confirm ×1000 and confirm `chopGrid_fraction` is a fraction of one beat (example 120 BPM, 1/16 → 7.8125 ms). |
+| Independent Test(s) | **[BLOCKED]** Decision needed: the bound evaluates to seconds while `crossfadeBeats` is milliseconds; confirm ×1000 and confirm `chopGrid_fraction` is a fraction of one beat (example 120 BPM, 1/16 → 7.8125 ms). |
 | Spec Reference | OTOMIX §3.8 · Mother §2.8 |
 | Review Checkpoint | Re-read Appendix A item A7. |
 | Notes | Blocked by: OQ-06 |
@@ -1595,7 +1595,7 @@ flowchart LR
 | Field | Value |
 |---|---|
 | ID | `P04-T03-S01-M04` |
-| Description | Apply `crossfadeMs` and `chopGrid` updates only at the next slice boundary. |
+| Description | Apply `crossfadeBeats` and `chopGrid` updates only at the next slice boundary. |
 | Expected Outcome | `packages/workers/src/param-apply.ts`. |
 | Prerequisites | `P04-T03-S01-M02` |
 | Independent Test(s) | **unit** · Vitest · `packages/workers/test/param-apply.spec.ts`<br>Input: update posted mid-slice. Expected: value in effect remains unchanged until the next boundary, then changes once. Pass: matches. |
@@ -2474,12 +2474,12 @@ flowchart LR
 | Field | Value |
 |---|---|
 | ID | `P06-T07-S01-M01` |
-| Description | Implement `PATCH /api/v1/dsp/parameters` validating `chopGrid ∈ {1/8,1/16,1/32}` and numeric `crossfadeMs`. |
+| Description | Implement `PATCH /api/v1/dsp/parameters` validating `chopGrid ∈ {1/8,1/16,1/32}` and numeric `crossfadeBeats`. |
 | Expected Outcome | `packages/gateway/src/routes/dsp-parameters.ts`. |
 | Prerequisites | `P06-T02-S01-M03`, `P01-T06-S01-M02` |
-| Independent Test(s) | **integration** · Vitest + supertest · `packages/gateway/test/dsp-parameters.spec.ts`<br>Input: chopGrid '1/16', '1/64'; crossfadeMs 'abc'. Expected: 200, 400, 400. Pass: matches. |
+| Independent Test(s) | **integration** · Vitest + supertest · `packages/gateway/test/dsp-parameters.spec.ts`<br>Input: chopGrid '1/16', '1/64'; crossfadeBeats 'abc'. Expected: 200, 400, 400. Pass: matches. |
 | Spec Reference | OTOMIX §7.2; §9.4 · Mother §5.2; Add. §1–§2 |
-| Review Checkpoint | The crossfadeMs upper bound depends on OQ-06; confirm the bound hook is a parameter. |
+| Review Checkpoint | The crossfadeBeats upper bound depends on OQ-06; confirm the bound hook is a parameter. |
 | Notes | Related open question (non-blocking): OQ-06 |
 
 ###### P06-T07-S01-M02 — TODO
@@ -4140,7 +4140,7 @@ P11 is the final phase; its incoming boundaries (P04→P11, P06→P11, P07→P11
 | `P04-T02-S01-M02` | unit | Vitest | `packages/core/test/chop.passthrough.spec.ts` | `out.buffer===in.buffer`. |
 | `P04-T02-S01-M03` | unit | Vitest | `packages/core/test/chop.groove-shift.spec.ts` | matches. |
 | `P04-T02-S02-M01` | unit | Vitest | `packages/core/test/chop.fade.spec.ts` | within 1e-12. |
-| `P04-T02-S02-M02` | — | — | — | [BLOCKED] Decision needed: the bound evaluates to seconds while `crossfadeMs` is milliseconds; confirm ×1000 and confirm `chopGrid_fraction` is a fraction of one beat (example 120 BPM, 1/16 → 7.8125 ms). |
+| `P04-T02-S02-M02` | — | — | — | [BLOCKED] Decision needed: the bound evaluates to seconds while `crossfadeBeats` is milliseconds; confirm ×1000 and confirm `chopGrid_fraction` is a fraction of one beat (example 120 BPM, 1/16 → 7.8125 ms). |
 | `P04-T02-S02-M03` | unit | Vitest | `packages/core/test/chop.shed.spec.ts` | matches. |
 | `P04-T02-S02-M04` | unit | Vitest | `packages/core/test/chop.wsola-gate.spec.ts` | matches. |
 | `P04-T03-S01-M01` | unit | Vitest + AudioWorklet harness | `packages/workers/test/processor.spec.ts` | identity checks true. |
@@ -4441,7 +4441,7 @@ Every gap or contradiction found while decomposing the specification. **Blocking
 | OQ-03 | A3 | Does the secondary pitch-shifting node engage above ±1 semitone (about ±5.95% rate) or only beyond the ±8% cap (about 1.36 semitones)? | Blocking | `P04-T01-S02-M03` | — |
 | OQ-04 | A4 | Does the ±0.05 semitone acceptance bound apply to Runtime Drift Compensation (range [0.98, 1.02], about ±0.34 semitones) or only to post-transition realignment? | Blocking | `P03-T04-S02-M01`<br>`P11-T03-S01-M03` | `P03-T04-S01-M02` |
 | OQ-05 | A5 | Is '<10 ms' per-block compute latency plus reported algorithmic latency, given one 1024-sample buffer at 44.1 kHz is 23.22 ms? | Blocking | `P04-T04-S03-M01` | — |
-| OQ-06 | A7 | The `crossfadeMs` bound `60/BPM × chopGrid_fraction / 4` yields seconds while the parameter is milliseconds; confirm ×1000 and that the fraction is of one beat. | Blocking | `P04-T02-S02-M02` | `P06-T07-S01-M01` |
+| OQ-06 | A7 | The `crossfadeBeats` bound `60/BPM × chopGrid_fraction / 4` yields seconds while the parameter is milliseconds; confirm ×1000 and that the fraction is of one beat. | Blocking | `P04-T02-S02-M02` | `P06-T07-S01-M01` |
 | OQ-07 | A8 | Negative-index convention (index zero skipped) and the exact numbering of the shifted anchor for pre-kick gaps ≥ 1 bar (Beat −5/−9 vs Beat 5/9). | Blocking | `P02-T05-S01-M02` | `P02-T01-S01-M01`<br>`P02-T05-S01-M01` |
 | OQ-08 | — | Percentile bands for 1–4 stars; the spec gives only E above the 80th percentile = 5 stars. | Non-blocking | — | `P05-T02-S02-M04` |
 | OQ-09 | — | Formulas for Camelot proximity, tempo-delta score and energy-progression score used by the 60/30/10 recommendation. | Blocking | `P08-T04-S01-M01` | — |

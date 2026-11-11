@@ -36,7 +36,7 @@ if (-not $Archive) {
     Write-Host "4. HALT after writing the narrative. Do NOT modify any other file."
     Write-Host ""
     Write-Host "### AFTER CLINE COMPLETES"
-    Write-Host "Run:  pwsh -File Docs/ArchitectureBook/clues/consolidate-phase.ps1 -Phase $Phase -Archive"
+    Write-Host "Run:  powershell.exe -File Docs/ArchitectureBook/clues/consolidate-phase.ps1 -Phase $Phase -Archive"
     exit 0
 }
 
@@ -48,7 +48,7 @@ $reset = "# $Phase Clues`r`n`r`n<!-- Archived after consolidation. New clues wil
 
 # Rebuild book
 $bookBuild = Join-Path $cluesDir "..\build-book.ps1"
-if (Test-Path $bookBuild) { & pwsh -NoProfile -File $bookBuild | Out-Null }
+if (Test-Path $bookBuild) { & powershell.exe -NoProfile -File $bookBuild | Out-Null }
 
 Write-Host "OK: archived to $archiveFile"
 Write-Host "OK: clues/$Phase.md reset"

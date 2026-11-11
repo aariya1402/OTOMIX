@@ -744,21 +744,21 @@
  {
   "id": "P04-T02-S02-M01",
   "status": "TODO",
-  "description": "Implement `F_fade=0.5\u00b7(1+cos(\u03c0\u00b7t/crossfadeMs))` for t\u2208[0, crossfadeMs] applied at slice boundaries.",
+  "description": "Implement `F_fade=0.5\u00b7(1+cos(\u03c0\u00b7t/crossfadeBeats))` for t\u2208[0, crossfadeBeats] applied at slice boundaries.",
   "prerequisites": [
    "P04-T02-S01-M01"
   ],
-  "test": "unit|Vitest|packages/core/test/chop.fade.spec.ts|Input: crossfadeMs=8; t=0,4,8. Expected: 1.0, 0.5, 0.0. Pass: within 1e-12.",
+  "test": "unit|Vitest|packages/core/test/chop.fade.spec.ts|Input: crossfadeBeats=8; t=0,4,8. Expected: 1.0, 0.5, 0.0. Pass: within 1e-12.",
   "spec": "OTOMIX \u00a73.8 \u00b7 Mother \u00a72.8"
  },
  {
   "id": "P04-T02-S02-M02",
   "status": "BLOCKED:OQ-06",
-  "description": "Enforce `crossfadeMs \u2264 60/BPM \u00d7 chopGrid_fraction / 4` including its unit conversion.",
+  "description": "Enforce `crossfadeBeats \u2264 60/BPM \u00d7 chopGrid_fraction / 4` including its unit conversion.",
   "prerequisites": [
    "P04-T02-S02-M01"
   ],
-  "test": "[BLOCKED] Decision needed: the bound evaluates to seconds while `crossfadeMs` is milliseconds; confirm \u00d71000 and confirm `chopGrid_fraction` is a fraction of one beat (example 120 BPM, 1/16 \u2192 7.8125 ms).",
+  "test": "[BLOCKED] Decision needed: the bound evaluates to seconds while `crossfadeBeats` is milliseconds; confirm \u00d71000 and confirm `chopGrid_fraction` is a fraction of one beat (example 120 BPM, 1/16 \u2192 7.8125 ms).",
   "spec": "OTOMIX \u00a73.8 \u00b7 Mother \u00a72.8"
  },
  {
@@ -814,7 +814,7 @@
  {
   "id": "P04-T03-S01-M04",
   "status": "TODO",
-  "description": "Apply `crossfadeMs` and `chopGrid` updates only at the next slice boundary.",
+  "description": "Apply `crossfadeBeats` and `chopGrid` updates only at the next slice boundary.",
   "prerequisites": [
    "P04-T03-S01-M02"
   ],
@@ -1398,12 +1398,12 @@
  {
   "id": "P06-T07-S01-M01",
   "status": "TODO",
-  "description": "Implement `PATCH /api/v1/dsp/parameters` validating `chopGrid \u2208 {1/8,1/16,1/32}` and numeric `crossfadeMs`.",
+  "description": "Implement `PATCH /api/v1/dsp/parameters` validating `chopGrid \u2208 {1/8,1/16,1/32}` and numeric `crossfadeBeats`.",
   "prerequisites": [
    "P06-T02-S01-M03",
    "P01-T06-S01-M02"
   ],
-  "test": "integration|Vitest + supertest|packages/gateway/test/dsp-parameters.spec.ts|Input: chopGrid '1/16', '1/64'; crossfadeMs 'abc'. Expected: 200, 400, 400. Pass: matches.",
+  "test": "integration|Vitest + supertest|packages/gateway/test/dsp-parameters.spec.ts|Input: chopGrid '1/16', '1/64'; crossfadeBeats 'abc'. Expected: 200, 400, 400. Pass: matches.",
   "spec": "OTOMIX \u00a77.2; \u00a79.4 \u00b7 Mother \u00a75.2; Add. \u00a71\u2013\u00a72"
  },
  {
