@@ -753,7 +753,7 @@
  },
  {
   "id": "P04-T02-S02-M02",
-  "status": "BLOCKED:OQ-06",
+  "status": "TODO",
   "description": "Enforce `crossfadeBeats \u2264 60/BPM \u00d7 chopGrid_fraction / 4` including its unit conversion.",
   "prerequisites": [
    "P04-T02-S02-M01"

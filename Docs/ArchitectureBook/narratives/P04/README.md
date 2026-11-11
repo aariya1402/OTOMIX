@@ -57,7 +57,6 @@ Constants governing chop:
 
 | Task | Blocked By | Issue |
 |------|------------|-------|
-| P04-T02-S02-M02 | OQ-06 | Crossfade bound: `crossfadeBeats ≤ chopGrid_fraction / 4` — all units in beats. No seconds/ms conversion needed. |
 | P04-T03-S01-M01 | OQ-18 | AudioWorklet pre-allocation sizing for variable slice counts. |
 | P04-T03-S01-M02 | OQ-03 | SPSC ring buffer capacity formula under backpressure. |
 | P04-T04-S01-M01 | OQ-05 | Mastering chain loudness target (LUFS) spec. |

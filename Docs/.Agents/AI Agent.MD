@@ -324,7 +324,6 @@ This section acts as a living memory for technical debt, pending decisions, and 
 *   `P03-T06-S01-M06` (OQ-02): Transition window size (16 beats vs 16 bars).
 *   `P04-T01-S01-M03` (OQ-18): Numeric rule for half-time/double-time detection.
 *   `P04-T01-S02-M03` (OQ-03): Pitch node engagement threshold.
-*   `P04-T02-S02-M02` (OQ-06): `crossfadeBeats` bound unit conversion.
 *   `P04-T04-S03-M01` (OQ-05): DSP latency definition (<10ms).
 *   `P05-T02-S01-M02` (OQ-20): Static vs dynamic BPM rule.
 *   `P05-T02-S02-M03` (OQ-21): Dynamics penalty function.
@@ -433,6 +432,31 @@ When any track is analyzed for the first time, the system MUST determine its kic
 - `P03-T06-S01-M06` (the blocked decision task) is now resolved and marked `[x]`.
 ---
 
+
+### OQ-06 Resolution (RESOLVED — crossfadeBeats, no unit conversion needed)
+
+**Decision Date:** 2026-11-11
+**Status:** RESOLVED
+
+**Original question:** What is the correct unit-conversion formula for the
+crossfade bound (`crossfadeMs ≤ (60/BPM) × chopGrid_fraction / 4` — RHS in
+seconds, LHS in ms)?
+
+**Resolution:** Under Rule 26 (Beat-Index Absolute), no seconds-to-ms
+conversion is needed. The crossfade bound is expressed entirely in beats:
+
+> `crossfadeBeats ≤ chopGrid_fraction / 4`
+
+All units are beats. No `crossfadeMs` identifier remains anywhere in the
+codebase, plan, or documentation (verified by `architecture.compliance.spec.ts`
+Section G).
+
+**Impact:**
+- `P04-T02-S02-M02` unblocked → status `TODO` (was `BLOCKED:OQ-06`).
+- `crossfadeMs` renamed to `crossfadeBeats` in all plan files (commit `8c4728b`).
+- No code change needed — crossfade formula operates in beats only.
+
+---
 ### RULE 10 ADDENDUM — Clues Workflow (2026-11-11)
 
 **Per micro-task (after Strict Verification passes, before commit):**
