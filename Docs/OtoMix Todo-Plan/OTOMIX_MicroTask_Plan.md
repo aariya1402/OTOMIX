@@ -1472,7 +1472,7 @@ flowchart LR
 | Review Checkpoint | Confirm slicing never touches data outside the window. |
 | Notes | Acceptance criterion tag: AC1 (implements) |
 
-###### P04-T02-S01-M02 — TODO
+###### P04-T02-S01-M02 — DONE
 
 | Field | Value |
 |---|---|

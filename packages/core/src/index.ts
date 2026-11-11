@@ -36,3 +36,4 @@ export * from './telemetry/logger';
 export * from './telemetry/propagation';
 export * from './glide/target';
 export * from './chop/slice';
+export * from './chop/passthrough';

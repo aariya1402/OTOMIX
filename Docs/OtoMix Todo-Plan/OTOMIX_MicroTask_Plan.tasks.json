@@ -723,7 +723,7 @@
  },
  {
   "id": "P04-T02-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Pass audio outside the transition window through without copying or processing.",
   "prerequisites": [
    "P04-T02-S01-M01"
