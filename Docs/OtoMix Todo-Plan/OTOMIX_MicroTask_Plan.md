@@ -1484,7 +1484,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.8 · Mother §2.8 |
 | Review Checkpoint | Check there is no `.slice()`/`.map()` on the pass-through path. |
 
-###### P04-T02-S01-M03 — TODO
+###### P04-T02-S01-M03 — DONE
 
 | Field | Value |
 |---|---|

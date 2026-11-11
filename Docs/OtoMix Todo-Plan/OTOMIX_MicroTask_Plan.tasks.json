@@ -733,7 +733,7 @@
  },
  {
   "id": "P04-T02-S01-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Shift slice boundaries by `\u0394_groove` when a groove mode is Swing.",
   "prerequisites": [
    "P03-T05-S01-M02"
