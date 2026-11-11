@@ -1590,7 +1590,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.12 · Mother Add. §4 |
 | Review Checkpoint | Confirm the time constant is a parameter, not a literal. |
 
-###### P04-T03-S01-M04 — TODO
+###### P04-T03-S01-M04 — [CANCELLED: Session Refresh]
 
 | Field | Value |
 |---|---|

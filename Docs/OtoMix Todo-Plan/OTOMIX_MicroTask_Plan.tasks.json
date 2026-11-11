@@ -813,8 +813,8 @@
  },
  {
   "id": "P04-T03-S01-M04",
-  "status": "TODO",
-  "description": "Apply `crossfadeBeats` and `chopGrid` updates only at the next slice boundary.",
+  "status": "CANCELLED:Session-Refresh",
+  "description": "Cancelled: Config is immutable during a session. Changes only apply upon refresh (new AudioWorklet instance).",
   "prerequisites": [
    "P04-T03-S01-M02"
   ],
