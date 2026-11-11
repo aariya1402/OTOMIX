@@ -5,7 +5,7 @@ describe('Timing Constants', () => {
   it('should have all values correctly defined', () => {
     expect(TIMING_CONSTANTS.LOOKAHEAD_MS).toBe(50);
     expect(TIMING_CONSTANTS.SCHED_ACCURACY_MS).toBe(2);
-    expect(TIMING_CONSTANTS.DRIFT_THRESHOLD_MS).toBe(4);
+    expect(TIMING_CONSTANTS.DRIFT_THRESHOLD_QUANTA).toBe(0.192);
     expect(TIMING_CONSTANTS.STARVATION_FRAME_MS).toBe(10);
     expect(TIMING_CONSTANTS.BUFFER_NORMAL).toBe(2048);
     expect(TIMING_CONSTANTS.BUFFER_DEGRADED).toBe(4096);

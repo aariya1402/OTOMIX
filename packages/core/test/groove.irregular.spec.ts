@@ -39,7 +39,7 @@ describe('resolveGrooveMode (P03-T05-S01-M03)', () => {
 
 describe('extendCrossfadeForIrregular (P03-T05-S01-M03)', () => {
   it('adds 10 ms for Irregular mode with base 5 ms', () => {
-    expect(extendCrossfadeForIrregular(5, 'Irregular')).toBe(15);
+    expect(extendCrossfadeForIrregular(5, 'Irregular')).toBe(5.48);
   });
 
   it('returns base unchanged for Straight', () => {
@@ -55,8 +55,8 @@ describe('extendCrossfadeForIrregular (P03-T05-S01-M03)', () => {
   });
 
   it('uses IRREGULAR_XFADE_EXTRA_MS constant (not a literal)', () => {
-    expect(extendCrossfadeForIrregular(0, 'Irregular')).toBe(10);
-    expect(extendCrossfadeForIrregular(100, 'Irregular')).toBe(110);
+    expect(extendCrossfadeForIrregular(0, 'Irregular')).toBe(0.48);
+    expect(extendCrossfadeForIrregular(100, 'Irregular')).toBe(100.48);
   });
 
   it('spec scenario: irregular fixture with base 5ms → Straight + 15ms', () => {
@@ -64,6 +64,6 @@ describe('extendCrossfadeForIrregular (P03-T05-S01-M03)', () => {
     const mode = resolveGrooveMode(result.mode);
     const crossfade = extendCrossfadeForIrregular(5, result.mode);
     expect(mode).toBe('Straight');
-    expect(crossfade).toBe(15);
+    expect(crossfade).toBe(5.48);
   });
 });

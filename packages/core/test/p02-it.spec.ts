@@ -8,7 +8,7 @@ import { LookaheadScheduler } from '../src/timing/scheduler';
 import { beatInBar, barIndex, blockPosition, isBlockBoundary, floorMod } from '../src/timing/structure';
 import { getPreKickBeat } from '../src/grid/prekick-short';
 import { getPreKickTime, PreKickSegment } from '../src/grid/prekick-map';
-import { DRIFT_MAX_S } from '../src/constants/grid';
+import { DRIFT_MAX_QUANTA, QUANTUM_DIVISOR } from '../src/constants/grid';
 
 class TestClock {
   now(): number { return Date.now() / 1000; }
@@ -88,12 +88,12 @@ describe('P02-IT: Phase 2 Integration Test Suite', () => {
     // Beat 64: 63 intervals from beat 1 -> 63 * driftPerBeat
     // Beat 128: 64 intervals from beat 64 -> 64 * driftPerBeat
     // Beat 192: 64 intervals from beat 128 -> 64 * driftPerBeat
-    expect(getSyncedDrift(64, driftPerBeat)).toBeCloseTo(63 * driftPerBeat, 9);
-    expect(getSyncedDrift(128, driftPerBeat)).toBeCloseTo(64 * driftPerBeat, 9);
-    expect(getSyncedDrift(192, driftPerBeat)).toBeCloseTo(64 * driftPerBeat, 9);
-    // All within DRIFT_MAX_S
+    expect(getSyncedDrift(64, driftPerBeat, 120)).toBeCloseTo(63 * driftPerBeat, 9);
+    expect(getSyncedDrift(128, driftPerBeat, 120)).toBeCloseTo(64 * driftPerBeat, 9);
+    expect(getSyncedDrift(192, driftPerBeat, 120)).toBeCloseTo(64 * driftPerBeat, 9);
+    // All within (DRIFT_MAX_QUANTA * (60 / 120) / QUANTUM_DIVISOR)
     for (const beat of [64, 128, 192]) {
-      expect(Math.abs(getSyncedDrift(beat, driftPerBeat))).toBeLessThanOrEqual(DRIFT_MAX_S);
+      expect(Math.abs(getSyncedDrift(beat, driftPerBeat, 120))).toBeLessThanOrEqual((DRIFT_MAX_QUANTA * (60 / 120) / QUANTUM_DIVISOR));
     }
   });
 

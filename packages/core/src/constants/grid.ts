@@ -8,7 +8,7 @@
 // OTOMIX §3.3 (QUANTUM_DIVISOR)
 export const PERIOD_MIN = 0.95;
 export const PERIOD_MAX = 1.05;
-export const DRIFT_MAX_S = 0.05;
+export const DRIFT_MAX_QUANTA = 2.4;  // 2.4 quanta = 0.05s at 120 BPM
 export const ANCHOR_SYNC_BARS = 16;
 export const BODY_REALIGN_DBFS = -40;
 export const FALLBACK_TRANSIENT_DBFS = -12;
@@ -18,7 +18,7 @@ export const STRAIGHT_VAR = 0.02;
 export const TRIPLET_VAR = 0.05;
 export const SWING_MIN = 0.05;
 export const SWING_MAX = 0.33;
-export const IRREGULAR_XFADE_EXTRA_MS = 10;
+export const IRREGULAR_XFADE_EXTRA_QUANTA = 0.48;  // 0.48 quanta = 10ms at 120 BPM
 export const STATIC_GRID_BPM = 120;
 export const SAFETY_XFADE_BARS = 4;
 export const QUANTUM_DIVISOR = 24;
@@ -32,7 +32,7 @@ export const RATE_SLEW_PER_S = 0.005;
 export const GRID_CONSTANTS = Object.freeze({
   PERIOD_MIN,
   PERIOD_MAX,
-  DRIFT_MAX_S,
+  DRIFT_MAX_QUANTA,
   ANCHOR_SYNC_BARS,
   BODY_REALIGN_DBFS,
   FALLBACK_TRANSIENT_DBFS,
@@ -42,7 +42,7 @@ export const GRID_CONSTANTS = Object.freeze({
   TRIPLET_VAR,
   SWING_MIN,
   SWING_MAX,
-  IRREGULAR_XFADE_EXTRA_MS,
+  IRREGULAR_XFADE_EXTRA_QUANTA,
   STATIC_GRID_BPM,
   SAFETY_XFADE_BARS,
   QUANTUM_DIVISOR,
@@ -93,7 +93,7 @@ export const BEAT_EPSILON = 1e-9;
 export const OBSERVER_GAIN_RANGE = 0.02;
 
 /** Observer scale: maximum expected drift before rate hits bound (ms) */
-export const OBSERVER_MAX_EXPECTED_DRIFT_MS = 50;
+export const OBSERVER_MAX_EXPECTED_DRIFT_QUANTA = 2.4;  // 2.4 quanta = 50ms at 120 BPM
 /** Transition window: 16 bars (4/4 time) = 64 beats */
 export const TRANSITION_WINDOW_BARS = 16;
 export const TRANSITION_WINDOW_BEATS = TRANSITION_WINDOW_BARS * BEATS_PER_BAR;

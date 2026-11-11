@@ -1,5 +1,5 @@
 // OTOMIX §3.1 · Mother §2.1
-import { ANCHOR_SYNC_BARS, DRIFT_MAX_S } from '../constants/grid';
+import { ANCHOR_SYNC_BARS, DRIFT_MAX_QUANTA, QUANTUM_DIVISOR } from '../constants/grid';
 
 /** 16 bars × 4 beats/bar = 64 beats. Derived from ANCHOR_SYNC_BARS. */
 export const ANCHOR_SYNC_INTERVAL_BEATS = ANCHOR_SYNC_BARS * 4;
@@ -24,7 +24,7 @@ export const ANCHOR_SYNC_INTERVAL_BEATS = ANCHOR_SYNC_BARS * 4;
  *
  * Defensive clamp to ±DRIFT_MAX_S for safety.
  */
-export function getSyncedDrift(beat: number, driftPerBeat: number): number {
+export function getSyncedDrift(beat: number, driftPerBeat: number, bpm: number): number {
   if (beat <= 0) return 0;
   if (beat === 1) return 0; // reference downbeat
 
@@ -45,14 +45,16 @@ export function getSyncedDrift(beat: number, driftPerBeat: number): number {
     const previousMeasured = ANCHOR_SYNC_INTERVAL_BEATS * driftPerBeat;
     drift = previousMeasured;
   }
-  return Math.max(-DRIFT_MAX_S, Math.min(DRIFT_MAX_S, drift));
+  const quantumSec = (60 / bpm) / QUANTUM_DIVISOR;
+  const driftMaxSec = DRIFT_MAX_QUANTA * quantumSec;
+  return Math.max(-driftMaxSec, Math.min(driftMaxSec, drift));
 }
 
 /** Simulate drift over [1, totalBeats]. Index 0 = beat 1. */
-export function simulateSyncedDrift(totalBeats: number, driftPerBeat: number): number[] {
+export function simulateSyncedDrift(totalBeats: number, driftPerBeat: number, bpm: number): number[] {
   const result: number[] = [];
   for (let beat = 1; beat <= totalBeats; beat++) {
-    result.push(getSyncedDrift(beat, driftPerBeat));
+    result.push(getSyncedDrift(beat, driftPerBeat, bpm));
   }
   return result;
 }

@@ -1,5 +1,5 @@
 // OTOMIX §3.5 · Mother §2.5
-import { IRREGULAR_XFADE_EXTRA_MS } from '../constants/grid';
+import { IRREGULAR_XFADE_EXTRA_QUANTA } from '../constants/grid';
 import { GrooveMode } from './types';
 
 /**
@@ -22,10 +22,10 @@ export function resolveGrooveMode(mode: GrooveMode): GrooveMode {
  * @returns Extended crossfade in milliseconds
  */
 export function extendCrossfadeForIrregular(
-  baseCrossfadeMs: number,
+  baseCrossfadeQuanta: number,
   mode: GrooveMode
 ): number {
   return mode === 'Irregular'
-    ? baseCrossfadeMs + IRREGULAR_XFADE_EXTRA_MS
-    : baseCrossfadeMs;
+    ? baseCrossfadeQuanta + IRREGULAR_XFADE_EXTRA_QUANTA
+    : baseCrossfadeQuanta;
 }

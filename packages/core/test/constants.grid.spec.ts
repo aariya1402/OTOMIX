@@ -5,7 +5,7 @@ describe('Grid Constants', () => {
   it('should have all 22 values correctly defined', () => {
     expect(GRID_CONSTANTS.PERIOD_MIN).toBe(0.95);
     expect(GRID_CONSTANTS.PERIOD_MAX).toBe(1.05);
-    expect(GRID_CONSTANTS.DRIFT_MAX_S).toBe(0.05);
+    expect(GRID_CONSTANTS.DRIFT_MAX_QUANTA).toBe(2.4);
     expect(GRID_CONSTANTS.ANCHOR_SYNC_BARS).toBe(16);
     expect(GRID_CONSTANTS.BODY_REALIGN_DBFS).toBe(-40);
     expect(GRID_CONSTANTS.FALLBACK_TRANSIENT_DBFS).toBe(-12);
@@ -15,7 +15,7 @@ describe('Grid Constants', () => {
     expect(GRID_CONSTANTS.TRIPLET_VAR).toBe(0.05);
     expect(GRID_CONSTANTS.SWING_MIN).toBe(0.05);
     expect(GRID_CONSTANTS.SWING_MAX).toBe(0.33);
-    expect(GRID_CONSTANTS.IRREGULAR_XFADE_EXTRA_MS).toBe(10);
+    expect(GRID_CONSTANTS.IRREGULAR_XFADE_EXTRA_QUANTA).toBe(0.48);
     expect(GRID_CONSTANTS.STATIC_GRID_BPM).toBe(120);
     expect(GRID_CONSTANTS.SAFETY_XFADE_BARS).toBe(4);
     expect(GRID_CONSTANTS.QUANTUM_DIVISOR).toBe(24);

@@ -1,7 +1,7 @@
 // OTOMIX §3.1; §3.10 · Mother §2.1; §2.10
 import { BeatIndex } from '../types/beat-index';
 import { BPM } from '../types/bpm';
-import { DRIFT_MAX_S } from '../constants/grid';
+import { DRIFT_MAX_QUANTA, QUANTUM_DIVISOR } from '../constants/grid';
 
 let deltaClampedCount = 0;
 
@@ -29,13 +29,15 @@ export function tOfI(i: BeatIndex, T0: number, bpmSeed: BPM, delta: number): num
   const period = 60 / bpmSeed;
   const n = i >= 1 ? i - 1 : i;
   
-  // Clamp delta to ±DRIFT_MAX_S per P02-T01-S01-M02
+  // Clamp delta to ±DRIFT_MAX_QUANTA (converted to seconds at this BPM) per P02-T01-S01-M02
+  const quantumSec = period / QUANTUM_DIVISOR;
+  const driftMaxSec = DRIFT_MAX_QUANTA * quantumSec;
   let clampedDelta = delta;
-  if (delta > DRIFT_MAX_S) {
-    clampedDelta = DRIFT_MAX_S;
+  if (delta > driftMaxSec) {
+    clampedDelta = driftMaxSec;
     deltaClampedCount++;
-  } else if (delta < -DRIFT_MAX_S) {
-    clampedDelta = -DRIFT_MAX_S;
+  } else if (delta < -driftMaxSec) {
+    clampedDelta = -driftMaxSec;
     deltaClampedCount++;
   }
   

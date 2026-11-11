@@ -1,7 +1,7 @@
 // OTOMIX §3.3; §3.6; §3.11; §4.1; §8.3
 export const LOOKAHEAD_MS = 50;
 export const SCHED_ACCURACY_MS = 2;
-export const DRIFT_THRESHOLD_MS = 4;
+export const DRIFT_THRESHOLD_QUANTA = 0.192;  // 0.192 quanta = 4ms at 120 BPM
 export const STARVATION_FRAME_MS = 10;
 export const BUFFER_NORMAL = 2048;
 export const BUFFER_DEGRADED = 4096;
@@ -15,7 +15,7 @@ export const PEARSON_WINDOW_MS = 100;
 export const TIMING_CONSTANTS = Object.freeze({
   LOOKAHEAD_MS,
   SCHED_ACCURACY_MS,
-  DRIFT_THRESHOLD_MS,
+  DRIFT_THRESHOLD_QUANTA,
   STARVATION_FRAME_MS,
   BUFFER_NORMAL,
   BUFFER_DEGRADED,
