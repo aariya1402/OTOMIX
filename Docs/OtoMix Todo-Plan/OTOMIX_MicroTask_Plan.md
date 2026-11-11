@@ -1389,7 +1389,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.7 · Mother §2.7 |
 | Review Checkpoint | Confirm override hooks do not change the default. |
 
-###### P04-T01-S01-M02 — [CANCELLED: Not Needed]
+###### P04-T01-S01-M02 — [CANCELLED: Legacy Arch]
 
 | Field | Value |
 |---|---|
@@ -1401,7 +1401,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.7 · Mother §2.7 |
 | Review Checkpoint | Verify the flag, not a heuristic, drives the mapping in this task. |
 
-###### P04-T01-S01-M03 — [CANCELLED: Not Needed]
+###### P04-T01-S01-M03 — [CANCELLED: Legacy Arch]
 
 | Field | Value |
 |---|---|
@@ -1428,7 +1428,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.7; §3.11 · Mother §2.7; §3.6, Add. §12 |
 | Review Checkpoint | Confirm start/end are explicit values, never implicit. |
 
-###### P04-T01-S02-M02 — TODO
+###### P04-T01-S02-M02 — [CANCELLED: Legacy Arch]
 
 | Field | Value |
 |---|---|
@@ -1440,7 +1440,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.7 · Mother §2.7 |
 | Review Checkpoint | Check clamp uses `GLIDE_MAX`. |
 
-###### P04-T01-S02-M03 — [BLOCKED: OWNER DECISION OQ-03]
+###### P04-T01-S02-M03 — [CANCELLED: Legacy Arch]
 
 | Field | Value |
 |---|---|
@@ -1515,7 +1515,7 @@ flowchart LR
 | Field | Value |
 |---|---|
 | ID | `P04-T02-S02-M02` |
-| Description | Enforce `crossfadeBeats ≤ 60/BPM × chopGrid_fraction / 4` including its unit conversion. |
+| Description | Enforce `crossfadeBeats ≤ chopGrid_fraction / 4` as a pure beat-based comparison (no seconds). |
 | Expected Outcome | Blocked until unit and fraction definition are confirmed. |
 | Prerequisites | `P04-T02-S02-M01` |
 | Independent Test(s) | **[BLOCKED]** Decision needed: the bound evaluates to seconds while `crossfadeBeats` is milliseconds; confirm ×1000 and confirm `chopGrid_fraction` is a fraction of one beat (example 120 BPM, 1/16 → 7.8125 ms). |
@@ -1535,7 +1535,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.8 · Mother §2.8 |
 | Review Checkpoint | Confirm the shed trigger reuses the starvation signal from P03. |
 
-###### P04-T02-S02-M04 — TODO
+###### P04-T02-S02-M04 — [CANCELLED: Legacy Arch]
 
 | Field | Value |
 |---|---|

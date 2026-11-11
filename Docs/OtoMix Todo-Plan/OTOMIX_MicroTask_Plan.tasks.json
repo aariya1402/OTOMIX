@@ -1,4 +1,4 @@
-﻿[
+[
  {
   "id": "P01-T01-S01-M01",
   "status": "DONE",
@@ -662,8 +662,8 @@
  },
  {
   "id": "P04-T01-S01-M02",
-  "status": "CANCELLED:Not-Needed",
-  "description": "Cancelled per owner directive: BPM filtering prevents incompatible tracks from mixing. No half/double transformation needed.",
+  "status": "CANCELLED:Legacy-Arch",
+  "description": "Cancelled: Contradicts new rules (No Pitch Shift, No Time Stretch).",
   "prerequisites": [
    "P04-T01-S01-M01"
   ],
@@ -672,8 +672,8 @@
  },
  {
   "id": "P04-T01-S01-M03",
-  "status": "CANCELLED:Not-Needed",
-  "description": "Cancelled per owner directive: BPM filtering prevents incompatible tracks. No detection needed.",
+  "status": "CANCELLED:Legacy-Arch",
+  "description": "Cancelled: Contradicts new rules (No Pitch Shift, No Time Stretch).",
   "prerequisites": [
    "P04-T01-S01-M02"
   ],
@@ -692,8 +692,8 @@
  },
  {
   "id": "P04-T01-S02-M02",
-  "status": "TODO",
-  "description": "Clamp `playbackRate` to \u00b18% of nominal.",
+  "status": "CANCELLED:Legacy-Arch",
+  "description": "Cancelled: Contradicts new rules (No Pitch Shift, No Time Stretch).",
   "prerequisites": [
    "P04-T01-S02-M01"
   ],
@@ -702,8 +702,8 @@
  },
  {
   "id": "P04-T01-S02-M03",
-  "status": "BLOCKED:OQ-03",
-  "description": "Trigger the secondary WebAssembly pitch-shifting node when the shift exceeds \u00b11 semitone.",
+  "status": "CANCELLED:Legacy-Arch",
+  "description": "Cancelled: Contradicts new rules (No Pitch Shift, No Time Stretch).",
   "prerequisites": [
    "P04-T01-S02-M02"
   ],
@@ -754,7 +754,7 @@
  {
   "id": "P04-T02-S02-M02",
   "status": "TODO",
-  "description": "Enforce `crossfadeBeats \u2264 chopGrid_fraction / 4` as a pure beat-based comparison.",
+  "description": "Enforce `crossfadeBeats \u2264 chopGrid_fraction / 4` as a pure beat-based comparison (no seconds).",
   "prerequisites": [
    "P04-T02-S02-M01"
   ],
@@ -773,8 +773,8 @@
  },
  {
   "id": "P04-T02-S02-M04",
-  "status": "TODO",
-  "description": "Trigger the legacy WSOLA fallback only when a phase-coherence predicate fails for extreme reverb tails or transient anomalies.",
+  "status": "CANCELLED:Legacy-Arch",
+  "description": "Cancelled: Contradicts new rules (No Pitch Shift, No Time Stretch).",
   "prerequisites": [
    "P04-T02-S02-M03"
   ],
