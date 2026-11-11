@@ -873,7 +873,7 @@
  },
  {
   "id": "P04-T04-S02-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the three-band EQ as cascaded IIR biquads (Direct Form II transposed) re-deriving coefficients on sample-rate change.",
   "prerequisites": [
    "P04-T04-S01-M02"

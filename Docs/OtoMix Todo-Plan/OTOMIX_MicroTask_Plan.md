@@ -1672,7 +1672,7 @@ flowchart LR
 
 ##### P04-T04-S02 Processing stages
 
-###### P04-T04-S02-M01 — TODO
+###### P04-T04-S02-M01 — DONE
 
 | Field | Value |
 |---|---|
