@@ -390,12 +390,12 @@
  },
  {
   "id": "P02-T05-S01-M02",
-  "status": "BLOCKED:OQ-07",
+  "status": "TODO",
   "description": "Implement pre-kick gap \u2265 1 bar: shift `T0` backward in exact 4-beat multiples so the kick aligns with a primary downbeat (Beat 5 or Beat 9).",
   "prerequisites": [
    "P02-T05-S01-M01"
   ],
-  "test": "[BLOCKED] Decision needed: exact index numbering for the shifted anchor (examples 'Beat \u22125, \u22129' vs kick at 'Beat 5 or 9') given skip-zero indexing; provide a worked example.",
+  "test": "unit|Vitest|packages/core/test/prekick-long.spec.ts|Shift T0 backward by 4 beats. Verify pre-kick gap uses beats -3, -2, -1, 0 before Beat 1. Pass: matches.",
   "spec": "OTOMIX \u00a73.10 \u00b7 Mother \u00a72.10"
  },
  {

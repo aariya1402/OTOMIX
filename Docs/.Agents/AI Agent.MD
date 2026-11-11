@@ -479,6 +479,31 @@ Section G).
 
 ---
 
+
+### OQ-07 Resolution (RESOLVED — Pre-kick gap numbering)
+
+**Decision Date:** 2026-11-11
+**Status:** RESOLVED
+
+**Original question:** Exact index numbering for the shifted anchor (examples
+'Beat -5, -9' vs kick at 'Beat 5 or 9') given skip-zero indexing.
+
+**Resolution by owner:**
+When shifting T0 backward to create a pre-kick gap of 1 bar (4 beats), the
+numbering convention is strictly limited to a maximum of -3. The sequence
+of beats for a 4-beat shift is:
+
+    Beat -3, Beat -2, Beat -1, Beat 0, Beat 1 (primary downbeat), Beat 2, ...
+
+There is no negative beat beyond -3. A shift of 4 beats means the gap
+occupies the indexes -3, -2, -1, and 0. The primary downbeat remains Beat 1.
+Beat 0 is explicitly specified as the beat immediately preceding Beat 1.
+
+**Impact:**
+- `P02-T05-S01-M02` unblocked -> status `TODO`.
+- Pre-kick gap implementation must respect this exact numbering.
+
+---
 ## Rule 25 — Mixability-First Architecture (CORE MISSION)
 
 **The primary mission of OTOMIX is SET BUILDING, not mixing.**

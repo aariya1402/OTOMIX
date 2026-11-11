@@ -934,7 +934,7 @@ flowchart LR
 | Review Checkpoint | Confirm Beat 0 is never produced. |
 | Notes | Related open question (non-blocking): OQ-07 |
 
-###### P02-T05-S01-M02 — [BLOCKED: OWNER DECISION OQ-07]
+###### P02-T05-S01-M02 — [RESOLVED — Pre-kick numbering]
 
 | Field | Value |
 |---|---|
@@ -945,7 +945,7 @@ flowchart LR
 | Independent Test(s) | **[BLOCKED]** Decision needed: exact index numbering for the shifted anchor (examples 'Beat −5, −9' vs kick at 'Beat 5 or 9') given skip-zero indexing; provide a worked example. |
 | Spec Reference | OTOMIX §3.10 · Mother §2.10 |
 | Review Checkpoint | After the decision, re-read §3.10 and Appendix A item A8. |
-| Notes | Blocked by: OQ-07 |
+| Notes | OQ-07 resolved 2026-11-11: pre-kick gap is -3, -2, -1, 0. |
 
 ###### P02-T05-S01-M03 — [x]
 
@@ -4104,7 +4104,7 @@ P11 is the final phase; its incoming boundaries (P04→P11, P06→P11, P07→P11
 | `P02-T04-S01-M01` | unit | Vitest | `packages/core/test/grid.piecewise.spec.ts` | both. |
 | `P02-T04-S01-M02` | unit | Vitest | `packages/core/test/grid.recovery.spec.ts` | all true. |
 | `P02-T05-S01-M01` | unit | Vitest | `packages/core/test/grid.prekick-short.spec.ts` | indices match the skip-zero convention. |
-| `P02-T05-S01-M02` | — | — | — | [BLOCKED] Decision needed: exact index numbering for the shifted anchor (examples 'Beat −5, −9' vs kick at 'Beat 5 or 9') given skip-zero indexing; provide a worked example. |
+| `P02-T05-S01-M02` | — | — | — | Shift T0 backward by 4 beats. Verify gap uses -3, -2, -1, 0 before Beat 1. |
 | `P02-T05-S01-M03` | unit | Vitest | `packages/core/test/grid.prekick-map.spec.ts` | monotonic and boundary-continuous. |
 | `P03-T01-S01-M01` | unit | Vitest | `packages/core/test/grid.attack.spec.ts` | both. |
 | `P03-T01-S02-M01` | unit | Vitest | `packages/core/test/grid.body.spec.ts` | tolerance met. |
