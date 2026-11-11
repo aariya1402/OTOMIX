@@ -6,9 +6,11 @@
 // OTOMIX §3.7 (GLIDE_MAX, PITCH_NODE_SEMITONES)
 // OTOMIX §3.9 (STATIC_GRID_BPM, SAFETY_XFADE_BARS)
 // OTOMIX §3.3 (QUANTUM_DIVISOR)
+
+// ---- Beat-index musical constants ----
 export const PERIOD_MIN = 0.95;
 export const PERIOD_MAX = 1.05;
-export const DRIFT_MAX_QUANTA = 2.4;  // 2.4 quanta = 0.05s at 120 BPM
+export const DRIFT_MAX_QUANTA = 2.4;
 export const ANCHOR_SYNC_BARS = 16;
 export const BODY_REALIGN_DBFS = -40;
 export const FALLBACK_TRANSIENT_DBFS = -12;
@@ -18,7 +20,7 @@ export const STRAIGHT_VAR = 0.02;
 export const TRIPLET_VAR = 0.05;
 export const SWING_MIN = 0.05;
 export const SWING_MAX = 0.33;
-export const IRREGULAR_XFADE_EXTRA_QUANTA = 0.48;  // 0.48 quanta = 10ms at 120 BPM
+export const IRREGULAR_XFADE_EXTRA_QUANTA = 0.48;
 export const STATIC_GRID_BPM = 120;
 export const SAFETY_XFADE_BARS = 4;
 export const QUANTUM_DIVISOR = 24;
@@ -27,75 +29,48 @@ export const PITCH_NODE_SEMITONES = 1;
 export const REALIGN_MAX_SEMITONES = 0.05;
 export const RATE_MIN = 0.98;
 export const RATE_MAX = 1.02;
-export const RATE_SLEW_PER_QUANTA = 0.005 / 48;  // = 0.00010416... (0.005 rate/s at 120 BPM, beat-first)
+export const RATE_SLEW_PER_QUANTA = 0.005 / 48;
 
-export const GRID_CONSTANTS = Object.freeze({
-  PERIOD_MIN,
-  PERIOD_MAX,
-  DRIFT_MAX_QUANTA,
-  ANCHOR_SYNC_BARS,
-  BODY_REALIGN_DBFS,
-  FALLBACK_TRANSIENT_DBFS,
-  CORR_MIN,
-  SHAPE_VAR_MAX,
-  STRAIGHT_VAR,
-  TRIPLET_VAR,
-  SWING_MIN,
-  SWING_MAX,
-  IRREGULAR_XFADE_EXTRA_QUANTA,
-  STATIC_GRID_BPM,
-  SAFETY_XFADE_BARS,
-  QUANTUM_DIVISOR,
-  GLIDE_MAX,
-  PITCH_NODE_SEMITONES,
-  REALIGN_MAX_SEMITONES,
-  RATE_MIN,
-  RATE_MAX,
-  RATE_SLEW_PER_QUANTA,
-});
-// OTOMIX §3.2 · Body Grid constants
+// ---- Body Grid constants (DSP boundary; sample-domain) ----
 export const BODY_CUTOFF_HZ = 80;
 export const BODY_FILTER_ORDER = 4;
-export const BODY_RMS_WINDOW_SAMPLES = 221;  // 5 ms at 44.1 kHz
-export const BODY_SEARCH_WINDOW_SAMPLES = 2205;  // 50 ms at 44.1 kHz
-// OTOMIX §3.2 · Group delay of 4th-order Butterworth @ 80Hz at 60Hz signal
-// Compensated in extractBodyGrid() to report the true body peak position.
-export const BODY_GROUP_DELAY_SAMPLES = 322;  // 7.3 ms at 44.1 kHz
-// OTOMIX §3.2 · 4-bar cosine realignment duration
+export const BODY_RMS_WINDOW_SAMPLES = 221;
+export const BODY_SEARCH_WINDOW_SAMPLES = 2205;
+export const BODY_GROUP_DELAY_SAMPLES = 322;
+
+// ---- Realignment windows (beat-based) ----
 export const REALIGN_BARS = 4;
-export const REALIGN_BEATS = 16; // 4 bars × 4 beats/bar
-// ============================================================================
-// OTOMIX §3.2; §3.6 — Constants that were previously hardcoded
-// ============================================================================
+export const REALIGN_BEATS = 16;
 
-/** Beats per bar (standard 4/4 time signature) */
+// ---- Structural (beat-index) ----
 export const BEATS_PER_BAR = 4;
-
-/** Sample rate for all DSP operations (Hz) */
 export const SAMPLE_RATE = 44100;
-
-/** Attack Grid: FFT window size (samples) */
 export const ATTACK_WINDOW_SIZE = 2048;
-
-/** Attack Grid: FFT hop size (samples) — 50% overlap */
 export const ATTACK_HOP_SIZE = 1024;
-
-/** Attack Grid: frequency cutoff (Hz) — ignore bins below this */
 export const ATTACK_CUTOFF_HZ = 200;
-
-/** Observer log realignment: curve shape parameter (k) */
 export const LOG_REALIGN_K = 3;
-
-/** Pre-kick mapping: tolerance for floating-point beat boundary detection */
 export const BEAT_EPSILON = 1e-9;
-
-/** Observer scale: rate range span (RATE_MAX - RATE_MIN = 0.04, half = 0.02) */
 export const OBSERVER_GAIN_RANGE = 0.02;
+export const OBSERVER_MAX_EXPECTED_DRIFT_QUANTA = 2.4;
 
-/** Observer scale: maximum expected drift before rate hits bound (quanta) */
-export const OBSERVER_MAX_EXPECTED_DRIFT_QUANTA = 2.4;  // 2.4 quanta = 50ms at 120 BPM
-/** Transition window: 16 bars (4/4 time) = 64 beats */
+// ---- Derived ----
 export const TRANSITION_WINDOW_BARS = 16;
 export const TRANSITION_WINDOW_BEATS = TRANSITION_WINDOW_BARS * BEATS_PER_BAR;
-/** Safety net crossfade duration: 4 bars × 4 beats/bar = 16 beats */
 export const SAFETY_XFADE_BEATS = SAFETY_XFADE_BARS * BEATS_PER_BAR;
+
+// ---- Frozen aggregate (all 42 exports) ----
+export const GRID_CONSTANTS = Object.freeze({
+  PERIOD_MIN, PERIOD_MAX, DRIFT_MAX_QUANTA, ANCHOR_SYNC_BARS,
+  BODY_REALIGN_DBFS, FALLBACK_TRANSIENT_DBFS, CORR_MIN, SHAPE_VAR_MAX,
+  STRAIGHT_VAR, TRIPLET_VAR, SWING_MIN, SWING_MAX,
+  IRREGULAR_XFADE_EXTRA_QUANTA, STATIC_GRID_BPM, SAFETY_XFADE_BARS,
+  QUANTUM_DIVISOR, GLIDE_MAX, PITCH_NODE_SEMITONES, REALIGN_MAX_SEMITONES,
+  RATE_MIN, RATE_MAX, RATE_SLEW_PER_QUANTA,
+  BODY_CUTOFF_HZ, BODY_FILTER_ORDER, BODY_RMS_WINDOW_SAMPLES,
+  BODY_SEARCH_WINDOW_SAMPLES, BODY_GROUP_DELAY_SAMPLES,
+  REALIGN_BARS, REALIGN_BEATS, BEATS_PER_BAR, SAMPLE_RATE,
+  ATTACK_WINDOW_SIZE, ATTACK_HOP_SIZE, ATTACK_CUTOFF_HZ,
+  LOG_REALIGN_K, BEAT_EPSILON, OBSERVER_GAIN_RANGE,
+  OBSERVER_MAX_EXPECTED_DRIFT_QUANTA,
+  TRANSITION_WINDOW_BARS, TRANSITION_WINDOW_BEATS, SAFETY_XFADE_BEATS,
+});

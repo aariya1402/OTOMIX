@@ -54,12 +54,12 @@ describe('extendCrossfadeForIrregular (P03-T05-S01-M03)', () => {
     expect(extendCrossfadeForIrregular(5, 'Swing')).toBe(5);
   });
 
-  it('uses IRREGULAR_XFADE_EXTRA_MS constant (not a literal)', () => {
+  it('uses IRREGULAR_XFADE_EXTRA_QUANTA constant (not a literal)', () => {
     expect(extendCrossfadeForIrregular(0, 'Irregular')).toBe(0.48);
     expect(extendCrossfadeForIrregular(100, 'Irregular')).toBe(100.48);
   });
 
-  it('spec scenario: irregular fixture with base 5ms → Straight + 15ms', () => {
+  it('spec scenario: irregular fixture with base 5 quanta → Straight + 5.48 quanta', () => {
     const result = classifyGroove(irregularFixture);
     const mode = resolveGrooveMode(result.mode);
     const crossfade = extendCrossfadeForIrregular(5, result.mode);
