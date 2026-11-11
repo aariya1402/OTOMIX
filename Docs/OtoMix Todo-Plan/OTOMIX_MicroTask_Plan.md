@@ -1117,7 +1117,7 @@ flowchart LR
 | Field | Value |
 |---|---|
 | ID | `P03-T03-S01-M04` |
-| Description | Implement the Observer's post-transition 16-bar logarithmic realignment with induced pitch shift below 0.05 semitones. |
+| Description | Implement the Observer's post-transition 16-bar logarithmic realignment using beat-grid slicing (no pitch shift). |
 | Expected Outcome | `packages/core/src/observer/realign-log.ts`. |
 | Prerequisites | `P03-T03-S01-M02` |
 | Independent Test(s) | **unit** · Vitest · `packages/core/test/observer.realign-log.spec.ts`<br>Input: Δϕ=40 ms over 16 bars at 120 BPM. Expected: max instantaneous rate deviation r gives 12·log2(1+r)<0.05 semitones and the curve ends at Δϕ. Pass: both. |
@@ -1148,7 +1148,7 @@ flowchart LR
 | Field | Value |
 |---|---|
 | ID | `P03-T04-S01-M02` |
-| Description | Apply `playbackRate` micro-scaling when drift exceeds 4 ms, bounded to ±0.5% per second and clamped to [0.98, 1.02]. |
+| Description | Apply slice-chopping realignment when drift exceeds the quanta threshold. No playbackRate time-stretching is allowed. |
 | Expected Outcome | `packages/core/src/observer/scale.ts`. |
 | Prerequisites | `P03-T04-S01-M01` |
 | Independent Test(s) | **unit** · Vitest · `packages/core/test/observer.scale.spec.ts`<br>Input: drift 3.9 ms, 4.1 ms, 50 ms sustained over 10 s. Expected: no change; scaling begins; slew ≤0.005/s and rate within [0.98,1.02]. Pass: all three. |
@@ -1161,7 +1161,7 @@ flowchart LR
 | Field | Value |
 |---|---|
 | ID | `P03-T04-S01-M03` |
-| Description | Expand the audio buffer from 2048 to 4096 samples when frame processing exceeds 10 ms. |
+| Description | Expand the audio buffer from 2048 to 4096 samples when frame processing exceeds the Web Audio boundary threshold. |
 | Expected Outcome | `packages/core/src/observer/degrade.ts`. |
 | Prerequisites | `P03-T04-S01-M02` |
 | Independent Test(s) | **unit** · Vitest · `packages/core/test/observer.degrade.spec.ts`<br>Input: frame times 9.9 ms and 10.1 ms. Expected: buffer stays 2048; becomes 4096. Pass: matches. |
@@ -1173,7 +1173,7 @@ flowchart LR
 | Field | Value |
 |---|---|
 | ID | `P03-T04-S01-M04` |
-| Description | Benchmark the Observer loop cycle and fail if the P99 exceeds 1 ms. |
+| Description | Benchmark the Observer loop cycle and fail if the P99 exceeds 48 samples (1 ms at 48kHz). |
 | Expected Outcome | `bench/observer-cycle.bench.ts` and a CI threshold. |
 | Prerequisites | `P03-T04-S01-M02` |
 | Independent Test(s) | **benchmark** · Vitest bench · `bench/observer-cycle.bench.ts`<br>Input: 100 000 cycles with 4 decks of state. Expected: P99 < 1 ms. Pass: threshold met on the CI reference runner. |
