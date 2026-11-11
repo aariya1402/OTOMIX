@@ -1,4 +1,4 @@
-[
+﻿[
  {
   "id": "P01-T01-S01-M01",
   "status": "DONE",
@@ -492,7 +492,7 @@
  {
   "id": "P03-T03-S01-M04",
   "status": "DONE",
-  "description": "Implement the Observer's post-transition 16-bar logarithmic realignment with induced pitch shift below 0.05 semitones.",
+  "description": "Implement the Observer's post-transition 16-bar logarithmic realignment using beat-grid slicing (no pitch shift).",
   "prerequisites": [
    "P03-T03-S01-M02"
   ],
@@ -512,7 +512,7 @@
  {
   "id": "P03-T04-S01-M02",
   "status": "DONE",
-  "description": "Apply `playbackRate` micro-scaling when drift exceeds 4 ms, bounded to \u00b10.5% per second and clamped to [0.98, 1.02].",
+  "description": "Apply slice-chopping realignment when drift exceeds the quanta threshold. No playbackRate time-stretching is allowed.",
   "prerequisites": [
    "P03-T04-S01-M01"
   ],
@@ -522,7 +522,7 @@
  {
   "id": "P03-T04-S01-M03",
   "status": "DONE",
-  "description": "Expand the audio buffer from 2048 to 4096 samples when frame processing exceeds 10 ms.",
+  "description": "Expand the audio buffer from 2048 to 4096 samples when frame processing exceeds the Web Audio boundary threshold.",
   "prerequisites": [
    "P03-T04-S01-M02"
   ],
@@ -532,7 +532,7 @@
  {
   "id": "P03-T04-S01-M04",
   "status": "DONE",
-  "description": "Benchmark the Observer loop cycle and fail if the P99 exceeds 1 ms.",
+  "description": "Benchmark the Observer loop cycle and fail if the P99 exceeds 48 samples (1 ms at 48kHz).",
   "prerequisites": [
    "P03-T04-S01-M02"
   ],
@@ -2428,7 +2428,6 @@
   "spec": "OTOMIX \u00a710.7 \u00b7 Mother \u00a710"
  }
 ]
-
 
 
 
