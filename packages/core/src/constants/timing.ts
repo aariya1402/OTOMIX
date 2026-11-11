@@ -10,7 +10,6 @@ export const PORT_LATENCY_MS = 10;
 export const ANALYSIS_TIMEOUT_MS = 5000;
 export const EXTRACTION_ALERT_MS = 2500;
 export const OBSERVER_CYCLE_MS = 1;
-export const PEARSON_WINDOW_MS = 100;
 
 export const TIMING_CONSTANTS = Object.freeze({
   LOOKAHEAD_MS,

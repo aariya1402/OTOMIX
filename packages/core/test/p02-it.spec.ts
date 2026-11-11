@@ -88,12 +88,12 @@ describe('P02-IT: Phase 2 Integration Test Suite', () => {
     // Beat 64: 63 intervals from beat 1 -> 63 * driftPerBeat
     // Beat 128: 64 intervals from beat 64 -> 64 * driftPerBeat
     // Beat 192: 64 intervals from beat 128 -> 64 * driftPerBeat
-    expect(getSyncedDrift(64, driftPerBeat, 120)).toBeCloseTo(63 * driftPerBeat, 9);
-    expect(getSyncedDrift(128, driftPerBeat, 120)).toBeCloseTo(64 * driftPerBeat, 9);
-    expect(getSyncedDrift(192, driftPerBeat, 120)).toBeCloseTo(64 * driftPerBeat, 9);
+    expect(getSyncedDrift(64, driftPerBeat, 120)).toBeCloseTo(63 * driftPerBeat / ((60 / 120) / QUANTUM_DIVISOR), 9);
+    expect(getSyncedDrift(128, driftPerBeat, 120)).toBeCloseTo(64 * driftPerBeat / ((60 / 120) / QUANTUM_DIVISOR), 9);
+    expect(getSyncedDrift(192, driftPerBeat, 120)).toBeCloseTo(64 * driftPerBeat / ((60 / 120) / QUANTUM_DIVISOR), 9);
     // All within (DRIFT_MAX_QUANTA * (60 / 120) / QUANTUM_DIVISOR)
     for (const beat of [64, 128, 192]) {
-      expect(Math.abs(getSyncedDrift(beat, driftPerBeat, 120))).toBeLessThanOrEqual((DRIFT_MAX_QUANTA * (60 / 120) / QUANTUM_DIVISOR));
+      expect(Math.abs(getSyncedDrift(beat, driftPerBeat, 120))).toBeLessThanOrEqual(DRIFT_MAX_QUANTA);
     }
   });
 

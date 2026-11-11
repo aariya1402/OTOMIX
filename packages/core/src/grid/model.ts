@@ -6,7 +6,7 @@ export interface GridSegment {
   startBeat: number;
   bpmSeed: number;
   T0: number;
-  delta: number;
+  delta: number;  // drift in QUANTA (internal musical domain)
 }
 
 export type GridState = 'LOCKED' | 'RECOVERY';

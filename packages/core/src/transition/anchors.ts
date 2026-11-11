@@ -10,7 +10,7 @@ export interface TransitionAnchors {
   tOutSeconds: number;
   /** Beat index of incoming anchor (always 1) */
   inBeatIndex: number;
-  /** Beat index of outgoing anchor (totalBeats - 15) */
+  /** Beat index of outgoing anchor (totalBeats - 63) */
   outBeatIndex: number;
 }
 

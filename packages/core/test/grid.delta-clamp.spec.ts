@@ -15,17 +15,17 @@ describe('tOfI — Delta clamping (P02-T01-S01-M02)', () => {
     if (!bpmSeed.ok || !i.ok) throw new Error('Test setup failed');
   });
 
-  it('clamps positive delta > (DRIFT_MAX_QUANTA * ((60 / 120) / QUANTUM_DIVISOR)) and increments counter', () => {
-    const result = tOfI(i.value, T0, bpmSeed.value, 0.06);
+  it('clamps positive delta > DRIFT_MAX_QUANTA and increments counter', () => {
+    const result = tOfI(i.value, T0, bpmSeed.value, 3.0);
     expect(result).toBeCloseTo(T0 + (DRIFT_MAX_QUANTA * ((60 / 120) / QUANTUM_DIVISOR)), 9);
     expect(getDeltaClampedCount()).toBe(1);
   });
 
-  it('clamps negative delta < -(DRIFT_MAX_QUANTA * ((60 / 120) / QUANTUM_DIVISOR)) and increments counter cumulatively', () => {
+  it('clamps negative delta < -DRIFT_MAX_QUANTA and increments counter cumulatively', () => {
     // Input 1: delta = 0.06
-    tOfI(i.value, T0, bpmSeed.value, 0.06);
+    tOfI(i.value, T0, bpmSeed.value, 3.0);
     // Input 2: delta = -0.06
-    const result = tOfI(i.value, T0, bpmSeed.value, -0.06);
+    const result = tOfI(i.value, T0, bpmSeed.value, -3.0);
     expect(result).toBeCloseTo(T0 - (DRIFT_MAX_QUANTA * ((60 / 120) / QUANTUM_DIVISOR)), 9);
     // Input 3: delta = 0.04 (clearly below driftMaxSec -> should not clamp)
     tOfI(i.value, T0, bpmSeed.value, 0.04);
@@ -40,8 +40,8 @@ describe('tOfI — Delta clamping (P02-T01-S01-M02)', () => {
     expect(getDeltaClampedCount()).toBe(0);
   });
 
-  it('does not clamp delta === (DRIFT_MAX_QUANTA * ((60 / 120) / QUANTUM_DIVISOR))', () => {
-    const result = tOfI(i.value, T0, bpmSeed.value, (DRIFT_MAX_QUANTA * ((60 / 120) / QUANTUM_DIVISOR)));
+  it('does not clamp delta === DRIFT_MAX_QUANTA', () => {
+    const result = tOfI(i.value, T0, bpmSeed.value, DRIFT_MAX_QUANTA);
     expect(result).toBeCloseTo(T0 + (DRIFT_MAX_QUANTA * ((60 / 120) / QUANTUM_DIVISOR)), 9);
     expect(getDeltaClampedCount()).toBe(0);
   });

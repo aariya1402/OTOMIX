@@ -15,31 +15,30 @@ export function resetDeltaClampedCount(): void {
 
 /**
  * Absolute Locked Grid mapping: beat index → absolute timestamp (seconds).
- * 
+ *
  * @param i - Target beat index (non-zero; Beat 1 = reference downbeat anchor)
  * @param T0 - Verified time offset of the reference downbeat anchor (seconds)
- * @param bpmSeed - Seed tempo from K-means over local tempo histogram (BPM)
- * @param delta - Continuous drift correction factor Δᵢ (seconds)
+ * @param bpmSeed - Seed tempo (BPM)
+ * @param deltaQuanta - Drift correction in QUANTA (internal musical domain)
  * @returns Absolute timestamp t(i) in seconds
- * 
- * Formula: t(i) = T0 + n × (60 / bpmSeed) + delta
+ *
+ * Formula: t(i) = T0 + n × (60 / bpmSeed) + deltaQuanta × quantumSeconds(bpmSeed)
  * where n = i - 1 for i ≥ 1, n = i for i ≤ -1 (per §3.10)
+ * deltaQuanta is clamped to ±DRIFT_MAX_QUANTA
  */
-export function tOfI(i: BeatIndex, T0: number, bpmSeed: BPM, delta: number): number {
+export function tOfI(i: BeatIndex, T0: number, bpmSeed: BPM, deltaQuanta: number): number {
   const period = 60 / bpmSeed;
   const n = i >= 1 ? i - 1 : i;
-  
-  // Clamp delta to ±DRIFT_MAX_QUANTA (converted to seconds at this BPM) per P02-T01-S01-M02
   const quantumSec = period / QUANTUM_DIVISOR;
-  const driftMaxSec = DRIFT_MAX_QUANTA * quantumSec;
-  let clampedDelta = delta;
-  if (delta > driftMaxSec) {
-    clampedDelta = driftMaxSec;
+
+  let clampedQuanta = deltaQuanta;
+  if (deltaQuanta > DRIFT_MAX_QUANTA) {
+    clampedQuanta = DRIFT_MAX_QUANTA;
     deltaClampedCount++;
-  } else if (delta < -driftMaxSec) {
-    clampedDelta = -driftMaxSec;
+  } else if (deltaQuanta < -DRIFT_MAX_QUANTA) {
+    clampedQuanta = -DRIFT_MAX_QUANTA;
     deltaClampedCount++;
   }
-  
-  return T0 + n * period + clampedDelta;
+
+  return T0 + n * period + clampedQuanta * quantumSec;
 }

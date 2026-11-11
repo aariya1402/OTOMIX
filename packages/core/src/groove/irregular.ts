@@ -15,11 +15,11 @@ export function resolveGrooveMode(mode: GrooveMode): GrooveMode {
 
 /**
  * Extends the micro-crossfade window for irregular grooves.
- * Adds IRREGULAR_XFADE_EXTRA_MS (10 ms) when mode is Irregular.
+ * Adds IRREGULAR_XFADE_EXTRA_QUANTA (0.48) when mode is Irregular.
  *
- * @param baseCrossfadeMs - Base crossfade duration in milliseconds
+ * @param baseCrossfadeQuanta - Base crossfade duration in quanta
  * @param mode - Classified groove mode (pre-resolution)
- * @returns Extended crossfade in milliseconds
+ * @returns Extended crossfade in quanta
  */
 export function extendCrossfadeForIrregular(
   baseCrossfadeQuanta: number,

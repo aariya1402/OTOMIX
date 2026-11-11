@@ -8,7 +8,7 @@ describe('Scoring Constants', () => {
     expect(SCORING_CONSTANTS.MIX_WEIGHTS).toEqual([0.4, 0.3, 0.2, 0.1]);
     expect(SCORING_CONSTANTS.UNMIXABLE_BELOW).toBe(0.4);
     expect(SCORING_CONSTANTS.VOCAL_THRESHOLD).toBe(0.65);
-    expect(SCORING_CONSTANTS.VOCAL_MEDIAN_S).toBe(1);
+    expect(SCORING_CONSTANTS.VOCAL_MEDIAN_BEATS).toBe(2);
     expect(SCORING_CONSTANTS.RECO_WEIGHTS).toEqual([0.6, 0.3, 0.1]);
     expect(SCORING_CONSTANTS.TEMPO_DELTA_LIMIT).toBe(0.01);
   });

@@ -38,7 +38,7 @@ describe('resolveGrooveMode (P03-T05-S01-M03)', () => {
 });
 
 describe('extendCrossfadeForIrregular (P03-T05-S01-M03)', () => {
-  it('adds 10 ms for Irregular mode with base 5 ms', () => {
+  it('adds 0.48 quanta for Irregular mode with base 5 quanta', () => {
     expect(extendCrossfadeForIrregular(5, 'Irregular')).toBe(5.48);
   });
 
