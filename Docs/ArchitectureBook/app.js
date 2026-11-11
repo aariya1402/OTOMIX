@@ -200,7 +200,11 @@
       var link = el('a', { class: 'toc-item', href: '#/' + p.id });
       link.setAttribute('data-phase', p.id);
       link.textContent = p.id + ' — ' + t(p.title).replace(/^Phase \d+ — /, '');
-      var badge = el('span', { class: 'badge ' + (blocked > 0 ? 'blocked' : done === total && total > 0 ? 'done' : 'in-progress') });
+      var badgeClass = 'in-progress';
+            if (done === total && total > 0) badgeClass = 'done';
+            else if (done === 0) badgeClass = 'todo';
+            else if (blocked > 0) badgeClass = 'blocked';
+            var badge = el('span', { class: 'badge ' + badgeClass });
       badge.textContent = done + '/' + total + (blocked > 0 ? ' + ' + blocked : '');
       link.appendChild(badge);
       toc.appendChild(link);

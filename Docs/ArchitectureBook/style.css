@@ -78,6 +78,7 @@ code, pre, .mono { font-family: var(--mono); font-size: 13px; }
 .badge.done { background: var(--green); color: #000; }
 .badge.blocked { background: var(--red); color: white; }
 .badge.in-progress { background: var(--yellow); color: #000; }
+.badge.todo { background: var(--bg3); color: var(--fg2); }
 .toc-children { margin-left: 16px; display: none; }
 .toc-children.open { display: block; }
 
