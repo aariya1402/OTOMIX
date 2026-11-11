@@ -1523,7 +1523,7 @@ flowchart LR
 | Review Checkpoint | Re-read Appendix A item A7. |
 | Notes | OQ-06 resolved 2026-11-11 — crossfadeBeats, no conversion needed |
 
-###### P04-T02-S02-M03 — TODO
+###### P04-T02-S02-M03 — DONE
 
 | Field | Value |
 |---|---|

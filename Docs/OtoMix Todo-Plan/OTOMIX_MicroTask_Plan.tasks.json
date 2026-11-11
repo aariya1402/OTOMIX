@@ -763,7 +763,7 @@
  },
  {
   "id": "P04-T02-S02-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Widen `chopGrid` from 1/32 to 1/8 under high-load or low-latency edge conditions.",
   "prerequisites": [
    "P04-T02-S02-M02"
