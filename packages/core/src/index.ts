@@ -53,3 +53,4 @@ export * from './dsp/comp';
 export * from './dsp/limiter';
 export * from './dsp/input-gain';
 export * from './dsp/encoder';
+export * from './dsp/degraded-crossfade';

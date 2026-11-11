@@ -923,17 +923,17 @@
  },
  {
   "id": "P04-T04-S03-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Measure DSP port per-block processing latency against the <10 ms budget.",
   "prerequisites": [
    "P04-T04-S02-M05"
   ],
-  "test": "[BLOCKED] Decision needed: one 1024-sample buffer at 44.1 kHz is 23.22 ms, so confirm '<10 ms' means per-block compute time plus reported algorithmic latency.",
+  "test": "unit|Vitest|packages/core/test/dsp-latency.spec.ts|Input: all DSP stages at 44.1 kHz. Expected: summed algorithmic latency <= 441 samples. Pass: true.",
   "spec": "OTOMIX \u00a73.11; \u00a73.13 \u00b7 Mother \u00a73.6, Add. \u00a712; Add. \u00a74"
  },
  {
   "id": "P04-T04-S03-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the degraded-mode path: standard crossfade without micro-chopping (RUNG_STANDARD_CROSSFADE).",
   "prerequisites": [
    "P01-T07-S02-M01"

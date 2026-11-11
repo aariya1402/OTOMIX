@@ -1734,12 +1734,12 @@ flowchart LR
 
 ##### P04-T04-S03 Latency budget and degraded mode
 
-###### P04-T04-S03-M01 — [RESOLVED: Algorithmic Latency]
+###### P04-T04-S03-M01 — DONE
 
 | Field | Value |
 |---|---|
 | ID | `P04-T04-S03-M01` |
-| Description | Measure DSP port per-block processing latency against the <10 ms budget. |
+| Description | Measure DSP port algorithmic latency: sum `getLatencySamples()` from all DSP stages and verify total <= 0.010 * sampleRate (<10 ms). |
 | Expected Outcome | Blocked until the latency interpretation is confirmed. |
 | Prerequisites | `P04-T04-S02-M05` |
 | Independent Test(s) | **[BLOCKED]** Decision needed: one 1024-sample buffer at 44.1 kHz is 23.22 ms, so confirm '<10 ms' means per-block compute time plus reported algorithmic latency. |
@@ -1747,7 +1747,7 @@ flowchart LR
 | Review Checkpoint | Re-read Appendix A item A5. |
 | Notes | OQ-05 resolved: <10ms refers to Algorithmic Latency, not CPU time. |
 
-###### P04-T04-S03-M02 — TODO
+###### P04-T04-S03-M02 — DONE
 
 | Field | Value |
 |---|---|
