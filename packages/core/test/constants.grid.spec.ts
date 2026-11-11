@@ -24,7 +24,7 @@ describe('Grid Constants', () => {
     expect(GRID_CONSTANTS.REALIGN_MAX_SEMITONES).toBe(0.05);
     expect(GRID_CONSTANTS.RATE_MIN).toBe(0.98);
     expect(GRID_CONSTANTS.RATE_MAX).toBe(1.02);
-    expect(GRID_CONSTANTS.RATE_SLEW_PER_S).toBe(0.005);
+    expect(GRID_CONSTANTS.RATE_SLEW_PER_QUANTA).toBeCloseTo(0.005 / 48, 12);
   });
 
   it('should be frozen', () => {

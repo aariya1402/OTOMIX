@@ -1,8 +1,8 @@
-// OTOMIX §3.1 (PERIOD_MIN, PERIOD_MAX, DRIFT_MAX_S, ANCHOR_SYNC_BARS)
+// OTOMIX §3.1 (PERIOD_MIN, PERIOD_MAX, DRIFT_MAX_QUANTA, ANCHOR_SYNC_BARS)
 // OTOMIX §3.2 (BODY_REALIGN_DBFS)
 // OTOMIX §3.4 (FALLBACK_TRANSIENT_DBFS, CORR_MIN, SHAPE_VAR_MAX)
-// OTOMIX §3.5 (STRAIGHT_VAR, TRIPLET_VAR, SWING_MIN, SWING_MAX, IRREGULAR_XFADE_EXTRA_MS)
-// OTOMIX §3.6 (RATE_MIN, RATE_MAX, RATE_SLEW_PER_S, REALIGN_MAX_SEMITONES)
+// OTOMIX §3.5 (STRAIGHT_VAR, TRIPLET_VAR, SWING_MIN, SWING_MAX, IRREGULAR_XFADE_EXTRA_QUANTA)
+// OTOMIX §3.6 (RATE_MIN, RATE_MAX, RATE_SLEW_PER_QUANTA, REALIGN_MAX_SEMITONES)
 // OTOMIX §3.7 (GLIDE_MAX, PITCH_NODE_SEMITONES)
 // OTOMIX §3.9 (STATIC_GRID_BPM, SAFETY_XFADE_BARS)
 // OTOMIX §3.3 (QUANTUM_DIVISOR)
@@ -27,7 +27,7 @@ export const PITCH_NODE_SEMITONES = 1;
 export const REALIGN_MAX_SEMITONES = 0.05;
 export const RATE_MIN = 0.98;
 export const RATE_MAX = 1.02;
-export const RATE_SLEW_PER_S = 0.005;
+export const RATE_SLEW_PER_QUANTA = 0.005 / 48;  // = 0.00010416... (0.005 rate/s at 120 BPM, beat-first)
 
 export const GRID_CONSTANTS = Object.freeze({
   PERIOD_MIN,
@@ -51,7 +51,7 @@ export const GRID_CONSTANTS = Object.freeze({
   REALIGN_MAX_SEMITONES,
   RATE_MIN,
   RATE_MAX,
-  RATE_SLEW_PER_S,
+  RATE_SLEW_PER_QUANTA,
 });
 // OTOMIX §3.2 · Body Grid constants
 export const BODY_CUTOFF_HZ = 80;
@@ -92,7 +92,7 @@ export const BEAT_EPSILON = 1e-9;
 /** Observer scale: rate range span (RATE_MAX - RATE_MIN = 0.04, half = 0.02) */
 export const OBSERVER_GAIN_RANGE = 0.02;
 
-/** Observer scale: maximum expected drift before rate hits bound (ms) */
+/** Observer scale: maximum expected drift before rate hits bound (quanta) */
 export const OBSERVER_MAX_EXPECTED_DRIFT_QUANTA = 2.4;  // 2.4 quanta = 50ms at 120 BPM
 /** Transition window: 16 bars (4/4 time) = 64 beats */
 export const TRANSITION_WINDOW_BARS = 16;
