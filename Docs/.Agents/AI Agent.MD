@@ -486,57 +486,97 @@ From a library of hundreds of tracks, the Set Builder selects a subset
 that is mutually mixable and orders them into a set. Mixing happens ONLY
 after selection.
 
-### The Mixability Parameter (first-class, alongside BPM / Energy / Grid / Camelot)
+### Mixability Is an Independent, Per-Track Parameter
 
-Every track receives a `mixability_score` ∈ [0, 1]. A track's mixability
-score is computed from (at minimum):
+`mixability_score ∈ [0, 1]` is an INDEPENDENT per-track parameter,
+computed BEFORE any set construction. It is intrinsic to the track — it
+does NOT depend on the set endpoint or any other track. Camelot key,
+energy progression, and vocal presence are NOT mixability factors; they
+belong to the separate recommendation score.
 
-1. **BPM stability** — histogram variance over the analysis window. A track
-   with varying BPM has low stability.
-2. **Kick-grid lock accuracy** — fraction of beats where the detected kick
-   aligns to the grid within tolerance. Drifting kicks reduce this score.
-3. **Audio quality / clarity** — bit depth, sample rate, presence of
-   artifacts, dynamic range, clipping.
-4. **Camelot key compatibility** — match against the current set endpoint.
-5. **Energy profile fit** — match against the set's energy target.
-6. **Vocal presence alignment** — match against the set's vocal profile.
+### Mixability Factors (Baseline)
 
-Additional factors can be added later. The list above is a baseline, not
-an exhaustive set.
+The score is a weighted sum of five intrinsic factors, each ∈ [0, 1]:
 
-### The Red Line
+| Factor | Weight | Category | What it measures |
+|---|---|---|---|
+| `kick_drift_absence` | 0.30 | **BPM-related** | Absence of drift between detected kicks and the beat grid (1 = perfectly locked across the analysis window, 0 = no lock possible) |
+| `bpm_clarity` | 0.20 | **BPM-related** | How well-defined the BPM is (1 = unambiguous single tempo, 0 = completely diffuse histogram) |
+| `bpm_accuracy` | 0.20 | **BPM-related** | Confidence in the detected BPM value (1 = high-confidence, 0 = unreliable) |
+| `frequency_clarity` | 0.15 | Quality | Spectral clarity — separation between frequency bands (1 = clean, 0 = muddy) |
+| `overall_quality` | 0.15 | Quality | Mix / master quality — bit depth, sample rate, artifacts, clipping (1 = professional, 0 = unusable) |
 
-**If a track scores LOW on mixability, it MUST NOT enter the set.**
-The system does not attempt to "fix" a low-mixability track to force it
-into a set. There is no drift compensation, no tempo warping, no kick
-realignment, no quality repair for a track that failed mixability.
+**BPM-related factors carry 0.70 of the total weight.** This reflects the
+owner's directive: *"The most important mixability factors are the ones
+related to BPM."*
+
+The list is a baseline. New factors may be added later, and weights may
+be re-tuned, only with explicit owner approval.
+
+### Mixability Score Formula
+
+    mixability_score =
+        0.30 × kick_drift_absence
+      + 0.20 × bpm_clarity
+      + 0.20 × bpm_accuracy
+      + 0.15 × frequency_clarity
+      + 0.15 × overall_quality
+
+All factors are clamped to [0, 1] before combining. The result is clamped
+to [0, 1].
+
+### The Mixability Gate (Red Line)
+
+**If `mixability_score` is below the acceptance threshold, the track MUST
+NOT enter the set.** The system does not attempt to "fix" a low-mixability
+track to force it into a set. There is no drift compensation, no tempo
+warping, no kick realignment, no quality repair for a track that failed
+the gate.
+
+The acceptance threshold is a tunable admin constant (stored in
+`constants/scoring.ts`, value set at P08 implementation time).
 
 **The owner's stated priority:**
 > "It is better to reject 270 tracks from a 300-track library than to
 >  compromise the architecture for 1 broken track."
 
+### Recommendation Scoring (Post-Gate)
+
+After a track passes the mixability gate, it is ranked within the set via
+a recommendation score. Mixability remains a first-class term:
+
+| Component | Weight |
+|---|---|
+| `mixability_score` | 0.40 |
+| `camelot_proximity` | 0.30 |
+| `tempo_delta` | 0.20 |
+| `energy_progression` | 0.10 |
+
+`0.40 >= 0.30, 0.20, 0.10` — mixability has the highest single weight, in
+accordance with the rule that its weight be no lower than each of
+energy / tempo / camelot.
+
 ### Consequence for the Pipeline
 
 - **P05 (Feature Extraction)** MUST produce, for every analyzed track:
-  - `bpm_stability` (histogram variance or equivalent)
-  - `kick_lock_accuracy` (fraction of beats within grid tolerance)
-  - `audio_quality_score` (bit depth / sample rate / artifacts / clipping)
+  - `bpm_clarity` (BPM histogram concentration)
+  - `bpm_accuracy` (BPM confidence score)
+  - `kick_drift_absence` (fraction of beats within grid tolerance)
+  - `frequency_clarity` (spectral clarity metric)
+  - `overall_quality` (bit depth / sample rate / artifacts / clipping)
+  - `mixability_score` (the formula above)
   - `grid_type` (ATTACK_DOMINANT / BODY_DOMINANT, per §6 of AI Agent.MD)
-  These values feed the `mixability_score` computation.
 
 - **P08 (Set Builder / MixPlan)** is the CORE mission, not a UI phase.
-  It computes `mixability_score` for every candidate track and filters out
-  any track below the threshold BEFORE any transition is planned.
-  Recommendation scoring MUST include mixability as a first-class term,
-  with a weight no lower than the weights of energy / grid / camelot.
+  It applies the mixability gate (reject below threshold) BEFORE any
+  transition is planned, then ranks survivors by the recommendation score.
 
-- **P04 (DSP Port)** assumes every incoming track that reaches the mixer
-  has ALREADY been vetted by the Set Builder. P04 does NOT attempt to
-  repair a broken grid — if a broken track somehow reaches P04, the
-  correct behavior is to emit `RUNG_STANDARD_CROSSFADE` (plain 4-bar
-  fade) and warn, not to compensate.
+- **P04 (DSP Port)** assumes every incoming track has ALREADY been vetted
+  by the Set Builder. P04 does NOT attempt to repair a broken grid — if
+  a broken track somehow reaches P04, the correct behavior is
+  `RUNG_STANDARD_CROSSFADE` + warning, not compensation.
 
-### If the user manually forces a low-mixability track into the set
+### If the User Manually Forces a Low-Mixability Track Into the Set
 
 The system MUST:
 1. Show a prominent warning with the specific mixability factors that failed.
@@ -547,13 +587,12 @@ The system MUST:
 ### Enforcement
 
 1. This rule cannot be relaxed without explicit written owner approval.
-2. Any code, test, or plan that assumes "we will fix a broken track" is a
-   RED LINE VIOLATION and must be corrected.
+2. Any code, test, or plan that assumes "we will fix a broken track" is
+   a RED LINE VIOLATION and must be corrected.
 3. Every Cline prompt that touches P05 or P08 MUST include this rule in
    its CONTEXT block.
 
 ---
-
 ## Rule 26 — Beat-Index Absolute (RED LINE, non-negotiable)
 
 This rule is an ABSOLUTE RED LINE. It cannot be relaxed, bypassed, or
