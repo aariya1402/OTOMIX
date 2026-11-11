@@ -292,7 +292,7 @@
 
     if (phase.narrative) {
       var narDiv = el('div');
-      renderMarkdown(t(phase.narrative), narDiv);
+      const lang = localStorage.getItem("book_lang") || "en"; const text = lang === "fa" && phase.narrative_fa ? phase.narrative_fa : phase.narrative; renderMarkdown(t(text), narDiv);
       container.appendChild(narDiv);
     }
 
@@ -675,3 +675,16 @@
     setTimeout(() => translateDOM(localStorage.getItem('otomix_book_lang') || 'en'), 100);
   });
 })();
+// --- Language Toggle Logic ---
+window.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('lang-toggle');
+  if (!btn) return;
+  const lang = localStorage.getItem('book_lang') || 'en';
+  document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+  btn.textContent = lang === 'fa' ? 'EN' : 'FA';
+  btn.onclick = () => {
+    const newLang = localStorage.getItem('book_lang') === 'fa' ? 'en' : 'fa';
+    localStorage.setItem('book_lang', newLang);
+    location.reload();
+  };
+});

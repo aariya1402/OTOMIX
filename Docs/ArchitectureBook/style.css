@@ -238,7 +238,33 @@ pre.mermaid, .mermaid {
 [dir="rtl"] table th, [dir="rtl"] table td {
   text-align: right;
 }
-[dir="rtl"] #lang-toggle {
-  left: auto !important;
-  right: 20px;
+[dir="rtl"] 
+/* Adjust based on theme toggle position */
+  z-index: 9999;
+  background: var(--bg3);
+  color: var(--fg);
+  border: 1px solid var(--fg3);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: sans-serif;
+  font-weight: bold;
 }
+[dir="rtl"] #lang-toggle {
+  right: auto;
+  left: 60px; /* Adjust based on theme toggle position in RTL */
+}
+/* Right next to the theme toggle */
+  z-index: 9999;
+  background: var(--bg3);
+  color: var(--fg);
+  border: 1px solid var(--fg3);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+}
+#lang-toggle { position: fixed; top: 15px; right: 65px; z-index: 9999; background: var(--bg3); color: var(--fg); border: 1px solid var(--fg3); padding: 6px 10px; border-radius: 6px; cursor: pointer; font-family: sans-serif; font-weight: bold; font-size: 12px; }
+[dir='rtl'] #lang-toggle { right: auto; left: 65px; }
