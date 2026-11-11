@@ -35,7 +35,7 @@ Arithmetic mean of outgoing and incoming BPM. Used by the AudioWorklet to set th
 Constants governing chop:
 - `GLIDE_MAX = 0.08` (max 8% tempo change per transition, `constants/grid.ts:25`)
 - `RATE_MIN = 0.98`, `RATE_MAX = 1.02` (playback rate bounds, `constants/grid.ts:28–29`)
-- `RATE_SLEW_PER_S = 0.005` (max rate change per second, `constants/grid.ts:30`)
+- `RATE_SLEW_PER_QUANTA = 0.005/48` (max rate change per quantum, `constants/grid.ts:30`)
 - `SAFETY_XFADE_BEATS = 16` (4-bar safety crossfade, `constants/grid.ts:101`)
 
 ## RT-Safe AudioWorklet (P04-T03)
@@ -57,7 +57,7 @@ Constants governing chop:
 
 | Task | Blocked By | Issue |
 |------|------------|-------|
-| P04-T02-S02-M02 | OQ-06 | Crossfade bound unit conversion: `crossfadeMs ≤ (60/BPM) × chopGrid_fraction / 4` — RHS in seconds, LHS in ms. Needs ×1000 confirmation. |
+| P04-T02-S02-M02 | OQ-06 | Crossfade bound: `crossfadeBeats ≤ chopGrid_fraction / 4` — all units in beats. No seconds/ms conversion needed. |
 | P04-T03-S01-M01 | OQ-18 | AudioWorklet pre-allocation sizing for variable slice counts. |
 | P04-T03-S01-M02 | OQ-03 | SPSC ring buffer capacity formula under backpressure. |
 | P04-T04-S01-M01 | OQ-05 | Mastering chain loudness target (LUFS) spec. |
