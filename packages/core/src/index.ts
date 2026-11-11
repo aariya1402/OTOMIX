@@ -43,3 +43,4 @@ export * from './chop/widen-grid';
 export * from './dsp/worklet-skeleton';
 export * from './config/transition-config';
 export * from './dsp/spsc-ring-buffer';
+export * from './dsp/smoother';

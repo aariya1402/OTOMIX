@@ -803,7 +803,7 @@
  },
  {
   "id": "P04-T03-S01-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement a per-sample one-pole smoother for audio-path parameters.",
   "prerequisites": [
    "P04-T03-S01-M02"

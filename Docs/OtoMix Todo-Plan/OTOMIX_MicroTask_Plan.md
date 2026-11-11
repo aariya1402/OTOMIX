@@ -1578,7 +1578,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.12 · Mother Add. §4 |
 | Review Checkpoint | Check there are no `Atomics.wait` calls on the audio side. |
 
-###### P04-T03-S01-M03 — TODO
+###### P04-T03-S01-M03 — DONE
 
 | Field | Value |
 |---|---|
