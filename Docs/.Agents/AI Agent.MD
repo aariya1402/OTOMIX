@@ -595,6 +595,23 @@ The DSP modules (EQ, Effects, etc.) MUST NOT hardcode their settings. They must 
 3. **Implementation:** Effects classes must accept an `enabled` or `bypass` flag (from `AdminTuningConfig`). If bypassed, the `process()` method must immediately return the input buffer unchanged (zero-copy or `output.set(input)`).
 
 ---
+
+### OQ-05 Resolution (RESOLVED — Algorithmic Latency Budget)
+
+**Decision Date:** 2026-11-11
+**Status:** RESOLVED
+
+**Original question:** DSP latency definition (<10ms).
+
+**Resolution:** The <10ms budget applies to **Algorithmic Latency**, not CPU processing time. 
+- Algorithmic Latency is the sum of all deliberate delays introduced by the DSP chain (e.g., the look-ahead buffer in the Limiter, FIR group delays in oversampling).
+- CPU processing time per block is NOT part of this budget, as it is strictly governed by the RT-Safety audit (which ensures CPU time remains well under the block duration to prevent dropouts).
+
+**Impact:**
+- `P04-T04-S03-M01` unblocked -> status `TODO`.
+- DSP modules must expose `getLatencySamples()` so the total latency can be summed and verified against the sample-rate equivalent of 10ms.
+
+---
 ## Rule 25 — Mixability-First Architecture (CORE MISSION)
 
 **The primary mission of OTOMIX is SET BUILDING, not mixing.**

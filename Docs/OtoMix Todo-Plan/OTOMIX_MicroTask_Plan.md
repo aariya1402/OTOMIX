@@ -1734,7 +1734,7 @@ flowchart LR
 
 ##### P04-T04-S03 Latency budget and degraded mode
 
-###### P04-T04-S03-M01 — [BLOCKED: OWNER DECISION OQ-05]
+###### P04-T04-S03-M01 — [RESOLVED: Algorithmic Latency]
 
 | Field | Value |
 |---|---|
@@ -1745,7 +1745,7 @@ flowchart LR
 | Independent Test(s) | **[BLOCKED]** Decision needed: one 1024-sample buffer at 44.1 kHz is 23.22 ms, so confirm '<10 ms' means per-block compute time plus reported algorithmic latency. |
 | Spec Reference | OTOMIX §3.11; §3.13 · Mother §3.6, Add. §12; Add. §4 |
 | Review Checkpoint | Re-read Appendix A item A5. |
-| Notes | Blocked by: OQ-05 |
+| Notes | OQ-05 resolved: <10ms refers to Algorithmic Latency, not CPU time. |
 
 ###### P04-T04-S03-M02 — TODO
 

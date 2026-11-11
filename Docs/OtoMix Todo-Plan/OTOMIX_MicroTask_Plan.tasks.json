@@ -923,7 +923,7 @@
  },
  {
   "id": "P04-T04-S03-M01",
-  "status": "BLOCKED:OQ-05",
+  "status": "TODO",
   "description": "Measure DSP port per-block processing latency against the <10 ms budget.",
   "prerequisites": [
    "P04-T04-S02-M05"
