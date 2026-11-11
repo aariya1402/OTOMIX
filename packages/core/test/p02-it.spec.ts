@@ -83,17 +83,17 @@ describe('P02-IT: Phase 2 Integration Test Suite', () => {
   });
 
   it('Delta resets at beats 64, 128, 192', () => {
-    const driftPerBeat = 0.0005;
+    const driftQuantaPerBeat = 0.024;
     // At sync points, delta is the accumulated drift since last anchor
-    // Beat 64: 63 intervals from beat 1 -> 63 * driftPerBeat
-    // Beat 128: 64 intervals from beat 64 -> 64 * driftPerBeat
-    // Beat 192: 64 intervals from beat 128 -> 64 * driftPerBeat
-    expect(getSyncedDrift(64, driftPerBeat, 120)).toBeCloseTo(63 * driftPerBeat / ((60 / 120) / QUANTUM_DIVISOR), 9);
-    expect(getSyncedDrift(128, driftPerBeat, 120)).toBeCloseTo(64 * driftPerBeat / ((60 / 120) / QUANTUM_DIVISOR), 9);
-    expect(getSyncedDrift(192, driftPerBeat, 120)).toBeCloseTo(64 * driftPerBeat / ((60 / 120) / QUANTUM_DIVISOR), 9);
+    // Beat 64: 63 intervals from beat 1 -> 63 * driftQuantaPerBeat
+    // Beat 128: 64 intervals from beat 64 -> 64 * driftQuantaPerBeat
+    // Beat 192: 64 intervals from beat 128 -> 64 * driftQuantaPerBeat
+    expect(getSyncedDrift(64, driftQuantaPerBeat, 120)).toBeCloseTo(63 * driftQuantaPerBeat, 9);
+    expect(getSyncedDrift(128, driftQuantaPerBeat, 120)).toBeCloseTo(64 * driftQuantaPerBeat, 9);
+    expect(getSyncedDrift(192, driftQuantaPerBeat, 120)).toBeCloseTo(64 * driftQuantaPerBeat, 9);
     // All within (DRIFT_MAX_QUANTA * (60 / 120) / QUANTUM_DIVISOR)
     for (const beat of [64, 128, 192]) {
-      expect(Math.abs(getSyncedDrift(beat, driftPerBeat, 120))).toBeLessThanOrEqual(DRIFT_MAX_QUANTA);
+      expect(Math.abs(getSyncedDrift(beat, driftQuantaPerBeat, 120))).toBeLessThanOrEqual(DRIFT_MAX_QUANTA);
     }
   });
 
