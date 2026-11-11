@@ -46,3 +46,4 @@ export * from './dsp/spsc-ring-buffer';
 export * from './dsp/smoother';
 export * from './dsp/denormal';
 export * from './dsp/port';
+export * from './dsp/mock-driver';

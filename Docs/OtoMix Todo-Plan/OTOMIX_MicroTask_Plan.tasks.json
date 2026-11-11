@@ -863,7 +863,7 @@
  },
  {
   "id": "P04-T04-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the mock DSP driver and bypass module for headless signal-flow tests.",
   "prerequisites": [
    "P04-T04-S01-M01"

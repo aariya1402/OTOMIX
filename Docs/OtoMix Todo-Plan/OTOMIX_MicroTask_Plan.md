@@ -1658,7 +1658,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.11 · Mother §3.6, Add. §12 |
 | Review Checkpoint | Confirm the interface exposes only raw `AudioBuffer` and automation. |
 
-###### P04-T04-S01-M02 — TODO
+###### P04-T04-S01-M02 — DONE
 
 | Field | Value |
 |---|---|
