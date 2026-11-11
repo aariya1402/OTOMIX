@@ -40,3 +40,4 @@ export * from './chop/passthrough';
 export * from './chop/groove-shift';
 export * from './chop/crossfade-bound';
 export * from './chop/widen-grid';
+export * from './dsp/worklet-skeleton';

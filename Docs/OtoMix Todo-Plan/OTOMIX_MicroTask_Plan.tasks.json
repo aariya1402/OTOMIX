@@ -783,7 +783,7 @@
  },
  {
   "id": "P04-T03-S01-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Create the `AudioWorkletProcessor` skeleton that pre-allocates grid state, slice buffers and smoothing state at preparation time and performs no allocation in `process()`.",
   "prerequisites": [
    "P04-T02-S01-M01"

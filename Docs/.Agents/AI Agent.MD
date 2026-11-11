@@ -545,6 +545,21 @@ track is chopped into small slices. The BPM is matched to the incoming track
 by altering the playback time of these slices. BPM can increase or decrease
 without any pitch alteration.
 
+
+### Admin Dashboard Configuration for DSP (Directive 2026-11-11)
+
+**ALL critical parameters for detecting and executing a transition MUST be moved to an Admin Dashboard Config.**
+
+This includes (but is not limited to):
+- Entry/Exit points and Transition Window length (e.g., default 16 bars, adjustable via UI).
+- Chop Grid resolution (1/8, 1/16, 1/32).
+- Crossfade length (overlap).
+- Rate min/max bounds (e.g., 0.98 to 1.02).
+- Swing/Drift thresholds.
+
+The DSP layer (AudioWorklet) and Transition logic must NEVER hardcode these values. They must receive a `WorkletConfig` or `TransitionConfig` object injected at initialization. This ensures that Admin tuning or future UI features (like dragging transition lines) do not require code changes to the DSP core.
+
+---
 ## Rule 25 — Mixability-First Architecture (CORE MISSION)
 
 **The primary mission of OTOMIX is SET BUILDING, not mixing.**
