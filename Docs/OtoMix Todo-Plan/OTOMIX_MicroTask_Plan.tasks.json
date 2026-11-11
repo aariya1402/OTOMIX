@@ -823,7 +823,7 @@
  },
  {
   "id": "P04-T03-S01-M05",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Flush denormals on the audio thread in feedback and filter state.",
   "prerequisites": [
    "P04-T03-S01-M04"

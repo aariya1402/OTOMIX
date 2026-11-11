@@ -1602,7 +1602,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.12; §7.2 · Mother Add. §4; §5.2 |
 | Review Checkpoint | Confirm no code reads the ring buffer inside the sample loop. |
 
-###### P04-T03-S01-M05 — TODO
+###### P04-T03-S01-M05 — DONE
 
 | Field | Value |
 |---|---|
