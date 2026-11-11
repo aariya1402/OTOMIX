@@ -20,6 +20,7 @@ export interface TransitionPlan {
   alignToSeconds: number;
   /** BPM to use for scheduling the incoming track's grid. */
   mappedBpm: number;
+  windowBeats: number;
   /** For RUNG_SILENT_LOOP: beats of silence padding needed (render-time). */
   paddingBeats?: number;
 }

@@ -69,6 +69,7 @@ describe('DspPort interface (mock implementation)', () => {
     const plan: TransitionPlan = {
       rung: 'RUNG_STANDARD_CROSSFADE', reason: 'test', tInSeconds: 0, tOutSeconds: 10,
       inBeatIndex: 1, outBeatIndex: 65, alignToSeconds: 0, mappedBpm: 120,
+    windowBeats: 64,
     };
     const automations: AudioParamAutomation[] = [
       { paramId: 'gain', targetValue: 0.8, time: 10, curve: 'linear' },
@@ -96,6 +97,7 @@ describe('DspPort interface (mock implementation)', () => {
     const plan: TransitionPlan = {
       rung: 'RUNG_NONE', reason: 'test', tInSeconds: 0, tOutSeconds: 0,
       inBeatIndex: 0, outBeatIndex: 0, alignToSeconds: 0, mappedBpm: 120,
+    windowBeats: 64,
     };
     port.scheduleTransition(plan, []);
     port.flush();

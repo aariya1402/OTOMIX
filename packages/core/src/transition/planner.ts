@@ -1,6 +1,7 @@
 // OTOMIX §3.9 · Mother §2.9
 import { computeTransitionAnchors, TrackGridParams } from './anchors';
 import { TransitionPlan, TransitionRung } from './types';
+import { resolveRealignmentStrategy } from '../grid/realign-strategy';
 import { STATIC_GRID_BPM, TRANSITION_WINDOW_BEATS } from '../constants/grid';
 
 function isOutgoingShort(outgoing: TrackGridParams): boolean {

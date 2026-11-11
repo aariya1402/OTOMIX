@@ -111,7 +111,7 @@ The following P04 tasks remain flagged pending owner decisions:
 | P04-T03-S01-M02 | OQ-03 | SPSC ring buffer capacity formula under backpressure |
 | P04-T04-S01-M01 | OQ-05 | Mastering chain loudness target (LUFS) spec |
 
-OQ-06 (`crossfadeMs` → `crossfadeBeats`, pure beat domain) was resolved 2026-11-11. Exit criteria require OQ-03, OQ-05, OQ-18, OQ-19 recorded and their tasks flagged.
+OQ-06 (the crossfade unit was renamed to pure beats) was resolved 2026-11-11. Exit criteria require OQ-03, OQ-05, OQ-18, OQ-19 recorded and their tasks flagged.
 
 ## Test Coverage
 
