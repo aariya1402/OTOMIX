@@ -833,7 +833,7 @@
  },
  {
   "id": "P04-T03-S02-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Build an RT-safety audit harness that counts heap allocations and lock acquisitions across 10 000 `process()` calls.",
   "prerequisites": [
    "P04-T03-S01-M01"
