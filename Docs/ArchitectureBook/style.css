@@ -268,3 +268,24 @@ pre.mermaid, .mermaid {
 }
 #lang-toggle { position: fixed; top: 15px; right: 65px; z-index: 9999; background: var(--bg3); color: var(--fg); border: 1px solid var(--fg3); padding: 6px 10px; border-radius: 6px; cursor: pointer; font-family: sans-serif; font-weight: bold; font-size: 12px; }
 [dir='rtl'] #lang-toggle { right: auto; left: 65px; }
+
+/* Language Toggle Positions */
+#lang-toggle {
+  position: fixed;
+  top: 15px;
+  right: 65px; /* Places it next to the theme toggle in LTR */
+  z-index: 9999;
+  background: var(--bg3);
+  color: var(--fg);
+  border: 1px solid var(--fg3);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+}
+[dir="rtl"] #lang-toggle {
+  right: auto;
+  left: 65px; /* Places it next to the theme toggle in RTL */
+}
