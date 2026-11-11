@@ -1043,7 +1043,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.2 · Mother §2.2 |
 | Review Checkpoint | Confirm sign convention matches the formula in §3.2. |
 
-###### P03-T02-S01-M02 — [BLOCKED: OWNER DECISION OQ-17]
+###### P03-T02-S01-M02 — [RESOLVED: Attack vs Body Power]
 
 | Field | Value |
 |---|---|
@@ -1054,7 +1054,7 @@ flowchart LR
 | Independent Test(s) | **[BLOCKED]** Decision needed: a numeric criterion for 'devoid of a strong kick body' (for example a minimum sub-80 Hz to full-band RMS ratio) and whether it is genre-driven. |
 | Spec Reference | OTOMIX §3.2 · Mother §2.2 |
 | Review Checkpoint | After the decision, re-read §3.2 last bullet. |
-| Notes | Blocked by: OQ-17 |
+| Notes | RESOLVED: Compare power, tag BODY_DOMINANT, save to global DB. |
 
 ###### P03-T02-S01-M03 — [x]
 
@@ -1099,7 +1099,7 @@ flowchart LR
 | Review Checkpoint | Re-read §3.2 item 3; confirm duration is exactly 4 bars. |
 | Notes | Related open question (non-blocking): OQ-01 |
 
-###### P03-T03-S01-M03 — [BLOCKED: OWNER DECISION OQ-01]
+###### P03-T03-S01-M03 — [CANCELLED: 16-bar Default]
 
 | Field | Value |
 |---|---|
@@ -1110,7 +1110,7 @@ flowchart LR
 | Independent Test(s) | **[BLOCKED]** Decision needed: relationship between the 4-bar cosine realignment (§3.2) and the Runtime Observer's 16-bar logarithmic shift (§3.6); are they sequential, alternative, or the same. |
 | Spec Reference | OTOMIX §3.2; §3.6 · Mother §2.2; §2.6 |
 | Review Checkpoint | Re-read both sections and Appendix A item A1. |
-| Notes | Blocked by: OQ-01 |
+| Notes | CANCELLED: 16-bar default transition. |
 
 ###### P03-T03-S01-M04 — [x]
 
@@ -1182,7 +1182,7 @@ flowchart LR
 
 ##### P03-T04-S02 Pitch-bound conflict
 
-###### P03-T04-S02-M01 — [BLOCKED: OWNER DECISION OQ-04]
+###### P03-T04-S02-M01 — [RESOLVED: Chopping, No Pitch Shift]
 
 | Field | Value |
 |---|---|

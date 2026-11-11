@@ -504,6 +504,47 @@ Beat 0 is explicitly specified as the beat immediately preceding Beat 1.
 - Pre-kick gap implementation must respect this exact numbering.
 
 ---
+
+### OQ-17 Resolution (RESOLVED — Attack vs Body Power)
+
+**Decision Date:** 2026-11-11
+**Status:** RESOLVED
+
+The system compares the Power of the Attack transient against the Power of
+the Body (sub-bass). If the Body power is greater, the track is tagged as
+`BODY_DOMINANT`. Otherwise, it is `ATTACK_DOMINANT`.
+This classification is immediately saved to the global track metadata
+database (`global_track_metadata`, indexed by `content_sha256`) so it is
+permanently cached across all users worldwide.
+
+### OQ-01 Resolution (RESOLVED — 16-Bar Default Transition)
+
+**Decision Date:** 2026-11-11
+**Status:** RESOLVED
+
+The default transition period is strictly **16 bars**.
+Inside this 16-bar window:
+1. BPM of both tracks is synced (via chopping, not time-stretch).
+2. EQ is applied.
+3. Effects are added if needed.
+Future profiles (e.g., 4-bar, 8-bar, or vocal-detection-driven) may be added
+later, but 16 bars is the hard default. There is no debate between 4-bar
+and 16-bar mechanisms; the window is 16 bars.
+
+### OQ-04 Resolution (RESOLVED — No Pitch Shift, Slice Chopping)
+
+**Decision Date:** 2026-11-11
+**Status:** RESOLVED
+
+There is **NO pitch shift** anywhere in the architecture.
+Tracks play in their original key during normal playback. Harmonic
+compatibility is handled entirely during Set Builder selection via Camelot.
+
+During transitions, instead of time-stretching (which alters pitch), the
+track is chopped into small slices. The BPM is matched to the incoming track
+by altering the playback time of these slices. BPM can increase or decrease
+without any pitch alteration.
+
 ## Rule 25 — Mixability-First Architecture (CORE MISSION)
 
 **The primary mission of OTOMIX is SET BUILDING, not mixing.**

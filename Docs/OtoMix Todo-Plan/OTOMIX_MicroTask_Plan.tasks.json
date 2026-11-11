@@ -441,8 +441,8 @@
  },
  {
   "id": "P03-T02-S01-M02",
-  "status": "BLOCKED:OQ-17",
-  "description": "Default to the Attack Grid only for tracks devoid of a strong kick body.",
+  "status": "TODO",
+  "description": "Compare Attack power vs Body power. If Body > Attack, tag BODY_DOMINANT. Save to global metadata.",
   "prerequisites": [
    "P03-T02-S01-M01"
   ],
@@ -481,8 +481,8 @@
  },
  {
   "id": "P03-T03-S01-M03",
-  "status": "BLOCKED:OQ-01",
-  "description": "Decide whether the \u00a73.2 4-bar cosine curve and the \u00a73.6 16-bar logarithmic shift are one mechanism or two sequential stages.",
+  "status": "CANCELLED:Resolved",
+  "description": "Cancelled: Default transition is fixed at 16 bars with sync, EQ, and effects.",
   "prerequisites": [
    "P03-T03-S01-M02"
   ],
@@ -541,8 +541,8 @@
  },
  {
   "id": "P03-T04-S02-M01",
-  "status": "BLOCKED:OQ-04",
-  "description": "Decide whether Runtime Drift Compensation must also satisfy the \u00b10.05 semitone bound given its [0.98, 1.02] range.",
+  "status": "TODO",
+  "description": "Implement BPM matching via slice chopping to prevent any pitch shift. Original key is preserved.",
   "prerequisites": [
    "P03-T04-S01-M04"
   ],
