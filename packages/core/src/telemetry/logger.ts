@@ -17,7 +17,7 @@ export interface LogRecord {
   outcome: LogOutcome;
   /** Optional at call-site; invalid values are dropped. */
   country?: string;
-  duration_ms: number;
+  durationMs: number;
 
   // PII fields (masked or dropped)
   ip?: string;
@@ -87,7 +87,7 @@ function validateRequired(record: LogRecord): void {
     'span_id',
     'event',
     'outcome',
-    'duration_ms',
+    'durationMs',
   ];
 
   for (const field of required) {

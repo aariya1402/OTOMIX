@@ -27,7 +27,7 @@ Arithmetic mean of outgoing and incoming BPM. Used by the AudioWorklet to set th
 
 **Transition Window**: 64 beats (`TRANSITION_WINDOW_BEATS` from `constants/grid.ts:99`).
 **Slice Grid**: 1/32 beat default (quantum = 1/24 beat → slices at quantum boundaries).
-**Crossfade**: Cosine `F_fade = 0.5 × (1 + cos(π × t / crossfadeMs))` for `t ∈ [0, crossfadeMs]`.
+**Crossfade**: Cosine `F_fade = 0.5 × (1 + cos(π × t / crossfadeBeats))` for `t ∈ [0, crossfadeBeats]`.
 **Groove Shift**: When groove = Swing, off-beat boundaries shift by `Δ_groove / 2`.
 **Load Shedding**: Under pressure, widen grid 1/32 → 1/16 → 1/8.
 **WSOLA Fallback**: Only when phase-coherence predicate fails (extreme reverb tails).

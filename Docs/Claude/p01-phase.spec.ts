@@ -792,7 +792,7 @@ describe('H. Telemetry (P01-T08)', () => {
   const RAW_MAIL = 'alice@example.com';
   const base = {
     ts: '2026-11-10T12:00:00.000Z', level: 'info', service: 'gateway', tenant_id: 'otomix',
-    trace_id: '0af7651916cd43dd8448eb211c80319c', span_id: 'b7ad6b7169203331', event: 'request.done', outcome: 'ok', duration_ms: 12,
+    trace_id: '0af7651916cd43dd8448eb211c80319c', span_id: 'b7ad6b7169203331', event: 'request.done', outcome: 'ok', durationMs: 12,
   };
 
   it('H1 logger: raw ip/email/lat/long never reach the output; "Germany" country does not survive', async () => {
@@ -804,7 +804,7 @@ describe('H. Telemetry (P01-T08)', () => {
     const out = await ADAPTERS.emitLog({ ...base, country: 'DE' });
     const line = out.split('\n').filter(Boolean).pop()!;
     const j = JSON.parse(line);
-    for (const k of ['ts', 'level', 'service', 'tenant_id', 'trace_id', 'span_id', 'event', 'outcome', 'duration_ms']) expect(j, k).toHaveProperty([k]);
+    for (const k of ['ts', 'level', 'service', 'tenant_id', 'trace_id', 'span_id', 'event', 'outcome', 'durationMs']) expect(j, k).toHaveProperty([k]);
     expect(j.country).toBe('DE');
   });
 

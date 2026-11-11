@@ -1,5 +1,5 @@
 // OTOMIX §3.6 · Mother §2.6
-import { QUANTUM_DIVISOR } from '../constants/grid';
+import { quantumSeconds } from '../timing/quantum';
 
 /**
  * Computes the phase drift between the real-time rendering context clock
@@ -19,7 +19,5 @@ export function computeDrift(
   if (!Number.isFinite(bpm) || bpm <= 0) {
     throw new RangeError('bpm must be a positive finite number');
   }
-  const driftSeconds = contextTimeSeconds - gridTimeSeconds;
-  const quantumSeconds = (60 / bpm) / QUANTUM_DIVISOR;
-  return driftSeconds / quantumSeconds;
+  return (contextTimeSeconds - gridTimeSeconds) / quantumSeconds(bpm);
 }

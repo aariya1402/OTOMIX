@@ -30,7 +30,7 @@ describe('JSON Logger (P01-T08-S01-M01)', () => {
       event: 'ingestion.start',
       outcome: 'success',
       country: 'Germany',
-      duration_ms: 123,
+      durationMs: 123,
       ip: '203.0.113.7',
       email: 'user@example.com',
       lat: 52.52,
@@ -47,7 +47,7 @@ describe('JSON Logger (P01-T08-S01-M01)', () => {
     expect(output.span_id).toBe('def456');
     expect(output.event).toBe('ingestion.start');
     expect(output.outcome).toBe('success');
-    expect(output.duration_ms).toBe(123);
+    expect(output.durationMs).toBe(123);
 
     expect(output.ip).toBe('***.***.***.***');
     expect(output.email).toBe('***@***');
@@ -75,7 +75,7 @@ describe('JSON Logger (P01-T08-S01-M01)', () => {
       event: 'analysis.complete',
       outcome: 'success',
       country: 'DE',
-      duration_ms: 456,
+      durationMs: 456,
     };
     const output = captureLog(input);
     expect(output.country).toBe('DE');
@@ -91,7 +91,7 @@ describe('JSON Logger (P01-T08-S01-M01)', () => {
       event: 'test',
       outcome: 'success',
       country: 'de',
-      duration_ms: 1,
+      durationMs: 1,
     };
     const output = captureLog(input);
     expect(output.country).toBeUndefined();
@@ -116,7 +116,7 @@ describe('JSON Logger (P01-T08-S01-M01)', () => {
       event: 'evt',
       outcome: 'success',
       country: 'US',
-      duration_ms: 10,
+      durationMs: 10,
     };
     const stream = new PassThrough();
     const logger = createLogger({
@@ -141,7 +141,7 @@ describe('JSON Logger (P01-T08-S01-M01)', () => {
       event: 'evt',
       outcome: 'success',
       country: 'US',
-      duration_ms: 10,
+      durationMs: 10,
     };
     const output = captureLog(input, { tenantId: 'default-tenant' });
     expect(output.tenant_id).toBe('override-tenant');
