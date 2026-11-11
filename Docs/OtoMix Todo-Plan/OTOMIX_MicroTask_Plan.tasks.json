@@ -903,7 +903,7 @@
  },
  {
   "id": "P04-T04-S02-M04",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Apply input gain normalization from `loudness_ebu128` as the first stage of the chain.",
   "prerequisites": [
    "P04-T04-S02-M03"

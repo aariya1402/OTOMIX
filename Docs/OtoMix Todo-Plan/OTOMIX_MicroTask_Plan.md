@@ -1708,7 +1708,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.11; §3.13 · Mother §3.6, Add. §12; Add. §4 |
 | Review Checkpoint | Confirm oversampling filters are included in the reported latency. |
 
-###### P04-T04-S02-M04 — TODO
+###### P04-T04-S02-M04 — DONE
 
 | Field | Value |
 |---|---|
