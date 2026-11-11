@@ -560,6 +560,17 @@ This includes (but is not limited to):
 The DSP layer (AudioWorklet) and Transition logic must NEVER hardcode these values. They must receive a `WorkletConfig` or `TransitionConfig` object injected at initialization. This ensures that Admin tuning or future UI features (like dragging transition lines) do not require code changes to the DSP core.
 
 ---
+
+### Strict Separation of User and Admin Configs (Directive 2026-11-11)
+
+**The system MUST strictly separate end-user controls from admin tuning controls.**
+
+1. **UserFacingConfig (P08 UI):** Controls entry/exit markers, transition window length (snapped to 4, 8, 16 bars), and high-level Set Builder filters (genre, BPM range, target energy).
+2. **AdminTuningConfig (Admin Dashboard):** Controls deep DSP parameters (crossfade overlap length, chop grid resolution, rate min/max, swing detection thresholds). These values are tuned by administrators after live testing to maximize mix quality.
+
+The DSP/AudioWorklet layer MUST ONLY consume `AdminTuningConfig` for its internal parameters. End-users must NEVER be able to modify these deep DSP values.
+
+---
 ## Rule 25 — Mixability-First Architecture (CORE MISSION)
 
 **The primary mission of OTOMIX is SET BUILDING, not mixing.**
