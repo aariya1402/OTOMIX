@@ -662,8 +662,8 @@
  },
  {
   "id": "P04-T01-S01-M02",
-  "status": "TODO",
-  "description": "Apply halving or doubling to `BPM_in` when a half-time/double-time flag is set, before the glide.",
+  "status": "CANCELLED:Not-Needed",
+  "description": "Cancelled per owner directive: BPM filtering prevents incompatible tracks from mixing. No half/double transformation needed.",
   "prerequisites": [
    "P04-T01-S01-M01"
   ],
@@ -672,8 +672,8 @@
  },
  {
   "id": "P04-T01-S01-M03",
-  "status": "BLOCKED:OQ-18",
-  "description": "Define the criterion that detects half-time/double-time structural differences.",
+  "status": "CANCELLED:Not-Needed",
+  "description": "Cancelled per owner directive: BPM filtering prevents incompatible tracks. No detection needed.",
   "prerequisites": [
    "P04-T01-S01-M02"
   ],

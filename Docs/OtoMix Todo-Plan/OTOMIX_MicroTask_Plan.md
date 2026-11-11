@@ -1389,7 +1389,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.7 · Mother §2.7 |
 | Review Checkpoint | Confirm override hooks do not change the default. |
 
-###### P04-T01-S01-M02 — TODO
+###### P04-T01-S01-M02 — [CANCELLED: Not Needed]
 
 | Field | Value |
 |---|---|
@@ -1401,7 +1401,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.7 · Mother §2.7 |
 | Review Checkpoint | Verify the flag, not a heuristic, drives the mapping in this task. |
 
-###### P04-T01-S01-M03 — [BLOCKED: OWNER DECISION OQ-18]
+###### P04-T01-S01-M03 — [CANCELLED: Not Needed]
 
 | Field | Value |
 |---|---|
@@ -1412,7 +1412,7 @@ flowchart LR
 | Independent Test(s) | **[BLOCKED]** Decision needed: numeric rule for 'extreme structural differences such as half-time or double-time' (for example a BPM ratio window around 2:1 and 1:2). |
 | Spec Reference | OTOMIX §3.7 · Mother §2.7 |
 | Review Checkpoint | Re-read §3.7 last bullet. |
-| Notes | Blocked by: OQ-18 |
+| Notes | CANCELLED 2026-11-11: BPM filtering prevents incompatible tracks. No half/double needed. |
 
 ##### P04-T01-S02 Automation schedule
 

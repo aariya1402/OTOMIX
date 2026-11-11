@@ -525,6 +525,18 @@ be re-tuned, only with explicit owner approval.
 All factors are clamped to [0, 1] before combining. The result is clamped
 to [0, 1].
 
+
+### BPM Difference vs Half/Double Time (Directive 2026-11-11)
+
+The system does NOT perform half-time or double-time transformations.
+If two tracks have incompatible BPMs (e.g., 85 vs 120), the Set Builder
+simply REJECTS the transition because the user-configurable BPM delta
+filter (e.g., max 10%) prevents them from being placed next to each other.
+
+If a track's BPM is 85, it is recognized as 85. We do NOT double it to 170
+to force a mix. The track is either compatible within the user's tolerance,
+or it is excluded from the set. This is a direct consequence of Rule 25:
+we filter out bad matches; we do not fix them with DSP trickery.
 ### The Mixability Gate (Red Line)
 
 **If `mixability_score` is below the acceptance threshold, the track MUST
