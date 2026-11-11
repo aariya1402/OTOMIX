@@ -7,7 +7,15 @@ export interface BiquadCoeffs {
 export class Biquad {
   private z1 = 0;
   private z2 = 0;
-  constructor(private readonly c: BiquadCoeffs) {}
+  private c: BiquadCoeffs;
+
+  constructor(c: BiquadCoeffs) {
+    this.c = c;
+  }
+
+  public setCoeffs(c: BiquadCoeffs): void {
+    this.c = c;
+  }
 
   process(x: number): number {
     const y = this.c.b0 * x + this.z1;
