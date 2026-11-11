@@ -1365,7 +1365,7 @@ flowchart LR
 - RT-safety audit reports 0 allocations and 0 lock acquisitions across 10 000 `process()` calls.
 - DSP port stages pass impulse/frequency-response and limiter measurements.
 - Degraded mode performs standard crossfade with no micro-chopping.
-- OQ-03, OQ-05, OQ-06, OQ-18, OQ-19 are recorded and their tasks remain flagged.
+- OQ-03, OQ-05, OQ-18, OQ-19 are recorded and their tasks remain flagged.
 
 **Upstream phases:** P03  
 **Downstream phases:** P08, P11  
@@ -1510,7 +1510,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.8 · Mother §2.8 |
 | Review Checkpoint | Compare the code with the formula in §3.8; confirm domain clamp for t outside [0, crossfadeBeats]. |
 
-###### P04-T02-S02-M02 — [BLOCKED: OWNER DECISION OQ-06]
+###### P04-T02-S02-M02 — [RESOLVED — crossfadeBeats]
 
 | Field | Value |
 |---|---|
@@ -1521,7 +1521,7 @@ flowchart LR
 | Independent Test(s) | **[BLOCKED]** Decision needed: the bound evaluates to seconds while `crossfadeBeats` is milliseconds; confirm ×1000 and confirm `chopGrid_fraction` is a fraction of one beat (example 120 BPM, 1/16 → 7.8125 ms). |
 | Spec Reference | OTOMIX §3.8 · Mother §2.8 |
 | Review Checkpoint | Re-read Appendix A item A7. |
-| Notes | Blocked by: OQ-06 |
+| Notes | OQ-06 resolved 2026-11-11 — crossfadeBeats, no conversion needed |
 
 ###### P04-T02-S02-M03 — TODO
 
@@ -2479,8 +2479,8 @@ flowchart LR
 | Prerequisites | `P06-T02-S01-M03`, `P01-T06-S01-M02` |
 | Independent Test(s) | **integration** · Vitest + supertest · `packages/gateway/test/dsp-parameters.spec.ts`<br>Input: chopGrid '1/16', '1/64'; crossfadeBeats 'abc'. Expected: 200, 400, 400. Pass: matches. |
 | Spec Reference | OTOMIX §7.2; §9.4 · Mother §5.2; Add. §1–§2 |
-| Review Checkpoint | The crossfadeBeats upper bound depends on OQ-06; confirm the bound hook is a parameter. |
-| Notes | Related open question (non-blocking): OQ-06 |
+| Review Checkpoint | The crossfadeBeats upper bound is a pure beat comparison; confirm the bound hook is a parameter. |
+| Notes | OQ-06 resolved 2026-11-11 |
 
 ###### P06-T07-S01-M02 — TODO
 
@@ -2942,7 +2942,7 @@ flowchart LR
 | Field | Value |
 |---|---|
 | ID | `P08-T04-S01-M02` |
-| Description | Combine component scores as `0.60·Camelot + 0.30·Tempo + 0.10·Energy`. |
+| Description | Combine component scores as `0.40·Mixability + 0.30·Camelot + 0.20·Tempo + 0.10·Energy`. |
 | Expected Outcome | `packages/ui/src/mixplan/score.ts`. |
 | Prerequisites | `P08-T04-S01-M01` |
 | Independent Test(s) | **unit** · Vitest · `packages/ui/test/mixplan.score.spec.ts`<br>Input: components (1,0,0), (0,1,0), (0,0,1). Expected: 0.6, 0.3, 0.1. Pass: within 1e-9. |
@@ -4441,7 +4441,7 @@ Every gap or contradiction found while decomposing the specification. **Blocking
 | OQ-03 | A3 | Does the secondary pitch-shifting node engage above ±1 semitone (about ±5.95% rate) or only beyond the ±8% cap (about 1.36 semitones)? | Blocking | `P04-T01-S02-M03` | — |
 | OQ-04 | A4 | Does the ±0.05 semitone acceptance bound apply to Runtime Drift Compensation (range [0.98, 1.02], about ±0.34 semitones) or only to post-transition realignment? | Blocking | `P03-T04-S02-M01`<br>`P11-T03-S01-M03` | `P03-T04-S01-M02` |
 | OQ-05 | A5 | Is '<10 ms' per-block compute latency plus reported algorithmic latency, given one 1024-sample buffer at 44.1 kHz is 23.22 ms? | Blocking | `P04-T04-S03-M01` | — |
-| OQ-06 | A7 | The `crossfadeBeats` bound `60/BPM × chopGrid_fraction / 4` yields seconds while the parameter is milliseconds; confirm ×1000 and that the fraction is of one beat. | Blocking | `P04-T02-S02-M02` | `P06-T07-S01-M01` |
+| OQ-06 | A7 | RESOLVED 2026-11-11: `crossfadeBeats ≤ chopGrid_fraction / 4` — all units in beats, no seconds conversion. | Resolved | `P04-T02-S02-M02` (unblocked) | `P06-T07-S01-M01` (verify separately) |
 | OQ-07 | A8 | Negative-index convention (index zero skipped) and the exact numbering of the shifted anchor for pre-kick gaps ≥ 1 bar (Beat −5/−9 vs Beat 5/9). | Blocking | `P02-T05-S01-M02` | `P02-T01-S01-M01`<br>`P02-T05-S01-M01` |
 | OQ-08 | — | Percentile bands for 1–4 stars; the spec gives only E above the 80th percentile = 5 stars. | Non-blocking | — | `P05-T02-S02-M04` |
 | OQ-09 | — | Formulas for Camelot proximity, tempo-delta score and energy-progression score used by the 60/30/10 recommendation. | Blocking | `P08-T04-S01-M01` | — |

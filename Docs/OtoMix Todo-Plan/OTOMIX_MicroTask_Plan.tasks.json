@@ -754,11 +754,11 @@
  {
   "id": "P04-T02-S02-M02",
   "status": "TODO",
-  "description": "Enforce `crossfadeBeats \u2264 60/BPM \u00d7 chopGrid_fraction / 4` including its unit conversion.",
+  "description": "Enforce `crossfadeBeats \u2264 chopGrid_fraction / 4` as a pure beat-based comparison.",
   "prerequisites": [
    "P04-T02-S02-M01"
   ],
-  "test": "[BLOCKED] Decision needed: the bound evaluates to seconds while `crossfadeBeats` is milliseconds; confirm \u00d71000 and confirm `chopGrid_fraction` is a fraction of one beat (example 120 BPM, 1/16 \u2192 7.8125 ms).",
+  "test": "Test that `crossfadeBeats \u2264 chopGrid_fraction / 4` is enforced as a pure beat comparison (no seconds/ms conversion).",
   "spec": "OTOMIX \u00a73.8 \u00b7 Mother \u00a72.8"
  },
  {
@@ -1677,7 +1677,7 @@
  {
   "id": "P08-T04-S01-M02",
   "status": "TODO",
-  "description": "Combine component scores as `0.60\u00b7Camelot + 0.30\u00b7Tempo + 0.10\u00b7Energy`.",
+  "description": "Combine component scores as `0.40·Mixability + 0.30·Camelot + 0.20·Tempo + 0.10·Energy`.",
   "prerequisites": [
    "P08-T04-S01-M01"
   ],

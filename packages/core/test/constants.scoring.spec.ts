@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { SCORING_CONSTANTS } from '../src/constants/scoring';
+import { SCORING_CONSTANTS , MIXABILITY_WEIGHTS } from '../src/constants/scoring';
 import { ACCESS_CONSTANTS } from '../../access/src/constants';
 
 describe('Scoring Constants', () => {
@@ -9,7 +9,7 @@ describe('Scoring Constants', () => {
     expect(SCORING_CONSTANTS.UNMIXABLE_BELOW).toBe(0.4);
     expect(SCORING_CONSTANTS.VOCAL_THRESHOLD).toBe(0.65);
     expect(SCORING_CONSTANTS.VOCAL_MEDIAN_BEATS).toBe(2);
-    expect(SCORING_CONSTANTS.RECO_WEIGHTS).toEqual([0.6, 0.3, 0.1]);
+    expect(SCORING_CONSTANTS.RECO_WEIGHTS).toEqual([0.4, 0.3, 0.2, 0.1]);
     expect(SCORING_CONSTANTS.TEMPO_DELTA_LIMIT).toBe(0.01);
   });
 
@@ -30,3 +30,7 @@ describe('Scoring Constants', () => {
     expect(Object.isFrozen(ACCESS_CONSTANTS)).toBe(true);
   });
 });
+
+  it('MIXABILITY_WEIGHTS sum to 1.0 and have correct values', () => {
+    expect(MIXABILITY_WEIGHTS).toEqual([0.30, 0.20, 0.20, 0.15, 0.15]);
+  });
