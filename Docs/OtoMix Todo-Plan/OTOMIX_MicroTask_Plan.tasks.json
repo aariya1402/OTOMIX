@@ -743,7 +743,7 @@
  },
  {
   "id": "P04-T02-S02-M01",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement `F_fade=0.5\u00b7(1+cos(\u03c0\u00b7t/crossfadeBeats))` for t\u2208[0, crossfadeBeats] applied at slice boundaries.",
   "prerequisites": [
    "P04-T02-S01-M01"
@@ -793,7 +793,7 @@
  },
  {
   "id": "P04-T03-S01-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement a lock-free SPSC ring buffer over `SharedArrayBuffer` with `Atomics` for parameter events.",
   "prerequisites": [
    "P04-T03-S01-M01"

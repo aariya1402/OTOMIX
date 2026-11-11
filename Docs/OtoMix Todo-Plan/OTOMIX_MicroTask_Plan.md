@@ -1498,7 +1498,7 @@ flowchart LR
 
 ##### P04-T02-S02 Crossfade and load shedding
 
-###### P04-T02-S02-M01 — TODO
+###### P04-T02-S02-M01 — DONE
 
 | Field | Value |
 |---|---|
@@ -1566,7 +1566,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.12 · Mother Add. §4 |
 | Review Checkpoint | Read the processor and confirm all buffers are created in the constructor/prepare method only. |
 
-###### P04-T03-S01-M02 — TODO
+###### P04-T03-S01-M02 — DONE
 
 | Field | Value |
 |---|---|
