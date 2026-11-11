@@ -5,7 +5,7 @@ export default defineConfig({
   test: {
     benchmark: { include: ['bench/**/*.bench.ts'] },
     include: [
-      'bench/**/*.spec.ts','tools/test/**/*.spec.ts', 'packages/**/test/**/*.spec.ts', 'scripts/test/**/*.spec.ts', 'tools/rt-audit/**/*.spec.ts'],
+      'bench/**/*.spec.ts','tools/test/**/*.spec.ts', 'packages/**/test/**/*.spec.ts', 'scripts/test/**/*.spec.ts', 'tools/rt-audit/**/*.spec.ts', 'tools/eslint-rules/**/*.spec.ts'],
     environment: 'node',
     coverage: {
       provider: 'v8',

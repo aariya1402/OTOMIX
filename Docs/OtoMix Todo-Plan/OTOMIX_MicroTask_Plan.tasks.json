@@ -843,7 +843,7 @@
  },
  {
   "id": "P04-T03-S02-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Add an ESLint rule banning `new`, array/object literals, `console` and `await` inside files tagged `@rt-safe`.",
   "prerequisites": [
    "P04-T03-S02-M01"

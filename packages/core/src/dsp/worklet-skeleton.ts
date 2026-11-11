@@ -1,3 +1,4 @@
+// @rt-safe
 import { AdminTuningConfig } from '../config/transition-config';
 
 /**

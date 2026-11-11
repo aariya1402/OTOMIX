@@ -1628,7 +1628,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.12; §10.3 · Mother Add. §4; §8.2 |
 | Review Checkpoint | Confirm the audit fails the build for the allocating fixture. |
 
-###### P04-T03-S02-M02 — TODO
+###### P04-T03-S02-M02 — DONE
 
 | Field | Value |
 |---|---|
