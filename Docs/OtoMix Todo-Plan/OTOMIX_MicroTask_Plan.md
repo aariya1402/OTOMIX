@@ -1696,7 +1696,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.11 · Mother §3.6, Add. §12 |
 | Review Checkpoint | Confirm attack/release smoothing is per-sample. |
 
-###### P04-T04-S02-M03 — TODO
+###### P04-T04-S02-M03 — DONE
 
 | Field | Value |
 |---|---|

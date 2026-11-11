@@ -585,6 +585,16 @@ A `TransitionProfile` is the master preset created by Admins in the Dashboard. I
 The DSP modules (EQ, Effects, etc.) MUST NOT hardcode their settings. They must receive their specific configuration from the `TransitionProfile` passed to them at initialization.
 
 ---
+
+### Live vs. Export Effects Routing (Directive 2026-11-11)
+
+**DSP Effects (EQ, Compressor, Limiter) MUST have a bypass capability controlled by the Admin Dashboard.**
+
+1. **Live Playback:** To ensure zero latency and prevent dropouts on user devices, heavy DSP effects (like 4x oversampled limiters) can be entirely bypassed during live playback. The audio passes through unprocessed.
+2. **Export Stage:** The exact same effects can be applied offline during the export process (P09) where CPU time is abundant and we can render with maximum quality.
+3. **Implementation:** Effects classes must accept an `enabled` or `bypass` flag (from `AdminTuningConfig`). If bypassed, the `process()` method must immediately return the input buffer unchanged (zero-copy or `output.set(input)`).
+
+---
 ## Rule 25 — Mixability-First Architecture (CORE MISSION)
 
 **The primary mission of OTOMIX is SET BUILDING, not mixing.**

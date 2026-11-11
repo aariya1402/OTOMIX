@@ -46,6 +46,7 @@ export interface TransitionProfile {
 }
 
 export interface AdminTuningConfig {
+  enableLiveEffects: boolean;
   chopGrid: number;
   crossfadeBeats: number;
   rateMin: number;

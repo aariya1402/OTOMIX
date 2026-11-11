@@ -893,7 +893,7 @@
  },
  {
   "id": "P04-T04-S02-M03",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the look-ahead peak limiter with 4x oversampling and report its algorithmic latency.",
   "prerequisites": [
    "P04-T04-S02-M02"
