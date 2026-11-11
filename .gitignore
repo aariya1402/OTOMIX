@@ -12,3 +12,6 @@ heap-proof.json
 
 # Local music files (not for commit)
 MP3/
+
+# Design assets — not for version control
+Logo/
