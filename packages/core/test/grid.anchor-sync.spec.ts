@@ -8,11 +8,11 @@ import {
   getSyncPoints,
   ANCHOR_SYNC_INTERVAL_BEATS,
 } from '../src/grid/anchor-sync';
-import { DRIFT_MAX_QUANTA, QUANTUM_DIVISOR } from '../src/constants/grid';
+import { DRIFT_MAX_QUANTA } from '../src/constants/grid';
 
 describe('anchor-sync (P02-T01-S02-M02)', () => {
-  const DRIFT = 0.0005; // 0.5 ms/beat (input seconds/beat; getSyncedDrift returns quanta)
-  const DRIFT_QUANTA_PER_BEAT = DRIFT / ((60 / 120) / QUANTUM_DIVISOR); // 0.024 quanta/beat
+  // Drift rate in QUANTA per beat
+  const DRIFT_QUANTA_PER_BEAT = 0.024;
 
   it('sync interval derives from ANCHOR_SYNC_BARS × 4', () => {
     expect(ANCHOR_SYNC_INTERVAL_BEATS).toBe(64);
@@ -30,33 +30,33 @@ describe('anchor-sync (P02-T01-S02-M02)', () => {
     expect(getSyncPoints(64)).toEqual([64]);
   });
 
-  it('beat 1 = 0 (reference), beats 2-63 linear, |Δ|≤0.05', () => {
-    expect(getSyncedDrift(1, DRIFT, 120)).toBe(0);
-    expect(getSyncedDrift(2, DRIFT, 120)).toBeCloseTo(1 * DRIFT_QUANTA_PER_BEAT, 9);
-    expect(getSyncedDrift(63, DRIFT, 120)).toBeCloseTo(62 * DRIFT_QUANTA_PER_BEAT, 9);
+  it('beat 1 = 0 (reference), beats 2-63 linear', () => {
+    expect(getSyncedDrift(1, DRIFT_QUANTA_PER_BEAT, 120)).toBe(0);
+    expect(getSyncedDrift(2, DRIFT_QUANTA_PER_BEAT, 120)).toBeCloseTo(1 * DRIFT_QUANTA_PER_BEAT, 9);
+    expect(getSyncedDrift(63, DRIFT_QUANTA_PER_BEAT, 120)).toBeCloseTo(62 * DRIFT_QUANTA_PER_BEAT, 9);
   });
 
-  it('beat 64 (sync #1): measured error = 63 × DRIFT = 0.0315', () => {
-    expect(getSyncedDrift(64, DRIFT, 120)).toBeCloseTo(63 * DRIFT_QUANTA_PER_BEAT, 9);
+  it('beat 64 (sync #1): measured error = 63 × DRIFT_QUANTA_PER_BEAT', () => {
+    expect(getSyncedDrift(64, DRIFT_QUANTA_PER_BEAT, 120)).toBeCloseTo(63 * DRIFT_QUANTA_PER_BEAT, 9);
   });
 
-  it('beats 65-127 piecewise hold at 0.0315; beat 128 (sync #2) = 0.032', () => {
-    expect(getSyncedDrift(65, DRIFT, 120)).toBeCloseTo(64 * DRIFT_QUANTA_PER_BEAT, 9); // hold
-    expect(getSyncedDrift(127, DRIFT, 120)).toBeCloseTo(64 * DRIFT_QUANTA_PER_BEAT, 9); // hold
-    expect(getSyncedDrift(128, DRIFT, 120)).toBeCloseTo(64 * DRIFT_QUANTA_PER_BEAT, 9); // sync
-    expect(getSyncedDrift(192, DRIFT, 120)).toBeCloseTo(64 * DRIFT_QUANTA_PER_BEAT, 9); // sync
-    expect(getSyncedDrift(256, DRIFT, 120)).toBeCloseTo(64 * DRIFT_QUANTA_PER_BEAT, 9); // sync
+  it('beats 65-127 piecewise hold; beat 128 (sync #2) = 64 × DRIFT_QUANTA_PER_BEAT', () => {
+    expect(getSyncedDrift(65, DRIFT_QUANTA_PER_BEAT, 120)).toBeCloseTo(64 * DRIFT_QUANTA_PER_BEAT, 9);
+    expect(getSyncedDrift(127, DRIFT_QUANTA_PER_BEAT, 120)).toBeCloseTo(64 * DRIFT_QUANTA_PER_BEAT, 9);
+    expect(getSyncedDrift(128, DRIFT_QUANTA_PER_BEAT, 120)).toBeCloseTo(64 * DRIFT_QUANTA_PER_BEAT, 9);
+    expect(getSyncedDrift(192, DRIFT_QUANTA_PER_BEAT, 120)).toBeCloseTo(64 * DRIFT_QUANTA_PER_BEAT, 9);
+    expect(getSyncedDrift(256, DRIFT_QUANTA_PER_BEAT, 120)).toBeCloseTo(64 * DRIFT_QUANTA_PER_BEAT, 9);
   });
 
   it('|Δ| ≤ DRIFT_MAX_QUANTA throughout 256 beats; negative drift handled', () => {
-    const pos = simulateSyncedDrift(256, DRIFT, 120);
-    const neg = simulateSyncedDrift(256, -DRIFT, 120);
+    const pos = simulateSyncedDrift(256, DRIFT_QUANTA_PER_BEAT, 120);
+    const neg = simulateSyncedDrift(256, -DRIFT_QUANTA_PER_BEAT, 120);
     expect(pos.length).toBe(256);
     expect(neg.length).toBe(256);
     for (const d of pos) expect(Math.abs(d)).toBeLessThanOrEqual(DRIFT_MAX_QUANTA + 1e-12);
     for (const d of neg) expect(Math.abs(d)).toBeLessThanOrEqual(DRIFT_MAX_QUANTA + 1e-12);
     // Defensive clamp with extreme drift
-    const extreme = simulateSyncedDrift(64, 0.001, 120);
+    const extreme = simulateSyncedDrift(64, 0.048, 120);
     expect(Math.abs(extreme[62])).toBeLessThanOrEqual(DRIFT_MAX_QUANTA + 1e-12);
   });
 });
