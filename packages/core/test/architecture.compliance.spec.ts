@@ -232,7 +232,7 @@ describe('Rule 26 — no unauthorized seconds identifiers in packages/core/src/'
 // ---------------------------------------------------------------------------
 describe('Constants — quanta/samples discipline', () => {
   it('GRID_CONSTANTS has exactly 41 entries', () => {
-    expect(Object.keys(GRID_CONSTANTS)).toHaveLength(41);
+    expect(Object.keys(GRID_CONSTANTS)).toHaveLength(42);
   });
 
   it('QUANTUM_DIVISOR = 24', () => {

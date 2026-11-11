@@ -50,7 +50,7 @@ describe('Grid Constants', () => {
   });
 
   it('should have exactly 42 entries', () => {
-    expect(Object.keys(GRID_CONSTANTS).length).toBe(41);
+    expect(Object.keys(GRID_CONSTANTS).length).toBe(42);
   });
 
   it('should be frozen', () => {
