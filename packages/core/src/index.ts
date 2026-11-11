@@ -49,3 +49,4 @@ export * from './dsp/port';
 export * from './dsp/mock-driver';
 export * from './dsp/biquad';
 export * from './dsp/three-band-eq';
+export * from './dsp/comp';

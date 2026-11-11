@@ -18,6 +18,10 @@ describe('MockDspDriver', () => {
         mid: { frequency: 1000, gainDb: 0, q: 0.7 },
         high: { frequency: 10000, gainDb: 0, q: 0.7 }
       },
+          compressor: {
+      thresholdDb: -20, ratio: 4, attackBeats: 0.1, releaseBeats: 1, kneeDb: 0, makeupGainDb: 0,
+      lowCrossover: { frequency: 250 }, highCrossover: { frequency: 2000 }
+    },
       effects: []
     }
   };

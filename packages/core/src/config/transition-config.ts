@@ -1,13 +1,9 @@
-/**
- * High-level parameters controlled by the end-user (DJ) in the UI.
- * These affect the macro flow of the set.
- */
 export interface UserFacingConfig {
   entryBeat: number;
   exitBeat: number;
-  bpmTolerance: number;         // e.g., 0.10 (10%)
-  targetEnergy: number;         // 0.0 to 1.0
-  profileId: string;            // ID of the chosen TransitionProfile
+  bpmTolerance: number;
+  targetEnergy: number;
+  profileId: string;
 }
 
 export interface EqBandConfig {
@@ -22,33 +18,41 @@ export interface EqProfile {
   high: EqBandConfig;
 }
 
+export interface CompressorBandConfig {
+  frequency: number; // Hz crossover point
+}
+
+export interface CompressorProfile {
+  thresholdDb: number;
+  ratio: number;
+  attackBeats: number;
+  releaseBeats: number;
+  kneeDb: number;
+  makeupGainDb: number;
+  lowCrossover: CompressorBandConfig;
+  highCrossover: CompressorBandConfig;
+}
+
 export type BpmCurveType = 'linear' | 'exponential' | 'cosine';
 
 export interface TransitionProfile {
   id: string;
   name: string;
-  windowBars: number;           // e.g., 4, 8, 16
+  windowBars: number;
   bpmCurve: BpmCurveType;
   eqProfile: EqProfile;
-  effects: string[];            // e.g., ['reverb', 'delay']
-  // Future expansion for automation curves of each parameter over the window
+  compressor: CompressorProfile;
+  effects: string[];
 }
 
-/**
- * Deep DSP parameters controlled by administrators for quality tuning.
- * End-users CANNOT change these.
- */
 export interface AdminTuningConfig {
-  chopGrid: number;          // e.g., 8, 16, 32
-  crossfadeBeats: number;    // e.g., 0.015625 (1/64 beat)
-  rateMin: number;           // e.g., 0.98
-  rateMax: number;           // e.g., 1.02
-  swingThreshold: number;    // e.g., 0.05
+  chopGrid: number;
+  crossfadeBeats: number;
+  rateMin: number;
+  rateMax: number;
+  swingThreshold: number;
 }
 
-/**
- * The final merged configuration passed to the DSP layer.
- */
 export interface DspEngineConfig {
   adminConfig: AdminTuningConfig;
   userConfig: UserFacingConfig;

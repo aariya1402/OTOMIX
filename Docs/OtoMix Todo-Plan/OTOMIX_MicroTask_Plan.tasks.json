@@ -883,7 +883,7 @@
  },
  {
   "id": "P04-T04-S02-M02",
-  "status": "TODO",
+  "status": "DONE",
   "description": "Implement the multi-band compressor (band-split biquads, per-band detector and gain computer).",
   "prerequisites": [
    "P04-T04-S02-M01"
