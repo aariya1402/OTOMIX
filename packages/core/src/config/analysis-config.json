@@ -47,5 +47,8 @@
                       },
     "transition":  {
                        "defaultWindowBars":  16
-                   }
+                   },
+    "grid":  {
+                 "lockToleranceBeats":  0.05
+             }
 }

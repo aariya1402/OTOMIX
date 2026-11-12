@@ -19,6 +19,7 @@ describe('AdminConfig layer', () => {
     
     // Camelot
     expect(config.camelot.strictMode).toBe(true);
+    expect(config.grid.lockToleranceBeats).toBe(0.05);
     
     // Compatibility
     expect(config.compatibility.weights.mixability).toBe(0.30);

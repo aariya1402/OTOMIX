@@ -117,7 +117,7 @@
 
 ### P05-ADD-T03-S01 Grid Locking (Analysis only)
 
-###### P05-ADD-T03-S01-M01 — TODO
+###### P05-ADD-T03-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
