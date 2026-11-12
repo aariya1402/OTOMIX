@@ -1830,7 +1830,7 @@ flowchart LR
 
 ##### P05-T01-S03 Memory discipline and fallback
 
-###### P05-T01-S03-M01 — TODO
+###### P05-T01-S03-M01 — [x]
 
 | Field | Value |
 |---|---|
