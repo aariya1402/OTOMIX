@@ -71,7 +71,7 @@
 
 ### P05-ADD-T02-S03 Harmonic Gate
 
-###### P05-ADD-T02-S03-M01 — TODO
+###### P05-ADD-T02-S03-M01 — [x]
 
 | Field | Value |
 |---|---|
