@@ -25,7 +25,7 @@
 
 ### P05-ADD-T01-S02 Input Normalization (Stereo default)
 
-###### P05-ADD-T01-S02-M01 — TODO
+###### P05-ADD-T01-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -190,6 +190,21 @@
 | Review Checkpoint | Confirm only affected pairs are recomputed (performance check). |
 
 ---
+
+### P05-ADD-T01-S03 TypeScript Build Debt
+
+###### P05-ADD-T01-S03-M01 — TODO
+
+| Field | Value |
+|---|---|
+| ID | `P05-ADD-T01-S03-M01` |
+| Description | Fix ~100 TS errors in `packages/core` so `tsc --build` succeeds (noUncheckedIndexedAccess, resolveJsonModule, missing realign-strategy.ts, missing windowBeats in TransitionPlan, unused imports). |
+| Expected Outcome | `pnpm -F @otomix/core build` exits 0. |
+| Prerequisites | None |
+| Independent Test(s) | **build** · tsc · `npx tsc -p packages/core/tsconfig.json` → exit 0. |
+| Spec Reference | Debt discovered 2026-11-12 |
+| Review Checkpoint | `dist/index.js` re-exports `config/analysis`. |
+
 **End of Addendum.**
 ---
 
@@ -238,4 +253,19 @@
 | Review Checkpoint | Confirm the API response is instant (does not wait for the analysis to finish). |
 
 ---
+
+### P05-ADD-T01-S03 TypeScript Build Debt
+
+###### P05-ADD-T01-S03-M01 — TODO
+
+| Field | Value |
+|---|---|
+| ID | `P05-ADD-T01-S03-M01` |
+| Description | Fix ~100 TS errors in `packages/core` so `tsc --build` succeeds (noUncheckedIndexedAccess, resolveJsonModule, missing realign-strategy.ts, missing windowBeats in TransitionPlan, unused imports). |
+| Expected Outcome | `pnpm -F @otomix/core build` exits 0. |
+| Prerequisites | None |
+| Independent Test(s) | **build** · tsc · `npx tsc -p packages/core/tsconfig.json` → exit 0. |
+| Spec Reference | Debt discovered 2026-11-12 |
+| Review Checkpoint | `dist/index.js` re-exports `config/analysis`. |
+
 **End of Addendum.**

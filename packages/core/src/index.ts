@@ -1,3 +1,4 @@
+export * from './config/analysis';
 export * from './constants/timing';
 export * from './constants/grid';
 export * from './constants/scoring';
