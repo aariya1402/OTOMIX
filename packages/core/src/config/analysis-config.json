@@ -36,10 +36,13 @@
                 },
     "compatibility":  {
                           "weights":  {
-                                          "mixability":  0.40,
-                                          "camelot_proximity":  0.30,
-                                          "tempo_delta":  0.20,
-                                          "energy_smoothness":  0.10
+                                          "mixability":  0.3,
+                                          "camelot_proximity":  0.2,
+                                          "tempo_delta_score":  0.15,
+                                          "energy_smoothness":  0.15,
+                                          "structural_match":  0.1,
+                                          "window_cleanliness":  0.05,
+                                          "grid_type_match":  0.05
                                       }
                       },
     "transition":  {

@@ -85,7 +85,7 @@
 
 ### P05-ADD-T02-S04 Compatibility Score (Pairwise)
 
-###### P05-ADD-T02-S04-M01 — TODO
+###### P05-ADD-T02-S04-M01 — [x]
 
 | Field | Value |
 |---|---|

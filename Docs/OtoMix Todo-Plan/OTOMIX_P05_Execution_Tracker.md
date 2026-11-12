@@ -34,7 +34,7 @@
 | `P05-ADD-T02-S01-M01` | Energy skeleton (extended) | Essentia 31 features | DONE (7017176+) |
 | `P05-ADD-T02-S02-M01` | Mixability skeleton (preference) | Energy + grid | DONE (1aade59+) |
 | `P05-ADD-T02-S03-M01` | Camelot Gate | `CamelotKey` from P01 | DONE (bc13750+) |
-| `P05-ADD-T02-S04-M01` | Compatibility Score | Mixability + Camelot | TODO |
+| `P05-ADD-T02-S04-M01` | Compatibility Score | Mixability + Camelot | DONE (f3d90ba+) |
 | `P05-ADD-T02-S05-M01` | Structure stub | independent | DONE (47fa009+) |
 | `P05-ADD-T03-S01-M01` | Grid Locking rule | grid primitives | TODO |
 | `P05-ADD-T03-S02-M01` | Transition Window (variable) | AdminConfig | TODO |

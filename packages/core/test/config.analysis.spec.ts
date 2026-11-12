@@ -21,7 +21,10 @@ describe('AdminConfig layer', () => {
     expect(config.camelot.strictMode).toBe(true);
     
     // Compatibility
-    expect(config.compatibility.weights.mixability).toBe(0.40);
+    expect(config.compatibility.weights.mixability).toBe(0.30);
+    expect(config.compatibility.weights.camelot_proximity).toBe(0.20);
+    expect(config.compatibility.weights.tempo_delta_score).toBe(0.15);
+    expect(config.compatibility.weights.grid_type_match).toBe(0.05);
     
     // Transition
     expect(config.transition.defaultWindowBars).toBe(16);
