@@ -23,3 +23,12 @@ Based on the Excel document's recommendations:
 
 ## 4. To be Added in Phase P09 (Export & Mastering)
 - **Mastering Check:** Use `TruePeakDetector` and `ReplayGain` for final mix export safety to prevent clipping.
+
+## 5. Proposed UI/UX Feature for Phase P08: Hover-to-Preview Radar Chart
+Based on the owner's directive (2026-11-13), the `UI` must include a highly interactive feature for the Set Builder:
+
+- **Contextual Drop-Zone Comparison:** While a DJ drags a track (`Track X`) from the library over the active set queue, a popup appears next to the cursor.
+- **Visual Overlay:** The popup displays a `Radar Chart` (Spider Chart) overlaying the 9-factor `Energy` fingerprint of `Track X` with the fingerprints of the adjacent tracks (`Track A` and `Track B`).
+- **Instant Metrics:** Alongside the chart, it shows the live `Compatibility Score`, `BPM` delta, `Camelot` distance, and `Vocal Clash` warnings.
+- **Dynamic Recalculation:** As the user moves the cursor up or down the queue, the overlay instantly recalculates and updates for the new adjacent tracks.
+- **Architecture Fit:** This is 100% `Local-First`. The `UI` (using `React` and `d3.js` or `recharts`) reads the pre-computed 9-factor data directly from `IndexedDB` and calls `computeCompatibilityScore` from `packages/core` in real-time, with zero server latency.
