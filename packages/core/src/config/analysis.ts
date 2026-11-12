@@ -3,18 +3,31 @@ import defaultConfig from './analysis-config.json' with { type: 'json' };
 export interface EnergyConfig {
   weights: Record<string, number>;
   maxValues: Record<string, number>;
+  stars: { bands: Array<{ min: number; stars: number }> };
 }
 
 export interface MixabilityConfig {
   weights: Record<string, number>;
-  kickDriftToleranceMs: number;
+  kickDriftToleranceBeats: number;
 }
 
 export interface CompatibilityConfig {
   weights: Record<string, number>;
 }
 
+
+export interface TempoConfig {
+  k: number;
+  maxIterations: number;
+  epsilon: number;
+  peakStrengthThreshold: number;
+  peakToleranceBpm: number;
+}
+
 export interface AnalysisConfig {
+  timeouts: {
+    extractionAlertMs: number;
+  };
   normalization: {
     forceMono: boolean;
     targetSampleRate: number;
@@ -28,6 +41,7 @@ export interface AnalysisConfig {
     lockToleranceBeats: number;
   };
   compatibility: CompatibilityConfig;
+  tempo: TempoConfig;
   transition: {
     defaultWindowBars: number;
   };

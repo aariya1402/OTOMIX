@@ -58,6 +58,7 @@ const provider = new PactV3({
   provider: 'feature-registry-engine',
   dir: PACTS_DIR,
   logLevel: 'warn',
+  port: 12345,
 });
 
 describe('P05-T01-S02-M01 — mapEngineToRegistry consumer contract', () => {

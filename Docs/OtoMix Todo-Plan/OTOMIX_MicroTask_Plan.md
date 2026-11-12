@@ -1876,7 +1876,7 @@ flowchart LR
 
 ##### P05-T02-S01 Tempo seed
 
-###### P05-T02-S01-M01 — TODO
+###### P05-T02-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1916,7 +1916,7 @@ flowchart LR
 | Review Checkpoint | Confirm weights come from `ENERGY_WEIGHTS`. |
 | Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T02-S01-M01`: Energy must be expanded (groove, polyphony, contrast) and weights from `AdminConfig`. |
 
-###### P05-T02-S02-M02 — TODO
+###### P05-T02-S02-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -1941,7 +1941,7 @@ flowchart LR
 | Review Checkpoint | Re-read §4.3 bullet 3. |
 | Notes | Blocked by: OQ-21 |
 
-###### P05-T02-S02-M04 — TODO
+###### P05-T02-S02-M04 — [x]
 
 | Field | Value |
 |---|---|
@@ -1982,7 +1982,7 @@ flowchart LR
 
 ##### P05-T02-S03 Interpolation and cache
 
-###### P05-T02-S03-M01 — TODO
+###### P05-T02-S03-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1995,7 +1995,7 @@ flowchart LR
 | Review Checkpoint | Dataset provenance is open (OQ-23); confirm medians are injected. |
 | Notes | Related open question (non-blocking): OQ-23 |
 
-###### P05-T02-S03-M02 — TODO
+###### P05-T02-S03-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2013,7 +2013,7 @@ flowchart LR
 
 ##### P05-T03-S01 Vocal map construction
 
-###### P05-T03-S01-M01 — TODO
+###### P05-T03-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2025,7 +2025,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.4 · Mother §3.4 |
 | Review Checkpoint | Confirm the comparison is strict. |
 
-###### P05-T03-S01-M02 — TODO
+###### P05-T03-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2037,7 +2037,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.4 · Mother §3.4 |
 | Review Checkpoint | Confirm the window is 1 s of frames, not 1 frame. |
 
-###### P05-T03-S01-M03 — TODO
+###### P05-T03-S01-M03 — DEFERRED (TensorFlow)
 
 | Field | Value |
 |---|---|
@@ -2049,7 +2049,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.4; §4.7 · Mother §3.4; §3.1; Add. §10 |
 | Review Checkpoint | Confirm no retry loop beyond 3 retries. |
 
-###### P05-T03-S01-M04 — TODO
+###### P05-T03-S01-M04 — [x]
 
 | Field | Value |
 |---|---|
@@ -2080,7 +2080,7 @@ flowchart LR
 | Review Checkpoint | Confirm the transaction wraps both inserts. |
 | Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T06`: The pipeline must be asynchronous. API returns fallback instantly, background EnrichmentPipeline fills the global database via pluggable workers. |
 
-###### P05-T04-S01-M02 — TODO
+###### P05-T04-S01-M02 — [x]
 
 | Field | Value |
 |---|---|

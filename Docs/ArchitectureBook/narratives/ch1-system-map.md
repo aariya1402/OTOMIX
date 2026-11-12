@@ -107,3 +107,27 @@ No consumer imports from deep paths. This barrel is the contract.
 - **Search** — Type `/` to focus the search box. Search works across task descriptions, constant names, source symbols, and narrative text. Results show breadcrumbs (Phase → Task → Field).
 - **Theme** — Top-right toggle switches dark/light. Preference persists in `localStorage`.
 - **Code Links** — Any `file:line` reference (e.g., `packages/core/src/constants/grid.ts:99`) is a `vscode://` link. Click to open in VS Code.
+
+## Castle & Moat Isolation Boundary (P05 Addendum)
+
+The P05 Addendum introduces a hard isolation boundary between the core engine and analysis workers. No worker is ever imported or executed directly by @otomix/core. All communication crosses the Engine API Contract boundary.
+
+``mermaid
+graph LR
+    C[Core<br/>@otomix/core] -->|Engine API Request<br/>pcm_buffer, sample_rate,<br>channels, length| E[Engine API Contract<br/>packages/contracts/src/engine-api.ts<br/>Ajv JSON schema validation]
+    E -->|Validated Request| W[Isolated Worker<br/>Worker Thread<br/>packages/workers/src/engine-isolated.ts]
+    W -->|Engine API Response<br/>{status, features}| E
+    E -->|Validated Response| C
+    C -->|contentSha256 + features| GC[Global Cache<br/>packages/core/src/repository/global-features.ts<br/>JSONB raw_analysis_data]
+    GC -->|tenant-scoped write| TS[Tenant Feature Store<br/>per-tenant feature projection]
+``r
+
+**Flow summary**:
+1. Core resolves the worker from WorkerRegistry (metadata only, no execution).
+2. Core builds an EngineAnalysisRequest and validates it against the Engine API schema.
+3. Isolated Worker receives the validated request, runs Essentia/TF/MAEST, and returns an EngineAnalysisResponse.
+4. Core persists to the Global Cache first, then to the Tenant Feature Store.
+5. The worker never touches core state; the core never touches worker internals. The contract is the moat.
+
+Rule 26 applies at this boundary: sample_rate (Hz) and length (samples) are BOUNDARY_IO values. No beat-to-seconds conversion occurs inside the worker.
+
