@@ -1,7 +1,6 @@
 // OTOMIX §3.9 · Mother §2.9
 import { computeTransitionAnchors, TrackGridParams } from './anchors';
 import { TransitionPlan, TransitionRung } from './types';
-import { resolveRealignmentStrategy } from '../grid/realign-strategy';
 import { STATIC_GRID_BPM, TRANSITION_WINDOW_BEATS } from '../constants/grid';
 
 function isOutgoingShort(outgoing: TrackGridParams): boolean {
@@ -27,6 +26,7 @@ function planSilentLoop(
     outBeatIndex: 1,
     alignToSeconds: outgoing.T0,
     mappedBpm: incoming.bpmSeed,
+    windowBeats: TRANSITION_WINDOW_BEATS,
     paddingBeats,
   };
 }
@@ -40,8 +40,8 @@ function planSilentLoop(
  * negative T0, zero/negative duration, etc.
  */
 export function planSafetyNetCrossfade(
-  incoming: TrackGridParams,
-  outgoing: TrackGridParams
+  _incoming: TrackGridParams,
+  _outgoing: TrackGridParams
 ): TransitionPlan {
   return {
     rung: 'RUNG_FOUR_BAR_CROSSFADE',
@@ -52,6 +52,7 @@ export function planSafetyNetCrossfade(
     outBeatIndex: 1,
     alignToSeconds: 0,
     mappedBpm: STATIC_GRID_BPM,
+    windowBeats: TRANSITION_WINDOW_BEATS,
   };
 }
 
@@ -79,6 +80,7 @@ export function planTransition(
         outBeatIndex: anchors.outBeatIndex,
         alignToSeconds,
         mappedBpm,
+        windowBeats: TRANSITION_WINDOW_BEATS,
       };
     }
   } catch {

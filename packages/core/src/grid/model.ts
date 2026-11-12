@@ -12,7 +12,7 @@ export interface GridSegment {
 export type GridState = 'LOCKED' | 'RECOVERY';
 
 export class GridModel {
-  private segments: GridSegment[];
+  private segments: readonly GridSegment[];
   private state: GridState = 'LOCKED';
 
   constructor(segments: GridSegment[]) {
@@ -50,7 +50,7 @@ export class GridModel {
 
   t(i: number): number {
     const segment = this.findSegment(i);
-    return tOfI(i, segment.T0, segment.bpmSeed, segment.delta);
+    return tOfI(i as unknown as import('../types/beat-index').BeatIndex, segment.T0, segment.bpmSeed as unknown as import('../types/bpm').BPM, segment.delta);
   }
 
   private findSegment(i: number): GridSegment {

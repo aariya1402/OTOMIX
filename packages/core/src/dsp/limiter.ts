@@ -19,7 +19,7 @@ export interface LimiterParams {
 export class LookaheadLimiter {
   private config: AdminTuningConfig;
   private params: LimiterParams;
-  private sampleRate: number;
+  protected sampleRate: number;
 
   // Delay Buffer (Look-ahead)
   private delayBuffer: Float32Array;

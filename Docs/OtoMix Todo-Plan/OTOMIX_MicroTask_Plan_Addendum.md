@@ -193,7 +193,7 @@
 
 ### P05-ADD-T01-S03 TypeScript Build Debt
 
-###### P05-ADD-T01-S03-M01 — TODO
+###### P05-ADD-T01-S03-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -256,7 +256,7 @@
 
 ### P05-ADD-T01-S03 TypeScript Build Debt
 
-###### P05-ADD-T01-S03-M01 — TODO
+###### P05-ADD-T01-S03-M01 — [x]
 
 | Field | Value |
 |---|---|

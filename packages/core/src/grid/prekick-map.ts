@@ -23,7 +23,7 @@ export function getPreKickTime(i: number, segments: ReadonlyArray<PreKickSegment
     else hi = mid - 1;
   }
   const segIdx = hi;
-  const seg = segments[segIdx];
+  // const seg = segments[segIdx]; // TS6133: unused
 
   let time = T0;
   for (let s = segments.length - 1; s >= 0; s--) {

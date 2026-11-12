@@ -22,7 +22,7 @@ export class LookaheadScheduler {
   private size = 0;
   private readonly clock: Clock;
   private readonly lookaheadS: number;
-  private readonly accuracyS: number;
+  protected readonly accuracyS: number;
   private pollTimer: ReturnType<typeof setTimeout> | null = null;
   private running = false;
 
