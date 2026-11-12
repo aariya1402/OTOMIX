@@ -31,7 +31,7 @@
 | `P05-ADD-T01-S01-M01` | AdminConfig Layer | — | DONE (`d196a44`) |
 | `P05-ADD-T01-S02-M01` | Stereo normalizeInput | T01-S01 | DONE (`e5511a7`) |
 | `P05-ADD-T01-S03-M01` | TypeScript Build Debt (~100 errors) | — | DONE (e5511a7+) |
-| `P05-ADD-T02-S01-M01` | Energy skeleton (extended) | Essentia 31 features | TODO |
+| `P05-ADD-T02-S01-M01` | Energy skeleton (extended) | Essentia 31 features | DONE (7017176+) |
 | `P05-ADD-T02-S02-M01` | Mixability skeleton (preference) | Energy + grid | TODO |
 | `P05-ADD-T02-S03-M01` | Camelot Gate | `CamelotKey` from P01 | DONE (bc13750+) |
 | `P05-ADD-T02-S04-M01` | Compatibility Score | Mixability + Camelot | TODO |
