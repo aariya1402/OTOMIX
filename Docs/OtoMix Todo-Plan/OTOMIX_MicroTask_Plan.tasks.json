@@ -1039,7 +1039,7 @@
     },
     {
         "id":  "P05-T01-S01-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Implement `normalizeInput(AudioBuffer)` resampling to 44.1 kHz and down-mixing to a mono `Float32Array`.",
         "prerequisites":  [
                               "P01-T01-S01-M01"
