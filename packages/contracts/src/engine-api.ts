@@ -33,7 +33,7 @@ const validateRequest = ajv.compile(schema);
 
 // Compile Response subschema
 // (Accessing .definitions is safe because we typed the imported json)
-const responseSchema = (schema as unknown as { definitions: Record<string, unknown> }).definitions.AnalysisEngineResponse;
+const responseSchema = (schema as any).definitions.AnalysisEngineResponse;
 const validateResponse = ajv.compile(responseSchema);
 
 function formatErrors(errors: any[] | null | undefined): string {
