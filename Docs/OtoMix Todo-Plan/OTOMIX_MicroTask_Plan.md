@@ -1854,7 +1854,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.1; §10.4 · Mother §3.1; §8.2 |
 | Review Checkpoint | Plot heap vs iteration and confirm the series is flat. |
 
-###### P05-T01-S03-M03 — TODO
+###### P05-T01-S03-M03 — [x]
 
 | Field | Value |
 |---|---|

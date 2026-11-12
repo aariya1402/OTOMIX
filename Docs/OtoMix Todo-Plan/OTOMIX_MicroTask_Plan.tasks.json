@@ -1083,7 +1083,7 @@
     },
     {
         "id":  "P05-T01-S03-M03",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "On worker crash or a module timeout above 5000 ms, route the buffer through Web Audio RMS analyzer nodes and return a basic feature set without stalling the queue.",
         "prerequisites":  [
                               "P05-T01-S03-M02"
