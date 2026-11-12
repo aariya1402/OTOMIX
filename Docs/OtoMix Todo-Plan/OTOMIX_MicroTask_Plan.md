@@ -1842,7 +1842,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.1; §4.6 · Mother §3.1; Add. §10 |
 | Review Checkpoint | Confirm `releaseResult` is in `finally`, not `catch`. |
 
-###### P05-T01-S03-M02 — TODO
+###### P05-T01-S03-M02 — [x]
 
 | Field | Value |
 |---|---|
