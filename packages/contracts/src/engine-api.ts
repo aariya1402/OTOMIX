@@ -3,7 +3,7 @@
 // Defines the JSON payloads for the castle-and-moat isolation boundary.
 
 import Ajv from 'ajv';
-import schema from '../schemas/analysis-engine-api.json';
+import schema from '../schemas/analysis-engine-api.json' with { type: 'json' };
 
 export interface AnalysisEngineRequest {
   pcm_buffer: string; // base64
