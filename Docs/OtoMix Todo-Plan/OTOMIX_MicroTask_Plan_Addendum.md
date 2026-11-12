@@ -99,7 +99,7 @@
 
 ### P05-ADD-T02-S05 Structure Detection
 
-###### P05-ADD-T02-S05-M01 — TODO
+###### P05-ADD-T02-S05-M01 — [x]
 
 | Field | Value |
 |---|---|
