@@ -212,7 +212,7 @@
 
 ### P05-ADD-T06-S01 Worker Registry (Pluggable Gates)
 
-###### P05-ADD-T06-S01-M01 — TODO
+###### P05-ADD-T06-S01-M01 — [x]
 
 | Field | Value |
 |---|---|

@@ -43,7 +43,7 @@
 | `P05-ADD-T04-S02-M01` | Live Re-eval (drag-reorder) | Starter Track | TODO |
 | `P05-ADD-T05-S01-M01` | Engine API Contract | contracts pkg | DONE (db7035f+) |
 | `P05-ADD-T05-S02-M01` | Isolated Worker | Engine API + extract | DONE |
-| `P05-ADD-T06-S01-M01` | Worker Registry | AdminConfig | TODO |
+| `P05-ADD-T06-S01-M01` | Worker Registry | AdminConfig | DONE (a17b1b8+) |
 | `P05-ADD-T06-S02-M01` | Heterogeneous Storage | Worker Registry | TODO |
 | `P05-ADD-T06-S03-M01` | Enrichment Pipeline | Heterogeneous Storage | TODO |
 
