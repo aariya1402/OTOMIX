@@ -24,3 +24,9 @@ The primary mission of OTOMIX is SET BUILDING. Low-mixability tracks MUST NOT en
 The only unit of musical time is the BEAT. No 'seconds' inside the musical domain. Beat-to-seconds conversion happens only via tOfI and quantumSeconds.
 
 An architecture fitness function runs on every vitest run and fails loudly if the codebase drifts from Rule 25 or Rule 26.
+
+
+## Energy Stars Mapping (P05-T02-S02-M04)
+
+The raw energy scalar E is mapped to a 1-5 star rating. The 80th percentile (E >= 0.8) is hardcoded as 5 stars per the Spec. All other bands come from AnalysisConfig (e.g., >= 0.6 = 4 stars, >= 0.4 = 3 stars, etc.). Stars are used for UI ranking, not gating.
+

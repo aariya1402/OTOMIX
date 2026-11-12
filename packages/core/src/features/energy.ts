@@ -4,6 +4,7 @@
 // D9: All weights/caps from AnalysisConfig.
 
 import { getAnalysisConfig } from '../config/analysis';
+import { computeStars } from './stars';
 
 export interface EnergyFeaturesInput {
   readonly danceability?: number;
@@ -68,8 +69,9 @@ export function computeEnergy(features: EnergyFeaturesInput): EnergyResult {
     w.spectral_density * spectral_density +
     w.loudness_range * loudness_range;
 
+  const clampedRaw = clamp01(raw);
   return {
-    raw: clamp01(raw),
-    stars: 0,
+    raw: clampedRaw,
+    stars: computeStars(clampedRaw, cfg.energy.stars),
   };
 }

@@ -2,13 +2,13 @@ import { describe, it, expect } from 'vitest';
 import { computeEnergy } from '../src/features/energy';
 
 describe('computeEnergy (9 Factors)', () => {
-  it('T1: all-zero features -> raw = 0, stars = 0', () => {
+  it('T1: all-zero features -> raw = 0, stars = 1', () => {
     const r = computeEnergy({});
     expect(r.raw).toBe(0);
-    expect(r.stars).toBe(0);
+    expect(r.stars).toBe(1);
   });
 
-  it('T2: all-max features -> raw = 1, stars = 0', () => {
+  it('T2: all-max features -> raw = 1, stars = 5', () => {
     const r = computeEnergy({
       danceability: 3.0, onset_rate: 10.0, rms_energy: 0.2,
       dynamic_complexity: 0, spectral_centroid: 5000,
@@ -16,7 +16,7 @@ describe('computeEnergy (9 Factors)', () => {
       spectral_density: 1.0, loudness_range: 20.0,
     });
     expect(r.raw).toBeCloseTo(1.0, 9);
-    expect(r.stars).toBe(0);
+    expect(r.stars).toBe(5);
   });
 
   it('T3: only danceability at max -> raw = 0.25', () => {
@@ -39,11 +39,12 @@ describe('computeEnergy (9 Factors)', () => {
     expect(computeEnergy({ loudness_range: 20.0 }).raw).toBeCloseTo(0.05, 9);
   });
 
-  it('T8: NaN / negative inputs are clamped to 0', () => {
+  it('T8: NaN / negative inputs are clamped to 0, stars = 1', () => {
     const r = computeEnergy({
       danceability: NaN, onset_rate: -5, rms_energy: Number.POSITIVE_INFINITY,
       kick_strength: -1, spectral_density: NaN, loudness_range: -10,
     });
     expect(r.raw).toBe(0);
+    expect(r.stars).toBe(1);
   });
 });

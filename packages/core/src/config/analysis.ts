@@ -3,6 +3,7 @@ import defaultConfig from './analysis-config.json' with { type: 'json' };
 export interface EnergyConfig {
   weights: Record<string, number>;
   maxValues: Record<string, number>;
+  stars: { bands: Array<{ min: number; stars: number }> };
 }
 
 export interface MixabilityConfig {
