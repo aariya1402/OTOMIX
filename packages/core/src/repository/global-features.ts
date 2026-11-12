@@ -52,4 +52,13 @@ export class GlobalFeaturesRepository {
       updatedAt: row.updated_at,
     };
   }
-}
+
+  public async deleteVersionsOlderThanMajor(major: number): Promise<string[]> {
+    const query = `
+      DELETE FROM global_track_metadata
+      WHERE CAST(split_part(analysis_version, '.', 1) AS INTEGER) < $1
+      RETURNING content_sha256
+    `;
+    const result = await this.pool.query(query, [major]);
+    return result.rows.map((r: any) => r.content_sha256);
+  }}
