@@ -64,7 +64,7 @@
 | `P05-T02-S02-M04` | Stars from percentile | TODO |
 | `P05-T02-S02-M05` | Mixability formula | TODO (overridden by ADD-T02-S02) |
 | `P05-T02-S02-M06` | Normalize mix factors | BLOCKED (OQ-22) |
-| `P05-T02-S03-M01` | Interpolation | TODO |
+| `P05-T02-S03-M01` | Interpolation | DONE |
 | `P05-T02-S03-M02` | Cache invalidation | TODO |
 | `P05-T03-S01-M01..M04` | Vocal map | TODO |
 | `P05-T04-S01-M01` | extract() orchestrator | TODO (overridden by ADD-T06-S03) |

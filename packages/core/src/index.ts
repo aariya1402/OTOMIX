@@ -66,3 +66,4 @@ export * from './vocal/median';
 export * from './vocal/nearest-instrumental';
 export * from './metrics';
 export * from './features/bpm-seed';
+export * from './features/interpolate';
