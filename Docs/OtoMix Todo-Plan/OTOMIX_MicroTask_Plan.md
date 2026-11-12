@@ -1802,7 +1802,7 @@ flowchart LR
 
 ##### P05-T01-S01 Input normalization
 
-###### P05-T01-S01-M01 — TODO
+###### P05-T01-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
