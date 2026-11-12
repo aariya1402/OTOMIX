@@ -14,7 +14,7 @@ describe('AdminConfig layer', () => {
     expect(config.energy.maxValues.danceability).toBe(3.0);
     
     // Mixability
-    expect(config.mixability.weights.kick_drift_absence).toBe(0.30);
+    expect(config.mixability.weights.kick_grid_lock).toBe(0.25);
     expect(config.mixability.kickDriftToleranceMs).toBe(4.0);
     
     // Camelot
