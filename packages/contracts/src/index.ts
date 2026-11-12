@@ -4,3 +4,4 @@ export * from './validate';
 
 export * from './semver-gate';
 
+export * from './engine-api';

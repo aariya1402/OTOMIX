@@ -41,7 +41,7 @@
 | `P05-ADD-T03-S03-M01` | Essentia 31 Features (26 non-TF) | normalizeInput, Essentia | DONE (4862b16+) |
 | `P05-ADD-T04-S01-M01` | Starter Track (Redux) | Compatibility | TODO |
 | `P05-ADD-T04-S02-M01` | Live Re-eval (drag-reorder) | Starter Track | TODO |
-| `P05-ADD-T05-S01-M01` | Engine API Contract | contracts pkg | TODO |
+| `P05-ADD-T05-S01-M01` | Engine API Contract | contracts pkg | DONE (db7035f+) |
 | `P05-ADD-T05-S02-M01` | Isolated Worker | Engine API + extract | TODO |
 | `P05-ADD-T06-S01-M01` | Worker Registry | AdminConfig | TODO |
 | `P05-ADD-T06-S02-M01` | Heterogeneous Storage | Worker Registry | TODO |
