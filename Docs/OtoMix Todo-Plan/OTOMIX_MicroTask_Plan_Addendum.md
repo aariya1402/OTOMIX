@@ -145,7 +145,7 @@
 
 ### P05-ADD-T03-S03 Essentia 31-Feature Extraction
 
-###### P05-ADD-T03-S03-M01 — TODO
+###### P05-ADD-T03-S03-M01 — [x]
 
 | Field | Value |
 |---|---|

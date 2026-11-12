@@ -38,7 +38,7 @@
 | `P05-ADD-T02-S05-M01` | Structure stub | independent | TODO |
 | `P05-ADD-T03-S01-M01` | Grid Locking rule | grid primitives | TODO |
 | `P05-ADD-T03-S02-M01` | Transition Window (variable) | AdminConfig | TODO |
-| `P05-ADD-T03-S03-M01` | Essentia 31 Features | normalizeInput, Essentia | TODO |
+| `P05-ADD-T03-S03-M01` | Essentia 31 Features (26 non-TF) | normalizeInput, Essentia | DONE (4862b16+) |
 | `P05-ADD-T04-S01-M01` | Starter Track (Redux) | Compatibility | TODO |
 | `P05-ADD-T04-S02-M01` | Live Re-eval (drag-reorder) | Starter Track | TODO |
 | `P05-ADD-T05-S01-M01` | Engine API Contract | contracts pkg | TODO |
