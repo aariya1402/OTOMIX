@@ -1,0 +1,206 @@
+{
+  "consumer": {
+    "name": "otomix-adapter"
+  },
+  "interactions": [
+    {
+      "description": "a v1.2.4 engine output to map",
+      "providerStates": [
+        {
+          "name": "a valid v1.2.4 engine output"
+        }
+      ],
+      "request": {
+        "body": {
+          "bpm": 120,
+          "energy": {
+            "dynamics": 0.5,
+            "loudness": 0.5,
+            "rhythm": 0.5,
+            "scalar": 0.5,
+            "spectral": 0.5,
+            "stars": 3
+          },
+          "grid": {
+            "bpm_seed": 120,
+            "delta_phi_seconds": 0,
+            "groove_delta": 0.1,
+            "groove_mode": "straight",
+            "pre_kick_beats": 0,
+            "t0_seconds": 0
+          },
+          "key": "8A",
+          "mixability": {
+            "c_bass": 0.6,
+            "class": "mixable",
+            "e_kick": 0.8,
+            "s_tempo": 0.9,
+            "score": 0.7,
+            "v_tune": 0.5
+          },
+          "schema_version": "1.2.4",
+          "track_id": "550e8400-e29b-41d4-a716-446655440000",
+          "vocal_map": {
+            "frames": [
+              {
+                "p": 0.1,
+                "t": 0,
+                "v": 0
+              },
+              {
+                "p": 0.9,
+                "t": 1,
+                "v": 1
+              }
+            ],
+            "smoothing_ms": 1000,
+            "threshold": 0.65
+          }
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "path": "/map"
+      },
+      "response": {
+        "body": {
+          "schema_version": "1.2.4"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.schema_version": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          },
+          "header": {},
+          "status": {}
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "a v2.0.0 engine output to map",
+      "providerStates": [
+        {
+          "name": "a v2.0.0 engine output"
+        }
+      ],
+      "request": {
+        "body": {
+          "bpm": 120,
+          "energy": {
+            "dynamics": 0.5,
+            "loudness": 0.5,
+            "rhythm": 0.5,
+            "scalar": 0.5,
+            "spectral": 0.5,
+            "stars": 3
+          },
+          "grid": {
+            "bpm_seed": 120,
+            "delta_phi_seconds": 0,
+            "groove_delta": 0.1,
+            "groove_mode": "straight",
+            "pre_kick_beats": 0,
+            "t0_seconds": 0
+          },
+          "key": "8A",
+          "mixability": {
+            "c_bass": 0.6,
+            "class": "mixable",
+            "e_kick": 0.8,
+            "s_tempo": 0.9,
+            "score": 0.7,
+            "v_tune": 0.5
+          },
+          "schema_version": "2.0.0",
+          "track_id": "550e8400-e29b-41d4-a716-446655440000",
+          "vocal_map": {
+            "frames": [
+              {
+                "p": 0.1,
+                "t": 0,
+                "v": 0
+              },
+              {
+                "p": 0.9,
+                "t": 1,
+                "v": 1
+              }
+            ],
+            "smoothing_ms": 1000,
+            "threshold": 0.65
+          }
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "path": "/map"
+      },
+      "response": {
+        "body": {
+          "reason": "PURGE_AND_REANALYZE"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.reason": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          },
+          "header": {},
+          "status": {}
+        },
+        "status": 409
+      }
+    }
+  ],
+  "metadata": {
+    "pact-js": {
+      "version": "13.2.0"
+    },
+    "pactRust": {
+      "ffi": "0.4.22",
+      "models": "1.2.3"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "feature-registry-engine"
+  }
+}
