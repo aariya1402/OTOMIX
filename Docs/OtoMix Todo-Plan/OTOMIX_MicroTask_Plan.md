@@ -2078,6 +2078,7 @@ flowchart LR
 | Independent Test(s) | **integration** · Vitest + Testcontainers PostgreSQL · `packages/core/test/pipeline.extract.spec.ts`<br>Input: 3 fixtures; one forced DB failure after the row insert. Expected: 2 rows + 2 outbox events; the failed run leaves 0 rows. Pass: counts match. |
 | Spec Reference | OTOMIX §4.8; §9.5 · Mother §7; Add. §1–§2 |
 | Review Checkpoint | Confirm the transaction wraps both inserts. |
+| Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T06`: The pipeline must be asynchronous. API returns fallback instantly, background EnrichmentPipeline fills the global database via pluggable workers. |
 
 ###### P05-T04-S01-M02 — TODO
 

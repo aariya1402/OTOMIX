@@ -11,7 +11,7 @@
 
 ### P05-ADD-T01-S01 AdminConfig Layer
 
-###### P05-ADD-T01-S01-M01 — TODO
+###### P05-ADD-T01-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -188,6 +188,54 @@
 | Independent Test(s) | **unit** · Vitest · `packages/ui/test/reorder.score.spec.ts`<br>Input: reorder action. Expected: the selector recomputes `compatibility_score` for the affected tracks only. Pass: exact computation. |
 | Spec Reference | OTOMIX §4.9 · Owner decision (2026-11-12) |
 | Review Checkpoint | Confirm only affected pairs are recomputed (performance check). |
+
+---
+**End of Addendum.**
+---
+
+## P05-ADD-T06 Extensible Background Enrichment (The Castle & Moat Pattern)
+
+### P05-ADD-T06-S01 Worker Registry (Pluggable Gates)
+
+###### P05-ADD-T06-S01-M01 — TODO
+
+| Field | Value |
+|---|---|
+| ID | `P05-ADD-T06-S01-M01` |
+| Description | Implement a `WorkerRegistry` that allows dynamic registration of analysis workers (gates). A worker can be a local WASM module (e.g., Essentia) or an external API client (e.g., Spotify metadata fetcher). The registry stores the worker's ID, input type, and output schema. |
+| Expected Outcome | `packages/core/src/registry/worker-registry.ts` and Admin Dashboard endpoint to register/unregister workers. |
+| Prerequisites | `P05-ADD-T01-S01-M01` |
+| Independent Test(s) | **unit** · Vitest · `packages/core/test/registry.workers.spec.ts`<br>Input: register two mock workers (one local, one API). Expected: registry returns their metadata and can resolve them by ID. Pass: exact match. |
+| Spec Reference | Owner decision (2026-11-12) |
+| Review Checkpoint | Confirm the registry is agnostic to the worker's internal implementation. |
+
+### P05-ADD-T06-S02 Heterogeneous Feature Storage
+
+###### P05-ADD-T06-S02-M01 — TODO
+
+| Field | Value |
+|---|---|
+| ID | `P05-ADD-T06-S02-M01` |
+| Description | Expand the `GlobalFeatureRepository` to support heterogeneous data. Instead of strict columns, use a JSONB column (e.g., `raw_analysis_data`) to store arbitrary key-value pairs returned by registered workers (numbers for BPM, strings for artists, objects for Spotify API). The core `Feature Registry` will still project the required fields for the mix engine. |
+| Expected Outcome | `packages/db/migrations/xxx_global_features_jsonb.sql` and `packages/core/src/repository/global-features.ts`. |
+| Prerequisites | `P05-ADD-T06-S01-M01` |
+| Independent Test(s) | **integration** · Vitest + Testcontainers PostgreSQL · `packages/db/test/global-features.spec.ts`<br>Input: insert a feature row with mixed types (number, string, JSON object). Expected: data is stored and retrieved without loss. Pass: deep equality. |
+| Spec Reference | Owner decision (2026-11-12) |
+| Review Checkpoint | Confirm the database schema doesn't require a migration every time a new worker is added. |
+
+### P05-ADD-T06-S03 Background Enrichment Pipeline
+
+###### P05-ADD-T06-S03-M01 — TODO
+
+| Field | Value |
+|---|---|
+| ID | `P05-ADD-T06-S03-M01` |
+| Description | Implement the `EnrichmentPipeline`. When a track is requested, if `raw_analysis_data` is missing or stale, the API returns the RMS fallback immediately and enqueues a job. The pipeline worker picks up the job, sends it through all registered workers (Essentia, Spotify, etc.), and merges the results into `raw_analysis_data`. |
+| Expected Outcome | `packages/workers/src/enrichment-pipeline.ts` and queue integration. |
+| Prerequisites | `P05-ADD-T06-S02-M01`, `P05-T04-S01-M01` |
+| Independent Test(s) | **integration** · Vitest + worker_threads · `packages/workers/test/enrichment.spec.ts`<br>Input: a track hash with no data. Expected: returns fallback, enqueues job, job runs both mock workers, updates DB. Pass: DB contains data after job. |
+| Spec Reference | Owner decision (2026-11-12) |
+| Review Checkpoint | Confirm the API response is instant (does not wait for the analysis to finish). |
 
 ---
 **End of Addendum.**
