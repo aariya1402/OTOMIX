@@ -58,3 +58,4 @@ export * from './dsp/degraded-crossfade';
 export * from './registry/worker-registry';
 export * from './pipeline/enrichment';
 export * from './selection/starter-track';
+export * from './features/energy-silence';
