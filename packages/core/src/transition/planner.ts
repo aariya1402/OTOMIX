@@ -1,12 +1,13 @@
 // OTOMIX §3.9 · Mother §2.9
 import { computeTransitionAnchors, TrackGridParams } from './anchors';
 import { TransitionPlan, TransitionRung } from './types';
-import { STATIC_GRID_BPM, TRANSITION_WINDOW_BEATS } from '../constants/grid';
+import { STATIC_GRID_BPM } from '../constants/grid';
+import { resolveTransitionWindow } from './window';
 
 function isOutgoingShort(outgoing: TrackGridParams): boolean {
   const beatPeriod = 60 / outgoing.bpmSeed;
   const totalBeatsOut = Math.floor(outgoing.duration / beatPeriod);
-  return totalBeatsOut < TRANSITION_WINDOW_BEATS;
+  return totalBeatsOut < resolveTransitionWindow();
 }
 
 function planSilentLoop(
@@ -15,18 +16,18 @@ function planSilentLoop(
 ): TransitionPlan {
   const beatPeriod = 60 / outgoing.bpmSeed;
   const totalBeatsOut = Math.floor(outgoing.duration / beatPeriod);
-  const paddingBeats = TRANSITION_WINDOW_BEATS - totalBeatsOut;
+  const paddingBeats = resolveTransitionWindow() - totalBeatsOut;
 
   return {
     rung: 'RUNG_SILENT_LOOP',
-    reason: `Outgoing track has ${totalBeatsOut} beats (< ${TRANSITION_WINDOW_BEATS}); padded with ${paddingBeats} beats of silence`,
+    reason: `Outgoing track has ${totalBeatsOut} beats (< ${resolveTransitionWindow()}); padded with ${paddingBeats} beats of silence`,
     tInSeconds: incoming.T0,
     tOutSeconds: outgoing.T0,
     inBeatIndex: 1,
     outBeatIndex: 1,
     alignToSeconds: outgoing.T0,
     mappedBpm: incoming.bpmSeed,
-    windowBeats: TRANSITION_WINDOW_BEATS,
+    windowBeats: resolveTransitionWindow(),
     paddingBeats,
   };
 }
@@ -52,7 +53,7 @@ export function planSafetyNetCrossfade(
     outBeatIndex: 1,
     alignToSeconds: 0,
     mappedBpm: STATIC_GRID_BPM,
-    windowBeats: TRANSITION_WINDOW_BEATS,
+    windowBeats: resolveTransitionWindow(),
   };
 }
 
@@ -80,7 +81,7 @@ export function planTransition(
         outBeatIndex: anchors.outBeatIndex,
         alignToSeconds,
         mappedBpm,
-        windowBeats: TRANSITION_WINDOW_BEATS,
+        windowBeats: resolveTransitionWindow(),
       };
     }
   } catch {

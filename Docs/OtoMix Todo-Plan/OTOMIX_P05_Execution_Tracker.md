@@ -37,7 +37,7 @@
 | `P05-ADD-T02-S04-M01` | Compatibility Score | Mixability + Camelot | DONE (f3d90ba+) |
 | `P05-ADD-T02-S05-M01` | Structure stub | independent | DONE (47fa009+) |
 | `P05-ADD-T03-S01-M01` | Grid Locking rule | grid primitives | DONE (b757c3f+) |
-| `P05-ADD-T03-S02-M01` | Transition Window (variable) | AdminConfig | TODO |
+| `P05-ADD-T03-S02-M01` | Transition Window (variable) | AdminConfig | DONE (57bac8e+) |
 | `P05-ADD-T03-S03-M01` | Essentia 31 Features (26 non-TF) | normalizeInput, Essentia | DONE (4862b16+) |
 | `P05-ADD-T04-S01-M01` | Starter Track (Redux) | Compatibility | TODO |
 | `P05-ADD-T04-S02-M01` | Live Re-eval (drag-reorder) | Starter Track | TODO |

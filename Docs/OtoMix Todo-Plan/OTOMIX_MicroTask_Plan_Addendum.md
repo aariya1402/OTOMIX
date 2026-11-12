@@ -131,7 +131,7 @@
 
 ### P05-ADD-T03-S02 Transition Window
 
-###### P05-ADD-T03-S02-M01 — TODO
+###### P05-ADD-T03-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
