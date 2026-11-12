@@ -81,5 +81,8 @@
                       },
     "transition":  {
                        "defaultWindowBars":  16
-                   }
+                   },
+    "timeouts":  {
+                     "extractionAlertMs":  2500
+                 }
 }

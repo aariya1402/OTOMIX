@@ -16,6 +16,9 @@ export interface CompatibilityConfig {
 }
 
 export interface AnalysisConfig {
+  timeouts: {
+    extractionAlertMs: number;
+  };
   normalization: {
     forceMono: boolean;
     targetSampleRate: number;
