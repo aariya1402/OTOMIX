@@ -61,3 +61,4 @@ export * from './selection/starter-track';
 export * from './features/energy-silence';
 export * from './features/stars';
 export * from './features/cache-invalidate';
+export * from './vocal/binarize';
