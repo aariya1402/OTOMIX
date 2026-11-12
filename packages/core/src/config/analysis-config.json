@@ -60,7 +60,7 @@
                                        "transition_window_present":  0.10,
                                        "vocal_absence":  0.10
                                    },
-                       "kickDriftToleranceMs":  4.0
+                       "kickDriftToleranceBeats":  4.0
                    },
     "camelot":  {
                     "strictMode":  true

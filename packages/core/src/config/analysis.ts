@@ -8,7 +8,7 @@ export interface EnergyConfig {
 
 export interface MixabilityConfig {
   weights: Record<string, number>;
-  kickDriftToleranceMs: number;
+  kickDriftToleranceBeats: number;
 }
 
 export interface CompatibilityConfig {
