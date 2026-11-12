@@ -1072,7 +1072,7 @@
     },
     {
         "id":  "P05-T01-S03-M02",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Add a `performance.memory` before/after check and a leak regression test over repeated extractions.",
         "prerequisites":  [
                               "P05-T01-S03-M01"
