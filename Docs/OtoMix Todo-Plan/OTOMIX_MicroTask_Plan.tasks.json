@@ -1050,7 +1050,7 @@
     },
     {
         "id":  "P05-T01-S02-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Bind adapter input/output to JSON Schema Draft 7 and enforce SemVer compatibility when mapping engine JSON to the registry.",
         "prerequisites":  [
                               "P01-T03-S02-M02"
