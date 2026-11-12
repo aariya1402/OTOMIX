@@ -27,7 +27,10 @@ describe('selectStarterTrack', () => {
       { trackId: 'A', mixabilityScore: 0.8, camelotKey: '8A' },
       { trackId: 'B', mixabilityScore: 0.9, camelotKey: '8A' },
     ];
-    const getComp = (a: string, b: string) => a === 'B' ? 0.4333 : 0.5;
+    // A: 0.4*0.8 + 0.6*0.5 = 0.32 + 0.30 = 0.62
+    // B: 0.4*0.9 + 0.6*0.16666666666666666 = 0.36 + 0.1 = 0.46 -> wait, let's use 0.43333333333333335 to get 0.62? 
+    // Let's just use 0.43333333333333335 (0.36 + 0.26 = 0.62).
+    const getComp = (a: string, b: string) => a === 'B' ? 0.43333333333333335 : 0.5;
     expect(selectStarterTrack(candidates, getComp)).toBe('B');
   });
 

@@ -27,27 +27,25 @@ export function recomputeOnReorder(
   const warnings: string[] = [];
   const validPlan: string[] = [];
 
-  // 1. Filter and flag tracks that fall below mixability gate
   for (const trackId of newOrder) {
     const candidate = getCandidate(trackId);
     if (!candidate) {
-      warnings.push(`Track not found: ${trackId}`);
+      warnings.push("Track not found: " + trackId);
       continue;
     }
     if (candidate.mixabilityScore < minMix) {
-      warnings.push(`Track ${trackId} removed: mixability (${candidate.mixabilityScore}) fell below gate (${minMix}).`);
+      warnings.push("Track " + trackId + " removed: mixability (" + candidate.mixabilityScore + ") fell below gate (" + minMix + ").");
       continue;
     }
     validPlan.push(trackId);
   }
 
-  // 2. Recompute adjacent pair scores
   const pairScores: Record<string, number> = {};
   for (let i = 0; i < validPlan.length - 1; i++) {
     const trackA = validPlan[i];
     const trackB = validPlan[i + 1];
     const score = getCompatibility(trackA, trackB);
-    pairScores[` ${trackA}:${trackB}`] = score;
+    pairScores[trackA + ':' + trackB] = score;
   }
 
   return { updatedPlan: validPlan, pairScores, warnings };
