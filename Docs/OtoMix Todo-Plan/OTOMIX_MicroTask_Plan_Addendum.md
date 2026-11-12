@@ -240,7 +240,7 @@
 
 ### P05-ADD-T06-S03 Background Enrichment Pipeline
 
-###### P05-ADD-T06-S03-M01 — TODO
+###### P05-ADD-T06-S03-M01 — [x]
 
 | Field | Value |
 |---|---|

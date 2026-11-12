@@ -45,7 +45,7 @@
 | `P05-ADD-T05-S02-M01` | Isolated Worker | Engine API + extract | DONE |
 | `P05-ADD-T06-S01-M01` | Worker Registry | AdminConfig | DONE (a17b1b8+) |
 | `P05-ADD-T06-S02-M01` | Heterogeneous Storage | Worker Registry | DONE (faebae0+) |
-| `P05-ADD-T06-S03-M01` | Enrichment Pipeline | Heterogeneous Storage | TODO |
+| `P05-ADD-T06-S03-M01` | Enrichment Pipeline | Heterogeneous Storage | DONE (6497756+) |
 
 ### 2.2 Original P05 tasks
 

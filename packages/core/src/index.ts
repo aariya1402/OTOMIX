@@ -56,3 +56,4 @@ export * from './dsp/input-gain';
 export * from './dsp/encoder';
 export * from './dsp/degraded-crossfade';
 export * from './registry/worker-registry';
+export * from './pipeline/enrichment';
