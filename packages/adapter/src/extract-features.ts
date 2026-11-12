@@ -17,6 +17,9 @@
 //           → map.ts (S02-M01) → FeatureRegistryV1_2 → DB.
 
 export const SUPPORTED_FEATURES = [
+  'spectral_density',
+  'loudness_range',
+  'kick_strength',
   // Rhythm (7)
   'bpm', 'bpm_histogram', 'beats_position', 'onset_rate', 'danceability',
   'beats_loudness', 'beats_loudness_band_ratio',
@@ -38,6 +41,9 @@ export const SUPPORTED_FEATURES = [
 export type SupportedFeature = typeof SUPPORTED_FEATURES[number];
 
 export interface ExtractedFeatures {
+  readonly spectral_density?: number;
+  readonly loudness_range?: number;
+  readonly kick_strength?: number;
   bpm?: number;
   bpm_histogram?: number[];
   /** BOUNDARY_IO: file positions in seconds (Rule 26). */
