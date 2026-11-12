@@ -226,7 +226,7 @@
 
 ### P05-ADD-T06-S02 Heterogeneous Feature Storage
 
-###### P05-ADD-T06-S02-M01 — TODO
+###### P05-ADD-T06-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
