@@ -69,7 +69,7 @@
 | `P05-T03-S01-M01..M04` | Vocal map | TODO |
 | `P05-T04-S01-M01` | extract() orchestrator | TODO (overridden by ADD-T06-S03) |
 | `P05-T04-S01-M02` | Metric 2500ms | TODO |
-| `P05-T04-S01-M03` | Benchmark 1.5x | TODO |
+| `P05-T04-S01-M03` | Benchmark 1.5x | OBSOLETE (Moved to Worker background) |
 
 ---
 
