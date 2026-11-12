@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.internal/analysis-engine/1.0.json",
+  "title": "Analysis Engine API Contract",
+  "description": "Library-agnostic contract for isolated analysis workers.",
+  "type": "object",
+  "required": ["pcm_buffer", "sample_rate", "channels", "length"],
+  "properties": {
+    "pcm_buffer": { "type": "string", "contentEncoding": "base64" },
+    "sample_rate": { "type": "integer", "minimum": 1 },
+    "channels": { "type": "integer", "minimum": 1, "maximum": 2 },
+    "length": { "type": "integer", "minimum": 0 },
+    "track_id": { "type": "string", "format": "uuid" },
+    "requested_features": { "type": "array", "items": { "type": "string" } }
+  },
+  "definitions": {
+    "AnalysisEngineResponse": {
+      "type": "object",
+      "required": ["status"],
+      "oneOf": [
+        {
+          "properties": {
+            "status": { "const": "success" },
+            "features": { "type": "object" }
+          },
+          "required": ["status", "features"]
+        },
+        {
+          "properties": {
+            "status": { "const": "error" },
+            "message": { "type": "string" }
+          },
+          "required": ["status", "message"]
+        }
+      ]
+    }
+  }
+}

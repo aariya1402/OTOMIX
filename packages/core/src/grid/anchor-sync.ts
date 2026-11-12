@@ -21,7 +21,7 @@ export const ANCHOR_SYNC_INTERVAL_BEATS = ANCHOR_SYNC_BARS * 4;
  *
  * Clamp bound: ±DRIFT_MAX_QUANTA (2.4 quanta = 0.05s at 120 BPM).
  */
-export function getSyncedDrift(beat: number, driftQuantaPerBeat: number, bpm: number): number {
+export function getSyncedDrift(beat: number, driftQuantaPerBeat: number, _bpm: number): number {
   if (beat <= 0) return 0;
   if (beat === 1) return 0;
 

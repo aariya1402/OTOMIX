@@ -9,7 +9,7 @@ export interface ScheduledTransitionRecord {
 }
 
 export class MockDspDriver implements DspPort {
-  private config: DspEngineConfig | null = null;
+  protected config: DspEngineConfig | null = null;
   private started = false;
   private degradedMode = false;
   public bypass = true; 
@@ -45,7 +45,7 @@ export class MockDspDriver implements DspPort {
     this.pendingAutomations.length = 0;
   }
 
-  process(inputs: Float32Array[][], outputs: Float32Array[][], currentBeat: number): boolean {
+  process(inputs: Float32Array[][], outputs: Float32Array[][], _currentBeat: number): boolean {
     const output = outputs[0][0];
     const input = inputs[0][0];
     if (!output || !input) return true;

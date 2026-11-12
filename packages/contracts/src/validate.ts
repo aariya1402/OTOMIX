@@ -1,7 +1,7 @@
 // OTOMIX §9.6; §4.2 · Mother Add. §1–§2; §3.2
 import Ajv from 'ajv';
-import schema from '../schemas/feature-registry-1.2.json';
-import type { FeatureRegistryV1_2, RegistryValidationResult } from './types';
+import schema from '../schemas/feature-registry-1.2.json' with { type: 'json' };
+import type { FeatureRegistryV1_2, RegistryValidationResult } from './types.js';
 
 const ajv = new Ajv({
   strict: false,

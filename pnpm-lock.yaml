@@ -248,6 +248,10 @@ importers:
         version: 1.6.1(@types/node@20.19.43)(@vitest/ui@1.6.1)(supports-color@7.2.0)
 
   packages/workers:
+    dependencies:
+      '@otomix/contracts':
+        specifier: workspace:*
+        version: link:../contracts
     devDependencies:
       '@types/node':
         specifier: ^20.0.0

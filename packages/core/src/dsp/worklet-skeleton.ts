@@ -14,7 +14,7 @@ import { AdminTuningConfig } from '../config/transition-config';
 export class OtomixWorkletProcessor {
   private adminConfig: AdminTuningConfig;
   private isInTransition: boolean = false;
-  private tempBuffer: Float32Array;
+  protected tempBuffer: Float32Array;
 
   constructor(adminConfig: AdminTuningConfig, bufferSize: number = 128) {
     this.adminConfig = adminConfig;

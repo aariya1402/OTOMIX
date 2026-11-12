@@ -1,3 +1,4 @@
+export * from './config/analysis';
 export * from './constants/timing';
 export * from './constants/grid';
 export * from './constants/scoring';
@@ -54,3 +55,6 @@ export * from './dsp/limiter';
 export * from './dsp/input-gain';
 export * from './dsp/encoder';
 export * from './dsp/degraded-crossfade';
+export * from './registry/worker-registry';
+export * from './pipeline/enrichment';
+export * from './selection/starter-track';

@@ -3,6 +3,7 @@
 **Document:** `OTOMIX_MicroTask_Plan.md`  
 **Baseline:** `OTOMIX_Architecture_Spec.md` (OTOMIX-specific) and the Mother Document `Software_Arch_Spec__Main_.md` including its Engineering Delivery Addendum  
 **Citation convention:** `OTOMIX §x.y` cites `OTOMIX_Architecture_Spec.md`; `Mother §x.y` cites the Mother Document; `Add. §n` cites the Mother Document's Engineering Delivery Addendum.  
+**Addendum Note:** Some tasks are modified by owner decisions. See `OTOMIX_MicroTask_Plan_Addendum.md` for overrides. Look for the tag `[ADDENDUM OVERRIDE]` in the Notes column of specific tasks.
 **Status values:** `TODO`, or `[BLOCKED: OWNER DECISION OQ-nn]` where the specification has a gap (see Open Questions). No task is marked DONE in this file.  
 **Spec-derived vs. added content:** a task's constraint comes from the cited section. Test tolerances written as 'default' in a test assertion are test parameters chosen here and are recorded in the task's Review Checkpoint; they are not specification requirements.
 
@@ -1154,6 +1155,7 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/core/test/observer.scale.spec.ts`<br>Input: drift 3.9 ms, 4.1 ms, 50 ms sustained over 10 s. Expected: no change; scaling begins; slew ≤0.005/s and rate within [0.98,1.02]. Pass: all three. |
 | Spec Reference | OTOMIX §3.6 · Mother §2.6 |
 | Review Checkpoint | Check the clamp and slew use separate constants. |
+| Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T03-S01-M01`: Runtime drift realignment is FORBIDDEN. Grid must lock to kick during analysis only. |
 | Notes | Acceptance criterion tag: AC3 (implements); Related open question (non-blocking): OQ-04 |
 
 ###### P03-T04-S01-M03 — [x]
@@ -1254,6 +1256,7 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/core/test/transition.anchors.spec.ts`<br>Input: out track 200 s at 120 BPM, in track with negative pre-kick. Expected: T_in=Beat 1; T_out block starts at beat count−15 (inclusive 16 beats). Pass: indices match. |
 | Spec Reference | OTOMIX §3.9 · Mother §2.9 |
 | Review Checkpoint | Confirm the 16-beat constant is independent of the bar/beat decision OQ-02. |
+| Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T03-S02-M01`: Transition window is user-defined in UI. 16-bar is just a default in `AdminConfig`. |
 | Notes | Acceptance criterion tag: AC1 (implements); Related open question (non-blocking): OQ-02 |
 
 ###### P03-T06-S01-M02 — [x]
@@ -1813,6 +1816,7 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/adapter/test/normalize.spec.ts`<br>Input: 1 kHz sine, 48 kHz stereo, 2 s. Expected: 44 100 Hz mono, length 88 200±1, dominant frequency 1 000±0.5 Hz. Pass: all three. |
 | Spec Reference | OTOMIX §4.1 · Mother §3.1 |
 | Review Checkpoint | Confirm no per-call allocation beyond the output buffer. |
+| Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T01-S02-M01`: Must return stereo by default; `forceMono` from `AdminConfig`. |
 
 ##### P05-T01-S02 Contracts and versioning
 
@@ -1910,6 +1914,7 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/core/test/features.energy.spec.ts`<br>Input: components (1,0,0,0), (0,0,0,1), (0.5,0.5,0.5,0.5). Expected: 0.4, 0.1, 0.5. Pass: within 1e-9. |
 | Spec Reference | OTOMIX §4.3 · Mother §3.3 |
 | Review Checkpoint | Confirm weights come from `ENERGY_WEIGHTS`. |
+| Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T02-S01-M01`: Energy must be expanded (groove, polyphony, contrast) and weights from `AdminConfig`. |
 
 ###### P05-T02-S02-M02 — TODO
 
@@ -1960,6 +1965,7 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/core/test/features.mixability.spec.ts`<br>Input: components (1,1,1,1), (0.39,0.39,0.39,0.39), unknown-tempo fixture. Expected: M=1 mixable; M=0.39 unmixable; M=0 wildcard. Pass: matches. |
 | Spec Reference | OTOMIX §4.5 · Mother §3.5 |
 | Review Checkpoint | Check the 0.4 boundary is inclusive for 'mixable' (M≥0.4). |
+| Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T02-S02-M01` and `P05-ADD-T02-S03-M01`: Mixability is preference (NO gate). Camelot is the ONLY gate. |
 
 ###### P05-T02-S02-M06 — [BLOCKED: OWNER DECISION OQ-22]
 
@@ -2072,6 +2078,7 @@ flowchart LR
 | Independent Test(s) | **integration** · Vitest + Testcontainers PostgreSQL · `packages/core/test/pipeline.extract.spec.ts`<br>Input: 3 fixtures; one forced DB failure after the row insert. Expected: 2 rows + 2 outbox events; the failed run leaves 0 rows. Pass: counts match. |
 | Spec Reference | OTOMIX §4.8; §9.5 · Mother §7; Add. §1–§2 |
 | Review Checkpoint | Confirm the transaction wraps both inserts. |
+| Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T06`: The pipeline must be asynchronous. API returns fallback instantly, background EnrichmentPipeline fills the global database via pluggable workers. |
 
 ###### P05-T04-S01-M02 — TODO
 
@@ -2948,6 +2955,7 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/ui/test/mixplan.score.spec.ts`<br>Input: components (1,0,0), (0,1,0), (0,0,1). Expected: 0.6, 0.3, 0.1. Pass: within 1e-9. |
 | Spec Reference | OTOMIX §4.9 · Mother §6; Add. §11 |
 | Review Checkpoint | Confirm weights come from `RECO_WEIGHTS`. |
+| Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T02-S04-M01`: Must use `compatibility_score` and `camelot` as a hard gate, not a weighted score. |
 
 ###### P08-T04-S01-M03 — [BLOCKED: OWNER DECISION OQ-24]
 
