@@ -15,6 +15,15 @@ export interface CompatibilityConfig {
   weights: Record<string, number>;
 }
 
+
+export interface TempoConfig {
+  k: number;
+  maxIterations: number;
+  epsilon: number;
+  peakStrengthThreshold: number;
+  peakToleranceBpm: number;
+}
+
 export interface AnalysisConfig {
   timeouts: {
     extractionAlertMs: number;
@@ -32,6 +41,7 @@ export interface AnalysisConfig {
     lockToleranceBeats: number;
   };
   compatibility: CompatibilityConfig;
+  tempo: TempoConfig;
   transition: {
     defaultWindowBars: number;
   };

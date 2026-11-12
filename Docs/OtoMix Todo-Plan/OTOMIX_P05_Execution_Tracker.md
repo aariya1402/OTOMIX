@@ -56,7 +56,7 @@
 | `P05-T01-S03-M01` | extract.ts (release) | DONE |
 | `P05-T01-S03-M02` | mem-check | DONE |
 | `P05-T01-S03-M03` | fallback-rms | DONE |
-| `P05-T02-S01-M01` | BPM seed | TODO |
+| `P05-T02-S01-M01` | BPM seed | DONE |
 | `P05-T02-S01-M02` | Static vs Dynamic | BLOCKED (OQ-20) |
 | `P05-T02-S02-M01` | Energy formula | TODO (overridden by ADD-T02-S01) |
 | `P05-T02-S02-M02` | Silence E=0 | TODO |

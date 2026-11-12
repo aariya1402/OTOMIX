@@ -84,5 +84,12 @@
                    },
     "timeouts":  {
                      "extractionAlertMs":  2500
-                 }
+                 },
+    "tempo":  {
+                  "k":  2,
+                  "maxIterations":  100,
+                  "epsilon":  0.0001,
+                  "peakStrengthThreshold":  0.5,
+                  "peakToleranceBpm":  10
+              }
 }
