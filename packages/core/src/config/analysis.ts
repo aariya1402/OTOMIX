@@ -24,6 +24,9 @@ export interface AnalysisConfig {
   camelot: {
     strictMode: boolean;
   };
+  grid: {
+    lockToleranceBeats: number;
+  };
   compatibility: CompatibilityConfig;
   transition: {
     defaultWindowBars: number;
