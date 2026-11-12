@@ -63,3 +63,4 @@ export * from './features/stars';
 export * from './features/cache-invalidate';
 export * from './vocal/binarize';
 export * from './vocal/median';
+export * from './vocal/nearest-instrumental';
