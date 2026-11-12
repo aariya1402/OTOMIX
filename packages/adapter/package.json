@@ -18,7 +18,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@otomix/contracts": "workspace:*"
+    "@otomix/contracts": "workspace:*",
+    "@otomix/core": "workspace:*"
   },
   "devDependencies": {
     "@pact-foundation/pact": "^13.2.0",
