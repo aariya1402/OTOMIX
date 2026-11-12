@@ -1816,7 +1816,7 @@ flowchart LR
 
 ##### P05-T01-S02 Contracts and versioning
 
-###### P05-T01-S02-M01 — TODO
+###### P05-T01-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
