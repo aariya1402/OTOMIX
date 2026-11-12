@@ -1061,7 +1061,7 @@
     },
     {
         "id":  "P05-T01-S03-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Wrap every extraction in `try/finally` that calls `releaseResult`.",
         "prerequisites":  [
                               "P05-T01-S02-M01"
