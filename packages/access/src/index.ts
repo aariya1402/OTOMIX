@@ -35,3 +35,7 @@ export type { EscalationPayload, EscalationWebhookConfig } from './escalation-we
 export { createDekService } from './crypto/dek';
 export type { DekService, KekProvider, EncryptedBlob } from './crypto/dek';
 export { DecryptionFailedError, InvalidKeyError, TenantKeyNotFoundError } from './crypto/dek';
+
+export { shouldRotate, rotateTenantDek, rotateAllDeks, InMemoryDekStore, InMemoryVersionedKekProvider } from './crypto/rotate';
+export type { RotationResult } from './crypto/rotate';
+export type { DekStore, DekStoreEntry, VersionedKekProvider, CreateDekServiceDeps } from './crypto/dek';

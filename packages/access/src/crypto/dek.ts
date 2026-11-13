@@ -6,6 +6,24 @@ export interface KekProvider {
   unwrap(wrapped: Buffer): Promise<Buffer>;
 }
 
+export interface VersionedKekProvider {
+  currentVersion(): number;
+  wrap(dek: Buffer): Promise<{ wrapped: Buffer; version: number }>;
+  unwrap(wrapped: Buffer, version: number): Promise<Buffer>;
+}
+
+export interface DekStoreEntry {
+  wrappedDek: Buffer;
+  kekVersion: number;
+  createdAt: Date;
+}
+
+export interface DekStore {
+  get(tenantId: string): Promise<DekStoreEntry | null>;
+  set(tenantId: string, wrappedDek: Buffer, kekVersion: number, createdAt?: Date): Promise<void>;
+  listAll(): Promise<Array<{ tenantId: string } & DekStoreEntry>>;
+}
+
 export interface EncryptedBlob {
   ciphertext: Buffer;
   iv: Buffer;
@@ -33,19 +51,41 @@ export interface DekService {
   decrypt(tenantId: string, encrypted: EncryptedBlob): Promise<Buffer>;
 }
 
+export interface CreateDekServiceDeps {
+  kekProvider: KekProvider;
+  store?: DekStore;
+  versionedKek?: VersionedKekProvider;
+}
+
 const ALGORITHM = 'aes-256-gcm';
 
-export function createDekService(deps: { kekProvider: KekProvider }): DekService {
+export function createDekService(deps: CreateDekServiceDeps): DekService {
   const cache = new Map<string, Buffer>();
 
   async function getTenantDek(tenantId: string): Promise<Buffer> {
     const cached = cache.get(tenantId);
     if (cached) return cached;
 
+    if (deps.store && deps.versionedKek) {
+      const entry = await deps.store.get(tenantId);
+      if (entry) {
+        const dek = await deps.versionedKek.unwrap(entry.wrappedDek, entry.kekVersion);
+        cache.set(tenantId, dek);
+        return dek;
+      }
+    }
+
     const dek = randomBytes(AES_KEY_BYTES);
     if (dek.length !== AES_KEY_BYTES) throw new InvalidKeyError('DEK length mismatch');
-    const wrapped = await deps.kekProvider.wrap(dek);
-    if (!wrapped || wrapped.length === 0) throw new InvalidKeyError('wrap returned empty');
+
+    if (deps.store && deps.versionedKek) {
+      const wrapped = await deps.versionedKek.wrap(dek);
+      await deps.store.set(tenantId, wrapped.wrapped, wrapped.version);
+    } else {
+      const wrapped = await deps.kekProvider.wrap(dek);
+      if (!wrapped || wrapped.length === 0) throw new InvalidKeyError('wrap returned empty');
+    }
+
     cache.set(tenantId, dek);
     return dek;
   }
