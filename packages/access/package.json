@@ -17,12 +17,14 @@
   ],
   "author": "",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "jose": "^6.2.17"
+  },
   "devDependencies": {
-    "typescript": "^5.0.0",
     "@types/node": "^20.0.0",
-    "vitest": "^1.0.0",
-    "@vitest/ui": "^1.0.0"
+    "@vitest/ui": "^1.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
   },
   "publishConfig": {
     "access": "public"

@@ -14,7 +14,9 @@ export default defineWorkspace([
         '**/migrate.spec.ts',
         '**/rls.spec.ts',
         '**/with-tenant.spec.ts',
-        '**/idem-store.spec.ts'
+        '**/idem-store.spec.ts',
+        '**/global-features.spec.ts',
+        '**/rt-audit/test/audit.spec.ts'
       ]
     }
   },
@@ -29,6 +31,8 @@ export default defineWorkspace([
         'packages/db/test/rls.spec.ts',
         'packages/db/test/with-tenant.spec.ts',
         'packages/gateway/test/idem-store.spec.ts',
+        'packages/db/test/global-features.spec.ts',
+        'tools/rt-audit/test/audit.spec.ts',
         'packages/contracts/test/p01-it.spec.ts',
         'packages/contracts/test/x-p01-*.spec.ts'
       ],

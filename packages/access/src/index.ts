@@ -1,2 +1,12 @@
 // Placeholder export
 export const access = { name: '@otomix/access' };
+
+export { issueAccessToken } from './token/issue';
+export type {
+  AccessTokenClaims,
+  AccessTokenIssueInput,
+  IssuedAccessToken,
+  Tier,
+  VaultClient,
+} from './token/types';
+export { TokenIssuanceError } from './token/types';

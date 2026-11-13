@@ -2162,7 +2162,7 @@ flowchart LR
 
 ##### P06-T01-S01 Issuance and rotation
 
-###### P06-T01-S01-M01 — TODO
+###### P06-T01-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
