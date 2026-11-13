@@ -10,3 +10,15 @@ export type {
   VaultClient,
 } from './token/types';
 export { TokenIssuanceError } from './token/types';
+export { issueRefreshToken, rotateRefreshToken } from './token/refresh';
+export type {
+  RefreshTokenClaims,
+  RefreshTokenIssueInput,
+  IssuedRefreshToken,
+  RefreshTokenStatus,
+} from './token/types';
+export {
+  RefreshTokenReuseError,
+  RefreshTokenRevokedError,
+  RefreshTokenNotFoundError,
+} from './token/types';

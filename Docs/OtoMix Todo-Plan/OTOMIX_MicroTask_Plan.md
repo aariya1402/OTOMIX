@@ -2174,7 +2174,7 @@ flowchart LR
 | Spec Reference | OTOMIX §7.4 · Mother §8.3; Add. §6 |
 | Review Checkpoint | Confirm signing keys are fetched from Vault by `kid`. |
 
-###### P06-T01-S01-M02 — TODO
+###### P06-T01-S01-M02 — [x]
 
 | Field | Value |
 |---|---|

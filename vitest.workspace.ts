@@ -16,7 +16,8 @@ export default defineWorkspace([
         '**/with-tenant.spec.ts',
         '**/idem-store.spec.ts',
         '**/global-features.spec.ts',
-        '**/rt-audit/test/audit.spec.ts'
+        '**/rt-audit/test/audit.spec.ts',
+        '**/token.refresh.spec.ts',
       ]
     }
   },
@@ -33,6 +34,7 @@ export default defineWorkspace([
         'packages/gateway/test/idem-store.spec.ts',
         'packages/db/test/global-features.spec.ts',
         'tools/rt-audit/test/audit.spec.ts',
+        'packages/access/test/token.refresh.spec.ts',
         'packages/contracts/test/p01-it.spec.ts',
         'packages/contracts/test/x-p01-*.spec.ts'
       ],

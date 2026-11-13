@@ -35,3 +35,52 @@ export class TokenIssuanceError extends Error {
     this.name = 'TokenIssuanceError';
   }
 }
+// ===== P06-T01-S01-M02: refresh token types =====
+
+export type RefreshTokenStatus = 'active' | 'consumed';
+
+export interface RefreshTokenClaims {
+  sub: string;
+  tenant_id: string;
+  tier: Tier;
+  familyId: string;
+  jti: string;
+  iat: number;
+  exp: number;
+  status: RefreshTokenStatus;
+}
+
+export interface RefreshTokenIssueInput {
+  sub: string;
+  tenantId: string;
+  tier: Tier;
+}
+
+export interface IssuedRefreshToken {
+  token: string;
+  claims: RefreshTokenClaims;
+}
+
+export class RefreshTokenReuseError extends Error {
+  readonly code = 'REFRESH_TOKEN_REUSE' as const;
+  constructor(message: string) {
+    super(message);
+    this.name = 'RefreshTokenReuseError';
+  }
+}
+
+export class RefreshTokenRevokedError extends Error {
+  readonly code = 'REFRESH_TOKEN_REVOKED' as const;
+  constructor(message: string) {
+    super(message);
+    this.name = 'RefreshTokenRevokedError';
+  }
+}
+
+export class RefreshTokenNotFoundError extends Error {
+  readonly code = 'REFRESH_TOKEN_NOT_FOUND' as const;
+  constructor(message: string) {
+    super(message);
+    this.name = 'RefreshTokenNotFoundError';
+  }
+}
