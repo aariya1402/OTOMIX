@@ -1,7 +1,8 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { ROUTE_SCOPES } from './scopes.ts';
-import type { RouteScopeEntry } from './scopes.ts';
+import { findRouteScope, matchRoutePath } from './route-table.ts';
 import { mapStatus } from './status-map.ts';
+
+export { matchRoutePath };
 
 export interface TokenClaims {
   sub: string;
@@ -25,30 +26,6 @@ export interface InterceptorDeps {
 export type InterceptResult =
   | { ok: true; claims: TokenClaims }
   | { ok: false; code: 'UNAUTHENTICATED' | 'PERMISSION_DENIED'; message: string };
-
-export function matchRoutePath(routePath: string, reqPath: string): boolean {
-  const routeSegs = routePath.split('/');
-  const reqSegs = reqPath.split('/');
-  if (routeSegs.length !== reqSegs.length) return false;
-  for (let i = 0; i < routeSegs.length; i++) {
-    const rs = routeSegs[i];
-    const qs = reqSegs[i];
-    if (rs.startsWith('{') && rs.endsWith('}')) {
-      if (qs.length === 0) return false;
-      continue;
-    }
-    if (rs !== qs) return false;
-  }
-  return true;
-}
-
-function findRouteScope(method: string, pathname: string): RouteScopeEntry | null {
-  for (const entry of ROUTE_SCOPES) {
-    if (entry.method !== method) continue;
-    if (matchRoutePath(entry.path, pathname)) return entry;
-  }
-  return null;
-}
 
 export async function verifyRequest(req: IncomingMessage, deps: InterceptorDeps): Promise<InterceptResult> {
   const auth = req.headers.authorization;
