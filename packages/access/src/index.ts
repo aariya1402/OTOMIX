@@ -39,3 +39,6 @@ export { DecryptionFailedError, InvalidKeyError, TenantKeyNotFoundError } from '
 export { shouldRotate, rotateTenantDek, rotateAllDeks, InMemoryDekStore, InMemoryVersionedKekProvider } from './crypto/rotate';
 export type { RotationResult } from './crypto/rotate';
 export type { DekStore, DekStoreEntry, VersionedKekProvider, CreateDekServiceDeps } from './crypto/dek';
+
+export { writeAdminAudit } from './audit';
+export type { AdminAuditInput } from './audit';

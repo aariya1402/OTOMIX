@@ -1,10 +1,3 @@
-// P06-T07-S01-M01
-// PATCH /api/v1/dsp/parameters — validate then persist.
-//
-// Auth (interceptor + RBAC) is applied by the dispatcher; this handler
-// only validates and stores. Idempotency-Key is enforced by the
-// idempotency middleware (see idempotency/validate.ts).
-
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import {
   isChopGrid,
@@ -13,8 +6,16 @@ import {
 } from '../config/dsp-params.ts';
 import type { DspParametersStore } from '../store/dsp-parameters-store.ts';
 
+export interface AuditPayload {
+  actorId: string;
+  tenantId: string;
+  action: string;
+  detail: unknown;
+}
+
 export interface DspParametersHandlerDeps {
   store: DspParametersStore;
+  audit?: (payload: AuditPayload) => Promise<void>;
 }
 
 function readBody(req: IncomingMessage): Promise<unknown> {
@@ -65,11 +66,28 @@ export function createDspParametersHandler(deps: DspParametersHandlerDeps) {
         });
         return;
       }
+      const before = await deps.store.get();
       const params: DspParameters = {
         chopGrid: body.chopGrid,
         crossfadeBeats: body.crossfadeBeats,
       };
       await deps.store.set(params);
+      if (deps.audit) {
+        const claims = (req as any).claims as { sub?: string; tenant_id?: string } | undefined;
+        const actorId = claims?.sub ?? 'unknown';
+        const tenantId = claims?.tenant_id ?? 'unknown';
+        try {
+          await deps.audit({
+            actorId,
+            tenantId,
+            action: 'dsp.parameters.update',
+            detail: { before, after: params },
+          });
+        } catch {
+          // M02: audit failure must not fail the request.
+          // M03 (outbox) makes this atomic.
+        }
+      }
       sendJson(res, 200, { ok: true, params });
     } catch (err) {
       next(err as Error);

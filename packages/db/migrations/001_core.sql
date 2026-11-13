@@ -32,6 +32,9 @@ CREATE TABLE tier_grants (
   expires_at   timestamptz NOT NULL
 );
 
+-- RETENTION: 7 years (per OTOMIX §7.2 / Mother §9.1).
+-- Monthly partitions managed by ops; 005_admin_audit_default_partition.sql
+-- provides a safety net so writes never fail before monthly partitions exist.
 CREATE TABLE admin_audit (
   audit_id    uuid NOT NULL,
   tenant_id   text NOT NULL,
@@ -42,10 +45,19 @@ CREATE TABLE admin_audit (
   PRIMARY KEY (audit_id, at_utc)
 ) PARTITION BY RANGE (at_utc);
 
+-- RETENTION: 7 years (per OTOMIX §7.2 / Mother §9.1).
+-- Monthly partitions managed by ops; 005_admin_audit_default_partition.sql
+-- provides a safety net so writes never fail before monthly partitions exist.
 CREATE TABLE admin_audit_2026_01 PARTITION OF admin_audit
   FOR VALUES FROM ('2026-01-01') TO ('2026-02-01');
+-- RETENTION: 7 years (per OTOMIX §7.2 / Mother §9.1).
+-- Monthly partitions managed by ops; 005_admin_audit_default_partition.sql
+-- provides a safety net so writes never fail before monthly partitions exist.
 CREATE TABLE admin_audit_2026_02 PARTITION OF admin_audit
   FOR VALUES FROM ('2026-02-01') TO ('2026-03-01');
+-- RETENTION: 7 years (per OTOMIX §7.2 / Mother §9.1).
+-- Monthly partitions managed by ops; 005_admin_audit_default_partition.sql
+-- provides a safety net so writes never fail before monthly partitions exist.
 CREATE TABLE admin_audit_2026_03 PARTITION OF admin_audit
   FOR VALUES FROM ('2026-03-01') TO ('2026-04-01');
 
