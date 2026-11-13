@@ -2605,6 +2605,7 @@ flowchart LR
 | Spec Reference | OTOMIX §5.2 · Mother §1 |
 | Review Checkpoint | Confirm the limits are configuration with these defaults. |
 | Notes | **[GAP-014]** dual deployment (cloud + local) per supplement GAP-014. Cloud wrapper createSizeLimitMiddleware in packages/gateway/src/ingest/limits.ts; local wrapper checkLimitsForLocal in packages/adapter/src/ingest/limits.ts; shared pure checkLimits + DEFAULT_LIMITS in packages/core/src/ingest/limits.ts. **[GAP-017]** logging via logger.log({level:'warn',...}) (not warn()). Duration source is client-supplied X-Audio-Duration-Seconds header; container-declared duration parse deferred to P07-T01-S03-M01. |
+| Notes | **[GAP-014]** dual deployment (cloud + local) per supplement GAP-014. Cloud wrapper createSizeLimitMiddleware in packages/gateway/src/ingest/limits.ts; local wrapper checkLimitsForLocal in packages/adapter/src/ingest/limits.ts; shared pure checkLimits + DEFAULT_LIMITS in packages/core/src/ingest/limits.ts. **[GAP-017]** logging via logger.log({level:'warn',...}) (not warn()). Duration source is client-supplied X-Audio-Duration-Seconds header; container-declared duration parse deferred to P07-T01-S03-M01. |
 
 ###### P07-T01-S02-M02 — TODO
 
