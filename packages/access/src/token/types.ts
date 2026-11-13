@@ -3,8 +3,6 @@ export type Tier = 1 | 2;
 export interface AccessTokenClaims {
   sub: string;
   tenant_id: string;
-  scopes: string[];
-  tier: Tier;
   jti: string;
   iat: number;
   exp: number;
@@ -13,8 +11,6 @@ export interface AccessTokenClaims {
 export interface AccessTokenIssueInput {
   sub: string;
   tenantId: string;
-  scopes: string[];
-  tier: Tier;
 }
 
 export interface IssuedAccessToken {
@@ -30,12 +26,8 @@ export interface VaultClient {
 
 export class TokenIssuanceError extends Error {
   readonly code = 'TOKEN_ISSUANCE_ERROR' as const;
-  constructor(message: string) {
-    super(message);
-    this.name = 'TokenIssuanceError';
-  }
+  constructor(message: string) { super(message); this.name = 'TokenIssuanceError'; }
 }
-// ===== P06-T01-S01-M02: refresh token types =====
 
 export type RefreshTokenStatus = 'active' | 'consumed';
 
@@ -63,24 +55,15 @@ export interface IssuedRefreshToken {
 
 export class RefreshTokenReuseError extends Error {
   readonly code = 'REFRESH_TOKEN_REUSE' as const;
-  constructor(message: string) {
-    super(message);
-    this.name = 'RefreshTokenReuseError';
-  }
+  constructor(message: string) { super(message); this.name = 'RefreshTokenReuseError'; }
 }
 
 export class RefreshTokenRevokedError extends Error {
   readonly code = 'REFRESH_TOKEN_REVOKED' as const;
-  constructor(message: string) {
-    super(message);
-    this.name = 'RefreshTokenRevokedError';
-  }
+  constructor(message: string) { super(message); this.name = 'RefreshTokenRevokedError'; }
 }
 
 export class RefreshTokenNotFoundError extends Error {
   readonly code = 'REFRESH_TOKEN_NOT_FOUND' as const;
-  constructor(message: string) {
-    super(message);
-    this.name = 'RefreshTokenNotFoundError';
-  }
+  constructor(message: string) { super(message); this.name = 'RefreshTokenNotFoundError'; }
 }

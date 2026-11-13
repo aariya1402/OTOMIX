@@ -1,13 +1,11 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { ROUTE_SCOPES } from './scopes.ts';
-import type { RouteScopeEntry } from './scopes.ts';;
+import type { RouteScopeEntry } from './scopes.ts';
 import { mapStatus } from './status-map.ts';
 
 export interface TokenClaims {
   sub: string;
   tenant_id: string;
-  scopes: string[];
-  tier: 1 | 2;
   jti: string;
   iat: number;
   exp: number;
@@ -20,6 +18,7 @@ export interface TokenVerifier {
 export interface InterceptorDeps {
   verifyToken: TokenVerifier;
   isDenied: (jti: string) => Promise<boolean>;
+  getEffectivePermissions: (userId: string, tenantId: string) => Promise<Set<string>>;
   expectedTenantId: string;
 }
 
@@ -51,10 +50,7 @@ function findRouteScope(method: string, pathname: string): RouteScopeEntry | nul
   return null;
 }
 
-export async function verifyRequest(
-  req: IncomingMessage,
-  deps: InterceptorDeps,
-): Promise<InterceptResult> {
+export async function verifyRequest(req: IncomingMessage, deps: InterceptorDeps): Promise<InterceptResult> {
   const auth = req.headers.authorization;
   if (typeof auth !== 'string' || !auth.startsWith('Bearer ')) {
     return { ok: false, code: 'UNAUTHENTICATED', message: 'Missing or invalid bearer token' };
@@ -63,55 +59,38 @@ export async function verifyRequest(
   if (token.length === 0) {
     return { ok: false, code: 'UNAUTHENTICATED', message: 'Missing or invalid bearer token' };
   }
-
   let claims: TokenClaims;
   try {
     claims = await deps.verifyToken.verify(token);
   } catch {
     return { ok: false, code: 'UNAUTHENTICATED', message: 'Invalid or expired token' };
   }
-
   const denied = await deps.isDenied(claims.jti);
   if (denied) {
     return { ok: false, code: 'UNAUTHENTICATED', message: 'Token has been revoked' };
   }
-
   if (claims.tenant_id !== deps.expectedTenantId) {
     return { ok: false, code: 'PERMISSION_DENIED', message: 'Tenant mismatch' };
   }
-
   const url = req.url ?? '/';
   const qIndex = url.indexOf('?');
   const pathname = qIndex >= 0 ? url.slice(0, qIndex) : url;
   const method = req.method ?? 'GET';
   const route = findRouteScope(method, pathname);
   if (route !== null) {
-    const granted = route.scopes.some(function (required) {
-      return claims.scopes.indexOf(required) >= 0;
-    });
+    const perms = await deps.getEffectivePermissions(claims.sub, claims.tenant_id);
+    const granted = route.scopes.some((required) => perms.has(required));
     if (!granted) {
-      return {
-        ok: false,
-        code: 'PERMISSION_DENIED',
-        message: 'Insufficient scope: ' + route.scopes.join(' or ') + ' required',
-      };
+      return { ok: false, code: 'PERMISSION_DENIED', message: 'Insufficient permission: ' + route.scopes.join(' or ') + ' required' };
     }
   }
-
   return { ok: true, claims };
 }
 
 export function createInterceptor(deps: InterceptorDeps) {
-  return async function interceptor(
-    req: IncomingMessage,
-    res: ServerResponse,
-    next: (err?: Error) => void,
-  ): Promise<void> {
+  return async function interceptor(req: IncomingMessage, res: ServerResponse, next: (err?: Error) => void): Promise<void> {
     const result = await verifyRequest(req, deps);
-    if (result.ok) {
-      next();
-      return;
-    }
+    if (result.ok) { next(); return; }
     const status = mapStatus(result.code);
     const body = JSON.stringify({ error: result.code, message: result.message });
     res.statusCode = status;
