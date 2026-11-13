@@ -333,3 +333,10 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 - **Root cause:** Pre-existing layering violation. `repository/` inside `core` references `pg` directly. `core` should stay platform-agnostic per `Local-First` and `Rule 26`. This file is not exported from `core/src/index.ts` barrel, so no runtime consumer.
 - **Pragmatic fix applied:** Added `pg` + `@types/pg` to `packages/core/devDependencies`. `tsc` passes; runtime unaffected (`repository/global-features.ts` is not exported).
 - **Proper fix (deferred):** Move `repository/global-features.ts` to `packages/db`, or refactor to accept a `pg.Pool` interface via DI so `core` stays pure. Schedule as a P05/P06 follow-up.
+
+### [GAP-017] [PHASE: P07] [HIGH] `Logger` exposes only `.log(record)` — not `.warn/.info/.error`
+- **Discovered:** 2026-11-13 (Match step for `P07-T01-S02-M01`).
+- **Evidence:** `packages/core/src/telemetry/logger.ts` — `interface Logger { log(record: LogRecord): void; }`. No `warn/info/debug/error` convenience methods. `log()` requires explicit `level, trace_id, span_id, event, outcome, durationMs`; the factory only injects `service` and `tenant_id`.
+- **Root cause:** `P07-T01-S01-M01` used `logger.warn({...})`; the test's `mockLogger` (which had a fake `warn`) hid the bug. Production path (`deps.logger` omitted) would throw `TypeError: logger.warn is not a function`.
+- **Fix applied:** `sniff.ts` now calls `logger.log({ level:'warn', trace_id, span_id, ... })`; test mock only implements `.log`; production-path test (no logger injected) added so the bug cannot regress. [GAP-017] documents the logger contract for every future P07 task (`limits.ts`, `decode.ts`, `dlq-park.ts`, ...).
+- **Rule for future tasks:** every `logger.log({...})` must include `level`, `trace_id`, `span_id`, `event`, `outcome`, `durationMs`. `createLogger` only injects `service` and `tenant_id`.

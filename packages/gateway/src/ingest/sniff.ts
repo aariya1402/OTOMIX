@@ -30,12 +30,8 @@ function extractExtension(filename: string): string | null {
   return filename.slice(dot + 1).toLowerCase();
 }
 
-function buildDefaultLogger(deps: SniffDeps): Logger {
-  return createLogger({
-    service: 'gateway-ingest',
-    trace_id: deps.trace_id ?? randomUUID(),
-    span_id: deps.span_id ?? randomUUID(),
-  });
+function buildDefaultLogger(): Logger {
+  return createLogger({ service: 'gateway-ingest' });
 }
 
 export function sniffForGateway(
@@ -49,8 +45,11 @@ export function sniffForGateway(
   const mismatch = hasKnownExt && format !== 'unknown' && expectedExt !== format;
 
   if (mismatch) {
-    const logger = deps.logger ?? buildDefaultLogger(deps);
-    logger.warn({
+    const logger = deps.logger ?? buildDefaultLogger();
+    logger.log({
+      level: 'warn',
+      trace_id: deps.trace_id ?? randomUUID(),
+      span_id: deps.span_id ?? randomUUID(),
       event: 'ingest.ext_mismatch',
       outcome: 'partial',
       durationMs: 0,

@@ -28,10 +28,7 @@ function randomFixture(): Uint8Array {
 function mockLogger(): { logger: Logger; calls: any[] } {
   const calls: any[] = [];
   const logger = {
-    debug: () => {},
-    info: () => {},
-    warn: (r: any) => { calls.push(r); },
-    error: () => {},
+    log: (r: any) => { calls.push(r); },
   } as unknown as Logger;
   return { logger, calls };
 }
@@ -44,8 +41,11 @@ describe('sniffForGateway — cloud wrapper (P07-T01-S01-M01)', () => {
     expect(r.mismatch).toBe(true);
     expect(calls.length).toBe(1);
     expect(calls[0].event).toBe('ingest.ext_mismatch');
+    expect(calls[0].level).toBe('warn');
     expect(calls[0].expectedExt).toBe('wav');
     expect(calls[0].detectedFormat).toBe('mp3');
+    expect(typeof calls[0].trace_id).toBe('string');
+    expect(typeof calls[0].span_id).toBe('string');
   });
 
   it('FLAC named .mp3 -> flac, mismatch logged', () => {
@@ -88,5 +88,12 @@ describe('sniffForGateway — cloud wrapper (P07-T01-S01-M01)', () => {
     sniffForGateway(randomFixture(), 'd.bin', { logger });
     expect(calls.length).toBe(3);
     expect(calls.every((c) => c.event === 'ingest.ext_mismatch')).toBe(true);
+  });
+
+  it('production path (no logger injected) does not throw', () => {
+    // Real createLogger + real .log(); previously threw "logger.warn is not a function"
+    expect(() => {
+      sniffForGateway(mp3Fixture(), 'track.wav');
+    }).not.toThrow();
   });
 });
