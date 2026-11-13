@@ -246,6 +246,18 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 
 ---
 
+---
+
+## Deployment Model
+
+### [GAP-014] [PHASE: ALL] [HIGH] Dual deployment required: cloud AND local, implemented separately
+- **Discovered:** 2026-11-13
+- **Source:** Owner directive
+- **Directive:** `Local-First` is **one** target, not the only target. OTOMIX MUST support **both** a cloud deployment AND a local (on-device) deployment as **two separate implementations** — not one implementation behind feature flags, not runtime switching.
+- **Scope:** Wherever the two targets diverge, each gets its own code path. The Abstract API Adapter (`P05-T01`) is a natural seam but each adapter implementation must exist independently. Ingestion (`P07`), extraction execution (`P05`), storage backend (`P07`), deployment topology (`P10`), and acceptance runs (`P11`) must each produce two variants.
+- **Affected phases:** P05, P07, P10, P11.
+- **Resolution rule:** When scheduling any affected micro-task, add a sibling micro-task for the other deployment target. Do NOT conflate the two targets in code, tests, or acceptance criteria. A single-task PR that only covers cloud or only covers local is incomplete for that phase.
+- **Model details:** Owner will clarify per-model specifics when each affected phase is reached. Until then, treat both targets as first-class.
 ## Maintenance Rules
 
 - **Append, do not rewrite.** New items get a new ID. Never renumber.
@@ -256,4 +268,4 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 
 ---
 
-**Last updated:** 2026-11-13
+**Last updated:** 2026-11-13 (GAP-014: dual deployment added)
