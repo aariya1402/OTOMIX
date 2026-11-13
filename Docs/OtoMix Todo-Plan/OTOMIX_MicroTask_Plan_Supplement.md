@@ -284,7 +284,7 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 |---|---|---|
 | `RBAC-M01` ✅ DONE (2026-11-13, commit pending) | Migration: 8 tables + RLS + indexes + audit. | P01-T05-S01-M01 |
 | `RBAC-M02` ✅ DONE (2026-11-13, 8985495) | Feature scan + seed catalog (≥40 keys). | RBAC-M01 |
-| `RBAC-M03` | Seed base roles. | RBAC-M02 |
+| `RBAC-M03` ✅ DONE (2026-11-13) | Seed base roles. | RBAC-M02 |
 | `RBAC-M04` | Grant/revoke service + audit + Slack escalation. | RBAC-M03, P06-T02-S02-M01 |
 | `RBAC-M05` | Effective permissions evaluator. | RBAC-M04 |
 | `RBAC-M06` | Redis cache TTL 60s + LISTEN/NOTIFY invalidation. | RBAC-M05 |
