@@ -2218,7 +2218,7 @@ flowchart LR
 
 ##### P06-T02-S01 Scope registry and enforcement
 
-###### P06-T02-S01-M01 — TODO
+###### P06-T02-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
