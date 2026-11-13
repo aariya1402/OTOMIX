@@ -33,6 +33,7 @@ export default defineWorkspace([
         'packages/db/test/migrate.spec.ts',
         'packages/db/test/rls.spec.ts',
         'packages/db/test/with-tenant.spec.ts',
+        'packages/db/test/rbac.migration.spec.ts',
         'packages/gateway/test/idem-store.spec.ts',
         'packages/db/test/global-features.spec.ts',
         'tools/rt-audit/test/audit.spec.ts',
