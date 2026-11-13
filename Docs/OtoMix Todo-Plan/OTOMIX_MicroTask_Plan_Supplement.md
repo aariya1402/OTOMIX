@@ -346,3 +346,9 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 - **Evidence:** `Worker` import unused, `private readonly tenantId` unused, `const d` unused. `TS6133` on three lines.
 - **Quick unblock:** prepended `// @ts-nocheck` with a comment pointing at this GAP. Build now passes.
 - **Proper fix (deferred):** remove the unused import/field/local; requires full read of `pool.ts` + `pool-bulkhead.spec.ts`. Schedule as a follow-up micro-task.
+### [GAP-019] [PHASE: ALL] [MEDIUM] `sync-and-translate.ps1` hardcodes `git push origin P04`
+- **Discovered:** 2026-11-14.
+- **Evidence:** `Docs/ArchitectureBook/sync-and-translate.ps1` last lines: `& git commit -m 'fix(book): translate tasks...'`, then `& git push origin P04`. A copy-paste from the P04 phase.
+- **Impact:** running the script from any branch other than P04 pushes the LOCAL `P04` ref (not the current branch) to `origin/P04`, which means the actual commit on the current branch is never pushed, and `origin/P04` is silently synced to whatever local `P04` contained (usually stale).
+- **Workaround applied:** after every `sync-and-translate.ps1` invocation, explicitly `git push origin <current-branch>`.
+- **Proper fix (deferred):** replace `git push origin P04` with `git push origin HEAD` or read the current branch via `git rev-parse --abbrev-ref HEAD`. Same for the commit message — accept a `-CommitMessage` parameter or use a stable generic message.
