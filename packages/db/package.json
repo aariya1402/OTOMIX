@@ -11,6 +11,7 @@
     "lint": "eslint src --ext .ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "migrate": "tsx src/migrate.ts up",
+    "seed": "tsx src/seed.ts",
     "migrate:down": "tsx src/migrate.ts down"
   },
   "keywords": [
