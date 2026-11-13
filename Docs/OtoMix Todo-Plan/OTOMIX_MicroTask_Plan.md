@@ -2271,7 +2271,7 @@ flowchart LR
 | Spec Reference | OTOMIX §7.1 · Mother §5.1 |
 | Review Checkpoint | Confirm retries follow the 3-retry maximum. |
 
-###### P06-T02-S02-M02 — TODO
+###### P06-T02-S02-M02 — [x]
 
 | Field | Value |
 |---|---|

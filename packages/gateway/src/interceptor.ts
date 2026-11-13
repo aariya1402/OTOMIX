@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { ROUTE_SCOPES, RouteScopeEntry } from './scopes';
-import { mapStatus } from './status-map';
+import { ROUTE_SCOPES } from './scopes.ts';
+import type { RouteScopeEntry } from './scopes.ts';;
+import { mapStatus } from './status-map.ts';
 
 export interface TokenClaims {
   sub: string;
