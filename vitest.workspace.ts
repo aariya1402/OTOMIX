@@ -56,7 +56,13 @@ export default defineWorkspace([
         'packages/access/test/token.revoke-user.spec.ts',
         'packages/gateway/test/idem-store.spec.ts',
         'packages/gateway/test/dsp-propagate.spec.ts',
-        'packages/contracts/test/p06-it.spec.ts'
+        'packages/contracts/test/p06-it.spec.ts',
+        'packages/contracts/test/x-p05-p06.spec.ts',
+        'packages/contracts/test/x-p06-p07.spec.ts',
+        'packages/contracts/test/x-p06-p08.spec.ts',
+        'packages/contracts/test/x-p06-p09.spec.ts',
+        'packages/contracts/test/x-p06-p10.spec.ts',
+        'packages/contracts/test/x-p06-p11.spec.ts'
       ],
       environment: 'node',
       testTimeout: 300000
