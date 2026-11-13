@@ -1,6 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { findRouteScope, matchRoutePath } from './route-table.ts';
-import { mapStatus } from './status-map.ts';
+import { findRouteScope, matchRoutePath } from './route-table.js';
+import { mapStatus } from './status-map.js';
 
 export { matchRoutePath };
 

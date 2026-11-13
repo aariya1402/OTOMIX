@@ -1,4 +1,4 @@
-import type { EffectivePermissionsInput, RoleAssignment, PermissionGrant, GroupPermGrant } from './types';
+import type { EffectivePermissionsInput } from './types';
 
 function isActive(revokedAt: Date | null, expiresAt: Date | null, now: Date): boolean {
   if (revokedAt !== null) return false;

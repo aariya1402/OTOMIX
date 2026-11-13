@@ -4,9 +4,9 @@ import {
   isChopGrid,
   isValidCrossfadeBeats,
   DspParameters,
-} from '../config/dsp-params.ts';
-import type { DspParametersStore } from '../store/dsp-parameters-store.ts';
-import { enqueueDspPropagation } from '../dsp-propagate.ts';
+} from '../config/dsp-params.js';
+import type { DspParametersStore } from '../store/dsp-parameters-store.js';
+import { enqueueDspPropagation } from '../dsp-propagate.js';
 
 export interface AuditPayload {
   actorId: string;

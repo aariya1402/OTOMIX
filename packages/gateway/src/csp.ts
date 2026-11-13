@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { CSP_DEFAULTS } from './constants.ts';
+import { CSP_DEFAULTS } from './constants.js';
 
 export interface CspConfig {
   scriptSrc?: string[];
