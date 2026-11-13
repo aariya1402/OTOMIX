@@ -1,6 +1,6 @@
 // OTOMIX §9.3 · Mother Add. §1–§2
 import { IncomingMessage, ServerResponse } from 'node:http';
-import { mapStatus } from '../status-map';
+import { mapStatus } from '../status-map.js';
 
 const STATE_MUTATING_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 

@@ -2,7 +2,7 @@
 // DSP parameter store. In-memory implementation for M01; Redis/DB
 // implementations come in later tasks.
 
-import type { DspParameters } from '../config/dsp-params.ts';
+import type { DspParameters } from '../config/dsp-params.js';
 
 export interface DspParametersStore {
   get(): Promise<DspParameters | null>;

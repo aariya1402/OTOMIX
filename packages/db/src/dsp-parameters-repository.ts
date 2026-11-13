@@ -1,6 +1,6 @@
 import { createHmac, randomUUID } from 'node:crypto';
 import type { Pool } from 'pg';
-import { withTenant, TenantId } from './with-tenant';
+import { withTenant, TenantId } from './with-tenant.js';
 
 export interface EnqueueDspPropagationInput {
   tenantId: TenantId;

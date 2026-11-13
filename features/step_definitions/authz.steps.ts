@@ -1,9 +1,8 @@
-// OTOMIX §7.1; GAP-015
 import { Given, When, Then } from '@cucumber/cucumber';
 import http from 'node:http';
 import request from 'supertest';
-import { createInterceptor } from '../../packages/gateway/src/interceptor.ts';
-import type { InterceptorDeps, TokenClaims } from '../../packages/gateway/src/interceptor.ts';
+import { createInterceptor } from '../../packages/gateway/dist/index.js';
+import type { InterceptorDeps, TokenClaims } from '../../packages/gateway/dist/index.js';
 
 Given('a user with permissions {string}', function (this: any, csv: string) {
   this.currentPermissions = csv.split(',').map(function (s) { return s.trim(); }).filter(function (s) { return s.length > 0; });
@@ -39,6 +38,6 @@ When('I send {string} to {string}', async function (this: any, method: string, p
 
 Then('the response status should be {int}', function (this: any, expected: number) {
   if (this.responseStatus !== expected) {
-    throw new Error('expected ' + expected + ' got ' + this.responseStatus + ' for ' + this.method + ' ' + this.path);
+    throw new Error('expected ' + expected + ' got ' + this.responseStatus);
   }
 });
