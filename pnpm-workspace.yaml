@@ -5,6 +5,7 @@ allowBuilds:
   '@bufbuild/buf': true
   cpu-features: false
   esbuild: true
+  ffmpeg-static: set this to true or false
   protobufjs: false
   ssh2: false
 

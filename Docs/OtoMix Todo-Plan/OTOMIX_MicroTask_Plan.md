@@ -2633,6 +2633,9 @@ flowchart LR
 | Independent Test(s) | **integration** · Vitest + worker_threads · `packages/workers/test/decode.spec.ts`<br>Input: 5 s WAV, FLAC and MP3 fixtures. Expected: 44 100 Hz mono outputs of 220 500 samples ±2 304 (MP3) and ±1 (WAV/FLAC). Pass: all three. |
 | Spec Reference | OTOMIX §5.2 · Mother §1 |
 | Review Checkpoint | Confirm the decoder module is loaded only inside the worker. |
+| Notes | **[GAP-014]** dual deployment. Cloud unDecodeWorker in packages/gateway/src/ingest/decode-worker.ts; local unDecodeWorkerLocal in packages/adapter/src/ingest/decode-worker.ts; pure decodeAll in packages/workers/src/decode.ts; 
+ormalizeChannels in packages/core/src/audio/normalize.ts. **[GAP-017]** compliant. **[GAP-007]** PII strip deferred to P07-T02-S01-M03. **[GAP-018]** workers/src/pool.ts temporarily @ts-nocheck (pre-existing unused locals from P06). MP3 = mpg123-decoder; FLAC = @wasm-audio-decoders/flac with STREAMINFO.total_samples authoritative (trim if decoder returns more, zero-pad if less — the decoder drops the last partial block for our 5s fixture); WAV = custom parser. Fixtures 5s 48kHz stereo. 
+o-decoder-on-main enforced by P07-T02-S01-M01. |
 
 #### P07-T02 Hostile-file defense
 

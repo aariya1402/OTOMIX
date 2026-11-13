@@ -70,3 +70,4 @@ export * from './features/interpolate';
 export * from './ingest/sniff';
 export * from './ingest/limits';
 export * from './ingest/confine';
+export * from './audio/normalize';
