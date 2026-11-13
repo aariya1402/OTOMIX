@@ -9,7 +9,7 @@
         "build": "pnpm -r build",
         "test": "vitest run",
         "lint": "pnpm -r lint",
-        "format": "pnpm -r format"
+        "format": "pnpm -r format",`r`n    "conftest:test": "node tools/scripts/conftest-check.js"
     },
     "keywords": [
         "otomix",
