@@ -67,3 +67,4 @@ export * from './vocal/nearest-instrumental';
 export * from './metrics';
 export * from './features/bpm-seed';
 export * from './features/interpolate';
+export * from './ingest/sniff';

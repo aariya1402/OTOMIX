@@ -176,9 +176,15 @@ importers:
       '@types/node':
         specifier: ^20.0.0
         version: 20.19.43
+      '@types/pg':
+        specifier: ^8.11.0
+        version: 8.23.1
       '@vitest/ui':
         specifier: ^1.0.0
         version: 1.6.1(vitest@1.6.1)
+      pg:
+        specifier: ^8.11.0
+        version: 8.23.1
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
@@ -231,6 +237,9 @@ importers:
 
   packages/gateway:
     dependencies:
+      '@otomix/core':
+        specifier: workspace:*
+        version: link:../core
       '@otomix/db':
         specifier: workspace:*
         version: link:../db

@@ -327,3 +327,9 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 ---
 
 **Last updated:** 2026-11-13 (GAP-015: dynamic RBAC added)
+### [GAP-016] [PHASE: P05, P06, P07] [MEDIUM] Core imports `pg` but does not declare it (pre-existing)
+- **Discovered:** 2026-11-13 (during P07-T01-S01-M01 core build).
+- **Evidence:** `packages/core/src/repository/global-features.ts` line 8 imports `'pg'`; `packages/core/package.json` declared neither `pg` nor `@types/pg`. `pnpm -F @otomix/core build` failed with `TS2307: Cannot find module 'pg'`.
+- **Root cause:** Pre-existing layering violation. `repository/` inside `core` references `pg` directly. `core` should stay platform-agnostic per `Local-First` and `Rule 26`. This file is not exported from `core/src/index.ts` barrel, so no runtime consumer.
+- **Pragmatic fix applied:** Added `pg` + `@types/pg` to `packages/core/devDependencies`. `tsc` passes; runtime unaffected (`repository/global-features.ts` is not exported).
+- **Proper fix (deferred):** Move `repository/global-features.ts` to `packages/db`, or refactor to accept a `pg.Pool` interface via DI so `core` stays pure. Schedule as a P05/P06 follow-up.

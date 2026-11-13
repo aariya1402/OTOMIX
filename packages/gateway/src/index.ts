@@ -15,3 +15,6 @@ export type { DspParameters, ChopGrid } from './config/dsp-params.js';
 
 export { createInterceptor, matchRoutePath } from './interceptor.js';
 export type { InterceptorDeps, TokenClaims, TokenVerifier, InterceptResult } from './interceptor.js';
+
+export { sniffForGateway } from './ingest/sniff.js';
+export type { SniffResult, SniffDeps } from './ingest/sniff.js';

@@ -2589,6 +2589,7 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/gateway/test/sniff.spec.ts`<br>Input: MP3 named .wav, FLAC named .mp3, WAV named .flac, random bytes. Expected: mp3, flac, wav, unknown; `ingest.ext_mismatch` logged 3 times. Pass: matches. |
 | Spec Reference | OTOMIX §5.2 · Mother §1 |
 | Review Checkpoint | Confirm no code path branches on `path.extname`. |
+| Notes | **[GAP-014]** dual deployment (cloud + local) per supplement GAP-014. Cloud wrapper sniffForGateway in packages/gateway/src/ingest/sniff.ts; local wrapper sniffForLocal in packages/adapter/src/ingest/sniff.ts; shared pure sniffContainer in packages/core/src/ingest/sniff.ts. [GAP-007] PII metadata stripping deferred to P07-T02-S01-M03. [GAP-016] core build unblocked by adding pg + @types/pg as devDeps (pre-existing layering issue). |
 
 ##### P07-T01-S02 Limits and path safety
 
