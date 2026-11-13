@@ -22,3 +22,10 @@ export {
   RefreshTokenRevokedError,
   RefreshTokenNotFoundError,
 } from './token/types';
+export {
+  denyJti,
+  denyFamily,
+  isDenied,
+  isFamilyDenied,
+  TokenRevokedError,
+} from './token/denylist';

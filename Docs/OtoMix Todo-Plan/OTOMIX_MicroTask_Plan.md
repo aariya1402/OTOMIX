@@ -2188,7 +2188,7 @@ flowchart LR
 
 ##### P06-T01-S02 Revocation
 
-###### P06-T01-S02-M01 — TODO
+###### P06-T01-S02-M01 — [x]
 
 | Field | Value |
 |---|---|

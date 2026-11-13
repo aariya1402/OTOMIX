@@ -18,6 +18,7 @@ export default defineWorkspace([
         '**/global-features.spec.ts',
         '**/rt-audit/test/audit.spec.ts',
         '**/token.refresh.spec.ts',
+        '**/token.denylist.spec.ts',
       ]
     }
   },
@@ -35,6 +36,7 @@ export default defineWorkspace([
         'packages/db/test/global-features.spec.ts',
         'tools/rt-audit/test/audit.spec.ts',
         'packages/access/test/token.refresh.spec.ts',
+        'packages/access/test/token.denylist.spec.ts',
         'packages/contracts/test/p01-it.spec.ts',
         'packages/contracts/test/x-p01-*.spec.ts'
       ],
