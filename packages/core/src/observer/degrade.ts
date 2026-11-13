@@ -1,5 +1,5 @@
 // OTOMIX §3.6 · Mother §2.6
-import { BUFFER_NORMAL, BUFFER_DEGRADED, STARVATION_FRAME_MS } from '../constants/timing';
+import { BUFFER_DEGRADED, STARVATION_FRAME_MS } from '../constants/timing';
 
 /**
  * Computes the next audio buffer size based on frame processing time.

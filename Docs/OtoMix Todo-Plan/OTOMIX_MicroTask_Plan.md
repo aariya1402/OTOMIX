@@ -3,6 +3,13 @@
 **Document:** `OTOMIX_MicroTask_Plan.md`  
 **Baseline:** `OTOMIX_Architecture_Spec.md` (OTOMIX-specific) and the Mother Document `Software_Arch_Spec__Main_.md` including its Engineering Delivery Addendum  
 **Citation convention:** `OTOMIX §x.y` cites `OTOMIX_Architecture_Spec.md`; `Mother §x.y` cites the Mother Document; `Add. §n` cites the Mother Document's Engineering Delivery Addendum.  
+**Addendum Note:** Some tasks are modified by owner decisions. See `OTOMIX_MicroTask_Plan_Addendum.md` for overrides. Look for the tag `[ADDENDUM OVERRIDE]` in the Notes column of specific tasks.
+
+**Supplement Note:** Known gaps, deferred decisions, technical gotchas, cross-phase conflicts, and unscheduled feature proposals are recorded in `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md`. **MUST** be consulted before starting any phase and after completing any phase. Items tagged `[BLOCKER]` must be resolved before the phase begins; `[ADVISORY]`/`[HIGH]`/`[MEDIUM]`/`[LOW]` items are informational. To find items for the current phase, search the supplement for `[PHASE: Pnn]` (e.g. `[PHASE: P06]`).
+
+**Dynamic RBAC Notice (2026-11-13):** A major architectural change has been approved and is documented in **`OTOMIX_MicroTask_Plan_Supplement.md` § GAP-015**. The static scope-list RBAC model used by `P06-T02-S01-M02`, `P06-T02-S01-M03`, `P06-T02-S02-M02`, `P06-T03-S01-M01`, `P06-T03-S01-M02`, and the blocked `P06-T02-S03-M01` is **superseded** by a dynamic model (permissions catalog + roles + direct grants + groups). The migration path is described in the supplement as `RBAC-M01` … `RBAC-M12`. **Before starting any `P06-T02` or `P06-T03` task, read the supplement § GAP-015.** Tasks in this plan whose `ID` appears in the supplement's "Existing plan tasks affected" table must NOT be resumed on their old scope.
+
+
 **Status values:** `TODO`, or `[BLOCKED: OWNER DECISION OQ-nn]` where the specification has a gap (see Open Questions). No task is marked DONE in this file.  
 **Spec-derived vs. added content:** a task's constraint comes from the cited section. Test tolerances written as 'default' in a test assertion are test parameters chosen here and are recorded in the task's Review Checkpoint; they are not specification requirements.
 
@@ -311,6 +318,8 @@ flowchart LR
 ## 3. Phase-by-Phase Breakdown
 
 <a id="p01"></a>
+
+> **Supplement Reminder (P01):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P01]`. Resolve any `[BLOCKER]` item before proceeding.
 
 ### P01 Foundation & Shared Contracts
 
@@ -682,6 +691,8 @@ flowchart LR
 
 <a id="p02"></a>
 
+> **Supplement Reminder (P02):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P02]`. Resolve any `[BLOCKER]` item before proceeding.
+
 ### P02 Beat-Index Engine & Absolute Locked Grid
 
 **Objective.** Implement the transient-independent Absolute Locked Grid: the t(i) mapping with drift and period bounds, hard anchor synchronization, piecewise variable-BPM grids, grid-lock failure recovery, anchor validation, negative-index pre-kick mapping, and the zero-RAM structural arithmetic with its proof harness. This phase is pure, deterministic, beat-unit logic with no audio I/O.
@@ -973,6 +984,8 @@ flowchart LR
 
 <a id="p03"></a>
 
+> **Supplement Reminder (P03):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P03]`. Resolve any `[BLOCKER]` item before proceeding.
+
 ### P03 Dual Grid & Runtime Observer
 
 **Objective.** Build the Attack Grid and Body Grid extractors, the Δϕ phase offset, the Body-to-Attack realignment curves, the asynchronous Runtime Observer, the groove classifier, and the Universal Transition Guarantee planner that turns grids into a never-cancelling transition plan. This phase produces plans and observer decisions; audio rendering of those plans is Phase 04.
@@ -1154,6 +1167,7 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/core/test/observer.scale.spec.ts`<br>Input: drift 3.9 ms, 4.1 ms, 50 ms sustained over 10 s. Expected: no change; scaling begins; slew ≤0.005/s and rate within [0.98,1.02]. Pass: all three. |
 | Spec Reference | OTOMIX §3.6 · Mother §2.6 |
 | Review Checkpoint | Check the clamp and slew use separate constants. |
+| Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T03-S01-M01`: Runtime drift realignment is FORBIDDEN. Grid must lock to kick during analysis only. |
 | Notes | Acceptance criterion tag: AC3 (implements); Related open question (non-blocking): OQ-04 |
 
 ###### P03-T04-S01-M03 — [x]
@@ -1254,6 +1268,7 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/core/test/transition.anchors.spec.ts`<br>Input: out track 200 s at 120 BPM, in track with negative pre-kick. Expected: T_in=Beat 1; T_out block starts at beat count−15 (inclusive 16 beats). Pass: indices match. |
 | Spec Reference | OTOMIX §3.9 · Mother §2.9 |
 | Review Checkpoint | Confirm the 16-beat constant is independent of the bar/beat decision OQ-02. |
+| Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T03-S02-M01`: Transition window is user-defined in UI. 16-bar is just a default in `AdminConfig`. |
 | Notes | Acceptance criterion tag: AC1 (implements); Related open question (non-blocking): OQ-02 |
 
 ###### P03-T06-S01-M02 — [x]
@@ -1349,6 +1364,8 @@ flowchart LR
 | `X-P03-P08` | P03→P08 | Stub the UI; call the planner with a library fixture of three tracks. | `packages/contracts/test/x-p03-p08.spec.ts` | Planner output carries `anchors` and `fallback` fields consumable by the MixPlan reducer's `transitionNode` type. Pass: type-check and one reducer round trip. |
 
 <a id="p04"></a>
+
+> **Supplement Reminder (P04):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P04]`. Resolve any `[BLOCKER]` item before proceeding.
 
 ### P04 DSP Port & Real-Time Safety
 
@@ -1775,6 +1792,8 @@ flowchart LR
 
 <a id="p05"></a>
 
+> **Supplement Reminder (P05):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P05]`. Resolve any `[BLOCKER]` item before proceeding.
+
 ### P05 Feature Extraction & Analysis Pipeline
 
 **Objective.** Implement the Abstract API Adapter (44.1 kHz mono normalization, JSON Schema/SemVer contracts, WASM memory discipline, crash/timeout fallback), compute and validate the Feature Registry v1.2 contents (seed BPM, energy, mixability, vocal map, interpolation, cache invalidation), and persist results transactionally under tenant isolation within the 2500 ms and <1.5x real-time budgets.
@@ -1802,7 +1821,7 @@ flowchart LR
 
 ##### P05-T01-S01 Input normalization
 
-###### P05-T01-S01-M01 — TODO
+###### P05-T01-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1813,10 +1832,11 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/adapter/test/normalize.spec.ts`<br>Input: 1 kHz sine, 48 kHz stereo, 2 s. Expected: 44 100 Hz mono, length 88 200±1, dominant frequency 1 000±0.5 Hz. Pass: all three. |
 | Spec Reference | OTOMIX §4.1 · Mother §3.1 |
 | Review Checkpoint | Confirm no per-call allocation beyond the output buffer. |
+| Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T01-S02-M01`: Must return stereo by default; `forceMono` from `AdminConfig`. |
 
 ##### P05-T01-S02 Contracts and versioning
 
-###### P05-T01-S02-M01 — TODO
+###### P05-T01-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1830,7 +1850,7 @@ flowchart LR
 
 ##### P05-T01-S03 Memory discipline and fallback
 
-###### P05-T01-S03-M01 — TODO
+###### P05-T01-S03-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1842,7 +1862,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.1; §4.6 · Mother §3.1; Add. §10 |
 | Review Checkpoint | Confirm `releaseResult` is in `finally`, not `catch`. |
 
-###### P05-T01-S03-M02 — TODO
+###### P05-T01-S03-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -1854,7 +1874,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.1; §10.4 · Mother §3.1; §8.2 |
 | Review Checkpoint | Plot heap vs iteration and confirm the series is flat. |
 
-###### P05-T01-S03-M03 — TODO
+###### P05-T01-S03-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -1872,7 +1892,7 @@ flowchart LR
 
 ##### P05-T02-S01 Tempo seed
 
-###### P05-T02-S01-M01 — TODO
+###### P05-T02-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1910,8 +1930,9 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/core/test/features.energy.spec.ts`<br>Input: components (1,0,0,0), (0,0,0,1), (0.5,0.5,0.5,0.5). Expected: 0.4, 0.1, 0.5. Pass: within 1e-9. |
 | Spec Reference | OTOMIX §4.3 · Mother §3.3 |
 | Review Checkpoint | Confirm weights come from `ENERGY_WEIGHTS`. |
+| Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T02-S01-M01`: Energy must be expanded (groove, polyphony, contrast) and weights from `AdminConfig`. |
 
-###### P05-T02-S02-M02 — TODO
+###### P05-T02-S02-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -1936,7 +1957,7 @@ flowchart LR
 | Review Checkpoint | Re-read §4.3 bullet 3. |
 | Notes | Blocked by: OQ-21 |
 
-###### P05-T02-S02-M04 — TODO
+###### P05-T02-S02-M04 — [x]
 
 | Field | Value |
 |---|---|
@@ -1960,6 +1981,7 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/core/test/features.mixability.spec.ts`<br>Input: components (1,1,1,1), (0.39,0.39,0.39,0.39), unknown-tempo fixture. Expected: M=1 mixable; M=0.39 unmixable; M=0 wildcard. Pass: matches. |
 | Spec Reference | OTOMIX §4.5 · Mother §3.5 |
 | Review Checkpoint | Check the 0.4 boundary is inclusive for 'mixable' (M≥0.4). |
+| Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T02-S02-M01` and `P05-ADD-T02-S03-M01`: Mixability is preference (NO gate). Camelot is the ONLY gate. |
 
 ###### P05-T02-S02-M06 — [BLOCKED: OWNER DECISION OQ-22]
 
@@ -1976,7 +1998,7 @@ flowchart LR
 
 ##### P05-T02-S03 Interpolation and cache
 
-###### P05-T02-S03-M01 — TODO
+###### P05-T02-S03-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1989,7 +2011,7 @@ flowchart LR
 | Review Checkpoint | Dataset provenance is open (OQ-23); confirm medians are injected. |
 | Notes | Related open question (non-blocking): OQ-23 |
 
-###### P05-T02-S03-M02 — TODO
+###### P05-T02-S03-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2007,7 +2029,7 @@ flowchart LR
 
 ##### P05-T03-S01 Vocal map construction
 
-###### P05-T03-S01-M01 — TODO
+###### P05-T03-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2019,7 +2041,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.4 · Mother §3.4 |
 | Review Checkpoint | Confirm the comparison is strict. |
 
-###### P05-T03-S01-M02 — TODO
+###### P05-T03-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2031,7 +2053,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.4 · Mother §3.4 |
 | Review Checkpoint | Confirm the window is 1 s of frames, not 1 frame. |
 
-###### P05-T03-S01-M03 — TODO
+###### P05-T03-S01-M03 — DEFERRED (TensorFlow)
 
 | Field | Value |
 |---|---|
@@ -2043,7 +2065,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.4; §4.7 · Mother §3.4; §3.1; Add. §10 |
 | Review Checkpoint | Confirm no retry loop beyond 3 retries. |
 
-###### P05-T03-S01-M04 — TODO
+###### P05-T03-S01-M04 — [x]
 
 | Field | Value |
 |---|---|
@@ -2072,8 +2094,9 @@ flowchart LR
 | Independent Test(s) | **integration** · Vitest + Testcontainers PostgreSQL · `packages/core/test/pipeline.extract.spec.ts`<br>Input: 3 fixtures; one forced DB failure after the row insert. Expected: 2 rows + 2 outbox events; the failed run leaves 0 rows. Pass: counts match. |
 | Spec Reference | OTOMIX §4.8; §9.5 · Mother §7; Add. §1–§2 |
 | Review Checkpoint | Confirm the transaction wraps both inserts. |
+| Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T06`: The pipeline must be asynchronous. API returns fallback instantly, background EnrichmentPipeline fills the global database via pluggable workers. |
 
-###### P05-T04-S01-M02 — TODO
+###### P05-T04-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2113,6 +2136,8 @@ flowchart LR
 
 <a id="p06"></a>
 
+> **Supplement Reminder (P06):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P06]`. Resolve any `[BLOCKER]` item before proceeding.
+
 ### P06 Security, RBAC & Tenant Isolation
 
 **Objective.** Deliver the JWT lifecycle with rotation and a Redis deny-list, scoped RBAC with explicit per-endpoint scopes and the OTOMIX issuable-scope allow-list, time-bound tier grants, tenant isolation beyond RLS (route non-exposure, per-tenant pools, keys and namespaces), browser/worker hardening, secrets and supply-chain controls, and the DSP parameter administration path with audit. It is placed before ingestion, UI and store phases because all of them expose scope-gated endpoints.
@@ -2140,7 +2165,7 @@ flowchart LR
 
 ##### P06-T01-S01 Issuance and rotation
 
-###### P06-T01-S01-M01 — TODO
+###### P06-T01-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2152,7 +2177,7 @@ flowchart LR
 | Spec Reference | OTOMIX §7.4 · Mother §8.3; Add. §6 |
 | Review Checkpoint | Confirm signing keys are fetched from Vault by `kid`. |
 
-###### P06-T01-S01-M02 — TODO
+###### P06-T01-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2166,7 +2191,7 @@ flowchart LR
 
 ##### P06-T01-S02 Revocation
 
-###### P06-T01-S02-M01 — TODO
+###### P06-T01-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2178,7 +2203,7 @@ flowchart LR
 | Spec Reference | OTOMIX §7.4 · Mother §8.3; Add. §6 |
 | Review Checkpoint | Confirm the check precedes scope evaluation. |
 
-###### P06-T01-S02-M02 — TODO
+###### P06-T01-S02-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2196,7 +2221,7 @@ flowchart LR
 
 ##### P06-T02-S01 Scope registry and enforcement
 
-###### P06-T02-S01-M01 — TODO
+###### P06-T02-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2209,7 +2234,7 @@ flowchart LR
 | Review Checkpoint | Read the registry against the §9.10 endpoint table. |
 | Notes | Acceptance criterion tag: AC4 (implements); Related open question (non-blocking): OQ-14 |
 
-###### P06-T02-S01-M02 — TODO
+###### P06-T02-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2222,7 +2247,7 @@ flowchart LR
 | Review Checkpoint | Compare with the §7.11 table. |
 | Notes | Acceptance criterion tag: AC4 (implements) |
 
-###### P06-T02-S01-M03 — TODO
+###### P06-T02-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -2237,7 +2262,7 @@ flowchart LR
 
 ##### P06-T02-S02 Escalation and BDD verification
 
-###### P06-T02-S02-M01 — TODO
+###### P06-T02-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2249,7 +2274,7 @@ flowchart LR
 | Spec Reference | OTOMIX §7.1 · Mother §5.1 |
 | Review Checkpoint | Confirm retries follow the 3-retry maximum. |
 
-###### P06-T02-S02-M02 — TODO
+###### P06-T02-S02-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2524,6 +2549,8 @@ flowchart LR
 
 <a id="p07"></a>
 
+> **Supplement Reminder (P07):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P07]`. Resolve any `[BLOCKER]` item before proceeding.
+
 ### P07 Local Ingestion & Hostile-File Handling
 
 **Objective.** Implement the OTOMIX local-file ingestion path: content-based format detection, size/duration limits, directory confinement, sandboxed decoding and normalization, rejection and fuzz-testing of hostile containers, content-hash de-duplication, the scope-gated idempotent ingest endpoint with a single-transaction commit, rate limiting, and dead-letter handling with idempotent replay.
@@ -2793,6 +2820,8 @@ flowchart LR
 
 <a id="p08"></a>
 
+> **Supplement Reminder (P08):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P08]`. Resolve any `[BLOCKER]` item before proceeding.
+
 ### P08 MixPlan, UI & Redux Architecture
 
 **Objective.** Build the catalog endpoint and the React/Redux client: normalized library and ordered queue state, the two-column selector with skeleton and empty states, the Starter Track warning, the MixPlan generator (weighted recommendation, tie-breaks, vocal-gated offsets, PlanTransition calls), waveform canvas overlays for vocal zones and pre-kick offsets, and Mix Preview wired to the Runtime Observer through the DSP port.
@@ -2948,6 +2977,7 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/ui/test/mixplan.score.spec.ts`<br>Input: components (1,0,0), (0,1,0), (0,0,1). Expected: 0.6, 0.3, 0.1. Pass: within 1e-9. |
 | Spec Reference | OTOMIX §4.9 · Mother §6; Add. §11 |
 | Review Checkpoint | Confirm weights come from `RECO_WEIGHTS`. |
+| Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T02-S04-M01`: Must use `compatibility_score` and `camelot` as a hard gate, not a weighted score. |
 
 ###### P08-T04-S01-M03 — [BLOCKED: OWNER DECISION OQ-24]
 
@@ -3086,6 +3116,8 @@ flowchart LR
 | `X-P08-P11` | P08→P11 | Stub the corpus; run the MixPlan generator headlessly over a pair. | `packages/contracts/test/x-p08-p11.spec.ts` | Generator runs without a DOM and returns a plan object with `rung`, `anchors`, `window_beats` that the determinism runner can consume. Pass: fields present for 5 pairs. |
 
 <a id="p09"></a>
+
+> **Supplement Reminder (P09):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P09]`. Resolve any `[BLOCKER]` item before proceeding.
 
 ### P09 XML Export & Set Shop
 
@@ -3396,6 +3428,8 @@ flowchart LR
 | `X-P09-P11` | P09→P11 | Stub the full acceptance runner; export the §10.9 test inventory. | `packages/contracts/test/x-p09-p11.spec.ts` | Every OTOMIX §10.9 row for export/store/publisher maps to an existing test file path. Pass: 0 unmapped rows. |
 
 <a id="p10"></a>
+
+> **Supplement Reminder (P10):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P10]`. Resolve any `[BLOCKER]` item before proceeding.
 
 ### P10 Observability, Deployment & DR
 
@@ -3710,6 +3744,8 @@ flowchart LR
 | `X-P10-P11` | P10→P11 | Stub the acceptance runner; expose release-gate definitions. | `packages/contracts/test/x-p10-p11.spec.ts` | Release gates (5xx >1%/5 min, audio failure >0.1%, CVSS ≥7.0, extraction >2500 ms) are exported as machine-readable config the acceptance runner can evaluate. Pass: 4 gates parse with numeric thresholds. |
 
 <a id="p11"></a>
+
+> **Supplement Reminder (P11):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P11]`. Resolve any `[BLOCKER]` item before proceeding.
 
 ### P11 Hardening, Determinism Proof & Acceptance
 

@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unhardened
+  namespace: otomix
+spec:
+  selector:
+    matchLabels: { app: unhardened }
+  template:
+    metadata:
+      labels: { app: unhardened }
+    spec:
+      hostNetwork: true
+      hostPID: true
+      hostIPC: true
+      containers:
+        - name: app
+          image: unhardened:latest

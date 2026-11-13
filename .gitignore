@@ -15,3 +15,4 @@ MP3/
 
 # Design assets — not for version control
 Logo/
+features/authz.feature

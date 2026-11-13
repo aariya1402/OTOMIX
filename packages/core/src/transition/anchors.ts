@@ -48,7 +48,7 @@ export function computeTransitionAnchors(
     throw new Error(`Invalid outgoing beat index: ${outBeatIndex}`);
   }
 
-  const tOutSeconds = tOfI(beatIndexResult.value, outgoing.T0, outgoing.bpmSeed, 0);
+  const tOutSeconds = tOfI(beatIndexResult.value, outgoing.T0, outgoing.bpmSeed as unknown as import('../types/bpm').BPM, 0);
 
   return { tInSeconds, tOutSeconds, inBeatIndex, outBeatIndex };
 }

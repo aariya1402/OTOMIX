@@ -8,6 +8,7 @@
 export const WASM_HEAP_MB = 512;
 export const ACCESS_TTL_MIN = 15;
 export const REFRESH_TTL_DAYS = 7;
+export const RBAC_CACHE_TTL_SECONDS = 60;
 export const KEY_ROTATION_DAYS = 90;
 export const IDEMPOTENCY_TTL_H = 24;
 export const MAX_RETRIES = 3;
@@ -26,3 +27,7 @@ export const ACCESS_CONSTANTS = Object.freeze({
   RTO_MIN,
   SLO,
 });
+
+export const AES_KEY_BYTES = 32;
+export const GCM_IV_BYTES = 12;
+export const GCM_TAG_BYTES = 16;

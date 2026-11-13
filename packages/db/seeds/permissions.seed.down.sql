@@ -1,0 +1,1 @@
+-- Down: NO-OP. Seed data should not be removed by rollback. Use targeted DELETE for GDPR takedown.
