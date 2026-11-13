@@ -290,7 +290,7 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 | `RBAC-M06` ✅ DONE (2026-11-13) | Redis cache TTL 60s + LISTEN/NOTIFY invalidation. | RBAC-M05 |
 | `RBAC-M07` ✅ DONE (2026-11-13) | Bootstrap super_admin + regular_user. | RBAC-M04 |
 | `RBAC-M08` ✅ DONE (2026-11-13) | Group CRUD + time-bound group perms. | RBAC-M04 |
-| `RBAC-M09` | Expiry test frozen clock T-1/T/T+1. | RBAC-M05 |
+| `RBAC-M09` ✅ DONE (2026-11-13) | Expiry test frozen clock T-1/T/T+1. | RBAC-M05 |
 | `RBAC-M10` | Drop scopes[]/tier from token. | RBAC-M07 |
 | `RBAC-M11` | Rewrite interceptor; delete scope-allowlist. | RBAC-M10, RBAC-M06 |
 | `RBAC-M12` | Rewrite Cucumber from dynamic catalog. | RBAC-M11 |

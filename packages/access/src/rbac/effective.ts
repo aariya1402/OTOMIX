@@ -3,7 +3,7 @@ import type { EffectivePermissionsInput, RoleAssignment, PermissionGrant, GroupP
 function isActive(revokedAt: Date | null, expiresAt: Date | null, now: Date): boolean {
   if (revokedAt !== null) return false;
   if (expiresAt === null) return true;
-  return expiresAt.getTime() > now.getTime();
+  return expiresAt.getTime() >= now.getTime();
 }
 
 export function computeEffectivePermissions(input: EffectivePermissionsInput): Set<string> {
