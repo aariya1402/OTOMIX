@@ -18,3 +18,6 @@ export type { InterceptorDeps, TokenClaims, TokenVerifier, InterceptResult } fro
 
 export { sniffForGateway } from './ingest/sniff.js';
 export type { SniffResult, SniffDeps } from './ingest/sniff.js';
+
+export { createSizeLimitMiddleware } from './ingest/limits.js';
+export type { SizeLimitDeps } from './ingest/limits.js';

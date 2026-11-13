@@ -68,3 +68,4 @@ export * from './metrics';
 export * from './features/bpm-seed';
 export * from './features/interpolate';
 export * from './ingest/sniff';
+export * from './ingest/limits';
