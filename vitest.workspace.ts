@@ -47,6 +47,7 @@ export default defineWorkspace([
         'packages/access/test/token.denylist.spec.ts',
         'packages/access/test/token.revoke-user.spec.ts',
         'packages/access/test/audit.spec.ts',
+        'packages/gateway/test/dsp-propagate.spec.ts',
         'packages/contracts/test/p01-it.spec.ts',
         'packages/contracts/test/x-p01-*.spec.ts'
       ],

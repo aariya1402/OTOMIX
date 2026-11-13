@@ -1,10 +1,12 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
+import type { Pool } from 'pg';
 import {
   isChopGrid,
   isValidCrossfadeBeats,
   DspParameters,
 } from '../config/dsp-params.ts';
 import type { DspParametersStore } from '../store/dsp-parameters-store.ts';
+import { enqueueDspPropagation } from '../dsp-propagate.ts';
 
 export interface AuditPayload {
   actorId: string;
@@ -16,6 +18,8 @@ export interface AuditPayload {
 export interface DspParametersHandlerDeps {
   store: DspParametersStore;
   audit?: (payload: AuditPayload) => Promise<void>;
+  pool?: Pool;
+  hmacSecret?: string;
 }
 
 function readBody(req: IncomingMessage): Promise<unknown> {
@@ -45,12 +49,8 @@ export function createDspParametersHandler(deps: DspParametersHandlerDeps) {
         return;
       }
       let body: any;
-      try {
-        body = await readBody(req);
-      } catch {
-        sendJson(res, 400, { error: 'INVALID_ARGUMENT', message: 'invalid JSON body' });
-        return;
-      }
+      try { body = await readBody(req); }
+      catch { sendJson(res, 400, { error: 'INVALID_ARGUMENT', message: 'invalid JSON body' }); return; }
       if (body === null || typeof body !== 'object') {
         sendJson(res, 400, { error: 'INVALID_ARGUMENT', message: 'body must be an object' });
         return;
@@ -60,33 +60,37 @@ export function createDspParametersHandler(deps: DspParametersHandlerDeps) {
         return;
       }
       if (!isValidCrossfadeBeats(body.chopGrid, body.crossfadeBeats)) {
-        sendJson(res, 400, {
-          error: 'INVALID_ARGUMENT',
-          message: 'crossfadeBeats must be a positive number within the chopGrid bound',
-        });
+        sendJson(res, 400, { error: 'INVALID_ARGUMENT', message: 'crossfadeBeats must be a positive number within the chopGrid bound' });
         return;
       }
       const before = await deps.store.get();
-      const params: DspParameters = {
-        chopGrid: body.chopGrid,
-        crossfadeBeats: body.crossfadeBeats,
-      };
-      await deps.store.set(params);
+      const params: DspParameters = { chopGrid: body.chopGrid, crossfadeBeats: body.crossfadeBeats };
+
+      const claims = (req as any).claims as { sub?: string; tenant_id?: string } | undefined;
+      const actorId = claims?.sub ?? 'unknown';
+      const tenantId = claims?.tenant_id ?? 'unknown';
+
+      if (deps.pool && deps.hmacSecret) {
+        await enqueueDspPropagation(deps.pool, {
+          tenantId: tenantId as 'otomix' | 'otodj',
+          chopGrid: params.chopGrid,
+          crossfadeBeats: params.crossfadeBeats,
+          before,
+          actorId,
+          hmacSecret: deps.hmacSecret,
+        });
+      } else {
+        await deps.store.set(params);
+      }
+
       if (deps.audit) {
-        const claims = (req as any).claims as { sub?: string; tenant_id?: string } | undefined;
-        const actorId = claims?.sub ?? 'unknown';
-        const tenantId = claims?.tenant_id ?? 'unknown';
         try {
           await deps.audit({
-            actorId,
-            tenantId,
+            actorId, tenantId,
             action: 'dsp.parameters.update',
             detail: { before, after: params },
           });
-        } catch {
-          // M02: audit failure must not fail the request.
-          // M03 (outbox) makes this atomic.
-        }
+        } catch { /* swallowed in M02 */ }
       }
       sendJson(res, 200, { ok: true, params });
     } catch (err) {
