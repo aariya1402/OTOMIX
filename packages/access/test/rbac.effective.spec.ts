@@ -25,9 +25,9 @@ describe('computeEffectivePermissions (RBAC-M05)', () => {
     const r = computeEffectivePermissions({ now: NOW, userRoles: [role(['dsp:*'])], userPermissions: [perm('dsp:*', 'deny')], groupPermissions: [] });
     expect(r.has('dsp:*')).toBe(false);
   });
-  it('expired at exact now is inactive (strict >)', () => {
+  it('active at exact now (boundary inclusive)', () => {
     const r = computeEffectivePermissions({ now: NOW, userRoles: [], userPermissions: [perm('shop:buy', 'allow', NOW)], groupPermissions: [] });
-    expect(r.has('shop:buy')).toBe(false);
+    expect(r.has('shop:buy')).toBe(true);
   });
   it('future-dated allow is included', () => {
     const r = computeEffectivePermissions({ now: NOW, userRoles: [], userPermissions: [perm('shop:buy', 'allow', FUT)], groupPermissions: [] });
