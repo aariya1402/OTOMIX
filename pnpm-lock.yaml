@@ -121,6 +121,9 @@ importers:
 
   packages/contracts:
     dependencies:
+      '@otomix/access':
+        specifier: workspace:*
+        version: link:../access
       '@otomix/core':
         specifier: workspace:*
         version: link:../core
@@ -131,15 +134,36 @@ importers:
         specifier: workspace:*
         version: link:../gateway
     devDependencies:
+      '@testcontainers/postgresql':
+        specifier: ^12.2.1
+        version: 12.2.1(bare-buffer@3.7.1)(supports-color@7.2.0)
+      '@testcontainers/redis':
+        specifier: ^12.2.1
+        version: 12.2.1(bare-buffer@3.7.1)(supports-color@7.2.0)
       '@types/node':
         specifier: ^20.0.0
         version: 20.19.43
+      '@types/pg':
+        specifier: ^8.23.1
+        version: 8.23.1
+      '@types/supertest':
+        specifier: ^7.2.1
+        version: 7.2.1
       '@vitest/ui':
         specifier: ^1.0.0
         version: 1.6.1(vitest@1.6.1)
       ajv:
         specifier: ^8.12.0
         version: 8.20.0
+      ioredis:
+        specifier: ^6.0.0
+        version: 6.0.0(supports-color@7.2.0)
+      pg:
+        specifier: ^8.23.1
+        version: 8.23.1
+      supertest:
+        specifier: ^7.3.2
+        version: 7.3.2(supports-color@7.2.0)
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
