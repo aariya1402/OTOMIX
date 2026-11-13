@@ -289,6 +289,9 @@ importers:
       '@otomix/contracts':
         specifier: workspace:*
         version: link:../contracts
+      '@otomix/core':
+        specifier: workspace:*
+        version: link:../core
     devDependencies:
       '@types/node':
         specifier: ^20.0.0
