@@ -39,6 +39,7 @@ export default defineWorkspace([
         'packages/access/test/rbac.grant-service.spec.ts',
         'packages/access/test/rbac.cache.spec.ts',
         'packages/access/test/rbac.bootstrap.spec.ts',
+        'packages/access/test/rbac.groups.spec.ts',
         'packages/gateway/test/idem-store.spec.ts',
         'packages/db/test/global-features.spec.ts',
         'tools/rt-audit/test/audit.spec.ts',
