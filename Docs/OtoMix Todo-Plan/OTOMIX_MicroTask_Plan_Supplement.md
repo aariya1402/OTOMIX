@@ -293,7 +293,7 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 | `RBAC-M09` ✅ DONE (2026-11-13) | Expiry test frozen clock T-1/T/T+1. | RBAC-M05 |
 | `RBAC-M10` ✅ DONE (2026-11-13) | Drop scopes[]/tier from token. | RBAC-M07 |
 | `RBAC-M11` ✅ DONE (2026-11-13) | Rewrite interceptor; delete scope-allowlist. | RBAC-M10, RBAC-M06 |
-| `RBAC-M12` | Rewrite Cucumber from dynamic catalog. | RBAC-M11 |
+| `RBAC-M12` ✅ DONE (2026-11-13) | Rewrite Cucumber from dynamic catalog. | RBAC-M11 |
 
 **Existing plan tasks affected (in supplement, NOT in plan):**
 
@@ -313,6 +313,8 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 
 **Execution order:** Start at `RBAC-M01`. Do NOT resume `P06-T02-S03-*` or `P06-T03-*` on their old scope.
 
+
+**P06 STATUS:** ✅ COMPLETE (2026-11-13, RBAC-M12). All 12 RBAC tasks and all 9 original P06-T01/T02 tasks done. Superseded tasks (T02-S01-M02/M03, T02-S02-M02, T02-S03-M01, T03-S01-M01/M02) replaced by RBAC-M10/M11/M12/M05. Next phase: P07 (Local Ingestion + Cloud Ingestion per GAP-014).
 
 ## Maintenance Rules
 

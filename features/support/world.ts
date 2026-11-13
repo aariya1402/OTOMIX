@@ -1,5 +1,4 @@
-// OTOMIX §7.1; §7.11
-// @cucumber/cucumber v13 does not export IWorldOptions; use a plain shape.
+// OTOMIX §7.1; GAP-015
 import { setWorldConstructor, World } from '@cucumber/cucumber';
 
 interface WorldOptionsLike {
@@ -9,7 +8,7 @@ interface WorldOptionsLike {
 }
 
 export class AuthzWorld extends World {
-  role = '';
+  currentPermissions: string[] = [];
   method = '';
   path = '';
   responseStatus = 0;

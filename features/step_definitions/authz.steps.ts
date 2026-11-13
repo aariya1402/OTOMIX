@@ -1,51 +1,44 @@
-// OTOMIX §7.1; §7.11
+// OTOMIX §7.1; GAP-015
 import { Given, When, Then } from '@cucumber/cucumber';
 import http from 'node:http';
 import request from 'supertest';
 import { createInterceptor } from '../../packages/gateway/src/interceptor.ts';
-import type { TokenClaims } from '../../packages/gateway/src/interceptor.ts';;
+import type { InterceptorDeps, TokenClaims } from '../../packages/gateway/src/interceptor.ts';
 
-const ROLE_SCOPES: Record<string, string[]> = {
-  'Audio DSP Admin': ['dsp:*', 'audio:tuning', 'mastering:*'],
-  'Content & Licensing Admin': ['catalog:*'],
-  'System Admin': ['sys:*', 'users:*', 'billing:*'],
-  'End User': ['user:read', 'local:process'],
-};
+Given('a user with permissions {string}', function (this: any, csv: string) {
+  this.currentPermissions = csv.split(',').map(function (s) { return s.trim(); }).filter(function (s) { return s.length > 0; });
+});
 
-Given('a token for role {string}', function (this: any, role: string) {
-  this.role = role;
+Given('a user with no permissions', function (this: any) {
+  this.currentPermissions = [];
 });
 
 When('I send {string} to {string}', async function (this: any, method: string, path: string) {
-  const scopes = ROLE_SCOPES[this.role] ?? [];
   const claims: TokenClaims = {
     sub: 'authz-sub',
     tenant_id: 'otomix',
-    scopes,
-    tier: 1,
     jti: 'authz-jti',
     iat: 0,
     exp: 0,
   };
-  const interceptor = createInterceptor({
-    verifyToken: { verify: async () => claims },
-    isDenied: async () => false,
+  const perms = new Set<string>(this.currentPermissions);
+  const deps: InterceptorDeps = {
+    verifyToken: { verify: async function () { return claims; } },
+    isDenied: async function () { return false; },
+    getEffectivePermissions: async function () { return perms; },
     expectedTenantId: 'otomix',
-  });
+  };
+  const interceptor = createInterceptor(deps);
   const server = http.createServer(function (req, res) {
-    interceptor(req, res, function () {
-      res.statusCode = 200;
-      res.end('ok');
-    });
+    interceptor(req, res, function () { res.statusCode = 200; res.end('ok'); });
   });
   const client = request(server) as any;
-  const m = method.toLowerCase();
-  const res = await client[m](path).set('Authorization', 'Bearer token-x');
+  const res = await client[method.toLowerCase()](path).set('Authorization', 'Bearer token-x');
   this.responseStatus = res.status;
 });
 
 Then('the response status should be {int}', function (this: any, expected: number) {
   if (this.responseStatus !== expected) {
-    throw new Error('expected status ' + expected + ' but got ' + this.responseStatus + ' for ' + this.method + ' ' + this.path);
+    throw new Error('expected ' + expected + ' got ' + this.responseStatus + ' for ' + this.method + ' ' + this.path);
   }
 });
