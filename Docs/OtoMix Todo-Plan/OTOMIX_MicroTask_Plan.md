@@ -2617,6 +2617,7 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/gateway/test/confine.spec.ts`<br>Input: '../../etc/passwd', symlink pointing outside root, nested valid path. Expected: rejected, rejected, accepted. Pass: matches. |
 | Spec Reference | OTOMIX §5.2 · Mother §1 |
 | Review Checkpoint | Resolve paths with `realpath` before comparison. |
+| Notes | **[GAP-014]** dual deployment (cloud + local) per supplement GAP-014. Cloud wrapper confineForGateway in packages/gateway/src/ingest/confine.ts uses s.realpathSync + isWithinRoot; rejects traversal and symlink escape with INVALID_ARGUMENT (reason TRAVERSAL/SYMLINK_ESCAPE/NOT_FOUND). Local wrapper confineForLocal in packages/adapter/src/ingest/confine.ts validates HandleLike shape (File System Access API guarantees descent from picked directory). Pure predicate isWithinRoot in packages/core/src/ingest/confine.ts (no path module, forward-slash normalised, case-sensitive). **[GAP-017]** logging via logger.log({level:'warn',event:'ingest.confine_rejected',...}). TOCTOU between ealpathSync and file open is accepted per §5.3 threat model. |
 
 ##### P07-T01-S03 Decoding
 

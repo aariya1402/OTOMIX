@@ -21,3 +21,6 @@ export type { SniffResult, SniffDeps } from './ingest/sniff.js';
 
 export { createSizeLimitMiddleware } from './ingest/limits.js';
 export type { SizeLimitDeps } from './ingest/limits.js';
+
+export { confineForGateway } from './ingest/confine.js';
+export type { ConfineResult, ConfineDeps, ConfineReason } from './ingest/confine.js';
