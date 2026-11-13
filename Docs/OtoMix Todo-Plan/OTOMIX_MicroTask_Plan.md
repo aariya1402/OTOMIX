@@ -2244,7 +2244,7 @@ flowchart LR
 | Review Checkpoint | Compare with the §7.11 table. |
 | Notes | Acceptance criterion tag: AC4 (implements) |
 
-###### P06-T02-S01-M03 — TODO
+###### P06-T02-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
