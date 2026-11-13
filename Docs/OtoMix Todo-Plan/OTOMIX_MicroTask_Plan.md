@@ -4,6 +4,9 @@
 **Baseline:** `OTOMIX_Architecture_Spec.md` (OTOMIX-specific) and the Mother Document `Software_Arch_Spec__Main_.md` including its Engineering Delivery Addendum  
 **Citation convention:** `OTOMIX §x.y` cites `OTOMIX_Architecture_Spec.md`; `Mother §x.y` cites the Mother Document; `Add. §n` cites the Mother Document's Engineering Delivery Addendum.  
 **Addendum Note:** Some tasks are modified by owner decisions. See `OTOMIX_MicroTask_Plan_Addendum.md` for overrides. Look for the tag `[ADDENDUM OVERRIDE]` in the Notes column of specific tasks.
+
+**Supplement Note:** Known gaps, deferred decisions, technical gotchas, cross-phase conflicts, and unscheduled feature proposals are recorded in `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md`. **MUST** be consulted before starting any phase and after completing any phase. Items tagged `[BLOCKER]` must be resolved before the phase begins; `[ADVISORY]`/`[HIGH]`/`[MEDIUM]`/`[LOW]` items are informational. To find items for the current phase, search the supplement for `[PHASE: Pnn]` (e.g. `[PHASE: P06]`).
+
 **Status values:** `TODO`, or `[BLOCKED: OWNER DECISION OQ-nn]` where the specification has a gap (see Open Questions). No task is marked DONE in this file.  
 **Spec-derived vs. added content:** a task's constraint comes from the cited section. Test tolerances written as 'default' in a test assertion are test parameters chosen here and are recorded in the task's Review Checkpoint; they are not specification requirements.
 
@@ -312,6 +315,8 @@ flowchart LR
 ## 3. Phase-by-Phase Breakdown
 
 <a id="p01"></a>
+
+> **Supplement Reminder (P01):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P01]`. Resolve any `[BLOCKER]` item before proceeding.
 
 ### P01 Foundation & Shared Contracts
 
@@ -683,6 +688,8 @@ flowchart LR
 
 <a id="p02"></a>
 
+> **Supplement Reminder (P02):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P02]`. Resolve any `[BLOCKER]` item before proceeding.
+
 ### P02 Beat-Index Engine & Absolute Locked Grid
 
 **Objective.** Implement the transient-independent Absolute Locked Grid: the t(i) mapping with drift and period bounds, hard anchor synchronization, piecewise variable-BPM grids, grid-lock failure recovery, anchor validation, negative-index pre-kick mapping, and the zero-RAM structural arithmetic with its proof harness. This phase is pure, deterministic, beat-unit logic with no audio I/O.
@@ -973,6 +980,8 @@ flowchart LR
 | `X-P02-P03` | P02→P03 | Stub only the Attack/Body grid extractors; feed P02 `GridAnchor` objects to the dual-grid combiner. | `packages/contracts/test/x-p02-p03.spec.ts` | Dual-grid combiner accepts `GridAnchor {beat_index, t0_seconds, drift_seconds}` produced by `tOfI` for i in {-3,-1,1,17} and rejects beat_index 0. Pass: 4 accepted, 1 rejected. |
 
 <a id="p03"></a>
+
+> **Supplement Reminder (P03):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P03]`. Resolve any `[BLOCKER]` item before proceeding.
 
 ### P03 Dual Grid & Runtime Observer
 
@@ -1352,6 +1361,8 @@ flowchart LR
 | `X-P03-P08` | P03→P08 | Stub the UI; call the planner with a library fixture of three tracks. | `packages/contracts/test/x-p03-p08.spec.ts` | Planner output carries `anchors` and `fallback` fields consumable by the MixPlan reducer's `transitionNode` type. Pass: type-check and one reducer round trip. |
 
 <a id="p04"></a>
+
+> **Supplement Reminder (P04):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P04]`. Resolve any `[BLOCKER]` item before proceeding.
 
 ### P04 DSP Port & Real-Time Safety
 
@@ -1778,6 +1789,8 @@ flowchart LR
 
 <a id="p05"></a>
 
+> **Supplement Reminder (P05):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P05]`. Resolve any `[BLOCKER]` item before proceeding.
+
 ### P05 Feature Extraction & Analysis Pipeline
 
 **Objective.** Implement the Abstract API Adapter (44.1 kHz mono normalization, JSON Schema/SemVer contracts, WASM memory discipline, crash/timeout fallback), compute and validate the Feature Registry v1.2 contents (seed BPM, energy, mixability, vocal map, interpolation, cache invalidation), and persist results transactionally under tenant isolation within the 2500 ms and <1.5x real-time budgets.
@@ -2119,6 +2132,8 @@ flowchart LR
 | `X-P05-P08` | P05→P08 | Stub the UI; give the library reducer a registry list produced by the orchestrator. | `packages/contracts/test/x-p05-p08.spec.ts` | Library slice normalizes registry rows into `byId`/`allIds`, excluding rows with `mixability.class='unmixable'` from the selectable set. Pass: counts match fixtures. |
 
 <a id="p06"></a>
+
+> **Supplement Reminder (P06):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P06]`. Resolve any `[BLOCKER]` item before proceeding.
 
 ### P06 Security, RBAC & Tenant Isolation
 
@@ -2531,6 +2546,8 @@ flowchart LR
 
 <a id="p07"></a>
 
+> **Supplement Reminder (P07):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P07]`. Resolve any `[BLOCKER]` item before proceeding.
+
 ### P07 Local Ingestion & Hostile-File Handling
 
 **Objective.** Implement the OTOMIX local-file ingestion path: content-based format detection, size/duration limits, directory confinement, sandboxed decoding and normalization, rejection and fuzz-testing of hostile containers, content-hash de-duplication, the scope-gated idempotent ingest endpoint with a single-transaction commit, rate limiting, and dead-letter handling with idempotent replay.
@@ -2799,6 +2816,8 @@ flowchart LR
 | `X-P07-P11` | P07→P11 | Stub the full pipeline; export the hostile-file corpus manifest. | `packages/contracts/test/x-p07-p11.spec.ts` | Corpus manifest lists ≥1 file per hostile class (truncated frame, oversized chunk, recursive tag, extension mismatch) and the determinism runner can load it. Pass: 4 classes present. |
 
 <a id="p08"></a>
+
+> **Supplement Reminder (P08):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P08]`. Resolve any `[BLOCKER]` item before proceeding.
 
 ### P08 MixPlan, UI & Redux Architecture
 
@@ -3094,6 +3113,8 @@ flowchart LR
 | `X-P08-P11` | P08→P11 | Stub the corpus; run the MixPlan generator headlessly over a pair. | `packages/contracts/test/x-p08-p11.spec.ts` | Generator runs without a DOM and returns a plan object with `rung`, `anchors`, `window_beats` that the determinism runner can consume. Pass: fields present for 5 pairs. |
 
 <a id="p09"></a>
+
+> **Supplement Reminder (P09):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P09]`. Resolve any `[BLOCKER]` item before proceeding.
 
 ### P09 XML Export & Set Shop
 
@@ -3404,6 +3425,8 @@ flowchart LR
 | `X-P09-P11` | P09→P11 | Stub the full acceptance runner; export the §10.9 test inventory. | `packages/contracts/test/x-p09-p11.spec.ts` | Every OTOMIX §10.9 row for export/store/publisher maps to an existing test file path. Pass: 0 unmapped rows. |
 
 <a id="p10"></a>
+
+> **Supplement Reminder (P10):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P10]`. Resolve any `[BLOCKER]` item before proceeding.
 
 ### P10 Observability, Deployment & DR
 
@@ -3718,6 +3741,8 @@ flowchart LR
 | `X-P10-P11` | P10→P11 | Stub the acceptance runner; expose release-gate definitions. | `packages/contracts/test/x-p10-p11.spec.ts` | Release gates (5xx >1%/5 min, audio failure >0.1%, CVSS ≥7.0, extraction >2500 ms) are exported as machine-readable config the acceptance runner can evaluate. Pass: 4 gates parse with numeric thresholds. |
 
 <a id="p11"></a>
+
+> **Supplement Reminder (P11):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P11]`. Resolve any `[BLOCKER]` item before proceeding.
 
 ### P11 Hardening, Determinism Proof & Acceptance
 
