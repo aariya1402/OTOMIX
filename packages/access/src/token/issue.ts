@@ -1,6 +1,7 @@
 import { SignJWT } from 'jose';
 import { randomUUID } from 'node:crypto';
 import { ACCESS_TTL_MIN } from '../constants';
+import { assertIssuable } from '../scope-allowlist';
 import {
   AccessTokenClaims,
   AccessTokenIssueInput,
@@ -24,6 +25,8 @@ export async function issueAccessToken(
   if (!Array.isArray(input.scopes) || input.scopes.length === 0) {
     throw new TokenIssuanceError('scopes must be a non-empty array');
   }
+
+  assertIssuable(input.scopes, input.tenantId);
 
   const kid = await vaultClient.getCurrentKid();
   if (!kid) {

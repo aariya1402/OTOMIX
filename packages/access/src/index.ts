@@ -30,3 +30,9 @@ export {
   TokenRevokedError,
 } from './token/denylist';
 export { revokeUser } from './token/revoke-user';
+export {
+  OTOMIX_ISSUABLE_SCOPES,
+  isIssuable,
+  assertIssuable,
+  ScopeNotIssuableError,
+} from './scope-allowlist';

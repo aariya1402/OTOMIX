@@ -2231,7 +2231,7 @@ flowchart LR
 | Review Checkpoint | Read the registry against the §9.10 endpoint table. |
 | Notes | Acceptance criterion tag: AC4 (implements); Related open question (non-blocking): OQ-14 |
 
-###### P06-T02-S01-M02 — TODO
+###### P06-T02-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
