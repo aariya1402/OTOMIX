@@ -2200,7 +2200,7 @@ flowchart LR
 | Spec Reference | OTOMIX §7.4 · Mother §8.3; Add. §6 |
 | Review Checkpoint | Confirm the check precedes scope evaluation. |
 
-###### P06-T01-S02-M02 — TODO
+###### P06-T01-S02-M02 — [x]
 
 | Field | Value |
 |---|---|

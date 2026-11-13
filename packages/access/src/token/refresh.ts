@@ -13,6 +13,7 @@ import {
 const KEY_PREFIX = 'otomix:refresh:';
 const JTI_PREFIX = KEY_PREFIX + 'jti:';
 const REVOKED_PREFIX = KEY_PREFIX + 'revoked:';
+export const USER_FAMILIES_PREFIX = 'otomix:user:families:';
 const TTL_SECONDS = REFRESH_TTL_DAYS * 86400;
 
 export async function issueRefreshToken(
@@ -36,6 +37,10 @@ export async function issueRefreshToken(
   };
 
   await redis.set(JTI_PREFIX + jti, JSON.stringify(claims), 'EX', TTL_SECONDS);
+
+  const indexKey = USER_FAMILIES_PREFIX + input.sub;
+  await redis.sadd(indexKey, familyId);
+  await redis.expire(indexKey, TTL_SECONDS);
 
   return { token: jti, claims };
 }

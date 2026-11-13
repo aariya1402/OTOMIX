@@ -29,3 +29,4 @@ export {
   isFamilyDenied,
   TokenRevokedError,
 } from './token/denylist';
+export { revokeUser } from './token/revoke-user';
