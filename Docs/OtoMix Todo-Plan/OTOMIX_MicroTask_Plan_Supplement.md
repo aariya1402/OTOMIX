@@ -288,7 +288,7 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 | `RBAC-M04` ✅ DONE (2026-11-13) | Grant/revoke service + audit + Slack escalation. | RBAC-M03, P06-T02-S02-M01 |
 | `RBAC-M05` ✅ DONE (2026-11-13) | Effective permissions evaluator. | RBAC-M04 |
 | `RBAC-M06` ✅ DONE (2026-11-13) | Redis cache TTL 60s + LISTEN/NOTIFY invalidation. | RBAC-M05 |
-| `RBAC-M07` | Bootstrap super_admin + regular_user. | RBAC-M04 |
+| `RBAC-M07` ✅ DONE (2026-11-13) | Bootstrap super_admin + regular_user. | RBAC-M04 |
 | `RBAC-M08` | Group CRUD + time-bound group perms. | RBAC-M04 |
 | `RBAC-M09` | Expiry test frozen clock T-1/T/T+1. | RBAC-M05 |
 | `RBAC-M10` | Drop scopes[]/tier from token. | RBAC-M07 |
