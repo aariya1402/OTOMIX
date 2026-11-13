@@ -258,6 +258,62 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 - **Affected phases:** P05, P07, P10, P11.
 - **Resolution rule:** When scheduling any affected micro-task, add a sibling micro-task for the other deployment target. Do NOT conflate the two targets in code, tests, or acceptance criteria. A single-task PR that only covers cloud or only covers local is incomplete for that phase.
 - **Model details:** Owner will clarify per-model specifics when each affected phase is reached. Until then, treat both targets as first-class.
+---
+
+## Dynamic RBAC Model
+
+### [GAP-015] [PHASE: P06, P08, P09, P10, P11] [BLOCKER] RBAC must be dynamic: permissions catalog + roles + direct grants + groups
+- **Discovered:** 2026-11-13
+- **Decision source:** Owner directive (2026-11-13). Supersedes `OQ-10` and `OQ-14` and the static scope-list model.
+
+**Directive (owner summary):** Do NOT hardcode roles. Super admin must create new roles, new membership tiers, and grant/revoke any permission to/from any user, with or without expiry. All users equal at registration. Some roles grant admin-panel access by function (DSP, content, customer care, accounting, etc.). Super admin full control. Deputy admin one level below, can create/delete specialist admins.
+
+**Six answered open questions:** (1) Roles = templates (regular_user, tier_N, dsp_specialist, content_specialist, customer_care, accountant, deputy_admin, super_admin). (2) Tier = industry standard. (3) Catalog structure = industry standard. (4) Catalog content = industry standard. (5) Per-user + group. (6) Expiry = `expires_at` absolute timestamp; `now <= expires_at` = active.
+
+**Schema (tenant-scoped, RLS):** `permissions(permission_key PK, category, description, is_admin_only, is_deprecated)`; `roles(role_id, role_name, description, is_system, tenant_id, created_by, created_at)`; `role_permissions(role_id, permission_key)`; `user_roles(user_id, tenant_id, role_id, granted_at, granted_by, expires_at, revoked_at, revoked_by)`; `user_permissions(user_id, tenant_id, permission_key, effect allow|deny, granted_at, granted_by, expires_at, revoked_at, revoked_by)`; `groups(group_id, tenant_id, name, created_by, created_at)`; `group_members(group_id, user_id, added_at, added_by)`; `group_permissions(group_id, permission_key, effect, granted_at, granted_by, expires_at, revoked_at, revoked_by)`.
+
+**Effective permissions:** union(role_permissions JOIN user_roles, user_permissions WHERE user_id, group_permissions JOIN group_members WHERE user_id) filtered by `revoked_at IS NULL AND (expires_at IS NULL OR expires_at > now())`. Deny precedence: direct user_permissions.effect=deny overrides any allow (AWS IAM style).
+
+**Token changes:** access token drops `scopes[]` and `tier`. Only `sub`, `tenant_id`, `jti`, `iat`, `exp`. Permission check per-request on gateway via Redis cache (TTL ~60s) + DB fallback + LISTEN/NOTIFY invalidation.
+
+**Tier/membership:** `tier_N` = a role. Upgrading = assigning `tier_N`. `sets.required_tier` resolves through the role. Existing `tier_grants` stays as auxiliary mapping.
+
+**New micro-tasks (execute in order; status tracked here, not in plan):**
+
+| ID | Description | Prerequisites |
+|---|---|---|
+| `RBAC-M01` | Migration: 8 tables + RLS + indexes + audit. | P01-T05-S01-M01 |
+| `RBAC-M02` | Feature scan + seed catalog (≥40 keys). | RBAC-M01 |
+| `RBAC-M03` | Seed base roles. | RBAC-M02 |
+| `RBAC-M04` | Grant/revoke service + audit + Slack escalation. | RBAC-M03, P06-T02-S02-M01 |
+| `RBAC-M05` | Effective permissions evaluator. | RBAC-M04 |
+| `RBAC-M06` | Redis cache TTL 60s + LISTEN/NOTIFY invalidation. | RBAC-M05 |
+| `RBAC-M07` | Bootstrap super_admin + regular_user. | RBAC-M04 |
+| `RBAC-M08` | Group CRUD + time-bound group perms. | RBAC-M04 |
+| `RBAC-M09` | Expiry test frozen clock T-1/T/T+1. | RBAC-M05 |
+| `RBAC-M10` | Drop scopes[]/tier from token. | RBAC-M07 |
+| `RBAC-M11` | Rewrite interceptor; delete scope-allowlist. | RBAC-M10, RBAC-M06 |
+| `RBAC-M12` | Rewrite Cucumber from dynamic catalog. | RBAC-M11 |
+
+**Existing plan tasks affected (in supplement, NOT in plan):**
+
+| Plan Task | Status | Note |
+|---|---|---|
+| `P06-T02-S01-M02` scope-allowlist (DONE) | SUPERSEDED | Removed by RBAC-M11 |
+| `P06-T02-S01-M03` interceptor (DONE) | NEEDS UPDATE | See RBAC-M11 |
+| `P06-T02-S02-M02` Cucumber matrix (DONE) | NEEDS UPDATE | See RBAC-M12 |
+| `P06-T02-S03-M01` publisher scope (BLOCKED OQ-10) | SUPERSEDED | OQ-10 superseded |
+| `P06-T01-S01-M01` issue access (DONE) | NEEDS UPDATE | See RBAC-M10 |
+| `P06-T03-S01-M01` time-bound grant (TODO) | SUPERSEDED | See RBAC-M05, RBAC-M09 |
+| `P06-T03-S01-M02` tier fallback (TODO) | SUPERSEDED | See RBAC-M05 |
+
+**Downstream long-term cleanup (deferred):** P06-T06 (DSP admin), P06-T07 (propagation), P08, P09, P10, P11.
+
+**Migration path:** (1) M01-M09 add new model alongside; zero breakage. (2) M10 stop scopes[]; tokens expire ≤15 min. (3) M11 interceptor switch; delete old scope-allowlist. (4) M12 regenerate Cucumber. (5) downstream cleanup.
+
+**Execution order:** Start at `RBAC-M01`. Do NOT resume `P06-T02-S03-*` or `P06-T03-*` on their old scope.
+
+
 ## Maintenance Rules
 
 - **Append, do not rewrite.** New items get a new ID. Never renumber.
@@ -268,4 +324,4 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 
 ---
 
-**Last updated:** 2026-11-13 (GAP-014: dual deployment added)
+**Last updated:** 2026-11-13 (GAP-015: dynamic RBAC added)

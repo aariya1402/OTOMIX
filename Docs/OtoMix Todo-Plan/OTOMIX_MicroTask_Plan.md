@@ -7,6 +7,9 @@
 
 **Supplement Note:** Known gaps, deferred decisions, technical gotchas, cross-phase conflicts, and unscheduled feature proposals are recorded in `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md`. **MUST** be consulted before starting any phase and after completing any phase. Items tagged `[BLOCKER]` must be resolved before the phase begins; `[ADVISORY]`/`[HIGH]`/`[MEDIUM]`/`[LOW]` items are informational. To find items for the current phase, search the supplement for `[PHASE: Pnn]` (e.g. `[PHASE: P06]`).
 
+**Dynamic RBAC Notice (2026-11-13):** A major architectural change has been approved and is documented in **`OTOMIX_MicroTask_Plan_Supplement.md` § GAP-015**. The static scope-list RBAC model used by `P06-T02-S01-M02`, `P06-T02-S01-M03`, `P06-T02-S02-M02`, `P06-T03-S01-M01`, `P06-T03-S01-M02`, and the blocked `P06-T02-S03-M01` is **superseded** by a dynamic model (permissions catalog + roles + direct grants + groups). The migration path is described in the supplement as `RBAC-M01` … `RBAC-M12`. **Before starting any `P06-T02` or `P06-T03` task, read the supplement § GAP-015.** Tasks in this plan whose `ID` appears in the supplement's "Existing plan tasks affected" table must NOT be resumed on their old scope.
+
+
 **Status values:** `TODO`, or `[BLOCKED: OWNER DECISION OQ-nn]` where the specification has a gap (see Open Questions). No task is marked DONE in this file.  
 **Spec-derived vs. added content:** a task's constraint comes from the cited section. Test tolerances written as 'default' in a test assertion are test parameters chosen here and are recorded in the task's Review Checkpoint; they are not specification requirements.
 
