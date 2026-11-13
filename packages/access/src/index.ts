@@ -36,3 +36,5 @@ export {
   assertIssuable,
   ScopeNotIssuableError,
 } from './scope-allowlist';
+export { sendEscalationWebhook } from './escalation-webhook';
+export type { EscalationPayload, EscalationWebhookConfig } from './escalation-webhook';

@@ -2259,7 +2259,7 @@ flowchart LR
 
 ##### P06-T02-S02 Escalation and BDD verification
 
-###### P06-T02-S02-M01 — TODO
+###### P06-T02-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
