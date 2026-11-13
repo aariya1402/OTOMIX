@@ -32,3 +32,6 @@ export {
 export { revokeUser } from './token/revoke-user';
 export { sendEscalationWebhook } from './escalation-webhook';
 export type { EscalationPayload, EscalationWebhookConfig } from './escalation-webhook';
+export { createDekService } from './crypto/dek';
+export type { DekService, KekProvider, EncryptedBlob } from './crypto/dek';
+export { DecryptionFailedError, InvalidKeyError, TenantKeyNotFoundError } from './crypto/dek';

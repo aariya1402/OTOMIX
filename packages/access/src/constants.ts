@@ -27,3 +27,7 @@ export const ACCESS_CONSTANTS = Object.freeze({
   RTO_MIN,
   SLO,
 });
+
+export const AES_KEY_BYTES = 32;
+export const GCM_IV_BYTES = 12;
+export const GCM_TAG_BYTES = 16;
