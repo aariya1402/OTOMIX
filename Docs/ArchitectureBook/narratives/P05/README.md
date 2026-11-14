@@ -32,3 +32,23 @@ Phase 5 delivered the Abstract API Adapter (44.1 kHz mono normalization, JSON Sc
 - **P05-T02-S02-M03** (BLOCKED: BLOCKED:OQ-21) - Apply a proportional penalty to the Dynamics component for near-zero dynamic range.
 - **P05-T02-S02-M06** (BLOCKED: BLOCKED:OQ-22) - Normalize E_kick, C_bass, S_tempo and V_tune to [0,1] from their signal definitions.
 
+
+## Per-task narratives
+
+### P05-T01-S01-M01 - Implement normalizeInput(AudioBuffer) resampling to 44.1 kHz and down-mixing to 
+
+The task involves implementing a function to normalize and process audio input by resampling it to 44.1 kHz and down-mixing it to mono, resulting in a Float32Array. This function is critical for ensuring consistent audio quality across different input sources and devices, especially in environments where audio samples may originate at varying sample rates or in stereo configurations. Without this step, audio playback could suffer from distortion, timing inconsistencies, or compatibility issues with playback systems that require standardized 44.1 kHz mono input.
+
+The implementation performs real-time resampling using a high-quality algorithm to maintain audio fidelity while converting the input AudioBuffer to a 44.1 kHz mono Float32Array. It handles both sample rate conversion and channel reduction efficiently, preserving dynamic range and minimizing artifacts. As a result, the system now reliably produces a uniform, standardized audio stream that is compatible with downstream processing modules and playback devices, enabling seamless integration into the broader audio pipeline and improving overall user experience.
+
+### P05-T01-S02-M01 - Bind adapter input/output to JSON Schema Draft 7 and enforce SemVer compatibilit
+
+This task implements a robust binding mechanism that connects adapter input and output data structures to JSON Schema Draft 7, ensuring consistency and validity across the system. By aligning adapter interfaces with a standardized schema, the system gains a formal, machine-readable contract that defines acceptable data shapes and constraints. This is critical because without such structure, data mismatches and runtime errors could propagate silently, especially during integration with external components or registry services. The project needs this because inconsistent or unvalidated data can lead to unpredictable behavior, broken workflows, and difficulty in debugging or maintaining system integrity over time.
+
+The implementation enforces SemVer compatibility during the mapping of engine JSON to the registry, meaning that schema updates follow versioning rules that prevent breaking changes. When data is transformed, it validates against the current schema and ensures backward compatibility with prior versions. As a result, the registry now receives data that is both structurally sound and version-safe, enabling stable, predictable interactions between components. This change has introduced a formal validation layer that improves reliability, simplifies onboarding of new adapters, and supports long-term maintainability of the system.
+
+### P05-T01-S03-M01 - Wrap every extraction in try/finally that calls releaseResult.
+
+The task involves modifying the extraction logic in the system to ensure every data retrieval operation is properly enclosed within a try/finally block that invokes the releaseResult method. This update is critical because prior to this change, extracted results were not consistently released after use, leading to potential memory leaks and resource exhaustion, especially under sustained load. Without proper cleanup, the system could degrade in performance or even crash under prolonged operation, undermining reliability and scalability.
+
+The implementation ensures that regardless of whether an extraction succeeds or fails, the releaseResult method is called at the end of each operation—guaranteeing that resources are freed in all execution paths. This function acts as a safeguard, preventing dangling references and ensuring consistent resource management. As a result, the system now maintains stable performance over time, with predictable memory usage and reduced risk of runtime errors. The change directly supports the system’s adherence to resource management best practices as defined in OTOMIX 4.1 and Mother 3.1, and builds upon the foundational work established by prerequisite task P05-T01-S02-M01.
