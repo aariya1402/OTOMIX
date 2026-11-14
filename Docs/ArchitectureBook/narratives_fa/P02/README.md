@@ -1,34 +1,29 @@
-# فاز 2 - موتور Beat-Index
+﻿# فاز 2 - موتور اندیکس بیت و شبکه مطلق مبتنی بر انتقال
 
-## ضربان قلب OTOMIX
+**وضعیت:** 17/18 تکمیل شده.
 
-«GridModel» («packages/core/src/grid/model.ts:14») ضربان قلب OTOMIX است. صدای خام را به یک خط زمانی بی‌نقص** تبدیل می‌کند - شبکه قفل‌شده مطلق. هر فاز پایین‌دستی (P03، P04، P08) «GridModel.t(i)» را مصرف می‌کند تا بداند «ضربه *i* در ثانیه‌های مطلق کجاست؟»
+فاز 2 موتور شبکه مطلق مستقل از تغییرات موقتی را ارائه داد: نقش ترکیب t(i) با محدودیت سرعت و دوره، همگام سازی نقطه تثبیتی به صورت سخت در هر 64 بیت، شبکه‌های متغیر با سرعت BPM، بازیابی از خطا در اتصال شبکه، اعتبارسنجی نقطه تثبیت، نقش قبل از شروع بیت (مقدار منفی) و محاسبه ساختاری با میزان صفر RAM با نمودار اثبات. دو وظیفه باقی مانده در حالت انتظار است (شماره OQ-07، اندازه OQ-02) اما موتور خود تکمیل شده است.
 
-## اجزای اصلی
+## چه چیزی ارائه شد
 
-| جزء | File | Purpose |
-|-----------|------|---------|
-| **GridModel** | `grid/model.ts:14` | Piecewise grid: segments of `(startBeat, bpmSeed, T0, delta)`. Binary search lookup (`findSegment`), state machine (`LOCKED` ↔ `RECOVERY`). |
-| **توفی** | `grid/t-of-i.ts:28` | The bridge: `t(i) = T0 + n × (60 / bpmSeed) + delta`. Clamps `delta` to `±DRIFT_MAX_S` (±0.05 s) and increments `deltaClampedCount` counter. |
-| **همگام سازی لنگر** | `grid/anchor-sync.ts:5` | `ANCHOR_SYNC_INTERVAL_BEATS = 64` (16 bars × 4 beats). `getSyncedDrift(beat, driftPerBeat)` computes piecewise drift: linear before first sync, held at measured error between syncs, clamped to `±DRIFT_MAX_S`. |
-| **حدود دوره** | `grid/period.ts:13` | `boundPeriod(measured, seedPeriod)` constrains to `[PERIOD_MIN, PERIOD_MAX] × seedPeriod` = `[0.95, 1.05] × seedPeriod` (inclusive). |
-| **محاسبات ساختاری** | `timing/structure.ts:8` | Zero-RAM: `floorMod`, `beatInBar`, `barIndex`, `blockPosition`, `isBlockBoundary`. All O(1), no allocation. |
-| **زمان بندی کوانتومی** | `timing/quantum.ts:12` | `quantumSeconds(bpm) = (60/bpm)/24`, `quantumIndex(beatFloat) = round(beatFloat × 24)`. 1/24-beat resolution. |
-| **نقشه قبل از ضربه** | `grid/prekick-map.ts:8` | Negative indices (i ≤ -1) map to pre-kick audio via piecewise segments. Binary search + backward walk. Beat 0 is explicitly rejected (§3.10). |
+- **P02-T01-S01-M01** - اجرای tOfI(i, T0, bpmSeed, delta) به صورت T0 + n×(60/bpmSeed) + delta با n=i?1 برای i?1 و n=i برای i??1.
+- **P02-T01-S01-M02** - محدود کردن delta به �0.05 s درون tOfI و افزایش شمارنده core.grid.delta_clamped در صورت انجام محدود کردن.
+- **P02-T01-S02-M01** - اجرای boundPeriod(measured, seedPeriod) که نتیجه را در بازه [0.95, 1.05]×seedPeriod محدود می‌کند.
+- **P02-T01-S02-M02** - اجرای همگام سازی نقطه تثبیت سخت در هر 16 بار (هر 64 بیت) که ? را به مقدار خطای نقطه تثبیتی اندازه‌گیری شده بازنشان می‌کند.
+- **P02-T02-S01-M01** - اجرای floorMod، beatInBar، barIndex، blockPosition، isBlockBoundary به طور دقیق به صورت �3.15.
+- **P02-T02-S01-M02** - اجرای quantumSeconds(bpm)=(60/bpm)/24 و quantumIndex(beatFloat)=round(beatFloat×24)، که روی شاخص‌های بیتی مبتنی بر اعداد مماس عمل می‌کند.
+- **P02-T02-S01-M03** - اجرای LookaheadScheduler با 50 میلی‌سیکوند پیش‌بینی و یک ساعت وارد شده، برنامه‌ریزی رویدادها در واحد بیتی.
+- **P02-T02-S02-M01** - ایجاد قانون ESLint no-alloc-in-structural که در صورت تولید آرایه/شی/آرایه‌ای متناظر در فایل‌های متصل به @structural، خطا را ایجاد می‌کند.
+- **P02-T02-S02-M02** - نوشتن scripts/heap-proof.ts که مسیرهای زمانی برای 1 دقیقه و 120 دقیقه ایجاد می‌کند و تفاوت اندازه نگه داشته شده را با استفاده از آمار حافظه V8 و یک نمونه حافظه گزارش می‌دهد.
+- **P02-T03-S01-M01** - اجرای میانگین پیرس برای 100 میلی‌سیکوند میانگین انرژی پایین فرکانس، با بازگشت 0 برای ورودی با تغییر صفر و یک پرچم.
+- **P02-T03-S01-M02** - اجرای classifyKick(candidate, refs) که در صورتی که میانگین < 0.85 یا تغییر شکل > 15٪ نسبت به بیت‌های 5، 8 و 16، OFF_BEAT را بازگردانده.
+- **P02-T03-S01-M03** - اجرای تطبیق مجدد جلویی T0 به اولین بیت اصلی تأیید شده در بلوک‌های بعدی 4 بار برای موارد OFF_BEAT.
+- **P02-T03-S01-M04** - اجرای نقطه تثبیت پیشنهادی: در صورتی که بیتی در بارهای 5، 8 یا 16 (یا مسیر بدون بیت) یافت نشود، تثبیت را در اولین تغییر موجی بیش از ?12 dBFS انجام می‌دهد.
+- **P02-T04-S01-M01** - اجرای مدل شبکه متغیر با به‌روزرسانی BPM_seed در محدوده‌های ساختاری پیش‌بینی شده و ادامه در هر محدوده.
+- **P02-T04-S01-M02** - اجرای حالت بازیابی خطا در اتصال: بازگشت به میانگین کل BPM مسیر و غیرفعال کردن تنظیمات میکرو (??0).
+- **P02-T05-S01-M01** - اجرای فاصله قبل از بیت کمتر از 1 بار: تخصیص بیت بیتی بیت 1 و چارچوب‌های قبلی بیت ?1، ?2، ?3.
+- **P02-T05-S01-M03** - اجرای نقشه سرعت محلی قبل از بیت برای معرفی‌های طولانی با سرعت متغیر، با شمارش به عکس از T0.
 
-## متغیر بحرانی
+## چه‌چیزهایی باقی مانده است
 
-**`t(i)` در کل آهنگ کاملاً یکنواخت است.**
-برای هر «i < j»: «t(i) < t(j)». این به این دلیل است که:
-- «دوره = 60 / bpmSeed > 0» (BPM ∈ [60, 200] از طریق «BPM.parse»).
-- «دلتا» به «0.05±» ثانیه بسته می‌شود، اما «دوره ≥ 0.3» ثانیه (در 200 BPM)، بنابراین «دوره > 2 × DRIFT_MAX_S».
-- همگام‌سازی لنگر، رانش را به خطای *اندازه‌گیری شده* بازنشانی می‌کند و هرگز فراتر از «DRIFT_MAX_S» نمی‌رود.
-
-## اثبات تست
-
-| مجموعه تست | Count | What It Proves |
-|------------|-------|----------------|
-| P02-IT | 15 | `tOfI` clamp + counter, `boundPeriod` edges, anchor sync at beats 64/128/192, structural arithmetic table, quantum math, pre-kick map binary search, GridModel recovery transition. |
-| X-P02-P03 | 6 | GridModel output feeds Dual Grid, phase offset, transition planner. |
-
-**مجموع وظایف P02: 17/18 کامل، 1 مسدود شده (OQ-07).** کار مسدود شده (`P02-T05-S01-M02`) مربوط به یک مورد لبه در بازیابی شبکه غیرفعال است که نیاز به تصمیم گیری مشخصات دارد.
+- **P02-T05-S01-M02** (TODO) - اجرای فاصله پیش از شروع (gap)؟ 1 بار: تغییر موقعیت T0 به صورت دقیق مضاعف 4 بار، به گونه‌ای که شروع (kick) با یک ضربه اصلی (Beat 5 یا Beat 9) هماهنگ شود.

@@ -1,89 +1,35 @@
-# Phase 3 — Dual Grid & Observer
+﻿# Phase 3 - Dual Grid & Runtime Observer
 
-## Two Grids, One Timeline
+**Status:** 21/24 complete.
 
-P03 builds on P02's Absolute Locked Grid to extract **two complementary rhythmic views** from audio, then fuses them into a **Universal Transition Guarantee** — a transition plan that *never cancels*.
+Phase 3 delivered the Attack Grid and Body Grid extractors, the phase offset delta-phi, the Body-to-Attack realignment curves (cosine and logarithmic), the asynchronous Runtime Observer, the groove classifier (Straight/Triplet/Swing/Irregular), and the Universal Transition Guarantee planner that turns grids into a never-cancelling transition plan. Three tasks remain blocked on owner decisions (OQ-17, OQ-01, OQ-04) but the grid and observer work is done.
 
-## Attack Grid: Transient Onsets
+## What was delivered
 
-`extractAttackGrid()` at `packages/core/src/grid/attack.ts:13`:
-- 2048-sample Hamming window, 50% hop (1024 samples).
-- FFT → spectral flux (positive differential of magnitude above 200 Hz).
-- Median + 1.5×MAD threshold, peak-picking with minimum 1-hop separation.
-- Returns sample indices of attack onsets.
+- **P03-T01-S01-M01** - Implement extractAttackGrid(pcm) using spectral-flux peak detection with a 2048-sample Hamming window, 50% overlap, restricted to frequencies above 200 Hz.
+- **P03-T01-S02-M01** - Implement extractBodyGrid(pcm) using an 80 Hz Butterworth low-pass filter followed by RMS amplitude detection to locate the sub-bass envelope peak.
+- **P03-T02-S01-M01** - Implement phaseOffset(T_body_peak, T_attack_onset) returning Δϕ = T_body_peak − T_attack_onset.
+- **P03-T02-S01-M03** - Keep the Dual Grid dormant for negative beat indices and initialize it only at Beat 1.
+- **P03-T03-S01-M01** - Detect the realignment trigger: outgoing sub-band RMS below −40 dBFS after crossfade completion.
+- **P03-T03-S01-M02** - Implement the 4-bar cosine interpolation realignment at about 1 ms per beat.
+- **P03-T03-S01-M04** - Implement the Observer's post-transition 16-bar logarithmic realignment using beat-grid slicing (no pitch shift).
+- **P03-T04-S01-M01** - Implement the drift calculation: phase delta between the rendering clock position and the Absolute Locked Grid.
+- **P03-T04-S01-M02** - Apply slice-chopping realignment when drift exceeds the quanta threshold. No playbackRate time-stretching is allowed.
+- **P03-T04-S01-M03** - Expand the audio buffer from 2048 to 4096 samples when frame processing exceeds the Web Audio boundary threshold.
+- **P03-T04-S01-M04** - Benchmark the Observer loop cycle and fail if the P99 exceeds 48 samples (1 ms at 48kHz).
+- **P03-T05-S01-M01** - Classify micro-timing across 16th-note subdivisions as Straight (<2% variance), Triplet (<5% from 33.3%/66.6%) or Swing (off-beat 16ths displaced 0.05–0.33 beat).
+- **P03-T05-S01-M02** - Compute Δ_groove and shift chopping window boundaries by that swing displacement.
+- **P03-T05-S01-M03** - For irregular or hybrid grooves default to Straight and expand the micro-crossfade window by +10 ms.
+- **P03-T06-S01-M01** - Anchor the incoming track at Beat 1 of its initial 16-beat block (bars 1–4) and the outgoing track at its final 16-beat block.
+- **P03-T06-S01-M02** - Force mathematical alignment across the 16-beat timeline when the incoming track has no kick transients in its first 16 beats.
+- **P03-T06-S01-M03** - Map a static 120 BPM grid for purely ambient or kick-less tracks (RUNG_STATIC_120_GRID).
+- **P03-T06-S01-M04** - Implement the ultimate safety net: a clean 4-bar volume crossfade independent of grid locks (RUNG_FOUR_BAR_CROSSFADE).
+- **P03-T06-S01-M05** - Handle tracks shorter than 16 beats with a silent structural loop (RUNG_SILENT_LOOP).
+- **P03-T06-S01-M06** - Decide whether transition windows are 16 beats (4 bars) or 16 bars (64 beats) at the Float32Array processing stage.
+- **P03-T06-S01-M07** - Add a property-based test generating 10 000 random plan requests (BPM, lengths, kick presence, tempo deltas) and asserting a plan is always returned.
 
-**Why spectral flux?** It detects *any* sharp onset (kick, snare, hi-hat, vocal consonant) regardless of pitch. The 200 Hz cutoff ignores sub-bass rumble that isn't transient.
+## What remains
 
-## Body Grid: Sub-Bass Energy Peak
+- **P03-T02-S01-M02** (TODO) - Compare Attack power vs Body power. If Body > Attack, tag BODY_DOMINANT. Save to global metadata.
+- **P03-T04-S02-M01** (TODO) - Implement BPM matching via slice chopping to prevent any pitch shift. Original key is preserved.
 
-`extractBodyGrid()` at `packages/core/src/grid/body.ts:14`:
-- 4th-order Butterworth low-pass at 80 Hz (`BODY_CUTOFF_HZ`, `BODY_FILTER_ORDER` from `constants/grid.ts:57–58`).
-- Sliding RMS window (5 ms, `BODY_RMS_WINDOW_MS`).
-- Search window (50 ms, `BODY_SEARCH_WINDOW_MS`) anchored at attack onset.
-- **Group delay compensation** (`BODY_GROUP_DELAY_MS = 7.3` from `constants/grid.ts:63`) — the filtered peak is shifted *earlier* by 7.3 ms to report the true body peak position.
-- Returns corrected sample index of maximum sub-band RMS.
-
-**Why body grid?** Kick drums have a transient *attack* (click) followed by a sub-bass *body* (boom). The body lags the attack by ~10–20 ms (Δφ). The Attack Grid finds the click; the Body Grid finds the boom. The offset Δφ is the phase alignment problem.
-
-## Phase Offset Δφ and Cosine Realignment
-
-`phaseOffset()` at `grid/phase-offset.ts:15`: `Δφ = T_body_peak − T_attack_onset`. Positive = body after attack (typical).
-
-`cosineRealign()` at `grid/realign-cosine.ts:18`: 4-bar (16-beat) cosine interpolation:
-```
-correction(n) = Δφ × (1 − cos(π × n / 16)) / 2
-```
-- `n = 0` → 0 ms correction (start of realignment).
-- `n = 16` → Δφ ms correction (end, fully aligned).
-- Monotonic, smooth, mean slope ≈ 1 ms/beat when Δφ = 16 ms.
-
-Trigger: `shouldTriggerRealign()` at `grid/realign-trigger.ts:14` — fires when outgoing sub-band RMS < `BODY_REALIGN_DBFS` (−40 dBFS). Caller **must** ensure crossfade has completed first.
-
-## Runtime Observer: Drift, Degrade, Realign Log
-
-| Observer | File | Purpose |
-|----------|------|---------|
-| **Drift** | `observer/drift.ts:15` | `computeDrift(gridTime, contextTime) = (context − grid) × 1000` → ms. Positive = context fast. Unit conversion (×1000) happens exactly once here. |
-| **Scale** | `observer/scale.ts:10` | PI controller: `desiredRate = 1.0 − sign(drift) × GAIN × excess`. `GAIN = (0.02 × 1000) / (50 − 4) ≈ 0.435`. Rate clamped to `[RATE_MIN, RATE_MAX]` = `[0.98, 1.02]`. Slew limited to `RATE_SLEW_PER_S = 0.005` per second. |
-| **Degrade** | `observer/degrade.ts:14` | One-way buffer expansion: if `frameTimeMs > STARVATION_FRAME_MS (10)` → `BUFFER_DEGRADED (4096)`, emit `system.thread.starvation`. No auto-shrink. |
-| **Realign Log** | `observer/realign-log.ts:7` | Logarithmic curve: `logRealign(n, Δφ) = Δφ × log1p(k × n/N) / log1p(k)` with `k = LOG_REALIGN_K = 3`, `N = 64` beats. Slower start, faster finish than cosine. |
-
-## Groove Classifier
-
-`classifyGroove()` at `groove/classify.ts:8` — 16 deviation values (one per 16th note in a 4-bar loop):
-1. **Straight**: all `|dev| < STRAIGHT_VAR (0.02)`.
-2. **Triplet**: odd positions alternate `±(1/3 − 1/4) = ±0.08333…`; even positions small.
-3. **Swing**: all odd positions positive, same mean in `[SWING_MIN (0.05), SWING_MAX (0.33)]`; even positions small.
-4. **Irregular**: fallback.
-
-Returns `{ mode, confidence: 1.0, swingDisplacement? }`. Used by P04 chopping engine to shift off-beat slice boundaries.
-
-## Universal Transition Guarantee: 7 Rungs + Safety Net
-
-`TransitionRung` at `transition/types.ts:4` (7 values):
-```
-RUNG_NONE                  // Normal: both tracks have kicks, grids lock
-RUNG_STATIC_120_GRID       // Incoming kick-less → map to 120 BPM static grid
-RUNG_SILENT_LOOP           // Outgoing too short (< 64 beats) → pad with silence
-RUNG_FOUR_BAR_CROSSFADE    // Safety net: grid-independent 4-bar volume crossfade
-RUNG_WSOLA_LEGACY          // Legacy WSOLA fallback (phase-coherence predicate fail)
-RUNG_GROOVE_SHIFT          // Groove-aware slice boundary adjustment
-RUNG_CHOP_SHED             // Load shedding: widen chop grid from 1/32 → 1/8
-```
-
-`planTransition()` at `transition/planner.ts:57` routes:
-1. Outgoing short (< 64 beats) → `RUNG_SILENT_LOOP` (line 12).
-2. Else compute anchors → if incoming kick-less → `RUNG_STATIC_120_GRID` (line 69), else `RUNG_NONE` (line 69).
-3. **Catch-all**: any throw → `planSafetyNetCrossfade()` (line 41) — **never throws, always returns valid plan**.
-4. **Final guard**: if `alignToSeconds` or `mappedBpm` non-finite → safety net (line 88).
-
-`TRANSITION_WINDOW_BEATS = 64` (from `constants/grid.ts:99`, derived from `TRANSITION_WINDOW_BARS = 16 × BEATS_PER_BAR = 4`). `SAFETY_XFADE_BEATS = 16` (from `constants/grid.ts:101`, `SAFETY_XFADE_BARS = 4 × 4`).
-
-## Test Proof
-
-| Test Suite | Count | What It Proves |
-|------------|-------|----------------|
-| P03-IT | 8 | Dual Grid extraction, Δφ cosine realignment, groove classifier, transition planner rung routing, safety net catch, observer drift/scale/degrade. |
-| Property | 10,000 pairings | `transition.property.spec.ts` — random track pairs, every planner output satisfies: `alignToSeconds` finite, `mappedBpm` ∈ [60, 200], rung ∈ 7 values, safety net never reached for valid inputs. |
-
-**Total P03 tasks: 21/24 complete, 3 blocked (OQ-17, OQ-01, OQ-04).** Blocked tasks concern WSOLA fallback predicate, groove-shift boundary math, and chop-shed threshold calibration — all require spec decisions.

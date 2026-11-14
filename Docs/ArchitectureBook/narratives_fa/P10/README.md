@@ -1,23 +1,28 @@
-# فاز 10 - قابلیت مشاهده، استقرار و DR
+﻿# فاز 10 - قابلیت مشاهده، نصب و بازیابی در صورت بحران
 
-## آنچه P10 ارائه می دهد
+**وضعیت:** 0/20 تکمیل شده.
 
-P010 **کل پلت فرم** - هر سرویس از P01-P09 - را با قابلیت مشاهده درجه تولید، اتوماسیون استقرار، و بازیابی بلایا اجرا می کند.
+فاز 10 هنوز شروع نشده است. این فاز پلتفرم را قابل عملیات می‌کند: تعریف متریک‌ها و هشدارها، ردیف‌های توزیع شده (UI → کارگر)، نگهداری لاگ‌ها و غیرفعال کردن کش به صورت مبتنی بر رویداد، نصب‌های Blue/Green در کیت‌های کریتیک، نصب‌های محدود با مهارهای کنترل، بازگشت خودکار در پی شرایط مشخص، آزمون‌های بازیابی در صورت بحران (RPO < 15 دقیقه، RTO < 1 ساعت)، دستورالعمل‌های عملیاتی، آزمون‌های چالشی و 99.9% SLO.
 
-| قابلیت | Technology | Detail |
-|------------|------------|--------|
-| **ردیابی** | OpenTelemetry (JS/Node) | W3C `traceparent` propagation (P01 telemetry). 100% sampling for errors, 10% for success. |
-| **متریک** | Prometheus + OpenTelemetry Metrics | RED (Rate, Errors, Duration) per endpoint. Business metrics: mixes/min, avg transition quality, cache hit rate. |
-| **لوگ ها** | Structured JSON (P01 logger) → Loki | Labels: `service`, `tenant`, `trace_id`, `level`. Retention: 30d hot, 1y cold. |
-| **هشدار** | Datadog Monitors-as-Code | SLO-based: latency p99 < 200 ms, error rate < 0.1%, starvation events = 0. |
-| **استقرار** | K8s Blue/Green + Argo Rollouts | Canary 5% → 25% → 100%. Automated rollback on SLO breach. |
-| **زیرساخت** | Helm Charts (per service) + Kustomize (env overlays) | GitOps: `main` branch → staging, `release/*` tags → prod. |
-| **سخت شدن CI** | GitHub Actions + CVSS Gate (P01) | `cvss-gate.ts` blocks merge on ≥7.0. SBOM generation. SLSA Level 2 provenance. |
-| **DR** | Cross-region RDS replica + S3 CRR | RPO < 5 min, RTO < 30 min. Quarterly failover drill. |
+## چیهای باقی مانده
 
-**ورودی**: همه خدمات (P01–P09) مجهز به تله متری P01.
-**خروجی**: داشبورد SLO (Grafana)، runbooks (Markdown in repo)، دفترچه راهنما پاسخ حادثه.
-
-**کارهای مسدود شده: هیچ کدام.**
-
-**مجموع وظایف P10: همه TODO.**
+- **P10-T01-S01-M01** (TODO) - انتقال core.dsp.latency، core.observer.cycle_duration، core.transition.failure_rate، core.degraded_mode.active و system.thread.starvation از مسیرهای کدی که آنها را مالک می‌کنند.
+- **P10-T01-S01-M02** (TODO) - انتقال متریک‌های OTOMIX: otomix.ingest.duration، otomix.ingest.rejected_files، otomix.export.xml_duration، otomix.store.webhook_failures، otomix.dlq.depth، otomix.store.bundle_generation_duration.
+- **P10-T01-S02-M01** (TODO) - تعریف مراقبت‌های داتاگو به صورت کد: حادثه اگر استخراج بیش از 2500 میلی‌سیکوند باشد، حادثه اگر بلوک‌های خودکار بیش از 10 میلی‌سیکوند باشد، و هشدارهای P99 برای هر هیستوگرام در هر تیانت و منطقه.
+- **P10-T01-S02-M02** (TODO) - تعریف مراقبت‌های OTOMIX: حفظ عمق DLQ، بروز خطا در ورودی سیگناتور، هشدار P99 برای هستوگرام‌های ورودی، خروجی و بسته‌بندی.
+- **P10-T02-S01-M01** (TODO) - تأیید زنجیره سپان در مرورگر؟ درگاه نود؟ gRPC؟ دستورالعمل مرکزی؟ کارگر WASM با پیمایش W3C traceparent.
+- **P10-T02-S01-M02** (TODO) - تنظیم نمونه‌گیری مبتنی بر پایان‌های متن: 100٪ از خطاها و سپان‌هایی که بیش از آنالیز هشدار دارند، و برای بقیه نمونه‌گیری احتمالی.
+- **P10-T03-S01-M01** (TODO) - تنظیم نگهداری: 90 روز در سیستم گرم برای لاگ‌های برنامه و 7 سال برای لاگ‌های نظارت مدیریت.
+- **P10-T03-S01-M02** (TODO) - اجرای غیرفعال کردن کش به صورت مبتنی بر رویداد با استفاده از PostgreSQL LISTEN/NOTIFY، یک محدودیت TTL و بازآوری یکتا.
+- **P10-T04-S01-M01** (TODO) - ارائه نصب‌های Blue/Green و یک سویچ انتخاب خدمت برای مرکز و درگاه.
+- **P10-T04-S01-M02** (TODO) - تنظیم HPA برای هدف 60٪ CPU.
+- **P10-T04-S02-M01** (TODO) - خودکار سازی بازگشت در صورت افزایش 5xx بیش از 1٪ در 5 دقیقه پس از نصب یا افزایش نرخ خطا در خودکار 0.1٪.
+- **P10-T04-S02-M02** (TODO) - بسته‌بندی ارزیابی LaunchDarkly به طوری که وضعیت فلگ خارج از خودکار ثبت شود، به رفتار امنیتی بازگردانده شود و می‌تواند به عنوان یک مهار عمل کند.
+- **P10-T04-S02-M03** (TODO) - تعریف پیکربندی نصب محدود: مراحل 1٪ (1 ساعت)، 10٪ (24 ساعت)، 50٪ (24 ساعت)، 100٪ (24 ساعت) برای نظارت نرخ تغییر، استخراج P99، نسبت 5xx و P99 دیسپتی.
+- **P10-T04-S02-M04** (TODO) - ایجاد فهرست فلگ OTOMIX (otomix.export.<target>-xml-v2، core.dsp.chop-grid-*، core.analysis.voice-instrumental-model-*) با مالکان، تاریخ حذف و گزارش فلگ‌های بی‌علاقه.
+- **P10-T05-S01-M01** (TODO) - تنظیم پیکربندی متناسب و متقابل بین مناطق با استفاده از PostgreSQL با یک مراقبت RPO که در 15 دقیقه تأخیر هشدار می‌دهد.
+- **P10-T05-S01-M02** (TODO) - تکرار بلوک‌ها در دو منطقه جغرافیایی با قفل‌های غیرقابل تغییر که حذف را در 30 روز پس از ورود ممنوع می‌کند.
+- **P10-T05-S01-M03** (TODO) - برنامه‌ریزی آزمون‌های چالشی چهارمیاه (کنترل پود و تقسیم شبکه در نویسندگان PostgreSQL) با فرضیه، محدودیت شعاع و شرط خاتم.
+- **P10-T05-S01-M04** (TODO) - نوشتن دستورالعمل‌های عملیاتی برای تغییر منطقه، حالت تغییر در خودکار و بازگشت DLQ.
+- **P10-T05-S01-M05** (TODO) - اجرای یک آزمون بازیابی در مراحل و ثبت اندازه‌گیری RPO و RTO.
+- **P10-T06-S01-M01** (TODO) - اضافه کردن پیمایش‌های سنتیتیک و یک داشبورد 99.9٪ در ماه با هشدارهای نرخ مصرف.

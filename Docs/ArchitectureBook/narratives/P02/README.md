@@ -1,34 +1,30 @@
-# Phase 2 — Beat-Index Engine
+﻿# Phase 2 - Beat-Index Engine & Absolute Locked Grid
 
-## The Heartbeat of OTOMIX
+**Status:** 17/18 complete.
 
-`GridModel` (`packages/core/src/grid/model.ts:14`) is the heartbeat of OTOMIX. It turns raw audio into a **beat-perfect timeline** — the Absolute Locked Grid. Every downstream phase (P03, P04, P08) consumes `GridModel.t(i)` to know "where is beat *i* in absolute seconds?"
+Phase 2 delivered the transient-independent Absolute Locked Grid: the t(i) mapping with drift and period bounds, hard anchor synchronization every 64 beats, piecewise variable-BPM grids, grid-lock failure recovery, anchor validation, negative-index pre-kick mapping, and the zero-RAM structural arithmetic with its proof harness. Two tasks remain blocked on owner decisions (OQ-07 numbering, OQ-02 window size) but the engine itself is done.
 
-## Core Components
+## What was delivered
 
-| Component | File | Purpose |
-|-----------|------|---------|
-| **GridModel** | `grid/model.ts:14` | Piecewise grid: segments of `(startBeat, bpmSeed, T0, delta)`. Binary search lookup (`findSegment`), state machine (`LOCKED` ↔ `RECOVERY`). |
-| **tOfI** | `grid/t-of-i.ts:28` | The bridge: `t(i) = T0 + n × (60 / bpmSeed) + delta`. Clamps `delta` to `±DRIFT_MAX_S` (±0.05 s) and increments `deltaClampedCount` counter. |
-| **Anchor Sync** | `grid/anchor-sync.ts:5` | `ANCHOR_SYNC_INTERVAL_BEATS = 64` (16 bars × 4 beats). `getSyncedDrift(beat, driftPerBeat)` computes piecewise drift: linear before first sync, held at measured error between syncs, clamped to `±DRIFT_MAX_S`. |
-| **Period Bounds** | `grid/period.ts:13` | `boundPeriod(measured, seedPeriod)` constrains to `[PERIOD_MIN, PERIOD_MAX] × seedPeriod` = `[0.95, 1.05] × seedPeriod` (inclusive). |
-| **Structural Arithmetic** | `timing/structure.ts:8` | Zero-RAM: `floorMod`, `beatInBar`, `barIndex`, `blockPosition`, `isBlockBoundary`. All O(1), no allocation. |
-| **Quantum Timing** | `timing/quantum.ts:12` | `quantumSeconds(bpm) = (60/bpm)/24`, `quantumIndex(beatFloat) = round(beatFloat × 24)`. 1/24-beat resolution. |
-| **Pre-Kick Map** | `grid/prekick-map.ts:8` | Negative indices (i ≤ -1) map to pre-kick audio via piecewise segments. Binary search + backward walk. Beat 0 is explicitly rejected (§3.10). |
+- **P02-T01-S01-M01** - Implement tOfI(i, T0, bpmSeed, delta) as T0 + n·(60/bpmSeed) + delta with n=i−1 for i≥1 and n=i for i≤−1.
+- **P02-T01-S01-M02** - Clamp delta to ±0.05 s inside tOfI and increment counter core.grid.delta_clamped when clamping occurs.
+- **P02-T01-S02-M01** - Implement boundPeriod(measured, seedPeriod) constraining the result to [0.95, 1.05]×seedPeriod.
+- **P02-T01-S02-M02** - Implement hard anchor synchronization every 16 bars (every 64 beats) that resets Δ to the measured anchor error.
+- **P02-T02-S01-M01** - Implement floorMod, beatInBar, barIndex, blockPosition, isBlockBoundary exactly as §3.15.
+- **P02-T02-S01-M02** - Implement quantumSeconds(bpm)=(60/bpm)/24 and quantumIndex(beatFloat)=round(beatFloat·24), operating on floating-point beat indices.
+- **P02-T02-S01-M03** - Implement LookaheadScheduler with a 50 ms lookahead and an injected clock, scheduling events on beat-based units.
+- **P02-T02-S02-M01** - Create an ESLint rule no-alloc-in-structural that fails on array/object/typed-array allocation inside files tagged @structural.
+- **P02-T02-S02-M02** - Write scripts/heap-proof.ts that generates timelines for 1-minute and 120-minute tracks and reports the retained-size delta using V8 heap statistics and a heap snapshot.
+- **P02-T03-S01-M01** - Implement Pearson correlation over 100 ms low-frequency energy envelopes, returning 0 for zero-variance inputs with a flag.
+- **P02-T03-S01-M02** - Implement classifyKick(candidate, refs) returning OFF_BEAT when correlation < 0.85 or shape variance > 15% against the kicks at bars 5, 8 and 16.
+- **P02-T03-S01-M03** - Implement forward realignment of T0 to the first validated primary downbeat in subsequent 4-bar blocks for OFF_BEAT candidates.
+- **P02-T03-S01-M04** - Implement the fallback anchor: when no kick is found at bars 5, 8 or 16 (or the track is kick-less), anchor at the first transient exceeding −12 dBFS.
+- **P02-T04-S01-M01** - Implement a piecewise GridModel with BPM_seed updates at predefined structural boundaries and continuity at each boundary.
+- **P02-T04-S01-M02** - Implement the lock-failure recovery state: fall back to the track's global average BPM and disable micro-adjustments (Δ≡0).
+- **P02-T05-S01-M01** - Implement pre-kick gap < 1 bar: assign the kick downbeat Beat 1 and earlier frames Beat −1, −2, −3.
+- **P02-T05-S01-M03** - Implement the localized pre-kick tempo map for long variable-tempo introductions, counting backwards from T0.
 
-## Critical Invariant
+## What remains
 
-**`t(i)` is strictly monotonic across the entire track.**  
-For any `i < j`: `t(i) < t(j)`. This holds because:
-- `period = 60 / bpmSeed > 0` (BPM ∈ [60, 200] via `BPM.parse`).
-- `delta` is clamped to `±0.05` s, but `period ≥ 0.3` s (at 200 BPM), so `period > 2 × DRIFT_MAX_S`.
-- Anchor sync resets drift to the *measured* error, never extrapolating beyond `DRIFT_MAX_S`.
+- **P02-T05-S01-M02** (TODO) - Implement pre-kick gap ≥ 1 bar: shift T0 backward in exact 4-beat multiples so the kick aligns with a primary downbeat (Beat 5 or Beat 9).
 
-## Test Proof
-
-| Test Suite | Count | What It Proves |
-|------------|-------|----------------|
-| P02-IT | 15 | `tOfI` clamp + counter, `boundPeriod` edges, anchor sync at beats 64/128/192, structural arithmetic table, quantum math, pre-kick map binary search, GridModel recovery transition. |
-| X-P02-P03 | 6 | GridModel output feeds Dual Grid, phase offset, transition planner. |
-
-**Total P02 tasks: 17/18 complete, 1 blocked (OQ-07).** The blocked task (`P02-T05-S01-M02`) concerns an edge case in dormant-grid recovery that requires a spec decision.

@@ -1,31 +1,50 @@
-# Phase 6 — Security, RBAC & Tenant Isolation
+﻿# Phase 6 - Security, RBAC & Tenant Isolation
 
-Phase 6 delivered the security surface that every later phase depends on: JWT lifecycle, dynamic RBAC, tenant isolation beyond RLS, worker hardening, secrets and supply chain, and the DSP administration path.
+**Status:** 32/32 complete, 6 superseded by GAP-015.
 
-## Dynamic RBAC (GAP-015)
+Phase 6 delivered the full security surface: JWT lifecycle with rotation and Redis deny-list, dynamic RBAC (GAP-015) with a permissions catalog, roles, direct grants, groups, and an effective-permissions evaluator, tenant isolation beyond RLS (route non-exposure, per-tenant worker pool bulkheads, DEK envelope encryption, 90-day KEK rotation, namespaced clients), browser/worker hardening (strict CSP, 512 MB WASM cap, isolation probe), Vault + Snyk + pod hardening, and DSP parameter administration with 7-year audit and outbox propagation. P06 is complete.
 
-The static scope model was superseded mid-phase by GAP-015 (`Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md`). The migration ran as `RBAC-M01` … `RBAC-M12`. The result is eight tables under `packages/db/migrations/004_rbac.sql`: `permissions`, `roles`, `role_permissions`, `user_roles`, `user_permissions`, `groups`, `group_members`, `group_permissions`. All are tenant-scoped with RLS. Permissions are the atomic unit; roles are templates; users receive direct grants, denials, and group memberships. Every row supports `expires_at` and `revoked_at`.
+## What was delivered
 
-`RBAC-M05` implements the effective-permissions evaluator in `packages/access/src/rbac/effective.ts`: union of role, direct, and group grants, filtered by `revoked_at IS NULL AND (expires_at IS NULL OR expires_at > now())`, with direct `deny` taking precedence (AWS IAM style). `RBAC-M06` caches the result in Redis (60 s TTL) and invalidates via PostgreSQL `LISTEN/NOTIFY`.
+- **P06-T01-S01-M01** - Issue access tokens (15 minutes) carrying sub, tenant_id, scopes[], tier, jti, exp.
+- **P06-T01-S01-M02** - Issue refresh tokens (7 days) with rotation: each use returns a new token and invalidates the previous; reuse of an invalidated token revokes the whole family.
+- **P06-T01-S02-M01** - Write revoked jti/family ids to a Redis deny-list (TTL to natural expiry) and check it in the gateway interceptor on every request.
+- **P06-T01-S02-M02** - On role revocation, revoke every active session/family for the user globally.
+- **P06-T02-S01-M01** - Create the route scope registry declaring explicit required scopes per endpoint (no catch-all *) and a static test failing on any route without one.
+- **P06-T02-S02-M01** - Fire a Slack webhook payload on any role escalation or emergency scope grant.
+- **P06-T04-S01-M01** - Ensure /ddex, /rights, /dsr and stream-license routes are not mounted and return HTTP 404.
+- **P06-T04-S02-M01** - Create a dedicated per-tenant worker pool with a bulkhead that prevents another tenant's pool from being drained.
+- **P06-T04-S02-M02** - Implement per-tenant data-encryption keys (envelope encryption) for audio storage.
+- **P06-T04-S02-M03** - Implement the 90-day key rotation job that re-wraps DEKs and keeps old ciphertext readable.
+- **P06-T04-S02-M04** - Enforce the otomix: Redis prefix, otomix/ storage prefix and otomix.* topic names through wrapper clients.
+- **P06-T05-S01-M01** - Emit CSP headers with strict script-src and worker-src allow-lists plus object-src 'none', base-uri 'none', frame-ancestors 'none'.
+- **P06-T05-S01-M02** - Create WASM memory with a hard maximum of 512 MB (8 192 pages of 64 KiB) for analysis workers.
+- **P06-T05-S01-M03** - Verify analysis workers run unprivileged: no DOM, no credentials and no network beyond the message channel.
+- **P06-T06-S01-M01** - Back Kubernetes Secrets with HashiCorp Vault (ExternalSecret references only; no plaintext data in manifests).
+- **P06-T06-S01-M02** - Run Snyk dependency scanning on every build and block on findings per the CVSS gate.
+- **P06-T06-S01-M03** - Harden pods: non-root, read-only root filesystem, dropped capabilities and default-deny NetworkPolicies.
+- **P06-T07-S01-M01** - Implement PATCH /api/v1/dsp/parameters validating chopGrid ∈ {1/8,1/16,1/32} and numeric crossfadeBeats.
+- **P06-T07-S01-M02** - Write a 7-year-retained admin audit record for every parameter change.
+- **P06-T07-S01-M03** - Propagate parameter updates via the outbox as signed messages with a per-tenant monotonic sequence.
+- **P06-RBAC-M01** - Migration: 8 RBAC tables (permissions, roles, role_permissions, user_roles, user_permissions, groups, group_members, group_permissions) + RLS + indexes + audit. GAP-015.
+- **P06-RBAC-M02** - Permissions catalog seed (>=40 keys) + drift detector. GAP-015.
+- **P06-RBAC-M03** - Seed base roles (regular_user, tier_N, dsp_specialist, content_specialist, customer_care, accountant, deputy_admin, super_admin). GAP-015.
+- **P06-RBAC-M04** - Grant/revoke service with audit + Slack escalation. GAP-015.
+- **P06-RBAC-M05** - Effective permissions evaluator (union of role + user + group grants, deny precedence, expiry filter). GAP-015.
+- **P06-RBAC-M06** - Redis cache (60s TTL) + PostgreSQL LISTEN/NOTIFY invalidation for effective permissions. GAP-015.
+- **P06-RBAC-M07** - Bootstrap super_admin + regular_user. GAP-015.
+- **P06-RBAC-M08** - Group CRUD + time-bound group permissions. GAP-015.
+- **P06-RBAC-M09** - Expiry test with frozen clock (T-1ms / T / T+1ms). GAP-015.
+- **P06-RBAC-M10** - Drop scopes[] and tier from access token; token carries identity only. GAP-015.
+- **P06-RBAC-M11** - Rewrite interceptor to read effective permissions per request. GAP-015.
+- **P06-RBAC-M12** - Regenerate Cucumber authorization matrix from the dynamic catalog. GAP-015.
 
-`RBAC-M10` drops `scopes[]` and `tier` from the access token. Tokens are now identity-only (`sub`, `tenant_id`, `jti`, `iat`, `exp`). The interceptor (`packages/gateway/src/interceptor.ts`) reads effective permissions per request. `RBAC-M12` regenerates the Cucumber authorization matrix from the dynamic catalog; it is the `features/authz.feature` suite that runs at phase close.
+## Superseded
 
-## JWT lifecycle and revocation
+- **P06-T02-S01-M02** - SUPERSEDED:GAP-015
+- **P06-T02-S01-M03** - SUPERSEDED:GAP-015
+- **P06-T02-S02-M02** - SUPERSEDED:GAP-015
+- **P06-T02-S03-M01** - SUPERSEDED:GAP-015
+- **P06-T03-S01-M01** - SUPERSEDED:GAP-015
+- **P06-T03-S01-M02** - SUPERSEDED:GAP-015
 
-`packages/access/src/token/issue.ts` issues 15-minute access tokens and 7-day refresh tokens. `token/refresh.ts` rotates the refresh family and revokes the family on reuse. `token/denylist.ts` writes revoked `jti` and family ids to Redis with TTL to natural expiry. `token/revoke-user.ts` performs a single indexed lookup to revoke every active family for a user globally.
-
-## Tenant isolation beyond RLS
-
-`P06-T04-S01-M01` mounts only the routes in `packages/gateway/src/route-table.ts`; `/ddex`, `/rights`, `/dsr` and `/stream` return HTTP 404 (not 403 — existence is not disclosed). `P06-T04-S02-M01` gives every tenant a dedicated worker pool with a bulkhead. `P06-T04-S02-M02` implements per-tenant DEK envelope encryption in `packages/access/src/crypto/dek.ts`. `P06-T04-S02-M03` runs the 90-day KEK rotation. `P06-T04-S02-M04` wraps Redis, storage and Kafka in `packages/db/src/namespaced-clients.ts` so `otomix:`, `otomix/` and `otomix.*` are enforced.
-
-## Browser and worker hardening
-
-`P06-T05-S01-M01` emits strict CSP headers in `packages/gateway/src/csp.ts` with explicit `script-src` / `worker-src` allow-lists. `P06-T05-S01-M02` caps WASM memory at 512 MB (`packages/workers/src/wasm-memory.ts`). `P06-T05-S01-M03` proves the analysis workers run unprivileged in `e2e/worker-isolation.spec.ts` (no DOM, no credentials, no network beyond the message channel).
-
-## Secrets, supply chain, and DSP admin
-
-`P06-T06-S01-M01` binds Kubernetes Secrets to HashiCorp Vault via `ExternalSecret` and enforces it with `policy/secrets.rego`. `P06-T06-S01-M02` wires Snyk into CI. `P06-T06-S01-M03` hardens pods and default-denies NetworkPolicies.
-
-`P06-T07-S01-M01` implements `PATCH /api/v1/dsp/parameters` with strict validation (`chopGrid ∈ {1/8,1/16,1/32}`, numeric `crossfadeBeats`). `P06-T07-S01-M02` writes a 7-year-retained `admin_audit` row per change. `P06-T07-S01-M03` propagates parameter updates via the outbox with a per-tenant monotonic sequence.
-
-P06 is complete (committed `fc75cca`); the test matrix includes P06-IT (6 scenarios) and X-P05-P06 … X-P06-P11 (16 cross-phase tests).
