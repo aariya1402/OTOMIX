@@ -2826,7 +2826,7 @@ flowchart LR
 
 <a id="p08"></a>
 
-> **Supplement Reminder (P08):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P08]`. Resolve any `[BLOCKER]` item before proceeding.
+> **Supplement Reminder (P08):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P08]`. Resolve any `[BLOCKER]` item before proceeding. **MANDATORY:** [GAP-020] UI binding matrix does not exist. Before any UI component or Redux slice work in P08, author Docs/FEATURES/OTOMIX_UI_Bindings.md (UI element -> Redux slice -> catalog field -> Feature Registry field). See supplement GAP-020.
 
 ### P08 MixPlan, UI & Redux Architecture
 
@@ -2865,6 +2865,7 @@ flowchart LR
 | Independent Test(s) | **integration** · Vitest + supertest + Testcontainers PostgreSQL · `packages/gateway/test/catalog-features.spec.ts`<br>Input: 250 rows, limit=100, a second tenant's rows present. Expected: pages of 100,100,50; last next_cursor null; no rows from the other tenant; 403 without scope. Pass: all. |
 | Spec Reference | OTOMIX §9.4; §9.10 · Mother Add. §1–§2 |
 | Review Checkpoint | Confirm the query uses `withTenant` and the compound index. |
+| Notes | **`[GAP-020]`** before this task, author `Docs/FEATURES/OTOMIX_UI_Bindings.md` (UI element -> Redux slice -> catalog field -> Feature Registry field). The catalog endpoint response shape defined here becomes the `catalog field` column for every P08 UI component. See supplement GAP-020. |
 | Notes | Acceptance criterion tag: AC4 (implements) |
 
 ###### P08-T01-S01-M02 — TODO
