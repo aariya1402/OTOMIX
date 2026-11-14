@@ -28,3 +28,23 @@ Phase 2 delivered the transient-independent Absolute Locked Grid: the t(i) mappi
 
 - **P02-T05-S01-M02** (TODO) - Implement pre-kick gap ≥ 1 bar: shift T0 backward in exact 4-beat multiples so the kick aligns with a primary downbeat (Beat 5 or Beat 9).
 
+
+## Per-task narratives
+
+### P02-T01-S01-M01 - Implement tOfI(i, T0, bpmSeed, delta) as T0 + n·(60/bpmSeed) + delta with n=i−1 
+
+The task involves implementing a function named tOfI(i, T0, bpmSeed, delta) that computes a time value based on a sequence of inputs, where the behavior of the function depends on the value of i. This function is critical for accurately modeling time progression in a musical timing system, ensuring that beats are spaced correctly according to a base tempo and an offset. The implementation resolves a gap in the timing logic where inconsistent beat spacing could lead to misaligned musical events, especially in real-time performance scenarios.  
+
+The function calculates the time value as T0 plus a term derived from the formula n×(60/bpmSeed) plus delta, where n is i if i is less than or equal to 1, and i otherwise. This conditional logic ensures that the timing progression adapts smoothly to different input values, maintaining consistency in beat intervals. As a result, the system now delivers precise, mathematically grounded time intervals that align with the intended tempo, improving both accuracy and reliability in playback and synchronization. This change directly supports the core functionality of the mother module, enabling seamless integration with other timing-dependent components in the software.
+
+### P02-T01-S01-M02 - Clamp delta to ±0.05 s inside tOfI and increment counter core.grid.delta_clamped
+
+The task involves modifying the core timing logic to ensure that the delta between consecutive time intervals does not exceed 0.05 seconds within the tOfI (time of interest) window. This adjustment is critical because unbounded delta values can lead to inconsistent timing behavior, especially under variable load conditions, which may compromise the system’s real-time responsiveness and data integrity. By enforcing a hard limit of 0.05 seconds, the system maintains predictable and stable timing performance across all operational scenarios.
+
+The implementation monitors the delta value during each iteration within tOfI and applies a clamp operation if the delta exceeds 0.05 seconds. When clamping occurs, it increments a counter—core.grid.delta_clamped—within the core grid module to track how often such boundary conditions are triggered. This allows for post-execution analysis of timing anomalies. As a result, the system now enforces a consistent time interval boundary, improves stability during high-frequency operations, and provides measurable data on timing deviations, enabling proactive monitoring and tuning of the timing subsystem.
+
+### P02-T01-S02-M01 - Implement boundPeriod(measured, seedPeriod) constraining the result to [0.95, 1.
+
+The task involves implementing a function named boundPeriod(measured, seedPeriod) that ensures the output of a period calculation remains within a tightly constrained range—specifically between 0.95 and 1.05 times the input seedPeriod. This function is critical for maintaining precision and consistency in time-based computations within the system’s core timing logic. Without this constraint, measured values could drift outside acceptable bounds due to measurement noise or environmental variability, leading to unreliable scheduling and potential system instability.
+
+The implementation works by taking a measured period value and adjusting it dynamically so that the final result is always within [0.95 × seedPeriod, 1.05 × seedPeriod], effectively filtering out outliers and ensuring stability. This adjustment is applied during runtime, leveraging existing measurement data and seed values. As a result, the system now delivers more reliable and predictable timing outputs, with all period values consistently bounded and aligned with operational expectations. This change directly supports the accuracy of downstream processes such as event scheduling and resource allocation, improving both performance and system resilience.
