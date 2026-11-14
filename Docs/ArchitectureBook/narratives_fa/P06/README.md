@@ -1,21 +1,31 @@
-# فاز 6 - امنیت، RBAC و جداسازی مستاجر
+# فاز ۶ - امنیت، کنترل دسترسی و izolation میزبان
 
-## آنچه P06 ارائه می دهد
+فاز ۶ مجموعه امنیتی را ارائه داد که هر فاز بعدی به آن وابسته است: زنده‌سازی JWT، کنترل دسترسی دینامیک، izolation میزبان بیشتر از RLS، تقویت کاربران، رمزهای ویژه و زنجیره تأمین، و مسیر مدیریت DSP.
 
-P06 **اعتماد صفر** را در هر لایه اعمال می‌کند: احراز هویت (JWT)، مجوز (محدوده‌ها + کمک‌های سطح)، جداسازی داده‌ها (امنیت در سطح ردیف)، و ثبت حسابرسی (تا P10).
+## کنترل دسترسی دینامیک (GAP-015)
 
-| لایه | Mechanism |
-|-------|-----------|
-| **معتبر** | RS256 JWT, short TTL (`ACCESS_TTL_MIN = 15` from `constants/scoring.ts`), refresh rotation (`REFRESH_TTL_DAYS = 7`, `KEY_ROTATION_DAYS = 90`). |
-| **محدوده** | Fine-grained: `tracks:read`, `tracks:write`, `mixes:create`, `admin:tenants`. Encoded in JWT `scope` claim. |
-| ** کمک های مالی سطح ** | `free` / `pro` / `enterprise` — controls feature flags (e.g., MAEST embeddings, export formats, concurrent mixes). |
-| **RLS** | PostgreSQL Row-Level Security on every tenant table. Policy: `tenant_id = current_setting('app.current_tenant')::uuid`. Set by middleware on every request. |
-| ** گزارش حسابرسی ** | Every authorization decision (allow/deny) → structured log with `trace_id`, `user_id`, `tenant_id`, `resource`, `action`, `decision`. Shipped to P10 OpenTelemetry. |
+مدل محدودیت ساکت به طور متوسط در فاز، توسط GAP-015 (`Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md`) جایگزین شد. میزان انتقال اجرا شد به `RBAC-M01` و `RBAC-M12`. نتیجه، هشت جدول در `packages/db/migrations/004_rbac.sql`: `permissions`, `roles`, `role_permissions`, `user_roles`, `user_permissions`, `groups`, `group_members`, `group_permissions`. همه آنها با RLS در سطح میزبان هستند. دسترسی‌ها واحد اصلی هستند؛ نقش‌ها نمودارهایی هستند؛ کاربران مستقیم دسترسی، ردیف و عضویت گروه را دریافت می‌کنند. هر ردیف دارای `expires_at` و `revoked_at` است.
 
-**ورودی**: هویت کاربر (JWT) + زمینه درخواست (مستاجر، منبع، اقدام).
-**خروجی**: مجاز/رد + رویداد حسابرسی.
+`RBAC-M05` مقدار دسترسی مؤثر را در `packages/access/src/rbac/effective.ts` اجرا می‌کند: اتحاد دسترسی نقش، مستقیم و گروهی، با فیلتر `revoked_at IS NULL AND (expires_at IS NULL OR expires_at > now())`، با دسترسی مستقیم `deny` به عنوان اولویت (نحوه AWS IAM). `RBAC-M06` نتیجه را در Redis (محدودیت 60 ثانیه) ذخیره می‌کند و با استفاده از PostgreSQL `LISTEN/NOTIFY` به طور ناگهانی می‌کند.
 
-**کار مسدود شده (1)**:
-- OQ-10: ماتریس اعطای ردیف - کدام محدوده به کدام لایه ها ترسیم می شود؟ نیاز به تصمیم گیری محصول دارد.
+`RB-AC-M10` مقدار `scopes[]` و `tier` را از تکنیک دسترسی حذف می‌کند. تکنیک‌ها به صورت هویتی (sub, tenant_id, jti, iat, exp) می‌شوند. فیلتر (interceptor) (`packages/gateway/src/interceptor.ts`) در هر درخواست دسترسی مؤثر را می‌خواند. `RBAC-M12` ماتریس تأیید کننده کوکو را از دسته دینامیک بازسازی می‌کند؛ این مجموعه `features/authz.feature` در پایان فاز اجرا می‌شود.
 
-**مجموع وظایف P06: همه TODO، 1 مسدود شده است.**
+## دوره زنده و لغوی JWT
+
+`packages/access/src/token/issue.ts` تگهای دسترسی 15 دقیقه و تگهای بازنشانی 7 روزه را ایجاد میکند. `token/refresh.ts` خانواده تگهای بازنشانی را چرخانده و در صورت استفاده مجدد، خانواده را لغو میکند. `token/denylist.ts` شناسه‌های `jti` و شناسه‌های خانواده لغو شده را به Redis نوشته و با مدت زمان محدودی تا انقضای طبیعی ذخیره میکند. `token/revoke-user.ts` یک جستجوی مبتنی بر شاخص را انجام میدهد تا تمام خانواده‌های فعال برای یک کاربر در سطح جهانی لغو شوند.
+
+## محدودسازی تیانت بیش از RLS
+
+`P06-T04-S01-M01` تنها مسیرهای موجود در `packages/gateway/src/route-table.ts` را می‌گیرد؛ مسیرهای `/ddex`، `/rights`، `/dsr` و `/stream` به صورت HTTP 404 بازگردانده می‌شوند (نه 403 - وجود آنها اطلاع داده نمی‌شود). `P06-T04-S02-M01` به هر تیانت یک مجموعه کارگر اختصاصی با یک سقف (bulkhead) می‌دهد. `P06-T0-02-M02` در `packages/access/src/crypto/dek.ts` فرآیند شифرگذاری مسیرهای تیانت را اجرا می‌کند. `P06-T04-S02-M03` فرآیند گردش 90 روزه کلیدهای امنیتی (KEK) را اجرا می‌کند. `P06-T04-S02-M04` Redis، ذخیره‌سازی و Kafka را در `packages/db/src/namespaced-clients.ts` بسته می‌کند تا `otomix:`, `otomix/` و `otomix.*` اجرا شوند.
+
+## تقویت مرورگر و کارگرهای کاری
+
+`P06-T05-S01-M01` در `packages/gateway/src/csp.ts` سریع‌ترین سرورهای CSP را انتقال می‌دهد با لیست‌های صریح `script-src` / `worker-src`. `P06-T05-S01-M02` حداکثر حافظه WASM را به 512 مگابایت محدود می‌کند (`packages/workers/src/wasm-memory.ts`). `P0-05-S01-M03` تحلیل کارگرهای را در `e2e/worker-isolation.spec.ts` نشان می‌دهد که در حالت بدون دسترسی اجرا می‌شوند (بدون DOM، بدون اطلاعات وارد، بدون شبکه بیش از مسیر پیام).
+
+## رمزهای مخفی، زنجیره تأمین و مدیریت DSP
+
+`P06-T06-S01-M01` رمزهای کریتیکس کیتیس را با استفاده از `ExternalSecret` به هشیور فیلدر متصل می‌کند و با `policy/secrets.rego` آن را تأیید می‌کند. `P06-T06-S01-M02` سینک را به سی‌ایی متصل می‌کند. `P06-T06-S01-M03` پوڈها را تقویت می‌کند و قوانین شبکه را به صورت پیش‌فرض ممنوع می‌کند.
+
+`P06-T07-S01-M01` فرآیند `PATCH /api/v1/dsp/parameters` را با اعتبارسنجی سخت (`chopGrid ? {1/8,1/16,1/32}`, مقدار عددی `crossfadeBeats`) اجرا می‌کند. `P06-T07-S01-M02` یک ردیف `admin_audit` با مدت حفظ 7 سال را برای هر تغییر نوشته است. `P06-T07-S01-M03` به روزرسانی‌های پارامتری را با استفاده از بانک خروجی و یک دنباله مونوتون برای هر تیانت منتقل می‌کند.
+
+P06 تکمیل شده (ذخیره شده `fc75cca`); ماتریس تست شامل P06-IT (6 سناریو) و X-P05-P06 و X-P06-P11 (16 تست بین فاز) می‌شود.
