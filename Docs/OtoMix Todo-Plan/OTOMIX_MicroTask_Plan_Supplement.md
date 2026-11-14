@@ -403,3 +403,10 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - **Known limitation:** in-memory/Redis-backed store is per-deployment; cross-region DLQ is a P10 concern.
 - **Local twin:** none. DLQ is server-side only.
 - **Reversibility:** if the owner later mandates PostgreSQL-based DLQ, packToDlq is a thin XADD wrapper; replacing with an INSERT into a new dlq table is a one-file change.
+### [GAP-026] [PHASE: P07, P10] [ADVISORY] DLQ handler registry not implemented; replay uses caller-provided handler
+- **Discovered:** 2026-11-14 during P07-T04-S01-M02.
+- **Context:** eplayDlq(redis, job_id, handler, deps) requires the caller to supply a handler. The CLI scripts/dlq-replay.ts passes a no-op handler to prove the path.
+- **Why deferred:** spec 5.8 says replay is a runbook action, but does not specify a handler registry keyed by job type. A production-grade registry is P10 scope (DLQ runbook + replay tooling).
+- **Current safety:** the idempotency store (withIdempotency(job_id, sha256(payload), handler)) prevents double-execution; XDEL removes the entry only on resh.
+- **Test coverage:** packages/gateway/test/dlq-replay.spec.ts proves effect-once, second-replay no-op, and conflict on payload mismatch.
+- **Follow-up:** P10-T05-S01-M04 (runbooks) already includes DLQ replay; extend it with a registry table once the P10 phase starts.
