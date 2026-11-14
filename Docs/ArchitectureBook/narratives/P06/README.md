@@ -48,3 +48,23 @@ Phase 6 delivered the full security surface: JWT lifecycle with rotation and Red
 - **P06-T03-S01-M01** - SUPERSEDED:GAP-015
 - **P06-T03-S01-M02** - SUPERSEDED:GAP-015
 
+
+## Per-task narratives
+
+### P06-RBAC-M01 - Migration: 8 RBAC tables (permissions, roles, role_permissions, user_roles, user
+
+The task involves migrating a comprehensive set of eight Role-Based Access Control (RBAC) tables—permissions, roles, role_permissions, user_roles, user_permissions, groups, group_members, and group_permissions—along with Row-Level Security (RLS) configurations, associated indexes, and audit trails from legacy systems into the new platform. This migration is critical because the current system lacks consistent access control enforcement, leading to security gaps and inconsistent user permissions across modules. Without a unified, well-structured RBAC model, the system risks unauthorized access, data breaches, and compliance failures, especially as user and group management scales.  
+
+The implementation establishes a robust, normalized RBAC schema that accurately maps permissions to roles, groups, and users, enabling fine-grained access control. It integrates RLS policies to enforce row-level restrictions based on user roles and group memberships, while maintaining efficient query performance through optimized indexing. Audit logging is enhanced to capture all access and permission changes. As a result, the system now enforces consistent, auditable access policies, significantly improving both security posture and operational clarity, laying a solid foundation for future feature expansion and compliance with regulatory standards.
+
+### P06-RBAC-M02 - Permissions catalog seed (>=40 keys) + drift detector. GAP-015.
+
+The task involves establishing a comprehensive permissions catalog with at least 40 predefined access keys and implementing a drift detector to monitor changes in permission configurations over time. This initiative is critical because without a clear, auditable permissions framework, the system risks inconsistent access control, increased security vulnerabilities, and difficulty in compliance with regulatory standards. As the application scales and evolves, unmanaged permission changes can lead to privilege escalation or unauthorized access, making a structured, observable permissions model essential for both security and operational integrity.
+
+The implementation populates a centralized permissions catalog with detailed, standardized access keys—covering roles, resources, and operations—ensuring every access point is explicitly defined and traceable. A drift detector is then integrated to continuously compare current configurations against the baseline catalog, flagging any deviations in real time. As a result, the system now has a living, observable permissions inventory with automated alerts for anomalies, enabling proactive governance, faster incident response, and improved alignment with security policies. This foundational layer supports future scalability and audit readiness.
+
+### P06-RBAC-M03 - Seed base roles (regular_user, tier_N, dsp_specialist, content_specialist, custo
+
+The task involves seeding a foundational set of base roles—regular_user, tier_N, dsp_specialist, content_specialist, customer_care, accountant, deputy_admin, and super_admin—into the system’s role hierarchy. This establishes a core structure that enables granular access control across the platform, ensuring users are assigned appropriate permissions from the outset. Without this, new users would lack predefined access levels, leading to inconsistent experiences and potential security gaps.  
+
+This implementation directly addresses the need for scalable, role-based access control (RBAC) by providing a standardized starting point for role definitions. The function creates these base roles with defined scopes and permissions, allowing downstream modules to inherit or extend them as needed. It ensures consistency in user access across different departments and functions, from content management to financial operations. As a result, the system now includes a robust, pre-configured role framework that supports future feature expansion and compliance with access governance. This foundational layer enables both rapid onboarding and secure, auditable user management across the platform.
