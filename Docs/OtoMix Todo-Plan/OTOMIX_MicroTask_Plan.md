@@ -2678,6 +2678,7 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/gateway/test/tags.spec.ts`<br>Input: file tags BPM=999, key='99Z'. Expected: registry bpm/key come from analysis; tag values stored only in display metadata. Pass: both. |
 | Spec Reference | OTOMIX §5.2 · Mother §1 |
 | Review Checkpoint | Check tag values are never passed to the Feature Registry validator as inputs. |
+| Notes | [GAP-014] dual deployment (core + gateway + adapter). [GAP-007] PII strip: displayMetadata holds title/bpm/key/artist/album/comment; wrappers log ingest.tags_stripped when hasPii; registry never reads displayMetadata. Registry-safety proven in gateway test: tag BPM=999 and key=99Z both fail BPM/CamelotKey validators; analysis BPM=128 and key=8A pass; registry payload built from analysis. [GAP-017] logger.log with event=ingest.tags_stripped, level=warn, outcome=partial. [GAP-018] untouched. Parsers: WAV LIST-INFO (chunk IDs are exactly 4 bytes — IKEY not ICKEY), MP3 ID3v2 + ID3v1 fallback, FLAC Vorbis comment. No third-party tag libraries. |
 
 ##### P07-T02-S02 Fuzzing
 

@@ -9,3 +9,6 @@ export type { WarnSink } from './ingest/limits.js';
 
 export { confineForLocal } from './ingest/confine.js';
 export type { LocalConfineResult, HandleLike, ConfineWarnSink } from './ingest/confine.js';
+
+export { extractTagsForLocal } from './ingest/tags.js';
+export type { TagsWarnSink, TagsResult } from './ingest/tags.js';

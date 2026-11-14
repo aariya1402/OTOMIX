@@ -27,3 +27,6 @@ export type { ConfineResult, ConfineDeps, ConfineReason } from './ingest/confine
 
 export { rejectForGateway } from './ingest/reject.js';
 export type { RejectDeps, RejectFormat, RejectReason, RejectResult } from './ingest/reject.js';
+
+export { extractTagsForGateway } from './ingest/tags.js';
+export type { TagsDeps, TagsResult } from './ingest/tags.js';
