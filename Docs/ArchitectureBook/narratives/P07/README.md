@@ -50,7 +50,7 @@ Per GAP-014 every affected micro-task produces two implementations plus a shared
 
 ## What's next
 
-`P07-T03-S01-M01` (tracks migration) begins the persistence layer for ingestion: `tracks` table with CHECK constraints, RLS, and a UNIQUE `(tenant_id, owner_id, content_sha256)`. Deduplication (`P07-T03-S02-M01`), the `POST /api/v1/ingest/local` endpoint (`P07-T03-S02-M02`), transactional commit (`P07-T03-S02-M03`) and rate limiting (`P07-T03-S02-M04`) follow. DLQ (`P07-T04`) and source declarations (`P07-T05`) close the phase.
+`P07-T03-S01-M01` (tracks migration) began the persistence layer for ingestion: `tracks` table with CHECK constraints, RLS, and a UNIQUE `(tenant_id, owner_id, content_sha256)`. Deduplication (`P07-T03-S02-M01`), the `POST /api/v1/ingest/local` endpoint (`P07-T03-S02-M02`), transactional commit (`P07-T03-S02-M03`) and rate limiting (`P07-T03-S02-M04`) follow. DLQ (`P07-T04`) and source declarations (`P07-T05`) close the phase.
 
 ### P07-T03-S01-M01
 **tracks migration**
@@ -61,3 +61,75 @@ Per GAP-014 every affected micro-task produces two implementations plus a shared
 - **Tests passed**: `Tests 9 passed (9)`
 - **Expected Outcome**: Create the `tracks` table with CHECK constraints, RLS (Row Level Security), and a UNIQUE constraint on `(tenant_id, owner_id, content_sha256)`.
 - **Review Checkpoint**: The `tracks` and `source_declarations` tables exist, enforce constraints, and are secured via RLS.
+
+
+### P07-T03-S02-M01
+**atomic deduplication via upsert**
+
+- **Task ID**: `P07-T03-S02-M01`
+- **Files changed**: `packages/gateway/src/ingest/dedup.ts`, `packages/gateway/test/dedup.spec.ts`
+- **Architecture Note**: `upsertTrackDedup` uses `INSERT ... ON CONFLICT (tenant_id, owner_id, content_sha256) DO NOTHING RETURNING track_id` followed by a lookup on conflict. `checkDedup` remains read-only for callers that only need to know existence. No BEGIN/COMMIT issued by the helper — the caller owns the transaction.
+- **Tests passed**: Tests 5 passed (5)
+- **Expected Outcome**: Deduplicate tracks per tenant and owner by SHA-256 of the canonical decoded PCM.
+- **Review Checkpoint**: `isNew` correctly indicates first-write vs conflict path.
+
+### P07-T03-S02-M02
+**POST /api/v1/ingest/local + local twin**
+
+- **Task ID**: `P07-T03-S02-M02`
+- **Files changed**: `packages/gateway/src/routes/ingest-local.ts`, `packages/gateway/src/ingest/commit.ts` (stub), `packages/adapter/src/ingest/ingest-local.ts`, `packages/gateway/test/ingest-local.spec.ts`, `packages/adapter/test/ingest-local.spec.ts`
+- **Architecture Note**: Cloud route pipeline: `verifyRequest` (interceptor) -> `validateIdempotencyKey` -> `idempotencyStore.withIdempotency(job_id, fp, handler)` -> sniff -> decode worker -> tags -> `commitIngestTransaction` inside `BEGIN`/`setTenantId`/`COMMIT`. 201 fresh, 200 replay, 409 conflict, 500 transient. Local twin is a UI-facing function with injected deps, no HTTP, no DB (GAP-014).
+- **Tests passed**: Tests 4 passed (4) [gateway]; Tests 3 passed (3) [adapter]
+- **Expected Outcome**: Scope-gated idempotent ingest endpoint with cloud and local twins.
+- **Review Checkpoint**: Replay body equals first body; `commitIngestTransaction` stub receives only `CommitIngestData`.
+
+### P07-T03-S02-M03
+**single-transaction commit track+features+outbox**
+
+- **Task ID**: `P07-T03-S02-M03`
+- **Files changed**: `packages/gateway/src/ingest/commit.ts`, `packages/gateway/test/ingest-commit.spec.ts`, regression fix in `packages/gateway/test/ingest-local.spec.ts`
+- **Architecture Note**: `commitIngestTransaction` now inserts track (via `upsertTrackDedup`), features (placeholder values per `[GAP-023]`), and an outbox row in one transaction. On `isNew=false` features insert is skipped to avoid the `(tenant_id, track_id, schema_version)` UNIQUE; outbox event is always written. Optional `{ failAfterTrackInsert }` hook proves atomicity.
+- **Tests passed**: Tests 3 passed (3)
+- **Expected Outcome**: Track, Feature Registry row, and outbox event commit atomically.
+- **Review Checkpoint**: Forced failure leaves 0 rows in all three tables; dedup hit still writes outbox.
+
+### P07-T03-S02-M04
+**leaky-bucket rate limiter middleware**
+
+- **Task ID**: `P07-T03-S02-M04`
+- **Files changed**: `packages/gateway/src/ingest/ratelimit.ts`, `packages/gateway/test/ratelimit.spec.ts`
+- **Architecture Note**: `createRateLimitMiddleware({ capacity, drainPerSec, clock, keyOf })` returns `(req, res, next) => void`. Per-user scope keyed by JWT `sub`. Defaults `capacity=10`, `drainPerSec=1` per `[GAP-024]`. On overflow: 429 + `Retry-After` integer seconds. In-memory Map; P10 may switch to Redis. Not yet wired into the route (M04 test is unit-only; composition belongs to server assembly).
+- **Tests passed**: Tests 3 passed (3)
+- **Expected Outcome**: Leaky-bucket rate limit returns 429 with Retry-After on ingestion floods.
+- **Review Checkpoint**: Burst 2x capacity: capacity pass + capacity 429; after one drain interval requests pass; Retry-After integer.
+
+### P07-T04-S01-M01
+**park failed jobs in otomix.dlq**
+
+- **Task ID**: `P07-T04-S01-M01`
+- **Files changed**: `packages/gateway/src/dlq/types.ts`, `packages/gateway/src/dlq/park.ts`, `packages/gateway/test/dlq-park.spec.ts`
+- **Architecture Note**: `parkToDlq(redis, input, deps)` XADDs to Redis Stream `otomix.dlq` with job_id, reason, trace_id, attempts, parked_at, payload. DLQ is a distinct concept from outbox (spec 5.8 sequence diagram). Cloud-only; adapter has no twin. `[GAP-025]` records Redis Streams as the queue choice.
+- **Tests passed**: Tests 3 passed (3)
+- **Expected Outcome**: Park a job in otomix.dlq after 1 attempt plus the 3-retry maximum, recording failure reason and trace id.
+- **Review Checkpoint**: 4 attempts -> 1 DLQ entry with reason + 32-hex trace_id; successive parks append.
+
+### P07-T04-S01-M02
+**replay DLQ idempotently by job_id**
+
+- **Task ID**: `P07-T04-S01-M02`
+- **Files changed**: `packages/gateway/src/dlq/replay.ts`, `packages/gateway/src/dlq/index.ts`, `scripts/dlq-replay.ts`, `packages/gateway/test/dlq-replay.spec.ts`
+- **Architecture Note**: `replayDlq(redis, jobId, handler, deps)` reads DLQ via `XRANGE`, applies `withIdempotency(jobId, sha256(payload), handler)`, `XDEL` on fresh only; second replay returns `replay` without XDEL; payload mismatch returns `conflict`. On `XRANGE` miss, it checks `getResponse(jobId)` so a replay after XDEL is still `replay`, not `not_found`. CLI `scripts/dlq-replay.ts` follows cvss-gate pattern (`require.main === module`). `[GAP-026]` records handler registry deferred to P10.
+- **Tests passed**: Tests 3 passed (3)
+- **Expected Outcome**: Replay DLQ messages idempotently by job id via a runbook command.
+- **Review Checkpoint**: Second replay no-op; payload conflict raises; CLI exit codes 0/1/2.
+
+### P07-T05-S01-M01
+**source declarations on ingest**
+
+- **Task ID**: `P07-T05-S01-M01`
+- **Files changed**: `packages/gateway/src/declarations/record.ts`, `packages/gateway/src/routes/ingest-local.ts`, `packages/gateway/test/source-declarations.spec.ts`, regression fix in `packages/gateway/test/ingest-local.spec.ts`
+- **Architecture Note**: OQ-11 resolved 2026-11-14: source declaration is REQUIRED; site carries no copyright liability; `terms_version` v1.0 effective 2026-11-14. `recordDeclaration(client, { tenantId, userId, scope, termsVersion, declaredAt })` inserts into `source_declarations` (declared_at as UTC ISO). Wired into `ingest-local` inside the same transaction; rollback on failure. `[GAP-028]` notes plan field is `action` but DDL column is `scope`.
+- **Tests passed**: Tests 3 passed (3)
+- **Expected Outcome**: Record user source declarations (ingest, publish, export) with terms version and UTC timestamp.
+- **Review Checkpoint**: ingest declaration row with v1.0 + UTC; invalid scope rejected; publish + export recorded.
+

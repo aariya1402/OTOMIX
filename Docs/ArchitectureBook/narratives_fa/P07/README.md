@@ -1,4 +1,4 @@
-﻿# فاز 7 - ورود محلی و مدیریت فایل‌های خطرناک
+# فاز 7 - ورود محلی و مدیریت فایل‌های خطرناک
 
 فاز 7 درخور: هر فایل صوتی که وارد OTOMIX می‌شود باید از یک سنجنده فرمت، یک محدوده حجم/مدت، یک بررسی محدوده دایرکتوری، یک دکدربناینگ کارگر، یک محافظ استاتیک ورود، یک طبقه‌بندی کننده کانتینر نامناسب و یک استخراج‌کننده برچسب‌ها که اطلاعات حساس (PII) را شناسایی می‌کند، عبور کند. در پایان P07-T02 همه این مراحل در حالی که در جایگاه هستند. P07-T03 (تکراری + نقطه انتها)، P07-T04 (DLQ) و P07-T05 (تعریف منبع) همچنان در حال انجام هستند.
 
@@ -51,3 +51,75 @@
 - **تست‌های موفق**: `Tests 9 passed (9)`
 - **نتیجه مورد انتظار**: ایجاد جدول `tracks` با محدودیت‌های CHECK، RLS (امنیت سطح ردیف) و یک محدودیت منحصر به فرد برای `(tenant_id, owner_id, content_sha256)`.
 - **نقطه بررسی**: جداول `tracks` و `source_declarations` وجود دارند، محدودیت‌ها رعایت می‌شوند و با RLS امنیت یافته‌اند.
+
+
+### P07-T03-S02-M01  
+**تکرار کاهش با استفاده از اجرای مجدد**
+
+- **شناسه وظیفه**: `P07-T03-S02-M01`
+- **فایل‌های تغییر یافته**: `packages/gateway/src/ingest/dedup.ts`, `packages/gateway/test/dedup.spec.ts`
+- **نکته معماری**: `upsertTrackDedup` از `INSERT ... ON CONFLICT (tenant_id, owner_id, content_sha25-56) DO NOTHING RETURNING track_id` استفاده می‌کند و سپس بر روی تعارض جستجو می‌کند. `checkDedup` برای مخاطبانی که فقط نیاز به دانستن وجود دارند، خواندنی می‌ماند. کمک‌دهنده تغییری در شروع یا پایان تراکنش اعمال نمی‌کند - تراکنش توسط مخاطب مالک است.
+- **تست‌های موفق**: 5 تست موفق (5)
+- **نتیجه مورد انتظار**: تکرار کاهش تراکت‌ها بر اساس SHA-256 از PCM متعادل شده.
+- **نقطه بررسی**: `isNew` به درستی مسیر نوشتن اولیه را از مسیر تعارض نشان می‌دهد.
+
+### P07-T03-S02-M02
+**POST /api/v1/ingest/local + local twin**
+
+- **ID وظیفه**: `P07-T03-S02-M02`
+- **فایل‌های تغییر یافته**: `packages/gateway/src/routes/ingest-local.ts`, `packages/gateway/src/ingest/commit.ts` (stub), `packages/adapter/src/ingest/ingest-local.ts`, `packages/gateway/test/ing-than-local.spec.ts`, `packages/adapter/test/ingest-local.spec.ts`
+- **نکته معماری**: لایه مسیر ابری: `verifyRequest` (interceptor) -> `validateIdempotencyKey` -> `idempotencyStore.withIdempotency(job_id, fp, handler)` -> sniff -> decode worker -> tags -> `commitIngestTransaction` درون `BEGIN`/`setTenantId`/`COMMIT`. 201 جدید، 200 بازگشت، 409 تعارض، 500 موقت. local twin یک تابع مواجهه‌ای با وابستگی‌های وارد شده، بدون HTTP، بدون دیتابیس (GAP-014).
+- **تست‌های موفق**: 4 تست موفق (4) [gateway]; 3 تست موفق (3) [adapter]
+- **نتیجه مورد انتظار**: پایه‌ای با محدودیت دامنه و پیاده‌سازی یک پایه ورودی ایدمپوتنت با دو نسخه ابری و محلی.
+- **نقطه بررسی**: محتوای بازگشت برابر محتوای اولیه است؛ stub `commitIngestTransaction` فقط داده‌ای با نام `CommitIngestData` را دریافت می‌کند.
+
+### P07-T03-S02-M03  
+**commit تراک+ویژه‌یی+outbox در یک تراکنش واحد**
+
+- **ID وظیفه**: `P07-T03-S02-M03`
+- **فایل‌های تغییر یافته**: `packages/gateway/src/ingest/commit.ts`, `packages/gateway/test/ingest-commit.spec.ts`, تصحیح بازگشتی در `packages/gateway/test/ingest-local.spec.ts`
+- **نکته معماری**: `commitIngestTransaction` اکنون یک تراکنش را برای ورود تراک (با استفاده از `upsertTrackDedup`)، ویژه‌های (مقدار موقت بر اساس `[GAP-023]`) و یک ردیف outbox ایجاد می‌کند. در صورت `isNew=false`، ورود ویژه‌ها اجتناب شده تا از شرط منحصر به فرد `(tenant_id, track_id, schema_version)` جلوگیری شود؛ هرگز یک رویداد outbox نوشته می‌شود. ویژه‌ی `{ failAfterTrackInsert }` به صورت اختیاری، اتمیت را اثبات می‌کند.
+- **تست‌های موفق**: 3 تست موفق (3)
+- **نتیجه مورد انتظار**: ورود تراک، ردیف ویژه‌ی سیستم و رویداد outbox به صورت اتمی اجرا می‌شود.
+- **نقطه بررسی**: خطا قوی باعث می‌شود که در همه سه جدول 0 ردیف باقی بماند؛ همچنین در صورت تکرار ورودی، رویداد outbox همچنان نوشته می‌شود.
+
+### P07-T03-S02-M04  
+**میانواحی محدودکننده سرعت براساس سیستم چاه بارانی**
+
+- **شناسه وظیفه**: `P07-T03-S02-M04`
+- **فایل‌های تغییر یافته**: `packages/gateway/src/ingest/ratelimit.ts`, `packages/gateway/test/ratelimit.spec.ts`
+- **نکته معماری**: `createRateLimitMiddleware({ capacity, drainPerSec, clock, keyOf })` بازگشت `(req, res, next) => void`. بازه کاربری بر اساس `sub` در JWT. مقدار پیش‌فرض `capacity=10`، `drainPerSec=1` برای `[GAP-024]`. در صورت پر شدن: 429 + `Retry-After` ثانیه‌های صحیح. مجموعه درونی Map؛ ممکن است در مرحله P10 به Redis تغییر کند. هنوز به مسیر متصل نشده است (آزمون M04 فقط واحد است؛ ترکیب بخشی از ساخت سرور است).
+- **آزمون‌های موفق**: 3 آزمون موفق (3)
+- **نتیجه مورد انتظار**: محدودکننده سرعت چاه بارانی در صورت فراخوانی بیش از حد، 429 با `Retry-After` را بازگرداند.
+- **نقطه بررسی**: برش 2 برابر ظرفیت: موفقیت ظرفیت + 429 برای ظرفیت؛ پس از یک بازه خروجی، درخواست‌ها موفق می‌شوند؛ `Retry-After` عدد صحیح.
+
+### P07-T04-S01-M01  
+**وظیفه‌های شکسته در otomix.dlq**
+
+- **شناسه وظیفه**: `P07-T04-S01-M01`
+- **فایل‌های ویرایش شده**: `packages/gateway/src/dlq/types.ts`, `packages/gateway/src/dlq/park.ts`, `packages/gateway/test/dl-ql-park.spec.ts`
+- **نکته معماری**: `parkToDlq(redis, input, deps)` به Redis Stream `otomix.dlq` اضافه می‌کند با job_id، reason، trace_id، attempts، parked_at و payload. DLQ یک مفهوم متمایز از outbox (متن 5.8 دیاگرام متوالی) است. تنها در محیط علایق؛ آداپتور دارای نسخه‌ای نیست. `[GAP-025]` می‌نویسد که Redis Streams به عنوان انتخاب صف است.
+- **تست‌های موفق**: 3 تست موفق (3)
+- **نتیجه مورد انتظار**: پس از 1 تلاش و حداکثر 3 تلاش، یک وظیفه در otomix.dlq قرار داده شود، با ثبت دلیل شکست و شناسه trace.
+- **نقطه بررسی**: 4 تلاش -> یک ورودی در DLQ با دلیل + شناسه trace 32-هکس؛ ورودی‌های متوالی به ترتیب اضافه می‌شوند.
+
+### P07-T04-S01-M02  
+**بازبینی دیلیوی دلیتی با استفاده از job_id**
+
+- **شناسه وظیفه**: `P07-T04-S01-M02`
+- **فایل‌های تغییر یافته**: `packages/gateway/src/dlq/replay.ts`, `packages/gateway/src/dlq/index.ts`, `scripts/dlq-replay.ts`, `packages/gateway/test/dl-queue-replay.spec.ts`
+- **نکته معماری**: `replayDlq(redis, jobId, handler, deps)` از طریق `XRANGE` دیلیوی را می‌خواند، `withIdempotency(jobId, sha256(payload), handler)` را اجرا می‌کند، و فقط برای نسخه جدید `XDEL` اعمال می‌شود؛ دومین بازبینی `replay` را بدون `XDEL` بازمی‌گرداند؛ در صورت عدم تطابق پیکلود، `conflict` بازمی‌گرداند. در صورت عدم یافتن `XRANGE`، آن بررسی می‌کند `getResponse(jobId)`، بنابراین بازبینی پس از `XDEL` همچنان `replay` می‌شود، نه `not_found`. اجرای خط فرمان `scripts/dlq-replay.ts` مطابق الگوی cvss-gate است (`require.main === module`). `[GAP-026]` ثبت رجیستری دستورالعمل به تأخیر در P10.
+- **تست‌های موفق**: 3 تست موفق (3)
+- **نتیجه مورد انتظار**: با استفاده از دستورالعمل، پیام‌های دیلیوی با استفاده از شناسه job به صورت یکسان بازبینی می‌شوند.
+- **نقطه بررسی**: بازبینی دوم بدون عملیات (no-op)؛ تعارض پیکلود باعث ایجاد می‌شود؛ کد خروجی خط فرمان 0/1/2.
+
+### P07-T05-S01-M01  
+**تعریف منابع در فرآیند ورود**
+
+- **شناسه وظیفه**: `P07-T05-S01-M01`
+- **فایل‌های تغییر یافته**: `packages/gateway/src/declarations/record.ts`, `packages/gateway/src/routes/ingest-local.ts`, `packages/gateway/test/source-declarations.spec.ts`, اصلاح ناهنجاری در `packages/gateway/test/ingest-local.spec.ts`
+- **نکته معماری**: OQ-11 حل شد 2026-11-14: تعریف منبع الزامی است؛ سایت مسئولیت قانونی از این موضوع ندارد؛ نسخه `terms_version` v1.0 از تاریخ 2026-11-14 می‌باشد. `recordDeclaration(client, { tenantId, userId, scope, termsVersion, declaredAt })` به `source_declarations` وارد می‌شود (declared_at به صورت ISO UTC). درون تراکنش `ingest-local` وصل شده است؛ در صورت خطا، بازگشت انجام می‌شود. `[GAP-028]` نشان می‌دهد فیلد برنامه `action` است اما ستون DDL `scope` است.
+- **آزمون‌های موفق**: 3 آزمون موفق (3)
+- **نتیجه مورد انتظار**: ثبت تعریف منابع کاربر (ورود، انتشار، خروج) با نسخه قوانین و زمان استاندارد UTC.
+- **نقطه بررسی**: ردیف تعریف ورود با v1.0 + UTC؛ محدودیت مربوط به محدوده رد شده؛ ثبت انتشار و خروج انجام شده است.
+
