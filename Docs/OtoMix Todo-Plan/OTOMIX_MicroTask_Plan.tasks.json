@@ -1226,7 +1226,7 @@
     },
     {
         "id":  "P05-T03-S01-M03",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Fall back to `V_map=0` when the TensorFlow model fails to load or crashes and set `vocal_map_assumed_zero`.",
         "prerequisites":  [
                               "P05-T03-S01-M02"
@@ -1248,7 +1248,7 @@
     },
     {
         "id":  "P05-T04-S01-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Implement `extract()` that runs the adapter, computes all registry fields, validates the result and writes the row with an outbox event in one transaction under `withTenant`.",
         "prerequisites":  [
                               "P05-T01-S03-M01",
