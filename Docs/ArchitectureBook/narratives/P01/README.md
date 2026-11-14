@@ -1,4 +1,4 @@
-# Phase 1 — Foundation
+﻿# Phase 1 — Foundation
 
 ## Why P01 Exists
 
@@ -62,3 +62,22 @@ Retry handles "try again." Degraded handles "stop trying, operate reduced."
 | X-P01-P06 | 1 | Trace context propagates through retry/degraded boundaries. |
 
 **Total P01 tasks: 23/23 complete.** Every constant is frozen (`Object.freeze`). Every validator returns a discriminated union. Every resilience policy is tested. Every telemetry field is documented.
+## Per-task narratives
+
+### P01-T01-S01-M01 - Initialize a pnpm monorepo with packages core, access, adapter, gateway, workers
+
+The task involves setting up a new pnpm-based monorepo structure that organizes a software project into distinct, modular packages—core, access, adapter, gateway, workers, ui, db, proto, and contracts—each with strict TypeScript typing, consistent code formatting via Prettier, and standardized linting through ESLint. This foundational setup ensures that all components are cleanly separated, maintainable, and scalable as the project evolves.  
+
+This initiative solves a critical problem: without a unified, well-structured monorepo, development teams risk code duplication, inconsistent standards, and difficulty managing dependencies across services. By establishing a shared configuration and tooling pipeline from the outset, the project gains immediate clarity in code ownership, reduces onboarding friction, and enables seamless collaboration across teams. The implementation configures pnpm to manage dependencies efficiently, enforces strict TypeScript type safety across all packages, and integrates ESLint and Prettier to maintain consistent code style. As a result, a fully functional, type-safe, and standardized monorepo was delivered—now enabling parallel development, easier testing, and smoother integration of new features without introducing configuration drift or technical debt.
+
+### P01-T01-S02-M01 - Configure Vitest coverage thresholds of 90% branches for packages/core and 100% 
+
+The task involves adjusting Vitest configuration to enforce strict branch coverage thresholds across key code packages within the project. Specifically, it sets a 90% branch coverage requirement for the packages/core module and a 100% branch coverage mandate for the packages/access module. This configuration ensures that test suites adequately validate all execution paths in critical components, reducing the likelihood of undetected bugs in production.  
+
+This initiative addresses a persistent gap in test quality—historically, some code paths were not adequately exercised, leading to unpredictable behavior in edge cases. By enforcing these thresholds, the project gains stronger confidence that its core and access functionalities are thoroughly tested. The implementation modifies the Vitest configuration files to include coverage rules that trigger warnings or failures when thresholds are not met during test runs. As a result, the codebase now enforces consistent, measurable test coverage, improving reliability and maintainability. The change is now active in the build pipeline, and all future test runs will validate branch coverage before passing, ensuring that both core and access modules meet rigorous quality standards.
+
+### P01-T01-S02-M02 - Implement scripts/cvss-gate.ts that exits non-zero when any scanner finding has 
+
+The task involves implementing a TypeScript script, cvss-gate.ts, that acts as a gatekeeper in the CI pipeline by evaluating security scanner findings and enforcing a threshold based on CVSS scores. This script is designed to exit with a non-zero status whenever any vulnerability is detected with a CVSS score of 7.0 or higher, effectively preventing the build from proceeding if high-severity issues are found. The implementation is critical because it directly addresses the risk of deploying software with unmitigated critical vulnerabilities, which could lead to system compromises or data breaches. Without such a gate, even minor security flaws might slip through, undermining the integrity of the deployed systems.
+
+The script functions by parsing the output of security scanners, filtering findings by CVSS score, and terminating the CI job immediately upon detecting any score at or above 7.0. As a result, the CI pipeline now includes a mandatory security checkpoint that ensures all builds pass a baseline vulnerability threshold before proceeding. This change strengthens the project’s security posture by introducing an automated, enforceable barrier against high-risk vulnerabilities, aligning with the organization’s compliance and risk mitigation standards.
