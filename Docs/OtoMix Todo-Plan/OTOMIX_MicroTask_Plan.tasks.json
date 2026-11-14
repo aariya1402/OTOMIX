@@ -1721,7 +1721,7 @@
     },
     {
         "id":  "P07-T04-S01-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Park a job in `otomix.dlq` after one attempt plus the 3-retry maximum, recording failure reason and trace id.",
         "prerequisites":  [
                               "P01-T07-S01-M01"

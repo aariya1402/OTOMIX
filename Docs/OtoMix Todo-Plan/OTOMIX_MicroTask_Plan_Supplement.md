@@ -396,3 +396,10 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - **Defaults chosen (M04):** capacity=10 tokens, drainPerSec=1, per-user scope keyed by JWT sub, Retry-After integer seconds (RFC 9110), in-memory store per-process.
 - **Known limitation:** in-memory store is per-process; a multi-replica deployment (P10) needs a shared store. Not blocking M04; record for P10.
 - **Local twin:** none. Rate limiting is a server-side DoS control; adapter ingestLocal is UI-facing and does not go through HTTP.
+### [GAP-025] [PHASE: P07, P10, P11] [ADVISORY] DLQ queue technology unspecified; Redis Streams chosen
+- **Discovered:** 2026-11-14 during P07-T04-S01-M01.
+- **Spec basis:** 5.8 shows otomix.dlq as a queue participant in the sequence diagram, but does not name the technology. 9.11 only ships the outbox table; there is no dlq table in migrations.
+- **Decision (M05):** Redis Streams via ioredis (already a dependency; used by idempotency store). Stream name otomix.dlq. Consumer group dlq-processor is reserved for M02 replay; not used here.
+- **Known limitation:** in-memory/Redis-backed store is per-deployment; cross-region DLQ is a P10 concern.
+- **Local twin:** none. DLQ is server-side only.
+- **Reversibility:** if the owner later mandates PostgreSQL-based DLQ, packToDlq is a thin XADD wrapper; replacing with an INSERT into a new dlq table is a one-file change.
