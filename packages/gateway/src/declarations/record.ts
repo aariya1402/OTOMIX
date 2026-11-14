@@ -3,7 +3,8 @@
 // Cloud-only; adapter has no DB (see GAP-014).
 
 import { createLogger } from '@otomix/core';
-import type { Logger, PoolClient } from '@otomix/core';
+import type { Logger } from '@otomix/core';
+import type { PoolClient } from 'pg';
 
 export type DeclarationScope = 'ingest' | 'publish' | 'export';
 

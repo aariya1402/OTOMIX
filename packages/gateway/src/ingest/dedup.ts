@@ -5,7 +5,8 @@
 
 import { randomUUID } from 'node:crypto';
 import { createLogger } from '@otomix/core';
-import type { Logger, PoolClient } from '@otomix/core';
+import type { Logger } from '@otomix/core';
+import type { PoolClient } from 'pg';
 
 export interface DedupResult {
   exists: boolean;
