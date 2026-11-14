@@ -371,3 +371,15 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 **Status:** RESOLVED
 **Context:** The plan requested  03_tracks.sql. However, the  03 prefix was already used by  03_global_features_jsonb.sql. The developer merged the tracks table (P07-T03) with the source declarations table (P07-T05) into a single migration:  07_tracks_source_declarations.sql.
 **Resolution:** The file  07_tracks_source_declarations.sql already exists on disk and satisfies all constraints, RLS, and uniqueness requirements of P07-T03-S01-M01. The test file 	racks.migration.spec.ts correctly targets this file. No new file will be created.
+### [GAP-022] [PHASE: P07, P10, P11] [HIGH] Testcontainers parallelism + tight timeouts cause Step 6 flakes
+- **Discovered:** 2026-11-14 during Step 6 for P07-T03-S02-M02.
+- **Evidence:** Full suite (
+px vitest run) failed 4 files, all by TIMEOUT not assertion:
+  - packages/db/test/rbac.migration.spec.ts > migrate up creates all 8 tables -> 5030 ms (limit 5000 ms)
+  - packages/db/test/rbac.roles.seed.spec.ts > beforeAll (testcontainer start) -> >10000 ms (limit 10000 ms)
+  - 	ools/test/no-decoder-main.spec.ts > real graph: 0 violations -> >5000 ms (limit 5000 ms)
+  - packages/db/test/rbac.roles.seed.spec.ts (second project view) -> same hook timeout
+- **In isolation** all three pass (wall: 3.9s, 6.4s, 6.5s).
+- **Root cause:** full suite spins ~15+ Postgres containers in parallel. M01 (dedup spec) and M02 (ingest-local spec) each add one more container, pushing already-near-limit tests (migrate up: 5030 ms) over the timeout boundary.
+- **Immediate fix applied:** increased timeouts to 15000 ms (describe-scope 	imeout / hookTimeout: 30000). No assertion or business logic changed.
+- **Proper fix (deferred to P10 or P11):** either serialise the p06-integration project (--maxWorkers=1 or fileParallelism off), or bump 	estcontainers startup pool / reuse. Track at P11 acceptance run.

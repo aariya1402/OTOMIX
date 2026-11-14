@@ -1685,7 +1685,7 @@
     },
     {
         "id":  "P07-T03-S02-M02",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Implement `POST /api/v1/ingest/local` requiring `local:process` and a valid `Idempotency-Key`.",
         "prerequisites":  [
                               "P07-T03-S02-M01",

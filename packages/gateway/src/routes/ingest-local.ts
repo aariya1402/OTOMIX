@@ -1,28 +1,33 @@
-// OTOMIX §5.1; §9.10 · Mother §1; Add. §1–§2 · GAP-014
-// POST /api/v1/ingest/local — scope-gated idempotent ingest endpoint
+// OTOMIX 5.1; 9.10 - Mother 1; Add. 1-2 - GAP-014; GAP-017
+// POST /api/v1/ingest/local. Assumes interceptor ran (claims present)
+// and validateIdempotencyKey passed. Delegates commit to M03 stub.
 
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { randomUUID } from 'node:crypto';
 import {
   sniffForGateway,
-  createSizeLimitMiddleware,
-  confineForGateway,
   rejectForGateway,
   extractTagsForGateway,
-  checkDedup,
-  upsertTrackDedup,
-  generateTrackId,
 } from '../ingest';
 import { runDecodeWorker } from '../ingest/decode-worker';
 import { createLogger } from '@otomix/core';
 import type { Logger, PoolClient } from '@otomix/core';
 import { setTenantId } from '../db/tenant';
+import type { IdempotencyStore } from '../idempotency/store';
+import { commitIngestTransaction } from '../ingest/commit';
+import type { TokenClaims } from '../interceptor';
 
 export interface IngestLocalDeps {
   logger?: Logger;
-  pool?: { connect: () => Promise<PoolClient> };
-  idemStore?: { checkAndSet: (key: string, ttlSec: number) => Promise<boolean> };
-  grantedRoot?: string;
+  pool: { connect: () => Promise<PoolClient> };
+  idempotencyStore: IdempotencyStore;
+}
+
+interface IngestResponseBody {
+  track_id: string;
+  format: string;
+  sha256: string;
+  display_metadata: Record<string, unknown>;
 }
 
 function sendJson(res: ServerResponse, status: number, body: unknown): void {
@@ -35,142 +40,134 @@ function buildDefaultLogger(): Logger {
   return createLogger({ service: 'gateway-ingest' });
 }
 
-const sizeLimitMiddleware = createSizeLimitMiddleware({});
+function hexToBytes(hex: string): Uint8Array {
+  const out = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < out.length; i++) {
+    out[i] = parseInt(hex.substr(i * 2, 2), 16);
+  }
+  return out;
+}
 
-export function createIngestLocalRoute(deps: IngestLocalDeps = {}) {
+function fingerprintOf(method: string, path: string, bodyHash: string): string {
+  return method + '|' + path + '|' + bodyHash;
+}
+
+export function createIngestLocalRoute(deps: IngestLocalDeps) {
   const logger = deps.logger ?? buildDefaultLogger();
   const pool = deps.pool;
-  const idemStore = deps.idemStore;
+  const idemStore = deps.idempotencyStore;
 
-  return async function ingestLocalRoute(req: IncomingMessage, res: ServerResponse): Promise<void> {
+  return async function ingestLocalRoute(
+    req: IncomingMessage,
+    res: ServerResponse,
+    claims: TokenClaims,
+  ): Promise<void> {
     const traceId = randomUUID();
     const spanId = randomUUID();
     const startTime = Date.now();
 
-    // Require Idempotency-Key header
-    const idemKey = req.headers['idempotency-key'] as string | undefined;
-    if (!idemKey || idemKey.length === 0) {
-      sendJson(res, 400, { error: 'INVALID_ARGUMENT', message: 'Idempotency-Key header required' });
-      return;
-    }
-
-    // Check idempotency store (24h TTL = 86400s)
-    if (idemStore) {
-      const isNew = await idemStore.checkAndSet(idemKey, 86400);
-      if (!isNew) {
-        // Replay: return the stored response
-        // In a real implementation, we'd fetch the stored response from the idem store
-        sendJson(res, 200, { track_id: 'replay-placeholder', replayed: true });
-        return;
-      }
-    }
-
-    // Apply size/duration limit middleware
-    await new Promise<void>((resolve, reject) => {
-      sizeLimitMiddleware(req, res, (err) => {
-        if (err) reject(err);
-        else if (res.statusCode >= 400) reject(new Error('rejected'));
-        else resolve();
-      });
-    }).catch(() => {}); // Middleware already sent response
-
-    if (res.statusCode >= 400) return; // Already responded
-
-    // Parse multipart form data (simplified - in production use a proper multipart parser)
-    // For now, assume the file is in the body as raw bytes
     const chunks: Buffer[] = [];
     for await (const chunk of req) {
       chunks.push(chunk);
     }
     const fileBytes = Buffer.concat(chunks);
-    const filename = req.headers['x-filename'] as string ?? 'unknown';
+    const filename = (req.headers['x-filename'] as string | undefined) ?? 'unknown';
 
-    // Sniff format
-    const sniffResult = sniffForGateway(fileBytes, filename, { logger, trace_id: traceId, span_id: spanId });
-    if (sniffResult.format === 'unknown') {
-      sendJson(res, 400, { error: 'INVALID_ARGUMENT', message: 'Unsupported or unrecognized audio format' });
+    const sniffed = sniffForGateway(fileBytes, filename, {
+      logger,
+      trace_id: traceId,
+      span_id: spanId,
+    });
+    if (sniffed.format === 'unknown') {
+      sendJson(res, 400, { error: 'INVALID_ARGUMENT', message: 'Unsupported audio format' });
       return;
     }
 
-    // Confine path (for local file paths - not used for direct upload)
-    // In the upload case, we skip confinement since the file is in the request body
-
-    // Run decode in worker
-    const decodeResult = await runDecodeWorker(new Uint8Array(fileBytes), sniffResult.format);
-    if (!decodeResult.ok) {
-      const rejectResult = rejectForGateway(sniffResult.format, new Uint8Array(fileBytes), decodeResult.message, {
+    const decoded = await runDecodeWorker(new Uint8Array(fileBytes), sniffed.format);
+    if (!decoded.ok) {
+      rejectForGateway(sniffed.format, new Uint8Array(fileBytes), decoded.message, {
         logger,
         trace_id: traceId,
         span_id: spanId,
       });
-      sendJson(res, 400, { error: rejectResult.error, message: rejectResult.message });
+      sendJson(res, 400, { error: 'INVALID_ARGUMENT', message: decoded.message });
       return;
     }
 
-    // Extract tags (for display metadata only)
-    const tagsResult = extractTagsForGateway(new Uint8Array(fileBytes), sniffResult.format, {
+    const tags = extractTagsForGateway(new Uint8Array(fileBytes), sniffed.format, {
       logger,
       trace_id: traceId,
       span_id: spanId,
     });
 
-    // Check deduplication
-    if (!pool) {
-      sendJson(res, 500, { error: 'INTERNAL_ERROR', message: 'Database pool not configured' });
-      return;
-    }
+    const idemKey = (req.headers['idempotency-key'] as string | undefined) ?? '';
+    const fp = fingerprintOf('POST', '/api/v1/ingest/local', decoded.value.sha256);
 
-    const client = await pool.connect();
     try {
-      await client.query('BEGIN');
-      await setTenantId(client, 'otomix');
+      const result = await idemStore.withIdempotency<IngestResponseBody>(idemKey, fp, async () => {
+        const client = await pool.connect();
+        try {
+          await client.query('BEGIN');
+          await setTenantId(client, claims.tenant_id);
+          const durationMs = Math.round((decoded.value.pcm.length / decoded.value.sampleRate) * 1000);
+          const storageKey = 's3://bucket/' + decoded.value.sha256 + '.' + sniffed.format;
+          const trackId = await commitIngestTransaction(client, {
+            tenantId: claims.tenant_id,
+            ownerId: claims.sub,
+            contentSha256: hexToBytes(decoded.value.sha256),
+            format: sniffed.format,
+            durationMs,
+            storageKey,
+          });
+          await client.query('COMMIT');
+          return {
+            track_id: trackId,
+            format: sniffed.format,
+            sha256: decoded.value.sha256,
+            display_metadata: tags.displayMetadata,
+          };
+        } catch (err) {
+          await client.query('ROLLBACK');
+          throw err;
+        } finally {
+          client.release();
+        }
+      });
 
-      const dedupResult = await checkDedup(client, 'otomix', 'current-user-id', decodeResult.value.sha256);
-      let trackId: string;
-
-      if (dedupResult.exists) {
-        trackId = dedupResult.trackId!;
-      } else {
-        trackId = generateTrackId();
-        // Insert track row
-        await client.query(
-          `INSERT INTO tracks (track_id, tenant_id, owner_id, content_sha256, format, duration_ms, storage_key)
-           VALUES ($1, 'otomix', $2, decode($3, 'hex'), $4, $5, $6)`,
-          [
-            trackId,
-            'current-user-id',
-            decodeResult.value.sha256,
-            sniffResult.format,
-            Math.round(decodeResult.value.pcm.length / decodeResult.value.sampleRate * 1000),
-            `s3://bucket/${trackId}.${sniffResult.format}`,
-          ],
-        );
-
-        // Insert feature registry row (placeholder - real features from P05)
-        await client.query(
-          `INSERT INTO features (feature_id, tenant_id, track_id, schema_version, bpm, camelot_key, energy_scalar, energy_stars, mixability, groove_mode, registry_json)
-           VALUES (gen_random_uuid(), 'otomix', $1, '1.2.0', 120, '1A', 0.5, 3, 0.5, 'straight', '{}')`,
-          [trackId],
-        );
-
-        // Emit outbox event
-        await client.query(
-          `INSERT INTO outbox (message_id, tenant_id, topic, payload)
-           VALUES (gen_random_uuid(), 'otomix', 'otomix.ingest', $1)`,
-          [JSON.stringify({ track_id: trackId, format: sniffResult.format, sha256: decodeResult.value.sha256 })],
-        );
+      if (result.status === 'fresh' && result.response !== undefined) {
+        sendJson(res, 201, result.response);
+        logger.log({
+          level: 'info',
+          trace_id: traceId,
+          span_id: spanId,
+          event: 'ingest.local_created',
+          outcome: 'success',
+          durationMs: Date.now() - startTime,
+        });
+        return;
       }
-
-      await client.query('COMMIT');
-
-      sendJson(res, 201, {
-        track_id: trackId,
-        format: sniffResult.format,
-        sha256: decodeResult.value.sha256,
-        display_metadata: tagsResult.displayMetadata,
+      if (result.status === 'replay' && result.response !== undefined) {
+        sendJson(res, 200, result.response);
+        logger.log({
+          level: 'info',
+          trace_id: traceId,
+          span_id: spanId,
+          event: 'ingest.local_replayed',
+          outcome: 'success',
+          durationMs: Date.now() - startTime,
+        });
+        return;
+      }
+      sendJson(res, 409, { error: 'ABORTED', message: 'Idempotency conflict' });
+      logger.log({
+        level: 'warn',
+        trace_id: traceId,
+        span_id: spanId,
+        event: 'ingest.local_conflict',
+        outcome: 'failure',
+        durationMs: Date.now() - startTime,
       });
     } catch (err) {
-      await client.query('ROLLBACK');
       logger.log({
         level: 'error',
         trace_id: traceId,
@@ -181,8 +178,6 @@ export function createIngestLocalRoute(deps: IngestLocalDeps = {}) {
         error: (err as Error).message,
       });
       sendJson(res, 500, { error: 'INTERNAL_ERROR', message: 'Ingest failed' });
-    } finally {
-      client.release();
     }
   };
 }

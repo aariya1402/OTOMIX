@@ -64,7 +64,7 @@ function countViolations(parsed: any): number {
   return 0;
 }
 
-describe('no-decoder-on-main (P07-T02-S01-M01)', () => {
+describe('no-decoder-on-main (P07-T02-S01-M01)', { timeout: 15000 }, () => {
   it('real graph: 0 violations', () => {
     const dirs = ['packages/gateway/src', 'packages/ui/src']
       .map((d) => path.join(ROOT, d))
