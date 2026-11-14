@@ -83,15 +83,17 @@ if (Test-Path $suppInjPath) {
     $suppInj = Get-Content $suppInjPath -Raw -Encoding UTF8
     # Match any table row whose first cell starts with the backticked RBAC ID,
     # contains DONE somewhere before the next pipe, and has a description in
-    # the second cell. Pattern deliberately avoids non-ASCII (checkmarks) so
-    # it survives clipboard round-trips.
+    # the second cell. Pattern deliberately avoids non-ASCII so it survives
+    # clipboard round-trips.
     $rbacRows = [regex]::Matches($suppInj, '\|\s*`(RBAC-M\d+)`[^|]*DONE[^|]*\|\s*([^|]+?)\s*\|')
     if ($rbacRows.Count -gt 0) {
+        # Local em-dash (U+2014). Cannot rely on $emdash from later in the script.
+        $rbacEmdash = [char]0x2014
         $suppBlock = "`r`n#### P06-RBAC - Supplement Tasks (GAP-015)`r`n`r`n"
         foreach ($row in $rbacRows) {
             $rid = $row.Groups[1].Value
             $rdesc = $row.Groups[2].Value.Trim()
-            $suppBlock += "###### P06-$rid - [x]`r`n`r`n| Field | Value |`r`n|---|---|`r`n| ID | P06-$rid |`r`n| Description | Supplement: $rdesc |`r`n| Source | OTOMIX_MicroTask_Plan_Supplement.md GAP-015 |`r`n`r`n"
+            $suppBlock += "###### P06-$rid $rbacEmdash [x]`r`n`r`n| Field | Value |`r`n|---|---|`r`n| ID | P06-$rid |`r`n| Description | Supplement: $rdesc |`r`n| Source | OTOMIX_MicroTask_Plan_Supplement.md GAP-015 |`r`n`r`n"
         }
         $anchorPos = $mdContent.IndexOf('#### P06 Phase Integration Test Suite')
         if ($anchorPos -gt 0) {
