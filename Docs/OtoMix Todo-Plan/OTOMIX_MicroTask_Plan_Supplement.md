@@ -390,3 +390,9 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - **Placeholder validity:** all values satisfy features CHECKs (bpm in [60,200], camelot regex, energy/mixability in [0,1], stars in [0,5], groove_mode enum).
 - **Replacement:** when P05-T04-S01-M01 lands, replace the placeholder block inside commit.ts with the real extract() output. One-liner swap; no schema bump.
 - **Dedup rule:** on isNew=false, skip features INSERT (avoids (tenant,track,schema_version) UNIQUE collision); outbox event is still written.
+### [GAP-024] [PHASE: P07] [ADVISORY] Rate-limit defaults recorded from M04
+- **Discovered:** 2026-11-14 during P07-T03-S02-M04.
+- **Spec basis:** 9.1 ("leaky bucket 429") and 7.12 ("per-user size/duration limits"). Spec is silent on exact numbers and Retry-After format.
+- **Defaults chosen (M04):** capacity=10 tokens, drainPerSec=1, per-user scope keyed by JWT sub, Retry-After integer seconds (RFC 9110), in-memory store per-process.
+- **Known limitation:** in-memory store is per-process; a multi-replica deployment (P10) needs a shared store. Not blocking M04; record for P10.
+- **Local twin:** none. Rate limiting is a server-side DoS control; adapter ingestLocal is UI-facing and does not go through HTTP.
