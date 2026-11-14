@@ -68,4 +68,15 @@ export default defineWorkspace([
       testTimeout: 300000
     }
   }
+
+  ,
+    {
+      test: {
+        name: 'fuzz',
+        include: ['fuzz/decoder.fuzz.spec.ts'],
+        environment: 'node',
+        testTimeout: 1800000,
+        hookTimeout: 120000
+      }
+    }
 ])
