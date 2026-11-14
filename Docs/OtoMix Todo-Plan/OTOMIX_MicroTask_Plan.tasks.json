@@ -1698,7 +1698,7 @@
     },
     {
         "id":  "P07-T03-S02-M03",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Commit the track row, Feature Registry row and outbox event in one transaction.",
         "prerequisites":  [
                               "P07-T03-S02-M02",

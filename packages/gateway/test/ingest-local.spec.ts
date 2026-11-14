@@ -99,6 +99,29 @@ describe('POST /api/v1/ingest/local (P07-T03-S02-M02)', () => {
       '  storage_key     text NOT NULL,' +
       '  created_at      timestamptz NOT NULL DEFAULT now(),' +
       '  UNIQUE (tenant_id, owner_id, content_sha256)' +
+      ');' +
+      'CREATE TABLE features (' +
+      '  feature_id      uuid PRIMARY KEY,' +
+      '  tenant_id       text NOT NULL,' +
+      '  track_id        uuid NOT NULL,' +
+      '  schema_version  text NOT NULL,' +
+      '  bpm             numeric(6,3) NOT NULL CHECK (bpm >= 60.0 AND bpm <= 200.0),' +
+      "  camelot_key     text NOT NULL CHECK (camelot_key ~ '^(1[0-2]|[1-9])[AB]$')," +
+      '  energy_scalar   numeric(5,4) NOT NULL CHECK (energy_scalar BETWEEN 0 AND 1),' +
+      '  energy_stars    smallint     NOT NULL CHECK (energy_stars BETWEEN 0 AND 5),' +
+      '  mixability      numeric(5,4) NOT NULL CHECK (mixability BETWEEN 0 AND 1),' +
+      "  groove_mode     text NOT NULL CHECK (groove_mode IN ('straight','triplet','swing'))," +
+      '  registry_json   jsonb NOT NULL,' +
+      '  analyzed_at     timestamptz NOT NULL DEFAULT now(),' +
+      '  UNIQUE (tenant_id, track_id, schema_version)' +
+      ');' +
+      'CREATE TABLE outbox (' +
+      '  message_id   uuid PRIMARY KEY,' +
+      '  tenant_id    text NOT NULL,' +
+      '  topic        text NOT NULL,' +
+      '  payload      jsonb NOT NULL,' +
+      '  created_at   timestamptz NOT NULL DEFAULT now(),' +
+      '  published_at timestamptz' +
       ');'
     );
 

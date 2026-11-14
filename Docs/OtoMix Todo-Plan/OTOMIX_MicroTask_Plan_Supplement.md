@@ -383,3 +383,10 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - **Root cause:** full suite spins ~15+ Postgres containers in parallel. M01 (dedup spec) and M02 (ingest-local spec) each add one more container, pushing already-near-limit tests (migrate up: 5030 ms) over the timeout boundary.
 - **Immediate fix applied:** increased timeouts to 15000 ms (describe-scope 	imeout / hookTimeout: 30000). No assertion or business logic changed.
 - **Proper fix (deferred to P10 or P11):** either serialise the p06-integration project (--maxWorkers=1 or fileParallelism off), or bump 	estcontainers startup pool / reuse. Track at P11 acceptance run.
+### [GAP-023] [PHASE: P07, P05] [ADVISORY] M03 uses placeholder Feature Registry values
+- **Discovered:** 2026-11-14 during P07-T03-S02-M03 Plan.
+- **Context:** P07-T03-S02-M03's prerequisite P05-T04-S01-M01 (extract()) is TODO and not on disk.
+- **Decision:** commitIngestTransaction inserts features with fixed placeholders (bpm=120, camelot_key='1A', energy_scalar=0.5, energy_stars=3, mixability=0.5, groove_mode='straight', registry_json='{}', schema_version='1.2.0') so atomicity can be proven now.
+- **Placeholder validity:** all values satisfy features CHECKs (bpm in [60,200], camelot regex, energy/mixability in [0,1], stars in [0,5], groove_mode enum).
+- **Replacement:** when P05-T04-S01-M01 lands, replace the placeholder block inside commit.ts with the real extract() output. One-liner swap; no schema bump.
+- **Dedup rule:** on isNew=false, skip features INSERT (avoids (tenant,track,schema_version) UNIQUE collision); outbox event is still written.
