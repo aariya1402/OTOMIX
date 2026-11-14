@@ -10,7 +10,8 @@
                     "test":  "vitest run",
                     "lint":  "pnpm -r lint",
                     "format":  "pnpm -r format",
-                    "conftest:test":  "node tools/scripts/conftest-check.js"
+                    "conftest:test":  "node tools/scripts/conftest-check.js",
+                    "depcruise":  "depcruise --config .dependency-cruiser.cjs packages/gateway/src packages/ui/src"
                 },
     "keywords":  [
                      "otomix",
@@ -24,6 +25,7 @@
                             "@types/supertest":  "^7.2.1",
                             "@typescript-eslint/eslint-plugin":  "^6.0.0",
                             "@typescript-eslint/parser":  "^6.0.0",
+                            "dependency-cruiser":  "^16.10.4",
                             "eslint":  "^8.0.0",
                             "eslint-config-prettier":  "^9.1.2",
                             "fast-check":  "^4.10.2",

@@ -5,10 +5,15 @@ allowBuilds:
   '@bufbuild/buf': true
   cpu-features: false
   esbuild: true
-  ffmpeg-static: set this to true or false
+  ffmpeg-static: true
   protobufjs: false
   ssh2: false
+  dependency-cruiser: true
+  '@swc/core': true
 
 onlyBuiltDependencies:
   - esbuild
   - '@bufbuild/buf'
+  - dependency-cruiser
+  - '@swc/core'
+  - ffmpeg-static

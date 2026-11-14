@@ -2652,6 +2652,7 @@ flowchart LR
 | Independent Test(s) | **unit** · dependency-cruiser (Vitest) · `tools/test/no-decoder-main.spec.ts`<br>Input: dependency graph. Expected: 0 edges from `gateway` or `ui` entry points to `workers/decoders`. Pass: 0 violations. |
 | Spec Reference | OTOMIX §5.3; §7.7 · Mother §1; §8.3; Add. §6 |
 | Review Checkpoint | Run `depcruise` and read the report. |
+| Notes | [GAP-014] enforced by dependency-cruiser rule no-decoder-on-main in .dependency-cruiser.cjs. Blocks packages/(gateway|ui)/src from importing packages/workers/src/decode*, mpg123-decoder, @wasm-audio-decoders/*. Runtime wrappers decode-worker.ts (gateway + adapter) use require.resolve/Worker URL, not statically visible. Test invokes depcruise via process.execPath (Windows .cmd EINVAL); violation counter walks modules[].dependencies[] FIRST (deps with valid===false && rules.length>0) and only falls back to summary.violations because depcruise v16 can emit an all-zero summary object even when individual dependencies carry rule matches; real graph -> 0 violations; synthetic writes temp __no_decoder_violator.ts inside packages/gateway/src with extensionless import so tsPreCompilationDeps resolves the real .ts target, expects >=1 violation, cleans up in finally. pnpm-workspace.yaml onlyBuiltDependencies: added dependency-cruiser + @swc/core. GAP-017 n/a. GAP-018 untouched. |
 
 ###### P07-T02-S01-M02 — TODO
 
