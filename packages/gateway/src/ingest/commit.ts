@@ -3,7 +3,7 @@
 // Placeholder feature values per [GAP-023]; real extraction is P05-T04-S01-M01.
 
 import { randomUUID } from 'node:crypto';
-import type { PoolClient } from '@otomix/core';
+import type { PoolClient } from 'pg';
 import { upsertTrackDedup } from './dedup.js';
 
 export interface CommitIngestData {

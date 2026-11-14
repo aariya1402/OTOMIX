@@ -11,7 +11,8 @@ import {
 } from '../ingest';
 import { runDecodeWorker } from '../ingest/decode-worker';
 import { createLogger } from '@otomix/core';
-import type { Logger, PoolClient } from '@otomix/core';
+import type { Logger } from '@otomix/core';
+import type { PoolClient } from 'pg';
 import { setTenantId } from '../db/tenant';
 import type { IdempotencyStore } from '../idempotency/store';
 import { commitIngestTransaction } from '../ingest/commit';
@@ -24,11 +25,12 @@ export interface IngestLocalDeps {
   idempotencyStore: IdempotencyStore;
 }
 
+type DisplayMeta = ReturnType<typeof extractTagsForGateway>['displayMetadata'];
 interface IngestResponseBody {
   track_id: string;
   format: string;
   sha256: string;
-  display_metadata: Record<string, unknown>;
+  display_metadata: DisplayMeta;
 }
 
 function sendJson(res: ServerResponse, status: number, body: unknown): void {
