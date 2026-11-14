@@ -597,7 +597,7 @@
     },
     {
         "id":  "P03-T04-S02-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Implement BPM matching via slice chopping to prevent any pitch shift. Original key is preserved.",
         "prerequisites":  [
                               "P03-T04-S01-M04"
@@ -752,7 +752,7 @@
     },
     {
         "id":  "P04-T01-S02-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Generate `linearRampToValueAtTime` automation for both tracks with start/end targets and a ramp duration exactly equal to the transition window.",
         "prerequisites":  [
                               "P04-T01-S01-M01"
@@ -1105,7 +1105,7 @@
     },
     {
         "id":  "P05-T02-S01-M02",
-        "status":  "BLOCKED:OQ-20",
+        "status":  "DONE",
         "description":  "Determine static versus dynamic BPM from `bpm_histogram`.",
         "prerequisites":  [
                               "P05-T02-S01-M01"
@@ -1138,7 +1138,7 @@
     },
     {
         "id":  "P05-T02-S02-M03",
-        "status":  "BLOCKED:OQ-21",
+        "status":  "DONE",
         "description":  "Apply a proportional penalty to the Dynamics component for near-zero dynamic range.",
         "prerequisites":  [
                               "P05-T02-S02-M02"
@@ -1171,7 +1171,7 @@
     },
     {
         "id":  "P05-T02-S02-M06",
-        "status":  "BLOCKED:OQ-22",
+        "status":  "DONE",
         "description":  "Normalize `E_kick`, `C_bass`, `S_tempo` and `V_tune` to [0,1] from their signal definitions.",
         "prerequisites":  [
                               "P05-T02-S02-M05"
@@ -1273,7 +1273,7 @@
     },
     {
         "id":  "P05-T04-S01-M03",
-        "status":  "TODO",
+        "status":  "DEFERRED:GAP-029",
         "description":  "Benchmark extraction at under 1.5x real-time for a 4-minute 320 kbps MP3 on an AWS M5.large-class runner.",
         "prerequisites":  [
                               "P05-T04-S01-M02"
