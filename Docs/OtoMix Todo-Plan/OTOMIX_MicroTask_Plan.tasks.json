@@ -487,12 +487,12 @@
     },
     {
         "id":  "P03-T02-S01-M02",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Compare Attack power vs Body power. If Body \u003e Attack, tag BODY_DOMINANT. Save to global metadata.",
         "prerequisites":  [
                               "P03-T02-S01-M01"
                           ],
-        "test":  "[BLOCKED] Decision needed: a numeric criterion for \u0027devoid of a strong kick body\u0027 (for example a minimum sub-80 Hz to full-band RMS ratio) and whether it is genre-driven.",
+        "test":  "unit|Vitest|packages/core/test/grid.body-dominant.spec.ts|Input: synthetic attack and body envelopes. Expected: if body power \u003e attack power, bodyDominant=true; else false. Pass: matches.",
         "spec":  "OTOMIX §3.2 · Mother §2.2",
         "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: مقدار حمله را با مقدار بدن مقایسه کن. اگر بدن بیشتر از حمله باشد، برچسب BODY_DOMINANT را بگذار. به مetadata جهانی ذخیره کن."
     },
@@ -1094,7 +1094,7 @@
     },
     {
         "id":  "P05-T02-S01-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Derive `BPM_seed` by K-means clustering of the local tempo histogram and validate it against the highest structural energy peak.",
         "prerequisites":  [
                               "P03-T01-S01-M01"
@@ -1116,7 +1116,7 @@
     },
     {
         "id":  "P05-T02-S02-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Compute `E=0.4·Rhythm+0.3·Dynamics+0.2·Loudness+0.1·Spectral` with each component Min-Max normalized to [0,1].",
         "prerequisites":  [
                               "P01-T02-S01-M03"
@@ -1127,7 +1127,7 @@
     },
     {
         "id":  "P05-T02-S02-M02",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Return E=0 and a rating of 0 for totally silent structural blocks.",
         "prerequisites":  [
                               "P05-T02-S02-M01"
@@ -1149,7 +1149,7 @@
     },
     {
         "id":  "P05-T02-S02-M04",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Map E to a 1–5 star rating by dataset percentile with E above the 80th percentile equal to 5 stars.",
         "prerequisites":  [
                               "P05-T02-S02-M03"
@@ -1160,7 +1160,7 @@
     },
     {
         "id":  "P05-T02-S02-M05",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Compute `M=0.4·E_kick+0.3·C_bass+0.2·S_tempo+0.1·V_tune`, flag M\u003c0.4 as unmixable, and set M=0 with class Non-Rhythmic Wildcard for unknown tempo or key.",
         "prerequisites":  [
                               "P05-T02-S02-M04"
@@ -1182,7 +1182,7 @@
     },
     {
         "id":  "P05-T02-S03-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Interpolate missing features with the global dataset median for the dominant genre and list them in `interpolated_fields`.",
         "prerequisites":  [
                               "P01-T03-S02-M01"
@@ -1193,7 +1193,7 @@
     },
     {
         "id":  "P05-T02-S03-M02",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Purge cached registries and enqueue re-analysis on a major version increment of the extraction models.",
         "prerequisites":  [
                               "P01-T03-S02-M02"
@@ -1204,7 +1204,7 @@
     },
     {
         "id":  "P05-T03-S01-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Binarize vocal probabilities with `V_map[t]=1` only when the probability is strictly greater than 0.65.",
         "prerequisites":  [
                               "P01-T02-S01-M03"
@@ -1215,7 +1215,7 @@
     },
     {
         "id":  "P05-T03-S01-M02",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Apply a 1-second median smoothing filter to the binary vocal map.",
         "prerequisites":  [
                               "P05-T03-S01-M01"
@@ -1237,7 +1237,7 @@
     },
     {
         "id":  "P05-T03-S01-M04",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Shift a transition to the nearest contiguous 16-beat block where `ΣV_map=0`.",
         "prerequisites":  [
                               "P03-T06-S01-M01"
@@ -1262,7 +1262,7 @@
     },
     {
         "id":  "P05-T04-S01-M02",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Emit `core.wasm.extraction_duration` and raise a critical event when extraction exceeds 2500 ms.",
         "prerequisites":  [
                               "P05-T04-S01-M01"
