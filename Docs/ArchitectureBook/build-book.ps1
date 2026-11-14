@@ -178,6 +178,8 @@ for ($i = 1; $i -lt $taskBlocks.Count; $i += 3) {
         review_checkpoint   = (Get-OrEmpty $fields 'Review Checkpoint')
         notes               = (Get-OrEmpty $fields 'Notes')
         md_line             = 0
+        test_file_override  = (Get-OrEmpty $fields 'Test File')
+        test_count_override = (Get-OrEmpty $fields 'Test Count')
     }
 }
 Write-Log "Parsed $($tasks.Count) tasks from MD"
@@ -324,11 +326,16 @@ foreach ($phaseId in $phaseOrder) {
     foreach ($t in $phaseTasks) {
         $testFile = $null
         $testCount = 0
-        foreach ($tf in $testMap.Keys) {
-            if ($testMap[$tf].task_guess -eq $t.id) {
-                $testFile = $tf
-                $testCount = $testMap[$tf].it_count
-                break
+        if ($t.test_file_override -and $t.test_file_override.Trim() -ne '') {
+            $testFile = $t.test_file_override.Trim()
+            if ($t.test_count_override -and $t.test_count_override -match '^\d+$') { $testCount = [int]$t.test_count_override }
+        } else {
+            foreach ($tf in $testMap.Keys) {
+                if ($testMap[$tf].task_guess -eq $t.id) {
+                    $testFile = $tf
+                    $testCount = $testMap[$tf].it_count
+                    break
+                }
             }
         }
 
