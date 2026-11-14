@@ -51,3 +51,13 @@ Per GAP-014 every affected micro-task produces two implementations plus a shared
 ## What's next
 
 `P07-T03-S01-M01` (tracks migration) begins the persistence layer for ingestion: `tracks` table with CHECK constraints, RLS, and a UNIQUE `(tenant_id, owner_id, content_sha256)`. Deduplication (`P07-T03-S02-M01`), the `POST /api/v1/ingest/local` endpoint (`P07-T03-S02-M02`), transactional commit (`P07-T03-S02-M03`) and rate limiting (`P07-T03-S02-M04`) follow. DLQ (`P07-T04`) and source declarations (`P07-T05`) close the phase.
+
+### P07-T03-S01-M01
+**tracks migration**
+
+- **Task ID**: `P07-T03-S01-M01`
+- **Files changed**: `packages/db/test/tracks.migration.spec.ts`
+- **Architecture Note**: The migration file was created as `007_tracks_source_declarations.sql` instead of `003_tracks.sql` due to prefix conflicts. This is recorded in the Supplement. The test file was patched to safely mock the `users` table, use parameterized queries, and handle `bytea` with `Buffer.from()`.
+- **Tests passed**: `Tests 9 passed (9)`
+- **Expected Outcome**: Create the `tracks` table with CHECK constraints, RLS (Row Level Security), and a UNIQUE constraint on `(tenant_id, owner_id, content_sha256)`.
+- **Review Checkpoint**: The `tracks` and `source_declarations` tables exist, enforce constraints, and are secured via RLS.
