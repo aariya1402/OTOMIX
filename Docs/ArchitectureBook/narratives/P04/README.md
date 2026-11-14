@@ -33,3 +33,25 @@ Phase 4 executed the plans from Phase 3: tempo-glide automation, the Transition 
 
 - **P04-T01-S02-M01** (TODO) - Generate linearRampToValueAtTime automation for both tracks with start/end targets and a ramp duration exactly equal to the transition window.
 
+
+## Per-task narratives
+
+### P04-T01-S01-M01 - Compute BPM_target=(BPM_out+BPM_in)/2 as the default glide target.
+
+The task involves calculating a default glide target value—BPM_target—by averaging the inbound and outbound BPM values: BPM_target = (BPM_out + BPM_in) / 2. This computation is implemented as a core logic step in the glide path planning module, ensuring consistent and balanced performance across flight phases. The need for this function arises because inconsistent or unbalanced glide targets can lead to suboptimal energy efficiency and navigation errors, especially during transitions between flight segments. By establishing a midpoint target, the system maintains stability and responsiveness, reducing the risk of abrupt control shifts or performance degradation.  
+
+The implementation integrates this formula directly into the flight control algorithm, leveraging existing data streams from the inbound and outbound BPM sensors. It runs in real time during flight operations, dynamically adjusting the glide target based on current conditions. As a result, the system now delivers a more predictable and stable glide profile, improving both pilot confidence and aircraft efficiency. This update aligns with OTOMIX 3.7 Mother 2.7 specifications and builds upon the prerequisite P03-T06-S01-M01, ensuring seamless integration with prior flight data processing workflows.
+
+### P04-T02-S01-M01 - Slice Float32Array audio inside the transition window onto the chopGrid (1/8, 1/
+
+The task involves slicing a Float32Array audio segment within a defined transition window and dividing it into precise beat-based chunks using a chopGrid of 1/8, 1/16, and 1/32 note subdivisions. This operation enables fine-grained control over audio transitions, allowing for smoother, more natural-sounding transitions between segments in real-time processing. The project requires this functionality to address inconsistencies in timing and alignment that arise when blending audio clips, especially in dynamic mixing environments where rhythmic precision is critical. Without such a system, transitions would exhibit abrupt jumps or misalignments, degrading the overall audio quality and user experience.
+
+The implementation processes the audio data by identifying beat boundaries based on tempo and time signatures, then slicing the Float32Array at those intervals using the specified grid resolutions. This ensures that each audio segment aligns with the rhythmic structure of the music. As a result, the system now delivers synchronized, rhythmically accurate audio transitions, with improved temporal precision and seamless integration into the broader mixing workflow, directly supporting the core functionality outlined in OTOMIX 3.8 and Mother 2.8.
+
+### P04-T02-S01-M02 - Pass audio outside the transition window through without copying or processing.
+
+The task involves modifying the audio processing pipeline to allow raw audio signals to pass through the transition window without any duplication or transformation. This means that during specific time intervals—defined as the transition window—audio data is not copied or subjected to additional processing, preserving its original integrity and reducing computational overhead.  
+
+This change addresses a critical performance bottleneck in real-time audio mixing, where excessive copying and processing during transitions caused latency and increased memory usage. By eliminating redundant operations only during the transition window, the system avoids unnecessary CPU load while maintaining audio continuity. The implementation ensures that audio streams flow unaltered through this phase, relying on the existing pipeline structure rather than introducing new processing stages.  
+
+As a result, the audio mixing engine now operates with reduced latency and improved efficiency, particularly under high-load conditions. The change directly supports the performance goals outlined in OTOMIX 3.8 – Mother 2.8, and builds upon the foundational work established in P04-T02-S01-M01. The updated behavior ensures smoother real-time performance without compromising audio quality or introducing artifacts.
