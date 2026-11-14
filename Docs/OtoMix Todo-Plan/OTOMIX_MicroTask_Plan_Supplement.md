@@ -410,3 +410,69 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - **Current safety:** the idempotency store (withIdempotency(job_id, sha256(payload), handler)) prevents double-execution; XDEL removes the entry only on resh.
 - **Test coverage:** packages/gateway/test/dlq-replay.spec.ts proves effect-once, second-replay no-op, and conflict on payload mismatch.
 - **Follow-up:** P10-T05-S01-M04 (runbooks) already includes DLQ replay; extend it with a registry table once the P10 phase starts.
+### [GAP-027] [PHASE: P07, P08] [BLOCKER-for-registration] Registration methods (Gmail / Telegram / Phone OTP) not scheduled; owner mandates all three
+- **Discovered:** 2026-11-14. Owner directive.
+- **Related:** [GAP-015] (dynamic RBAC) provides the identity scaffolding; [GAP-014] (cloud+local) applies (registration is server-side only).
+- **OQ-11 resolved:** owner confirmed on 2026-11-14 that source declarations are mandatory; site carries no copyright liability; terms_version v1.0 effective 2026-11-14.
+- **Scope:** Three registration methods required: Google OAuth 2.0, Telegram Login Widget, Phone OTP. Plus terms acceptance + source declaration at registration.
+
+**Required DB changes (P07-REG-M01):**
+- Add to users: google_id text UNIQUE, 	elegram_id text UNIQUE, phone_e164 text UNIQUE, email text UNIQUE, display_name text, 	erms_version text, 	erms_accepted_at timestamptz. All nullable (so existing seeded users remain valid). RLS unchanged.
+
+**Google OAuth requirements (P07-REG-M02):**
+- Google Cloud project + OAuth 2.0 Client ID + Client Secret.
+- Authorized redirect URI: https://<api>/auth/google/callback.
+- Env: GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI.
+- Routes: /auth/google/start (302 to Google), /auth/google/callback (verify state, exchange code, verify id_token, upsert user by google_id then email).
+- State token stored in Redis (TTL 5 min) — not stateless HMAC, so callback can be traced to a session.
+
+**Telegram Login Widget requirements (P07-REG-M03):**
+- Bot via @BotFather, bot token, domain bound in BotFather.
+- Frontend widget returns {id, first_name, last_name?, username?, photo_url?, auth_date, hash}.
+- Backend /auth/telegram/verify:
+  - Build data-check-string from sorted key=value pairs (excluding hash).
+  - Compute HMAC-SHA256(key = SHA256(bot_token), message = data-check-string).
+  - Compare hex with hash (timing-safe).
+  - Reject if uth_date older than 86400s.
+  - Upsert user by 	elegram_id.
+- Env: TELEGRAM_BOT_TOKEN.
+
+**Phone OTP requirements (P07-REG-M04):**
+- SMS provider: choose between Kavenegar / SMS.ir (Iran) or Twilio (international). Owner decision pending — flag as follow-up.
+- Env: SMS_PROVIDER_API_KEY (+ provider-specific endpoint).
+- Redis: key otp:<phone_e164> value {hash, attempts} TTL 120s.
+- Rate limit: 3 requests per 10 min per phone (defends SMS bombing).
+- Routes: /auth/otp/send, /auth/otp/verify.
+- On verify success: upsert user by phone_e164.
+- SMS provider wrapped in an injectable port so tests use a fake provider.
+
+**Terms + declaration (P07-REG-M05):**
+- All three methods require 	erms_version in the request body.
+- On first registration: write users.terms_version, users.terms_accepted_at, and one row in source_declarations with ction='register', 	erms_version, declared_at.
+- Reuses ecordDeclaration function from P07-T05-S01-M01.
+
+**UI (P07-REG-M06):**
+- packages/ui/src/auth/ with three tabs (Google / Telegram / Phone OTP), consent checkbox, error states.
+- E2E via Playwright.
+
+**Task inventory (status tracked here; entries also added to tasks.json for uniformity with RBAC-M pattern):**
+| ID | Title | Prereqs |
+|---|---|---|
+| P07-REG-M01 | Migration 008_registration.sql | P07-T05-S01-M01 |
+| P07-REG-M02 | Google OAuth 2.0 | P07-REG-M01 |
+| P07-REG-M03 | Telegram HMAC verify | P07-REG-M01 |
+| P07-REG-M04 | Phone OTP + Redis + rate limit | P07-REG-M01 |
+| P07-REG-M05 | Terms acceptance + source declaration at registration | P07-REG-M01, P07-T05-S01-M01 |
+| P07-REG-M06 | UI registration + login screens | P07-REG-M02..M05 |
+
+**Execution placement:** After P07-T05-S01-M01 completes and before P08-T01-S01-M01 (see Reminder in OTOMIX_MicroTask_Plan.md). P08 UI tasks then consume the auth client that M06 builds.
+
+**Open follow-ups:**
+- SMS provider selection (owner).
+- Rate-limit exact numbers (proposed 3/10min; owner can override).
+- Account linking when a user registers with two methods (e.g. Google then Phone) — proposal: match on email or phone_e164 and merge, else prompt to link. Defer to M02..M04 implementation details.
+- Terms text: v1.0 effective 2026-11-14; owner must supply the legal text (mocked in tests).
+### [GAP-028] [PHASE: P07] [ADVISORY] Plan says 'action', DDL uses 'scope'
+- **Discovered:** 2026-11-14 during P07-T05-S01-M01.
+- **Context:** OTOMIX_MicroTask_Plan.md for M07 describes the field as ction; migration  07_tracks_source_declarations.sql uses scope.
+- **Resolution:** Code and tests use scope (the actual DB column). No schema change. Future references should use scope.

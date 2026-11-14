@@ -1743,12 +1743,12 @@
     },
     {
         "id":  "P07-T05-S01-M01",
-        "status":  "BLOCKED:OQ-11",
+        "status":  "DONE",
         "description":  "Record user source declarations (ingest, publish, export) with terms version and UTC timestamp.",
         "prerequisites":  [
                               "P07-T04-S01-M02"
                           ],
-        "test":  "[BLOCKED] Decision needed: whether the proposed declaration and accountability controls are adequate for the target market (OTOMIX Appendix B item B1) and the legal text/terms version to bind.",
+        "test":  "unit|Vitest + Testcontainers PostgreSQL|packages/gateway/test/source-declarations.spec.ts|Input: declaration for ingest with terms_version v1.0. Expected: row with user_id, tenant_id, scope, terms_version, declared_at (timestamptz UTC). Pass: matches.",
         "spec":  "OTOMIX §6.2 · Mother §1",
         "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: دریافت و ثبت اعلامیه منبع کاربر (دریافت، انتشار، خروج) با نسخه شرایط و زمان UTC."
     },
@@ -2798,5 +2798,75 @@
         "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/access/test/rbac.*.spec.ts",
         "spec":  "GAP-015 (OTOMIX_MicroTask_Plan_Supplement.md)",
         "description_fa":  "مکمل GAP-015: Regenerate Cucumber authorization matrix from the dynamic catalog. GAP-015."
+    },
+    {
+        "id":  "P07-REG-M01",
+        "status":  "TODO",
+        "description":  "Migration 008_registration.sql: add google_id, telegram_id, phone_e164, email, display_name, terms_version, terms_accepted_at to users. All nullable, each UNIQUE. RLS unchanged.",
+        "prerequisites":  [
+                              "P07-T05-S01-M01"
+                          ],
+        "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/db/test/registration.migration.spec.ts|Input: migrate up; insert user with duplicate google_id; insert valid phone_e164. Expected: duplicate rejected (UNIQUE), valid accepted, RLS still applies. Pass: 3 outcomes.",
+        "spec":  "GAP-027 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "مهاجرت 008_registration.sql: افزودن ستون‌های google_id، telegram_id، phone_e164، email، display_name، terms_version، terms_accepted_at به users."
+    },
+    {
+        "id":  "P07-REG-M02",
+        "status":  "TODO",
+        "description":  "Google OAuth 2.0 flow: /auth/google/start and /auth/google/callback. Verify state, exchange code, verify id_token, upsert user by google_id then email. Env: GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI.",
+        "prerequisites":  [
+                              "P07-REG-M01"
+                          ],
+        "test":  "integration|Vitest + supertest|packages/gateway/test/auth-google.spec.ts|Input: mocked Google token endpoint returns valid profile first time, then replay same google_id. Expected: first creates user + access token, second returns same user. Pass: user_id matches.",
+        "spec":  "GAP-027 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "احراز هویت Google OAuth: مسیرهای /auth/google/start و /auth/google/callback. upsert کاربر با google_id یا email."
+    },
+    {
+        "id":  "P07-REG-M03",
+        "status":  "TODO",
+        "description":  "Telegram Login Widget backend: /auth/telegram/verify. HMAC-SHA256 with key = SHA256(bot_token), auth_date age \u003c 86400s, upsert user by telegram_id. Env: TELEGRAM_BOT_TOKEN.",
+        "prerequisites":  [
+                              "P07-REG-M01"
+                          ],
+        "test":  "integration|Vitest + supertest|packages/gateway/test/auth-telegram.spec.ts|Input: known fixture with valid HMAC; forged hash; stale auth_date. Expected: valid creates user, forged returns 401, stale returns 401. Pass: 3 outcomes.",
+        "spec":  "GAP-027 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "تایید Telegram Login Widget: HMAC-SHA256 با کلید SHA256(bot_token)، بررسی auth_date، ایجاد کاربر با telegram_id."
+    },
+    {
+        "id":  "P07-REG-M04",
+        "status":  "TODO",
+        "description":  "Phone OTP: /auth/otp/send and /auth/otp/verify. Redis key otp:\u003cphone\u003e TTL 120s. Rate limit 3 per 10 min per phone. SMS provider port injectable. Env: SMS_PROVIDER_API_KEY.",
+        "prerequisites":  [
+                              "P07-REG-M01"
+                          ],
+        "test":  "integration|Vitest + Testcontainers Redis + supertest|packages/gateway/test/auth-otp.spec.ts|Input: send then verify correct code; send then verify wrong; 4th send within 10 min. Expected: first creates user, wrong code rejected, 4th send returns 429. Pass: 3 outcomes.",
+        "spec":  "GAP-027 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "OTP تلفن همراه: /auth/otp/send و /auth/otp/verify. Redis TTL 120s. محدودیت 3 بار در 10 دقیقه. SMS provider injectable."
+    },
+    {
+        "id":  "P07-REG-M05",
+        "status":  "TODO",
+        "description":  "Terms acceptance at registration: require terms_version; write terms_version + terms_accepted_at on users, plus one source_declarations row with action=register.",
+        "prerequisites":  [
+                              "P07-REG-M01",
+                              "P07-T05-S01-M01"
+                          ],
+        "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/gateway/test/auth-terms.spec.ts|Input: register without terms_version; register with v1.0. Expected: first 400 INVALID_ARGUMENT, second 201 with row in source_declarations. Pass: 2 outcomes.",
+        "spec":  "GAP-027 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "پذیرش شرایط در ثبت‌نام: terms_version اجباری. ثبت source_declarations با action=register."
+    },
+    {
+        "id":  "P07-REG-M06",
+        "status":  "TODO",
+        "description":  "UI registration + login screens: three tabs (Google, Telegram, Phone OTP), terms checkbox, error states. React components in packages/ui/src/auth/.",
+        "prerequisites":  [
+                              "P07-REG-M02",
+                              "P07-REG-M03",
+                              "P07-REG-M04",
+                              "P07-REG-M05"
+                          ],
+        "test":  "e2e|Playwright|e2e/registration.spec.ts|Input: user opens /register, selects Google tab, sees consent checkbox, clicks (mocked). Expected: state advances to consent screen; without checkbox click blocked. Pass: both.",
+        "spec":  "GAP-027 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "صفحه‌های ثبت‌نام و ورود UI: سه تب (Google، Telegram، Phone OTP)، checkbox شرایط، error states."
     }
 ]

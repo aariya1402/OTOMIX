@@ -15,6 +15,7 @@ import type { Logger, PoolClient } from '@otomix/core';
 import { setTenantId } from '../db/tenant';
 import type { IdempotencyStore } from '../idempotency/store';
 import { commitIngestTransaction } from '../ingest/commit';
+import { recordDeclaration } from '../declarations/record.js';
 import type { TokenClaims } from '../interceptor';
 
 export interface IngestLocalDeps {
@@ -118,6 +119,13 @@ export function createIngestLocalRoute(deps: IngestLocalDeps) {
             format: sniffed.format,
             durationMs,
             storageKey,
+          });
+          await recordDeclaration(client, {
+            tenantId: claims.tenant_id,
+            userId: claims.sub,
+            scope: 'ingest',
+            termsVersion: 'v1.0',
+            declaredAt: new Date(),
           });
           await client.query('COMMIT');
           return {

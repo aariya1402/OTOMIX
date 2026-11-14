@@ -125,6 +125,21 @@ describe('POST /api/v1/ingest/local (P07-T03-S02-M02)', () => {
       ');'
     );
 
+    await client.query(
+      'CREATE TABLE users (' +
+      '  user_id uuid PRIMARY KEY' +
+      ');' +
+      "INSERT INTO users (user_id) VALUES ('11111111-1111-1111-1111-111111111111');" +
+      'CREATE TABLE source_declarations (' +
+      '  declaration_id  uuid PRIMARY KEY,' +
+      '  tenant_id       text NOT NULL,' +
+      '  user_id         uuid NOT NULL REFERENCES users(user_id),' +
+      "  scope           text NOT NULL CHECK (scope IN ('ingest','publish','export'))," +
+      '  terms_version   text NOT NULL,' +
+      '  declared_at     timestamptz NOT NULL' +
+      ');'
+    );
+
     const idemStore = makeInMemoryIdempotencyStore();
 
     handler = createIngestLocalRoute({
@@ -142,7 +157,7 @@ describe('POST /api/v1/ingest/local (P07-T03-S02-M02)', () => {
     const interceptorDeps: InterceptorDeps = {
       verifyToken: {
         verify: async () => ({
-          sub: 'test-user-id',
+          sub: '11111111-1111-1111-1111-111111111111',
           tenant_id: 'otomix',
           jti: 'jti-test',
           iat: 0,

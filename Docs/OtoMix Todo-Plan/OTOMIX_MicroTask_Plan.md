@@ -2831,6 +2831,8 @@ flowchart LR
 
 > **Supplement Reminder (P08):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P08]`. Resolve any `[BLOCKER]` item before proceeding. **MANDATORY:** [GAP-020] UI binding matrix does not exist. Before any UI component or Redux slice work in P08, author Docs/FEATURES/OTOMIX_UI_Bindings.md (UI element -> Redux slice -> catalog field -> Feature Registry field). See supplement GAP-020.
 
+> **[REMINDER: Registration tasks P07-REG-M01..M06 must execute before P08 UI work. Details: OTOMIX_MicroTask_Plan_Supplement.md#GAP-027]**
+
 ### P08 MixPlan, UI & Redux Architecture
 
 **Objective.** Build the catalog endpoint and the React/Redux client: normalized library and ordered queue state, the two-column selector with skeleton and empty states, the Starter Track warning, the MixPlan generator (weighted recommendation, tie-breaks, vocal-gated offsets, PlanTransition calls), waveform canvas overlays for vocal zones and pre-kick offsets, and Mix Preview wired to the Runtime Observer through the DSP port.
