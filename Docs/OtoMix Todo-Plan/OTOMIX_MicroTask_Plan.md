@@ -2693,6 +2693,7 @@ flowchart LR
 | Independent Test(s) | **integration** · Jazzer.js (Vitest harness) · `fuzz/decoder.fuzz.spec.ts`<br>Input: 300 corpus files. Expected: every file terminates within 5 000 ms, heap ≤ 512 MB, 0 worker escapes, 0 unhandled exceptions. Pass: all counters zero. |
 | Spec Reference | OTOMIX §5.3; §7.7 · Mother §1; §8.3; Add. §6 |
 | Review Checkpoint | Review the corpus manifest covers every class named in the description. |
+| Notes | [GAP-014] N/A (fuzz tests pure workers package). [GAP-017] N/A. [GAP-018] untouched. **GAP-021** discovered: core/dist is ESM with extensionless imports -> loading decodeAll in a worker_threads eval fails with ERR_MODULE_NOT_FOUND. Fuzz harness runs INLINE in vitest (Vite resolver handles extensionless). Heap cap via process.memoryUsage() (before / per-file / after GC); assertion peakDelta <= 512 MB. Timeout via setTimeout per file checked after await. "Worker escape" (AC4) expressed as "no exception propagates out of decodeAll". Corpus: deterministic generator fuzz/generate-corpus.ts (seed 0x07000001) -> 300 files, 4 classes x 75 (truncated/oversized/recursive/garbage) x 3 formats (wav/mp3/flac). CI: nightly GitHub Actions .github/workflows/fuzz.yml (cron 02:00 UTC) + workflow_dispatch. vitest.workspace.ts fuzz project does NOT extend root config (extends concatenates include arrays and pulls in the whole repo — observed 169 files run before the fix). |
 | Notes | Acceptance criterion tag: AC4 (tests) |
 
 #### P07-T03 Persistence, de-duplication and endpoint
