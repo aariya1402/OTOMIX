@@ -431,12 +431,12 @@
     },
     {
         "id":  "P02-T05-S01-M02",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Implement pre-kick gap ≥ 1 bar: shift `T0` backward in exact 4-beat multiples so the kick aligns with a primary downbeat (Beat 5 or Beat 9).",
         "prerequisites":  [
                               "P02-T05-S01-M01"
                           ],
-        "test":  "unit|Vitest|packages/core/test/prekick-long.spec.ts|Shift T0 backward by 4 beats. Verify pre-kick gap uses beats -3, -2, -1, 0 before Beat 1. Pass: matches.",
+        "test":  "unit|Vitest|packages/core/test/prekick-long.spec.ts|Shift T0 backward in exact 4-beat multiples so the kick aligns with a bar boundary. Pre-kick gap uses beats -3, -2, -1 before Beat 1 (no Beat 0, no -4). Pass: matches.",
         "spec":  "OTOMIX §3.10 · Mother §2.10",
         "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: اجرا کردن فاصله قبل از کیک؟ 1 بار: تغییر `T0` به صورت دقیق مضاعف‌های 4 بار، به گونه‌ای که کیک با ضربه اصلی (بار 5 یا بار 9) هماهنگ شود."
     },
