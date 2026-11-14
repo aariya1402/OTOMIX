@@ -24,3 +24,6 @@ export type { SizeLimitDeps } from './ingest/limits.js';
 
 export { confineForGateway } from './ingest/confine.js';
 export type { ConfineResult, ConfineDeps, ConfineReason } from './ingest/confine.js';
+
+export { rejectForGateway } from './ingest/reject.js';
+export type { RejectDeps, RejectFormat, RejectReason, RejectResult } from './ingest/reject.js';

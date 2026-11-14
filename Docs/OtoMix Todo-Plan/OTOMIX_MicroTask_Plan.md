@@ -2665,6 +2665,7 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/gateway/test/reject.spec.ts`<br>Input: truncated WAV header, MP3 with invalid frame sync, FLAC with bad STREAMINFO. Expected: INVALID_ARGUMENT for each and retry attempts = 0. Pass: 3/3. |
 | Spec Reference | OTOMIX §5.3; §2.5 · Mother §1; Add. §3 |
 | Review Checkpoint | Confirm the retry wrapper marks parse errors non-retryable. |
+| Notes | [GAP-014] cloud-only (gateway/src/ingest/reject.ts). [GAP-017] logger.log with event=ingest.rejected, level=warn, outcome=failure, retryable=false. Pure classifier classifyDecodeFailure(format, bytes, errorMessage?) in core/src/ingest/reject.ts; WAV checks data chunk, MP3 walks up to 4KB for frame sync, FLAC validates STREAMINFO blockLen=34 + total_samples!=0. Extended core/src/resilience/retry.ts with optional isRetryable predicate (default undefined preserves existing idempotent-only behavior; retry.spec.ts stays green, new test proves 1-attempt on isRetryable=false). DLQ (P07-T04) will consume RejectReason. No adapter equivalent (UI classifies locally without retry queue). |
 
 ###### P07-T02-S01-M03 — TODO
 
