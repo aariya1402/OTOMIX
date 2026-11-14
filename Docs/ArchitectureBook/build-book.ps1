@@ -81,13 +81,13 @@ $mdContent = Get-Content $planMd -Raw -Encoding UTF8
 $suppInjPath = Join-Path $repoRoot 'Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md'
 if (Test-Path $suppInjPath) {
     $suppInj = Get-Content $suppInjPath -Raw -Encoding UTF8
-    $rbacRows = [regex]::Matches($suppInj, '\|\s*`(RBAC-M\d+)`\s*(✅ DONE)[^|]*\|\s*([^|]+?)\s*\|')
+    $rbacRows = [regex]::Matches($suppInj, '\|\s*`(RBAC-M\d+)`\s*(DONE)[^|]*\|\s*([^|]+?)\s*\|')
     if ($rbacRows.Count -gt 0) {
-        $suppBlock = "`r`n#### P06-RBAC — Supplement Tasks (GAP-015)`r`n`r`n"
+        $suppBlock = "`r`n#### P06-RBAC - Supplement Tasks (GAP-015)`r`n`r`n"
         foreach ($row in $rbacRows) {
             $rid = $row.Groups[1].Value
             $rdesc = $row.Groups[3].Value.Trim()
-            $suppBlock += "###### P06-$rid — [x]`r`n`r`n| Field | Value |`r`n|---|---|`r`n| ID | ``P06-$rid`` |`r`n| Description | Supplement: $rdesc |`r`n| Source | ``OTOMIX_MicroTask_Plan_Supplement.md`` §GAP-015 |`r`n`r`n"
+            $suppBlock += "###### P06-$rid - [x]`r`n`r`n| Field | Value |`r`n|---|---|`r`n| ID | P06-$rid |`r`n| Description | Supplement: $rdesc |`r`n| Source | OTOMIX_MicroTask_Plan_Supplement.md GAP-015 |`r`n`r`n"
         }
         $anchorPos = $mdContent.IndexOf('#### P06 Phase Integration Test Suite')
         if ($anchorPos -gt 0) {
