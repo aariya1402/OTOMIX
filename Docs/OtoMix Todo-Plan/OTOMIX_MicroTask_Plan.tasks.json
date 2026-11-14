@@ -1,4 +1,4 @@
-﻿[
+[
     {
         "id":  "P01-T01-S01-M01",
         "status":  "DONE",
@@ -1284,7 +1284,7 @@
     },
     {
         "id":  "P06-T01-S01-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Issue access tokens (15 minutes) carrying `sub`, `tenant_id`, `scopes[]`, `tier`, `jti`, `exp`.",
         "prerequisites":  [
                               "P01-T05-S01-M03"
@@ -1295,7 +1295,7 @@
     },
     {
         "id":  "P06-T01-S01-M02",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Issue refresh tokens (7 days) with rotation: each use returns a new token and invalidates the previous; reuse of an invalidated token revokes the whole family.",
         "prerequisites":  [
                               "P06-T01-S01-M01"
@@ -1306,7 +1306,7 @@
     },
     {
         "id":  "P06-T01-S02-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Write revoked `jti`/family ids to a Redis deny-list (TTL to natural expiry) and check it in the gateway interceptor on every request.",
         "prerequisites":  [
                               "P06-T01-S01-M02"
@@ -1317,7 +1317,7 @@
     },
     {
         "id":  "P06-T01-S02-M02",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "On role revocation, revoke every active session/family for the user globally.",
         "prerequisites":  [
                               "P06-T01-S02-M01"
@@ -1328,7 +1328,7 @@
     },
     {
         "id":  "P06-T02-S01-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Create the route scope registry declaring explicit required scopes per endpoint (no catch-all `*`) and a static test failing on any route without one.",
         "prerequisites":  [
                               "P06-T01-S02-M01"
@@ -1339,7 +1339,7 @@
     },
     {
         "id":  "P06-T02-S01-M02",
-        "status":  "TODO",
+        "status":  "SUPERSEDED:GAP-015",
         "description":  "Implement the OTOMIX issuable-scope allow-list: reject issuance of `ddex:*`, `rights:*` and `stream:consume` for `tenant_id=\u0027otomix\u0027`.",
         "prerequisites":  [
                               "P06-T02-S01-M01"
@@ -1350,7 +1350,7 @@
     },
     {
         "id":  "P06-T02-S01-M03",
-        "status":  "TODO",
+        "status":  "SUPERSEDED:GAP-015",
         "description":  "Implement the gateway interceptor enforcing required scopes and returning PERMISSION_DENIED/403.",
         "prerequisites":  [
                               "P06-T02-S01-M01",
@@ -1362,7 +1362,7 @@
     },
     {
         "id":  "P06-T02-S02-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Fire a Slack webhook payload on any role escalation or emergency scope grant.",
         "prerequisites":  [
                               "P06-T02-S01-M03"
@@ -1373,7 +1373,7 @@
     },
     {
         "id":  "P06-T02-S02-M02",
-        "status":  "TODO",
+        "status":  "SUPERSEDED:GAP-015",
         "description":  "Generate a Cucumber authorization matrix from the registry (role × endpoint) and assert the expected status for each pair.",
         "prerequisites":  [
                               "P06-T02-S01-M03"
@@ -1384,7 +1384,7 @@
     },
     {
         "id":  "P06-T02-S03-M01",
-        "status":  "BLOCKED:OQ-10",
+        "status":  "SUPERSEDED:GAP-015",
         "description":  "Define and enforce `publisher:manage` and `store:purchase` scopes (or a dedicated role) for publisher panels and Set Shop.",
         "prerequisites":  [
                               "P06-T02-S02-M02"
@@ -1395,7 +1395,7 @@
     },
     {
         "id":  "P06-T03-S01-M01",
-        "status":  "TODO",
+        "status":  "SUPERSEDED:GAP-015",
         "description":  "Evaluate time-bound grants in UTC: a grant is active while `Timestamp_current ≤ Timestamp_expiration`.",
         "prerequisites":  [
                               "P01-T05-S01-M01"
@@ -1406,7 +1406,7 @@
     },
     {
         "id":  "P06-T03-S01-M02",
-        "status":  "TODO",
+        "status":  "SUPERSEDED:GAP-015",
         "description":  "On expiry return the user to base-tier capabilities automatically.",
         "prerequisites":  [
                               "P06-T03-S01-M01"
@@ -1417,7 +1417,7 @@
     },
     {
         "id":  "P06-T04-S01-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Ensure `/ddex`, `/rights`, `/dsr` and stream-license routes are not mounted and return HTTP 404.",
         "prerequisites":  [
                               "P06-T02-S01-M03"
@@ -1428,7 +1428,7 @@
     },
     {
         "id":  "P06-T04-S02-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Create a dedicated per-tenant worker pool with a bulkhead that prevents another tenant\u0027s pool from being drained.",
         "prerequisites":  [
                               "P01-T07-S02-M01"
@@ -1439,7 +1439,7 @@
     },
     {
         "id":  "P06-T04-S02-M02",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Implement per-tenant data-encryption keys (envelope encryption) for audio storage.",
         "prerequisites":  [
                               "P06-T04-S02-M01"
@@ -1450,7 +1450,7 @@
     },
     {
         "id":  "P06-T04-S02-M03",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Implement the 90-day key rotation job that re-wraps DEKs and keeps old ciphertext readable.",
         "prerequisites":  [
                               "P06-T04-S02-M02"
@@ -1461,7 +1461,7 @@
     },
     {
         "id":  "P06-T04-S02-M04",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Enforce the `otomix:` Redis prefix, `otomix/` storage prefix and `otomix.*` topic names through wrapper clients.",
         "prerequisites":  [
                               "P06-T04-S02-M03"
@@ -1472,7 +1472,7 @@
     },
     {
         "id":  "P06-T05-S01-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Emit CSP headers with strict `script-src` and `worker-src` allow-lists plus `object-src \u0027none\u0027`, `base-uri \u0027none\u0027`, `frame-ancestors \u0027none\u0027`.",
         "prerequisites":  [
                               "P06-T02-S01-M03"
@@ -1483,7 +1483,7 @@
     },
     {
         "id":  "P06-T05-S01-M02",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Create WASM memory with a hard maximum of 512 MB (8 192 pages of 64 KiB) for analysis workers.",
         "prerequisites":  [
                               "P06-T05-S01-M01"
@@ -1494,7 +1494,7 @@
     },
     {
         "id":  "P06-T05-S01-M03",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Verify analysis workers run unprivileged: no DOM, no credentials and no network beyond the message channel.",
         "prerequisites":  [
                               "P06-T05-S01-M02"
@@ -1505,7 +1505,7 @@
     },
     {
         "id":  "P06-T06-S01-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Back Kubernetes Secrets with HashiCorp Vault (ExternalSecret references only; no plaintext data in manifests).",
         "prerequisites":  [
                               "P01-T01-S02-M02"
@@ -1516,7 +1516,7 @@
     },
     {
         "id":  "P06-T06-S01-M02",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Run Snyk dependency scanning on every build and block on findings per the CVSS gate.",
         "prerequisites":  [
                               "P01-T01-S02-M02"
@@ -1527,7 +1527,7 @@
     },
     {
         "id":  "P06-T06-S01-M03",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Harden pods: non-root, read-only root filesystem, dropped capabilities and default-deny NetworkPolicies.",
         "prerequisites":  [
                               "P06-T06-S01-M01"
@@ -1538,7 +1538,7 @@
     },
     {
         "id":  "P06-T07-S01-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Implement `PATCH /api/v1/dsp/parameters` validating `chopGrid ∈ {1/8,1/16,1/32}` and numeric `crossfadeBeats`.",
         "prerequisites":  [
                               "P06-T02-S01-M03",
@@ -1550,7 +1550,7 @@
     },
     {
         "id":  "P06-T07-S01-M02",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Write a 7-year-retained admin audit record for every parameter change.",
         "prerequisites":  [
                               "P06-T07-S01-M01"
@@ -1561,7 +1561,7 @@
     },
     {
         "id":  "P06-T07-S01-M03",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Propagate parameter updates via the outbox as signed messages with a per-tenant monotonic sequence.",
         "prerequisites":  [
                               "P01-T06-S02-M01",
@@ -1573,7 +1573,7 @@
     },
     {
         "id":  "P07-T01-S01-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Detect MP3, WAV and FLAC by magic bytes and container parse (ID3/MPEG sync, `RIFF…WAVE`, `fLaC`), never by extension, and log extension mismatches.",
         "prerequisites":  [
                               "P01-T01-S01-M01"
@@ -1584,7 +1584,7 @@
     },
     {
         "id":  "P07-T01-S02-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Reject files over 500 MB or 4 hours of audio with INVALID_ARGUMENT, checking size while streaming.",
         "prerequisites":  [
                               "P07-T01-S01-M01"
@@ -1595,7 +1595,7 @@
     },
     {
         "id":  "P07-T01-S02-M02",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Confine directory access to the granted root, resolving symlinks and rejecting `..` traversal.",
         "prerequisites":  [
                               "P07-T01-S02-M01"
@@ -1606,7 +1606,7 @@
     },
     {
         "id":  "P07-T01-S03-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Decode to PCM, down-mix to mono and resample to 44.1 kHz via the P05 `normalizeInput`, running the decoder inside a worker.",
         "prerequisites":  [
                               "P05-T01-S01-M01",
@@ -1618,7 +1618,7 @@
     },
     {
         "id":  "P07-T02-S01-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Ensure the gateway and UI main thread never import container decoders (header sniffing only).",
         "prerequisites":  [
                               "P07-T01-S03-M01"
@@ -1629,7 +1629,7 @@
     },
     {
         "id":  "P07-T02-S01-M02",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Reject malformed or truncated containers with INVALID_ARGUMENT and never retry deterministic parse failures.",
         "prerequisites":  [
                               "P07-T01-S03-M01"
@@ -1640,7 +1640,7 @@
     },
     {
         "id":  "P07-T02-S01-M03",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Treat embedded tags (title, BPM, key) as untrusted display hints that never override analysis output.",
         "prerequisites":  [
                               "P07-T02-S01-M02"
@@ -1651,7 +1651,7 @@
     },
     {
         "id":  "P07-T02-S02-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Add a container-parser fuzz corpus (truncated frames, oversized chunk sizes, recursive tag structures) run in CI with a time and heap cap.",
         "prerequisites":  [
                               "P07-T02-S01-M02"
@@ -2666,5 +2666,137 @@
         "test":  "unit|Vitest|scripts/test/signoff.spec.ts|Input: task status file with one BLOCKED task marked DONE. Expected: report generation fails. Pass: non-zero exit.",
         "spec":  "OTOMIX §10.7 · Mother §10",
         "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: گزارش تاییدی را تولید کن که هر وظیفه مسدود شده را با تصمیم مالک وظیفه و اطمینان از اینکه هیچ وظیفه مسدود شده ای به صورت \"کامل\" نشان داده نشود، شامل شود."
+    },
+    {
+        "id":  "P06-RBAC-M01",
+        "status":  "DONE",
+        "description":  "Migration: 8 RBAC tables (permissions, roles, role_permissions, user_roles, user_permissions, groups, group_members, group_permissions) + RLS + indexes + audit. GAP-015.",
+        "prerequisites":  [
+
+                          ],
+        "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/access/test/rbac.*.spec.ts",
+        "spec":  "GAP-015 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "مکمل GAP-015: Migration: 8 RBAC tables (permissions, roles, role_permissions, user_roles, user_permissions, groups, group_members, group_permissions) + RLS + indexes + audit. GAP-015."
+    },
+    {
+        "id":  "P06-RBAC-M02",
+        "status":  "DONE",
+        "description":  "Permissions catalog seed (\u003e=40 keys) + drift detector. GAP-015.",
+        "prerequisites":  [
+
+                          ],
+        "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/access/test/rbac.*.spec.ts",
+        "spec":  "GAP-015 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "مکمل GAP-015: Permissions catalog seed (\u003e=40 keys) + drift detector. GAP-015."
+    },
+    {
+        "id":  "P06-RBAC-M03",
+        "status":  "DONE",
+        "description":  "Seed base roles (regular_user, tier_N, dsp_specialist, content_specialist, customer_care, accountant, deputy_admin, super_admin). GAP-015.",
+        "prerequisites":  [
+
+                          ],
+        "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/access/test/rbac.*.spec.ts",
+        "spec":  "GAP-015 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "مکمل GAP-015: Seed base roles (regular_user, tier_N, dsp_specialist, content_specialist, customer_care, accountant, deputy_admin, super_admin). GAP-015."
+    },
+    {
+        "id":  "P06-RBAC-M04",
+        "status":  "DONE",
+        "description":  "Grant/revoke service with audit + Slack escalation. GAP-015.",
+        "prerequisites":  [
+
+                          ],
+        "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/access/test/rbac.*.spec.ts",
+        "spec":  "GAP-015 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "مکمل GAP-015: Grant/revoke service with audit + Slack escalation. GAP-015."
+    },
+    {
+        "id":  "P06-RBAC-M05",
+        "status":  "DONE",
+        "description":  "Effective permissions evaluator (union of role + user + group grants, deny precedence, expiry filter). GAP-015.",
+        "prerequisites":  [
+
+                          ],
+        "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/access/test/rbac.*.spec.ts",
+        "spec":  "GAP-015 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "مکمل GAP-015: Effective permissions evaluator (union of role + user + group grants, deny precedence, expiry filter). GAP-015."
+    },
+    {
+        "id":  "P06-RBAC-M06",
+        "status":  "DONE",
+        "description":  "Redis cache (60s TTL) + PostgreSQL LISTEN/NOTIFY invalidation for effective permissions. GAP-015.",
+        "prerequisites":  [
+
+                          ],
+        "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/access/test/rbac.*.spec.ts",
+        "spec":  "GAP-015 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "مکمل GAP-015: Redis cache (60s TTL) + PostgreSQL LISTEN/NOTIFY invalidation for effective permissions. GAP-015."
+    },
+    {
+        "id":  "P06-RBAC-M07",
+        "status":  "DONE",
+        "description":  "Bootstrap super_admin + regular_user. GAP-015.",
+        "prerequisites":  [
+
+                          ],
+        "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/access/test/rbac.*.spec.ts",
+        "spec":  "GAP-015 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "مکمل GAP-015: Bootstrap super_admin + regular_user. GAP-015."
+    },
+    {
+        "id":  "P06-RBAC-M08",
+        "status":  "DONE",
+        "description":  "Group CRUD + time-bound group permissions. GAP-015.",
+        "prerequisites":  [
+
+                          ],
+        "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/access/test/rbac.*.spec.ts",
+        "spec":  "GAP-015 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "مکمل GAP-015: Group CRUD + time-bound group permissions. GAP-015."
+    },
+    {
+        "id":  "P06-RBAC-M09",
+        "status":  "DONE",
+        "description":  "Expiry test with frozen clock (T-1ms / T / T+1ms). GAP-015.",
+        "prerequisites":  [
+
+                          ],
+        "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/access/test/rbac.*.spec.ts",
+        "spec":  "GAP-015 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "مکمل GAP-015: Expiry test with frozen clock (T-1ms / T / T+1ms). GAP-015."
+    },
+    {
+        "id":  "P06-RBAC-M10",
+        "status":  "DONE",
+        "description":  "Drop scopes[] and tier from access token; token carries identity only. GAP-015.",
+        "prerequisites":  [
+
+                          ],
+        "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/access/test/rbac.*.spec.ts",
+        "spec":  "GAP-015 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "مکمل GAP-015: Drop scopes[] and tier from access token; token carries identity only. GAP-015."
+    },
+    {
+        "id":  "P06-RBAC-M11",
+        "status":  "DONE",
+        "description":  "Rewrite interceptor to read effective permissions per request. GAP-015.",
+        "prerequisites":  [
+
+                          ],
+        "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/access/test/rbac.*.spec.ts",
+        "spec":  "GAP-015 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "مکمل GAP-015: Rewrite interceptor to read effective permissions per request. GAP-015."
+    },
+    {
+        "id":  "P06-RBAC-M12",
+        "status":  "DONE",
+        "description":  "Regenerate Cucumber authorization matrix from the dynamic catalog. GAP-015.",
+        "prerequisites":  [
+
+                          ],
+        "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/access/test/rbac.*.spec.ts",
+        "spec":  "GAP-015 (OTOMIX_MicroTask_Plan_Supplement.md)",
+        "description_fa":  "مکمل GAP-015: Regenerate Cucumber authorization matrix from the dynamic catalog. GAP-015."
     }
 ]

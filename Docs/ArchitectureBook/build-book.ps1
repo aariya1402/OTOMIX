@@ -77,6 +77,29 @@ $tasksJson | ForEach-Object { $taskStatusMap[$_.id] = $_.status }
 Write-Log "Parsing plan MD..."
 $mdContent = Get-Content $planMd -Raw -Encoding UTF8
 
+# ---- P06-RBAC supplement injection (GAP-015) ----
+$suppInjPath = Join-Path $repoRoot 'Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md'
+if (Test-Path $suppInjPath) {
+    $suppInj = Get-Content $suppInjPath -Raw -Encoding UTF8
+    $rbacRows = [regex]::Matches($suppInj, '\|\s*`(RBAC-M\d+)`\s*(✅ DONE)[^|]*\|\s*([^|]+?)\s*\|')
+    if ($rbacRows.Count -gt 0) {
+        $suppBlock = "`r`n#### P06-RBAC — Supplement Tasks (GAP-015)`r`n`r`n"
+        foreach ($row in $rbacRows) {
+            $rid = $row.Groups[1].Value
+            $rdesc = $row.Groups[3].Value.Trim()
+            $suppBlock += "###### P06-$rid — [x]`r`n`r`n| Field | Value |`r`n|---|---|`r`n| ID | ``P06-$rid`` |`r`n| Description | Supplement: $rdesc |`r`n| Source | ``OTOMIX_MicroTask_Plan_Supplement.md`` §GAP-015 |`r`n`r`n"
+        }
+        $anchorPos = $mdContent.IndexOf('#### P06 Phase Integration Test Suite')
+        if ($anchorPos -gt 0) {
+            $mdContent = $mdContent.Substring(0, $anchorPos) + $suppBlock + $mdContent.Substring($anchorPos)
+        } else {
+            $mdContent += $suppBlock
+        }
+        Write-Host "Injected $($rbacRows.Count) P06-RBAC-M* tasks from supplement"
+    }
+}
+# ---- End P06-RBAC supplement injection ----
+
 # Em-dash character (U+2014)
 $emdash = [char]0x2014
 
@@ -234,19 +257,6 @@ $phaseTitles = @{
     P10 = 'Phase 10 — Observability, Deployment & DR'
     P11 = 'Phase 11 — Hardening, Determinism Proof & Acceptance'
 }
-$phaseStatusLabels = @{
-    P01 = '23 of 23 tasks complete'
-    P02 = '17 of 18 tasks complete, 1 blocked'
-    P03 = '21 of 24 tasks complete, 3 blocked'
-    P04 = '1 of 29 tasks complete, 24 todo, 4 blocked'
-    P05 = 'All tasks todo, 3 blocked'
-    P06 = 'All tasks todo, 1 blocked'
-    P07 = 'All tasks todo, 1 blocked'
-    P08 = 'All tasks todo, 2 blocked'
-    P09 = 'All tasks todo, 2 blocked'
-    P10 = 'All tasks todo'
-    P11 = 'All tasks todo, 1 blocked'
-}
 $phaseNarrativeKeys = @{
     P01 = 'P01/README.md'
     P02 = 'P02/README.md'
@@ -269,6 +279,9 @@ foreach ($phaseId in $phaseOrder) {
     $done = (@($phaseTasks | Where-Object { $_.status -eq 'DONE' })).Count
     $todo = (@($phaseTasks | Where-Object { $_.status -eq 'TODO' })).Count
     $blocked = (@($phaseTasks | Where-Object { $_.status -like 'BLOCKED*' })).Count
+    $superseded = (@($phaseTasks | Where-Object { $_.status -like 'SUPERSEDED*' })).Count
+    $cancelled = (@($phaseTasks | Where-Object { $_.status -like 'CANCELLED*' })).Count
+    $active = $phaseTasks.Count - $superseded - $cancelled
 
     $taskObjs = @()
     foreach ($t in $phaseTasks) {
@@ -321,8 +334,8 @@ foreach ($phaseId in $phaseOrder) {
         id          = $phaseId
         index       = $phaseIndex
         title       = @{ en = $phaseTitles[$phaseId] }
-        status      = if ($done -eq $phaseTasks.Count) { 'done' } elseif ($blocked -gt 0) { 'blocked' } elseif ($done -gt 0) { 'in-progress' } else { 'todo' }
-        status_label = @{ en = $phaseStatusLabels[$phaseId] }
+        status      = if ($active -gt 0 -and $done -eq $active -and $blocked -eq 0) { 'done' } elseif ($blocked -gt 0) { 'blocked' } elseif ($done -gt 0) { 'in-progress' } else { 'todo' }
+        status_label = @{ en = "$done/$active complete$(if ($blocked -gt 0) { ", " + $blocked + " blocked" })$(if ($superseded -gt 0) { ", " + $superseded + " superseded" })" }
         narrative   = @{ en = (Get-OrEmpty $narratives $phaseNarrativeKeys[$phaseId]) }
         diagram     = @{ en = '' }
         tasks       = $taskObjs
