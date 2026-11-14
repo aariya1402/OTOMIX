@@ -475,6 +475,23 @@ $metadata = [pscustomobject]@{
 }
 
 # ---- Assemble final object ----
+# ---- Read TODO.md (embedded markdown tracker) ----
+$embeddedTodoMd = ''
+$todoMdPath = Join-Path $repoRoot 'Docs/ArchitectureBook/TODO.md'
+if (Test-Path $todoMdPath) {
+    $embeddedTodoMd = [System.IO.File]::ReadAllText($todoMdPath, [System.Text.Encoding]::UTF8)
+    if ($null -eq $embeddedTodoMd) { $embeddedTodoMd = '' }
+    # Defensive: if something wrapped it into {value:...}, unwrap
+    if ($embeddedTodoMd -isnot [string]) {
+        if ($embeddedTodoMd.PSObject.Properties['value']) { $embeddedTodoMd = [string]$embeddedTodoMd.value }
+        else { $embeddedTodoMd = [string]$embeddedTodoMd }
+    }
+    Write-Log "TODO.md embedded: $($embeddedTodoMd.Length) chars (type $($embeddedTodoMd.GetType().Name))"
+} else {
+    Write-Log "TODO.md not found -- todo_md left empty"
+}
+# ---- End TODO.md ----
+
 $book = [pscustomobject]@{
     metadata  = $metadata
     phases    = $phases
@@ -485,6 +502,7 @@ $book = [pscustomobject]@{
     }
     glossary  = $glossary
     diagrams  = $diagrams
+    todo_md   = $embeddedTodoMd
 }
 
 # ---- Serialize to JSON ----
