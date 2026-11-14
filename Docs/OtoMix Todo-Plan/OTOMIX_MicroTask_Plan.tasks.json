@@ -1732,7 +1732,7 @@
     },
     {
         "id":  "P07-T04-S01-M02",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Replay DLQ messages idempotently by job id via a runbook command.",
         "prerequisites":  [
                               "P07-T04-S01-M01"
