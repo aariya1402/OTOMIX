@@ -1,4 +1,4 @@
-# OTOMIX Micro-Task Plan — Supplement (متمم مکمل)
+﻿# OTOMIX Micro-Task Plan — Supplement (متمم مکمل)
 
 **Parent document:** `OTOMIX_MicroTask_Plan.md`
 **Purpose:** Complement the main micro-task plan. Captures known gaps, deferred decisions, technical gotchas, cross-phase conflicts, and unscheduled feature proposals that do **not** belong in the per-task fields of the main plan but MUST inform decisions in later phases.
@@ -366,3 +366,8 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 - **Workaround applied:** fuzz harness runs inline in vitest (Vite resolver) rather than in a `worker_threads` sandbox.
 - **Proper fix (deferred):** either (a) migrate `packages/core/src/**/*.ts` to use `.js` extensions on every relative import (same pattern applied to `gateway` and `db`), or (b) add `rewriteRelativeImportExtensions: true` in `core/tsconfig.json` (TS 5.7+) so `dist` carries `.js` automatically. (b) is preferred.
 - **Rule for future tasks:** any tooling that loads `@otomix/core` from raw Node ESM must either use vitest/tsx or wait for GAP-021.
+---
+## [ARCHITECTURE CHANGE] P07-T03-S01-M01 Migration Filename & Scope
+**Status:** RESOLVED
+**Context:** The plan requested  03_tracks.sql. However, the  03 prefix was already used by  03_global_features_jsonb.sql. The developer merged the tracks table (P07-T03) with the source declarations table (P07-T05) into a single migration:  07_tracks_source_declarations.sql.
+**Resolution:** The file  07_tracks_source_declarations.sql already exists on disk and satisfies all constraints, RLS, and uniqueness requirements of P07-T03-S01-M01. The test file 	racks.migration.spec.ts correctly targets this file. No new file will be created.

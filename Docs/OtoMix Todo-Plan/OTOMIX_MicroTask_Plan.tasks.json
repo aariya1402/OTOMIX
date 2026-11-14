@@ -1662,7 +1662,7 @@
     },
     {
         "id":  "P07-T03-S01-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Create migration `003_tracks.sql` for `tracks` per §9.11 with CHECKs, unique `(tenant_id, owner_id, content_sha256)` and RLS.",
         "prerequisites":  [
                               "P01-T05-S01-M02"
