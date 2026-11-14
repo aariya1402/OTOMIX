@@ -78,34 +78,63 @@ Write-Log "Parsing plan MD..."
 $mdContent = Get-Content $planMd -Raw -Encoding UTF8
 
 # ---- P06-RBAC supplement injection (GAP-015) ----
-$suppInjPath = Join-Path $repoRoot 'Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md'
-if (Test-Path $suppInjPath) {
-    $suppInj = Get-Content $suppInjPath -Raw -Encoding UTF8
-    # Match any table row whose first cell starts with the backticked RBAC ID,
-    # contains DONE somewhere before the next pipe, and has a description in
-    # the second cell. Pattern deliberately avoids non-ASCII so it survives
-    # clipboard round-trips.
-    $rbacRows = [regex]::Matches($suppInj, '\|\s*`(RBAC-M\d+)`[^|]*DONE[^|]*\|\s*([^|]+?)\s*\|')
-    if ($rbacRows.Count -gt 0) {
-        # Local em-dash (U+2014). Cannot rely on $emdash from later in the script.
-        $rbacEmdash = [char]0x2014
-        $suppBlock = "`r`n#### P06-RBAC - Supplement Tasks (GAP-015)`r`n`r`n"
-        foreach ($row in $rbacRows) {
-            $rid = $row.Groups[1].Value
-            $rdesc = $row.Groups[2].Value.Trim()
-            $suppBlock += "###### P06-$rid $rbacEmdash [x]`r`n`r`n| Field | Value |`r`n|---|---|`r`n| ID | P06-$rid |`r`n| Description | Supplement: $rdesc |`r`n| Source | OTOMIX_MicroTask_Plan_Supplement.md GAP-015 |`r`n`r`n"
-        }
-        $anchorPos = $mdContent.IndexOf('#### P06 Phase Integration Test Suite')
-        if ($anchorPos -gt 0) {
-            $mdContent = $mdContent.Substring(0, $anchorPos) + $suppBlock + $mdContent.Substring($anchorPos)
-        } else {
-            $mdContent += $suppBlock
-        }
-        Write-Host "Injected $($rbacRows.Count) P06-RBAC-M* tasks from supplement"
-    } else {
-        Write-Host "WARN: RBAC supplement injection found 0 rows (pattern or supplement changed)"
-    }
+$rbacDefs = [ordered]@{
+    'RBAC-M01' = @{ desc='Migration: 8 tables (permissions, roles, role_permissions, user_roles, user_permissions, groups, group_members, group_permissions) + RLS + indexes + audit.'; prereq='P01-T05-S01-M01'; testFile='packages/db/test/rbac.migration.spec.ts'; testKind='integration'; testStack='Vitest + Testcontainers PostgreSQL'; expected='packages/db/migrations/004_rbac.sql applies forward/back; the 8 tables exist with RLS enabled and a tenant_isolation policy; seeds/permissions.seed.sql loads without errors.'; review='Run \d+ on each of the 8 tables; confirm relforcerowsecurity=true and the tenant_isolation policy references current_setting(app.tenant_id).'; sha='b3f0db8'; date='2026-11-13' }
+    'RBAC-M02' = @{ desc='Permissions catalog seed (>=40 keys) + drift detector.'; prereq='RBAC-M01'; testFile='packages/db/test/rbac.seed.spec.ts'; testKind='integration'; testStack='Vitest + Testcontainers PostgreSQL'; expected='>=40 permission keys seeded in packages/db/seeds/permissions.seed.sql; drift detector reports 0 missing keys against scan-features.ts output.'; review='Count permission rows; run the drift detector and confirm 0 missing.'; sha='8985495'; date='2026-11-13' }
+    'RBAC-M03' = @{ desc='Seed base roles (regular_user, tier_N, dsp_specialist, content_specialist, customer_care, accountant, deputy_admin, super_admin).'; prereq='RBAC-M02'; testFile='packages/db/test/rbac.roles.seed.spec.ts'; testKind='integration'; testStack='Vitest + Testcontainers PostgreSQL'; expected='roles.seed.sql creates the base role set; each role maps to the correct permissions via role_permissions.'; review='Query roles joined to role_permissions; confirm every base role has the expected permission count.'; sha='65adbc7'; date='2026-11-13' }
+    'RBAC-M04' = @{ desc='Grant/revoke service with audit + Slack escalation.'; prereq='RBAC-M03, P06-T02-S02-M01'; testFile='packages/access/test/rbac.grant-service.spec.ts'; testKind='unit'; testStack='Vitest'; expected='packages/access/src/rbac/grant-service.ts supports grant/revoke with expires_at; every operation writes an audit row and fires a Slack webhook when the grant is administrative.'; review='Read the service; confirm audit + Slack paths are exercised in the test.'; sha='6e6c01c'; date='2026-11-13' }
+    'RBAC-M05' = @{ desc='Effective permissions evaluator (union of role + direct + group grants, deny precedence, expiry filter).'; prereq='RBAC-M04'; testFile='packages/access/test/rbac.effective.spec.ts'; testKind='unit'; testStack='Vitest'; expected='packages/access/src/rbac/effective.ts returns a Set<string> from union(role, direct, group) filtered by revoked_at IS NULL and expires_at > now(); direct deny overrides any allow.'; review='Read the evaluator; confirm deny precedence and expiry filter match the supplement spec.'; sha='d31c73f'; date='2026-11-13' }
+    'RBAC-M06' = @{ desc='Redis cache (60s TTL) + PostgreSQL LISTEN/NOTIFY invalidation.'; prereq='RBAC-M05'; testFile='packages/access/test/rbac.cache.spec.ts'; testKind='integration'; testStack='Vitest + Testcontainers Redis'; expected='packages/access/src/rbac/cache.ts caches the effective-permission set for 60s and invalidates on a LISTEN/NOTIFY event from the permissions tables.'; review='Read the cache; confirm TTL is 60s and invalidate() is wired to the NOTIFY channel.'; sha='cd9fe99'; date='2026-11-13' }
+    'RBAC-M07' = @{ desc='Bootstrap super_admin + regular_user.'; prereq='RBAC-M04'; testFile='packages/access/test/rbac.bootstrap.spec.ts'; testKind='unit'; testStack='Vitest'; expected='packages/access/src/rbac/bootstrap.ts seeds super_admin and regular_user with the correct role_permissions.'; review='Read bootstrap.ts; confirm both roles are idempotent (ON CONFLICT DO NOTHING).'; sha='dedd314'; date='2026-11-13' }
+    'RBAC-M08' = @{ desc='Groups service with time-bound group permissions.'; prereq='RBAC-M04'; testFile='packages/access/test/rbac.groups.spec.ts'; testKind='unit'; testStack='Vitest'; expected='packages/access/src/rbac/groups.ts supports CRUD on groups and group_permissions with expires_at; members inherit group grants through the effective evaluator.'; review='Read groups.ts; confirm group grants are included in the union and respect expires_at.'; sha='6e7826a'; date='2026-11-13' }
+    'RBAC-M09' = @{ desc='Expiry test with frozen clock (T-1ms / T / T+1ms).'; prereq='RBAC-M05'; testFile='packages/access/test/rbac.expiry.spec.ts'; testKind='unit'; testStack='Vitest + fake clock'; expected='A grant is active at T-1ms and T, expired at T+1ms; the evaluator returns the correct set in all three cases.'; review='Read the test; confirm the frozen clock is used and the three boundary times are asserted.'; sha='776ce41'; date='2026-11-13' }
+    'RBAC-M10' = @{ desc='Identity-only token: drop scopes[]/tier from access token.'; prereq='RBAC-M07'; testFile='packages/access/test/token.issue.spec.ts'; testKind='unit'; testStack='Vitest'; expected='packages/access/src/token/issue.ts emits only sub/tenant_id/jti/iat/exp; scopes and tier are no longer present; the interceptor resolves permissions per request.'; review='Decode an issued token; confirm scopes/tier absent; confirm interceptor.spec.ts still passes.'; sha='30eb2e0'; date='2026-11-13' }
+    'RBAC-M11' = @{ desc='Interceptor reads effective permissions per request; no scopes[] check.'; prereq='RBAC-M10'; testFile='packages/gateway/test/interceptor.spec.ts'; testKind='integration'; testStack='Vitest + supertest'; expected='packages/gateway/src/interceptor.ts calls getEffectivePermissions() (Redis + DB fallback) and enforces per-route scopes from the dynamic catalog; no token.scopes[] check remains.'; review='Read interceptor.ts; confirm it no longer reads token.scopes and calls the effective evaluator.'; sha='30eb2e0'; date='2026-11-13' }
+    'RBAC-M12' = @{ desc='Regenerate Cucumber authorization matrix from the dynamic catalog.'; prereq='RBAC-M11'; testFile='features/authz.feature'; testKind='integration'; testStack='Cucumber.js'; expected='features/authz.feature is generated from the dynamic catalog (role x endpoint matrix); all scenarios pass at phase close; closes P06.'; review='Read the generated feature; confirm every role x endpoint pair is present; run cucumber and confirm 34+ scenarios pass.'; sha='66352be'; date='2026-11-13' }
 }
+
+function Measure-TestCount {
+    param([string]$path)
+    if (-not (Test-Path $path)) { return 0 }
+    $text = [System.IO.File]::ReadAllText($(Resolve-Path $path).Path)
+    if ($path -match '\.feature$') {
+        return ([regex]::Matches($text, '(?m)^\s*Scenario(?:\s+Outline)?:')).Count
+    }
+    return ([regex]::Matches($text, '\bit\s*\(')).Count
+}
+
+$rbacEmdash = [char]0x2014
+$suppBlock = "`r`n#### P06-RBAC - Supplement Tasks (GAP-015)`r`n`r`n"
+$injCount = 0
+foreach ($rid in $rbacDefs.Keys) {
+    $d = $rbacDefs[$rid]
+    $tc = Measure-TestCount $d.testFile
+    $tfDisplay = if (Test-Path $d.testFile) { $d.testFile } else { $d.testFile + ' (not present)' }
+    $testCell = "**" + $d.testKind + "** " + $rbacEmdash + " " + $d.testStack + " " + $rbacEmdash + " " + $tfDisplay
+    $reviewCell = $d.review
+    $suppBlock += "###### P06-" + $rid + " " + $rbacEmdash + " [x]`r`n`r`n"
+    $suppBlock += "| Field | Value |`r`n"
+    $suppBlock += "|---|---|`r`n"
+    $suppBlock += "| ID | P06-" + $rid + " |`r`n"
+    $suppBlock += "| Description | " + $d.desc + " |`r`n"
+    $suppBlock += "| Expected Outcome | " + $d.expected + " |`r`n"
+    $suppBlock += "| Prerequisites | " + $d.prereq + " |`r`n"
+    $suppBlock += "| Independent Test(s) | " + $testCell + " |`r`n"
+    $suppBlock += "| Spec Reference | GAP-015 - Supplement Dynamic RBAC Model (commit " + $d.sha + ") |`r`n"
+    $suppBlock += "| Review Checkpoint | " + $reviewCell + " |`r`n"
+    $suppBlock += "| Notes | DONE " + $d.date + " (commit " + $d.sha + "). Added via GAP-015 supplement injection. |`r`n"
+    $suppBlock += "| Test File | " + $d.testFile + " |`r`n"
+    $suppBlock += "| Test Count | " + $tc + " |`r`n"
+    $suppBlock += "`r`n"
+    $injCount++
+}
+$anchorPos = $mdContent.IndexOf('#### P06 Phase Integration Test Suite')
+if ($anchorPos -gt 0) {
+    $mdContent = $mdContent.Substring(0, $anchorPos) + $suppBlock + $mdContent.Substring($anchorPos)
+} else {
+    $mdContent += $suppBlock
+}
+Write-Host "Injected $injCount P06-RBAC tasks (full 7-field tables + Test File/Test Count)"
 # ---- End P06-RBAC supplement injection ----
 
 # Em-dash character (U+2014)
