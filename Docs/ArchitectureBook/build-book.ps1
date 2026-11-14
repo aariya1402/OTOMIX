@@ -81,12 +81,16 @@ $mdContent = Get-Content $planMd -Raw -Encoding UTF8
 $suppInjPath = Join-Path $repoRoot 'Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md'
 if (Test-Path $suppInjPath) {
     $suppInj = Get-Content $suppInjPath -Raw -Encoding UTF8
-    $rbacRows = [regex]::Matches($suppInj, '\|\s*`(RBAC-M\d+)`\s*(DONE)[^|]*\|\s*([^|]+?)\s*\|')
+    # Match any table row whose first cell starts with the backticked RBAC ID,
+    # contains DONE somewhere before the next pipe, and has a description in
+    # the second cell. Pattern deliberately avoids non-ASCII (checkmarks) so
+    # it survives clipboard round-trips.
+    $rbacRows = [regex]::Matches($suppInj, '\|\s*`(RBAC-M\d+)`[^|]*DONE[^|]*\|\s*([^|]+?)\s*\|')
     if ($rbacRows.Count -gt 0) {
         $suppBlock = "`r`n#### P06-RBAC - Supplement Tasks (GAP-015)`r`n`r`n"
         foreach ($row in $rbacRows) {
             $rid = $row.Groups[1].Value
-            $rdesc = $row.Groups[3].Value.Trim()
+            $rdesc = $row.Groups[2].Value.Trim()
             $suppBlock += "###### P06-$rid - [x]`r`n`r`n| Field | Value |`r`n|---|---|`r`n| ID | P06-$rid |`r`n| Description | Supplement: $rdesc |`r`n| Source | OTOMIX_MicroTask_Plan_Supplement.md GAP-015 |`r`n`r`n"
         }
         $anchorPos = $mdContent.IndexOf('#### P06 Phase Integration Test Suite')
@@ -96,6 +100,8 @@ if (Test-Path $suppInjPath) {
             $mdContent += $suppBlock
         }
         Write-Host "Injected $($rbacRows.Count) P06-RBAC-M* tasks from supplement"
+    } else {
+        Write-Host "WARN: RBAC supplement injection found 0 rows (pattern or supplement changed)"
     }
 }
 # ---- End P06-RBAC supplement injection ----
