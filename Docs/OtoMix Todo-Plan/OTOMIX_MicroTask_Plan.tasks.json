@@ -1673,7 +1673,7 @@
     },
     {
         "id":  "P07-T03-S02-M01",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "De-duplicate tracks per tenant and owner by SHA-256 of the canonical decoded PCM.",
         "prerequisites":  [
                               "P07-T01-S03-M01",
