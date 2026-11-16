@@ -35,13 +35,13 @@
     {
         "id":  "P01-T02-S01-M01",
         "status":  "DONE",
-        "description":  "Create `packages/core/src/constants/timing.ts` exporting frozen constants: LOOKAHEAD_MS=50, SCHED_ACCURACY_MS=2, DRIFT_THRESHOLD_MS=4, STARVATION_FRAME_MS=10, BUFFER_NORMAL=2048, BUFFER_DEGRADED=4096, PORT_BUFFER_SAMPLES=1024, PORT_LATENCY_MS=10, ANALYSIS_TIMEOUT_MS=5000, EXTRACTION_ALERT_MS=2500, OBSERVER_CYCLE_MS=1.",
+        "description":  "Create `packages/core/src/constants/timing.ts` exporting frozen constants: LOOKAHEAD_MS=50, SCHED_ACCURACY_MS=2, DRIFT_THRESHOLD_QUANTA=0.192 (4 ms at 120 BPM), STARVATION_FRAME_MS=10, BUFFER_NORMAL=2048, BUFFER_DEGRADED=4096, PORT_BUFFER_SAMPLES=1024, PORT_LATENCY_MS=10, ANALYSIS_TIMEOUT_MS=5000, EXTRACTION_ALERT_MS=2500, OBSERVER_CYCLE_MS=1.",
         "prerequisites":  [
                               "P01-T01-S01-M01"
                           ],
         "test":  "unit|Vitest|packages/core/test/constants.timing.spec.ts|Input: import constants. Expected: values equal the list in the description and `Object.isFrozen` is true. Pass: 11 equalities.",
         "spec":  "OTOMIX §3.3; §3.6; §3.11; §4.1; §8.3 · Mother §2.3; §2.6; §3.6, Add. §12; §3.1; §9.1; Add. §7",
-        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ایجاد فایل `packages/core/src/constants/timing.ts` با خروجی ثابت‌های مُجمَع: LOOKAHEAD_MS=50، SCHED_ACCURACY_MS=2، DRIFT_THRESHOLD_MS=4، STARVATION_FRAME_MS=10، BUFFER_NORMAL=2048، BUFFER_DEGRADED=4096، PORT_BUFFER_SAMPLES=1024، PORT_LATENCY_MS=10، ANALYSIS_TIMEOUT_MS=5-000، EXTRACTION_ALERT_MS=2500، OBSERVER_CYCLE_MS=1."
+        "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: ایجاد فایل `packages/core/src/constants/timing.ts` با خروجی ثابت‌های مُجمَع: LOOKAHEAD_MS=50، SCHED_ACCURACY_MS=2، DRIFT_THRESHOLD_QUANTA=0.192 (4 ms at 120 BPM)، STARVATION_FRAME_MS=10، BUFFER_NORMAL=2048، BUFFER_DEGRADED=4096، PORT_BUFFER_SAMPLES=1024، PORT_LATENCY_MS=10، ANALYSIS_TIMEOUT_MS=5-000، EXTRACTION_ALERT_MS=2500، OBSERVER_CYCLE_MS=1."
     },
     {
         "id":  "P01-T02-S01-M02",

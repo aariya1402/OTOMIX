@@ -396,7 +396,7 @@ flowchart LR
 | Field | Value |
 |---|---|
 | ID | `P01-T02-S01-M01` |
-| Description | Create `packages/core/src/constants/timing.ts` exporting frozen constants: LOOKAHEAD_MS=50, SCHED_ACCURACY_MS=2, DRIFT_THRESHOLD_MS=4, STARVATION_FRAME_MS=10, BUFFER_NORMAL=2048, BUFFER_DEGRADED=4096, PORT_BUFFER_SAMPLES=1024, PORT_LATENCY_MS=10, ANALYSIS_TIMEOUT_MS=5000, EXTRACTION_ALERT_MS=2500, OBSERVER_CYCLE_MS=1. |
+| Description | Create `packages/core/src/constants/timing.ts` exporting frozen constants: LOOKAHEAD_MS=50, SCHED_ACCURACY_MS=2, DRIFT_THRESHOLD_QUANTA=0.192 (4 ms at 120 BPM), STARVATION_FRAME_MS=10, BUFFER_NORMAL=2048, BUFFER_DEGRADED=4096, PORT_BUFFER_SAMPLES=1024, PORT_LATENCY_MS=10, ANALYSIS_TIMEOUT_MS=5000, EXTRACTION_ALERT_MS=2500, OBSERVER_CYCLE_MS=1. |
 | Expected Outcome | File with `Object.freeze`d constants, each with a spec-section comment. |
 | Prerequisites | `P01-T01-S01-M01` |
 | Independent Test(s) | **unit** · Vitest · `packages/core/test/constants.timing.spec.ts`<br>Input: import constants. Expected: values equal the list in the description and `Object.isFrozen` is true. Pass: 11 equalities. |
