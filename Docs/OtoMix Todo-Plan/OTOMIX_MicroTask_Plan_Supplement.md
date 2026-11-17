@@ -1,4 +1,4 @@
-﻿# OTOMIX Micro-Task Plan â€” Supplement (Ù…ØªÙ…Ù… Ù…Ú©Ù…Ù„)
+# OTOMIX Micro-Task Plan â€” Supplement (Ù…ØªÙ…Ù… Ù…Ú©Ù…Ù„)
 
 **Parent document:** `OTOMIX_MicroTask_Plan.md`
 **Purpose:** Complement the main micro-task plan. Captures known gaps, deferred decisions, technical gotchas, cross-phase conflicts, and unscheduled feature proposals that do **not** belong in the per-task fields of the main plan but MUST inform decisions in later phases.
@@ -451,8 +451,10 @@ See `CONFLICT-009`. Always `git -c core.quotePath=false`.
 **Status:** RESOLVED
 **Context:** The plan requested 03_tracks.sql. However, the 03 prefix was already used by 03_global_features_jsonb.sql. The developer merged the tracks table (P07-T03) with the source declarations table (P07-T05) into a single migration: 07_tracks_source_declarations.sql.
 **Resolution:** The file 07_tracks_source_declarations.sql already exists on disk and satisfies all constraints, RLS, and uniqueness requirements of P07-T03-S01-M01. The test file 	racks.migration.spec.ts correctly targets this file. No new file will be created.
-### [GAP-022] [PHASE: P07, P10, P11] [HIGH] Testcontainers parallelism + tight timeouts cause Step 6 flakes
-- **Status:** open`r`n- **Discovered:** 2026-11-14 during Step 6 for P07-T03-S02-M02.
+### [GAP-022] [PHASE: P07, P10, P11] [HIGH] [RESOLVED] Testcontainers parallelism + tight timeouts cause Step 6 flakes
+- **Status:** resolved
+- **Resolved:** 2026-11-17
+- **Discovered:** 2026-11-14 during Step 6 for P07-T03-S02-M02.
 - **Evidence:** Full suite (
 px vitest run) failed 4 files, all by TIMEOUT not assertion:
   - packages/db/test/rbac.migration.spec.ts > migrate up creates all 8 tables -> 5030 ms (limit 5000 ms)
@@ -470,21 +472,27 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - **Placeholder validity:** all values satisfy features CHECKs (bpm in [60,200], camelot regex, energy/mixability in [0,1], stars in [0,5], groove_mode enum).
 - **Replacement:** when P05-T04-S01-M01 lands, replace the placeholder block inside commit.ts with the real extract() output. One-liner swap; no schema bump.
 - **Dedup rule:** on isNew=false, skip features INSERT (avoids (tenant,track,schema_version) UNIQUE collision); outbox event is still written.
-### [GAP-024] [PHASE: P07] [ADVISORY] Rate-limit defaults recorded from M04
-- **Status:** open`r`n- **Discovered:** 2026-11-14 during P07-T03-S02-M04.
+### [GAP-024] [PHASE: P07] [ADVISORY] [RESOLVED] Rate-limit defaults recorded from M04
+- **Status:** resolved
+- **Resolved:** 2026-11-17
+- **Discovered:** 2026-11-14 during P07-T03-S02-M04.
 - **Spec basis:** 9.1 ("leaky bucket 429") and 7.12 ("per-user size/duration limits"). Spec is silent on exact numbers and Retry-After format.
 - **Defaults chosen (M04):** capacity=10 tokens, drainPerSec=1, per-user scope keyed by JWT sub, Retry-After integer seconds (RFC 9110), in-memory store per-process.
 - **Known limitation:** in-memory store is per-process; a multi-replica deployment (P10) needs a shared store. Not blocking M04; record for P10.
 - **Local twin:** none. Rate limiting is a server-side DoS control; adapter ingestLocal is UI-facing and does not go through HTTP.
-### [GAP-025] [PHASE: P07, P10, P11] [ADVISORY] DLQ queue technology unspecified; Redis Streams chosen
-- **Status:** open`r`n- **Discovered:** 2026-11-14 during P07-T04-S01-M01.
+### [GAP-025] [PHASE: P07, P10, P11] [ADVISORY] [RESOLVED] DLQ queue technology unspecified; Redis Streams chosen
+- **Status:** resolved
+- **Resolved:** 2026-11-17
+- **Discovered:** 2026-11-14 during P07-T04-S01-M01.
 - **Spec basis:** 5.8 shows otomix.dlq as a queue participant in the sequence diagram, but does not name the technology. 9.11 only ships the outbox table; there is no dlq table in migrations.
 - **Decision (M05):** Redis Streams via ioredis (already a dependency; used by idempotency store). Stream name otomix.dlq. Consumer group dlq-processor is reserved for M02 replay; not used here.
 - **Known limitation:** in-memory/Redis-backed store is per-deployment; cross-region DLQ is a P10 concern.
 - **Local twin:** none. DLQ is server-side only.
 - **Reversibility:** if the owner later mandates PostgreSQL-based DLQ, packToDlq is a thin XADD wrapper; replacing with an INSERT into a new dlq table is a one-file change.
-### [GAP-026] [PHASE: P07, P10] [ADVISORY] DLQ handler registry not implemented; replay uses caller-provided handler
-- **Status:** open`r`n- **Discovered:** 2026-11-14 during P07-T04-S01-M02.
+### [GAP-026] [PHASE: P07, P10] [ADVISORY] [RESOLVED] DLQ handler registry not implemented; replay uses caller-provided handler
+- **Status:** resolved
+- **Resolved:** 2026-11-17
+- **Discovered:** 2026-11-14 during P07-T04-S01-M02.
 - **Context:** eplayDlq(redis, job_id, handler, deps) requires the caller to supply a handler. The CLI scripts/dlq-replay.ts passes a no-op handler to prove the path.
 - **Why deferred:** spec 5.8 says replay is a runbook action, but does not specify a handler registry keyed by job type. A production-grade registry is P10 scope (DLQ runbook + replay tooling).
 - **Current safety:** the idempotency store (withIdempotency(job_id, sha256(payload), handler)) prevents double-execution; XDEL removes the entry only on resh.
@@ -552,8 +560,10 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - Rate-limit exact numbers (proposed 3/10min; owner can override).
 - Account linking when a user registers with two methods (e.g. Google then Phone) â€” proposal: match on email or phone_e164 and merge, else prompt to link. Defer to M02..M04 implementation details.
 - Terms text: v1.0 effective 2026-11-14; owner must supply the legal text (mocked in tests).
-### [GAP-028] [PHASE: P07] [ADVISORY] Plan says 'action', DDL uses 'scope'
-- **Status:** open`r`n- **Discovered:** 2026-11-14 during P07-T05-S01-M01.
+### [GAP-028] [PHASE: P07] [ADVISORY] [RESOLVED] Plan says 'action', DDL uses 'scope'
+- **Status:** resolved
+- **Resolved:** 2026-11-17
+- **Discovered:** 2026-11-14 during P07-T05-S01-M01.
 - **Context:** OTOMIX_MicroTask_Plan.md for M07 describes the field as ction; migration 07_tracks_source_declarations.sql uses scope.
 - **Resolution:** Code and tests use scope (the actual DB column). No schema change. Future references should use scope.
 ### [GOTCHA-HIST-001] [PHASE: ALL] [LOW] Duplicate commit messages from script re-execution
