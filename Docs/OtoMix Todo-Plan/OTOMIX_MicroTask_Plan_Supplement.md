@@ -581,4 +581,16 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - **Rationale:** GAP-021 - core ESM with extensionless imports blocks worker_threads eval. Keeping the orchestrator in workers would force eval-time coupling and risk circular deps.
 - **Decision:** Keep runEnrichment() in core with structural ports (dependency inversion). EnrichmentPipeline is recorded as a plan-text token in overrides.json.
 - **Resolution:** Decision recorded 2026-11-17. `runEnrichment()` canonically lives in `packages/core/src/pipeline/enrichment.ts`. `EnrichmentPipeline` is registered as a plan-text token in `overrides.json` (ignoreSymbols). The queue integration + instant API response Review Checkpoint is tracked separately as `P05-ADD-T06-S03-M01`; a Reminder has been inserted in `OTOMIX_MicroTask_Plan.md` at the P05/P06 boundary.
-- **Deferred:** Queue integration + instant API response (Review Checkpoint) not in dce1d1f. Open follow-up P05-ADD-T06-S03-M01 for next session.
+- **Deferred:** Queue integration + instant API response (Review Checkpoint) not in dce1d1f. Open follow-up P05-ADD-T06-S03-M01 for next session.<a id="p05-add-t06-s03-m01"></a>
+### [P05-ADD-T06-S03-M01] [PHASE: P05] [TODO] Enrichment queue integration + instant API response
+
+- **Source:** Follow-up from [GAP-030] decision; Review Checkpoint portion not covered in `dce1d1f`.
+- **Rationale:** `runEnrichment()` in `packages/core/src/pipeline/enrichment.ts` has all deps injected via structural ports (`FeatureCache`, `TenantFeatureStore`, `EngineRunner`, worker registry). To be useful end-to-end, the ingestion flow must call `runEnrichment()` and the API must respond before/independently of analysis completion.
+- **Expected Outcome:** `POST /api/v1/ingest/local` (or its queue consumer) invokes `runEnrichment()` with real deps; features written to global cache + tenant store match worker analysis; client receives 202/200 with resource id before completion.
+- **Review Checkpoint:** (1) API responds before worker completes; (2) worker completion results in matching features row; (3) second identical request hits cache (no worker re-invocation).
+- **Files (expected):** `packages/gateway/src/ingest/ingest-local.ts`, `packages/gateway/test/ingest-local.spec.ts` (or a new test).
+- **Tests:** To be finalized when the task is scheduled (per Reminder in `OTOMIX_MicroTask_Plan.md`).
+- **GAPs:** Closes the open portion of [GAP-030].
+- **Plan reference:** Reminder inserted before `## Phase P06` in `OTOMIX_MicroTask_Plan.md`.
+
+---

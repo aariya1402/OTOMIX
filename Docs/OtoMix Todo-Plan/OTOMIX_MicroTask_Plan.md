@@ -2141,7 +2141,7 @@ flowchart LR
 
 > **Supplement Reminder (P06):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P06]`. Resolve any `[BLOCKER]` item before proceeding.
 
-[REMINDER: New task P05-ADD-T06-S03-M01 must execute here. Details: OTOMIX_MicroTask_Plan_Supplement.md#gap-030]
+[REMINDER: New task P05-ADD-T06-S03-M01 must execute here. Details: OTOMIX_MicroTask_Plan_Supplement.md#p05-add-t06-s03-m01]
 
 ### P06 Security, RBAC & Tenant Isolation
 
