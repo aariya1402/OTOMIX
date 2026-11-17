@@ -17,9 +17,9 @@
 // Rule 26: dimensionless score.
 // D9: weights from AnalysisConfig; no hardcoded tunables.
 
-import { getAnalysisConfig } from '../config/analysis';
-import { CamelotKey } from '../types/camelot';
-import { isCamelotCompatible } from './camelot-gate';
+import { getAnalysisConfig } from '../config/analysis.js';
+import { CamelotKey } from '../types/camelot.js';
+import { isCamelotCompatible } from './camelot-gate.js';
 
 export interface CompatibilityInput {
   readonly mixabilityA?: number;

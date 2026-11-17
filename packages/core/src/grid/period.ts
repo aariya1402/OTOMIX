@@ -1,5 +1,5 @@
 // OTOMIX §3.1 · Mother §2.1
-import { PERIOD_MIN, PERIOD_MAX } from '../constants/grid';
+import { PERIOD_MIN, PERIOD_MAX } from '../constants/grid.js';
 
 /**
  * Constrain a measured period to the spec-mandated range around the seed period.

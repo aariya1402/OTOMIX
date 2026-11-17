@@ -16,3 +16,7 @@ MP3/
 # Design assets — not for version control
 Logo/
 features/authz.feature
+
+# Fuzz corpus (generated, not committed)
+fuzz/corpus/
+fuzz/manifest.json

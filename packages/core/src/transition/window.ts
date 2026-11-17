@@ -3,7 +3,7 @@
 // per-transition override supplied by the UI (Owner decision D8).
 // No hardcoded beat/bar literals.
 
-import { getTransitionWindowBeats } from './constants';
+import { getTransitionWindowBeats } from './constants.js';
 
 /**
  * Resolves the transition window in beats.

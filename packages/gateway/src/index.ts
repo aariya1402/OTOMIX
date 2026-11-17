@@ -15,3 +15,18 @@ export type { DspParameters, ChopGrid } from './config/dsp-params.js';
 
 export { createInterceptor, matchRoutePath } from './interceptor.js';
 export type { InterceptorDeps, TokenClaims, TokenVerifier, InterceptResult } from './interceptor.js';
+
+export { sniffForGateway } from './ingest/sniff.js';
+export type { SniffResult, SniffDeps } from './ingest/sniff.js';
+
+export { createSizeLimitMiddleware } from './ingest/limits.js';
+export type { SizeLimitDeps } from './ingest/limits.js';
+
+export { confineForGateway } from './ingest/confine.js';
+export type { ConfineResult, ConfineDeps, ConfineReason } from './ingest/confine.js';
+
+export { rejectForGateway } from './ingest/reject.js';
+export type { RejectDeps, RejectFormat, RejectReason, RejectResult } from './ingest/reject.js';
+
+export { extractTagsForGateway } from './ingest/tags.js';
+export type { TagsDeps, TagsResult } from './ingest/tags.js';

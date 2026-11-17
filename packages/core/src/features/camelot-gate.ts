@@ -11,7 +11,7 @@
 // Rule 26: camelot keys are categorical, not temporal. No _S/_MS/*Seconds.
 // TODO(P05-ADD-T02-S03-M02): honor cfg.camelot.strictMode override.
 
-import { CamelotKey } from '../types/camelot';
+import { CamelotKey } from '../types/camelot.js';
 
 export function isCamelotCompatible(
   a: CamelotKey | string,

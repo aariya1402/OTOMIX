@@ -1,6 +1,6 @@
 // OTOMIX §3.1 · Mother §2.1
-import { tOfI } from './t-of-i';
-import { BPM } from '../types/bpm';
+import { tOfI } from './t-of-i.js';
+import { BPM } from '../types/bpm.js';
 
 export interface GridSegment {
   startBeat: number;
@@ -50,7 +50,7 @@ export class GridModel {
 
   t(i: number): number {
     const segment = this.findSegment(i);
-    return tOfI(i as unknown as import('../types/beat-index').BeatIndex, segment.T0, segment.bpmSeed as unknown as import('../types/bpm').BPM, segment.delta);
+    return tOfI(i as unknown as import('../types/beat-index.js').BeatIndex, segment.T0, segment.bpmSeed as unknown as import('../types/bpm.js').BPM, segment.delta);
   }
 
   private findSegment(i: number): GridSegment {

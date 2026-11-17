@@ -1,6 +1,6 @@
 // OTOMIX §3.10 · Mother §2.10
-import { BeatIndex } from '../types/beat-index';
-import { BEAT_EPSILON } from '../constants/grid';
+import { BeatIndex } from '../types/beat-index.js';
+import { BEAT_EPSILON } from '../constants/grid.js';
 
 export function getPreKickBeat(t: number, T0: number, bpmSeed: number): BeatIndex {
   const period = 60 / bpmSeed;

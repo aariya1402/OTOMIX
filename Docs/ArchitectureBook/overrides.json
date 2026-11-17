@@ -1,0 +1,115 @@
+{
+    "P01-T03-S02-M02":  {
+                            "ignoreSymbols":  [
+                                                  "PURGE_AND_REANALYZE"
+                                              ],
+                            "note":  "PURGE_AND_REANALYZE is a string literal in a type union, not a declaration"
+                        },
+    "P01-T08-S01-M02":  {
+                            "ignoreSymbols":  [
+                                                  "postMessage"
+                                              ],
+                            "note":  "postMessage is a Web API name (used in a comment, not a declaration); flagged from plan description text"
+                        },
+    "P03-T06-S01-M06":  {
+                            "skipCodeCheck":  true,
+                            "note":  "Decision task; output documented at AI Agent.MD#L417-425 (transition window = 16 bars = 64 beats). Not a code task."
+                        },
+    "P04-T01-S02-M01":  {
+                            "ignoreSymbols":  [
+                                                  "linearRampToValueAtTime"
+                                              ],
+                            "note":  "linearRampToValueAtTime is a Web Audio API method name (used in plan text, not a declaration)"
+                        },
+    "P04-T02-S02-M03":  {
+                            "ignoreSymbols":  [
+                                                  "chopGrid"
+                                              ],
+                            "note":  "chopGrid is a function parameter name (slice.ts, crossfade-bound.ts), not a declaration"
+                        },
+    "P04-T03-S01-M01":  {
+                            "ignoreSymbols":  [
+                                                  "AudioWorkletProcessor"
+                                              ],
+                            "note":  "AudioWorkletProcessor is a Web API name used in plan text, not a declaration. Skeleton class is OtomixProcessor in packages/workers/src/processor.ts."
+                        },
+    "P04-T03-S01-M02":  {
+                            "ignoreSymbols":  [
+                                                  "SharedArrayBuffer"
+                                              ],
+                            "note":  "SharedArrayBuffer is a Web API name used in plan text, not a declaration. The SPSC ring class is SpscRing in packages/workers/src/ring.ts."
+                        },
+    "P05-ADD-T01-S01-M01":  {
+                                "ignoreSymbols":  [
+                                                      "energyWeights",
+                                                      "mixabilityWeights"
+                                                  ],
+                                "note":  "energyWeights and mixabilityWeights are \u0027e.g.\u0027 example identifiers in the plan description text (Addendum L19), not code declarations. The actual config uses energy.weights and mixability.weights (nested Record\u003cstring, number\u003e), defined in packages/core/src/config/analysis.ts and populated in analysis-config.json."
+                            },
+    "P05-ADD-T01-S03-M01":  {
+                                "skipCodeCheck":  true,
+                                "note":  "Build-debt task. No independent vitest test is declared by the plan; the Expected Outcome IS \u0027pnpm -F @otomix/core build\u0027 exits 0 (tsc --build). Verified manually: npx --no-install tsc --build packages/core/tsconfig.json exits 0, and dist/index.js:1 contains \u0027export * from \u0027\u0027.\\\\config\\\\analysis\u0027\u0027\u0027. skipCodeCheck is set so the registry does not flag the intentionally-missing test file; tsc is re-verified on every System Review.",
+                                "ignoreIssues":  [
+                                                     "no-test"
+                                                 ]
+                            },
+    "P05-ADD-T06-S02-M01":  {
+                                "ignoreFiles":  [
+                                                    "packages/db/migrations/xxx_global_features_jsonb.sql"
+                                                ],
+                                "ignoreSymbols":  [
+                                                      "GlobalFeatureRepository"
+                                                  ],
+                                "note":  "Plan uses placeholder names. Actual: (1) file 003_global_features_jsonb.sql; (2) class GlobalFeaturesRepository (plural). Verified by disk read + commit 6497756."
+                            },
+    "P05-ADD-T06-S03-M01":  {
+                                "ignoreSymbols":  [
+                                                      "EnrichmentPipeline"
+                                                  ],
+                                "note":  "Plan-text token. Implemented as runEnrichment() in packages/core/src/pipeline/enrichment.ts. See GAP-030."
+                            },
+    "P05-T02-S01-M01":  {
+                            "ignoreSymbols":  [
+                                                  "BPM_seed"
+                                              ],
+                            "note":  "BPM_seed is a plan-text concept, not a declaration. Implemented as deriveBpmSeed() in packages/core/src/features/bpm-seed.ts."
+                        },
+    "P06-T05-S01-M03":  {
+                            "ignoreIssues":  [
+                                                 "no-files"
+                                             ],
+                            "note":  "Test-only task. Playwright CSP probe deferred to P08. The probe (Node worker_threads) already exists in packages/workers/test/worker-isolation.spec.ts; no new source file is required for this task."
+                        },
+    "P05-T02-S02-M06":  {
+                            "note":  "Superseded by D3 (2026-11-12). Plan describes the 4-term formula (E_kick/C_bass/S_tempo/V_tune); shipped implementation uses 6 intrinsic factors in packages/core/src/features/mixability.ts. See SUPERSEDED-006.",
+                            "ignoreSymbols":  [
+                                                  "E_kick",
+                                                  "C_bass",
+                                                  "S_tempo",
+                                                  "V_tune"
+                                              ],
+                            "ignoreIssues":  [
+                                                 "no-test",
+                                                 "no-files"
+                                             ],
+                            "skipCodeCheck":  true
+                        },
+    "P07-T01-S01-M01":  {
+                            "ignoreSymbols":  [
+                                                  "fLaC"
+                                              ],
+                            "note":  "fLaC is a FLAC magic-byte string literal, not a declaration. See packages/gateway/src/ingest/sniff.ts."
+                        },
+    "P06-T06-S01-M02":  {
+                            "ignoreIssues":  [
+                                                 "no-files"
+                                             ],
+                            "note":  "Config-only task. Implementation is .github/workflows/ci.yml; not a TS source file."
+                        },
+    "P07-T02-S01-M01":  {
+                            "ignoreIssues":  [
+                                                 "no-files"
+                                             ],
+                            "note":  "Config-only task. Implementation is .dependency-cruiser.cjs; not a TS source file."
+                        }
+}

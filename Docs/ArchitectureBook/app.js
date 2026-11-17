@@ -1,4 +1,4 @@
-/* OTOMIX Architecture Book — app.js
+﻿/* OTOMIX Architecture Book — app.js
  * Reads window.OTOMIX_BOOK (from content.js), renders TOC + content + search.
  * All string data goes through textContent (safe). No innerHTML with user data.
  */
@@ -219,6 +219,9 @@
     var gLink = el('a', { class: 'toc-item', href: '#/glossary' });
     gLink.textContent = 'Glossary';
     toc.appendChild(gLink);
+    var todoLink = el('a', { class: 'toc-item', href: '#/todo' });
+    todoLink.textContent = 'TODO Tracker';
+    toc.appendChild(todoLink);
 
     // highlight active
     updateActive();
@@ -402,6 +405,20 @@
     }
   }
 
+  // ====== TODO tracker ======
+  function renderTodo(container) {
+    if (!BOOK) return;
+    if (!BOOK.todo_md) {
+      var warn = el('div');
+      warn.style.cssText = 'background:#3d1f1f;border:1px solid #f85149;padding:20px;border-radius:8px;margin:20px 0';
+      warn.appendChild(el('h2', { text: '⚠️ TODO tracker not embedded' }));
+      warn.appendChild(el('p', { text: 'Run the TODO generator, then rebuild with build-book.ps1.' }));
+      container.appendChild(warn);
+      return;
+    }
+    renderMarkdown(BOOK.todo_md, container);
+  }
+
   // ====== router ======
   function render() {
     var content = document.getElementById('content');
@@ -420,6 +437,7 @@
     if (parts.length === 0) return renderHome(content);
     if (parts[0] === 'constants') return renderConstants(content);
     if (parts[0] === 'glossary') return renderGlossary(content);
+    if (parts[0] === 'todo') return renderTodo(content);
     if (parts[0] === 'ch0' || parts[0] === 'ch1') {
       return renderPhase(content, parts[0]);
     }
@@ -457,6 +475,13 @@
           var c = BOOK.constants[cat][k];
           idx.push({ type: 'constant', id: c.name, label: c.name + ' = ' + c.value + ' (' + cat + ')', text: (c.name + ' ' + c.value + ' ' + cat).toLowerCase(), href: '#/constants' });
         }
+      }
+    }
+    if (BOOK.todo_md) {
+      var todoLines = String(BOOK.todo_md).split(/\r?\n/);
+      for (var ti = 0; ti < todoLines.length; ti++) {
+        var tm = todoLines[ti].match(/^#{1,4}\s+(.+?)\s*$/);
+        if (tm) idx.push({ type: 'todo', id: tm[1], label: tm[1], text: tm[1].toLowerCase(), href: '#/todo' });
       }
     }
     if (Array.isArray(BOOK.glossary)) {

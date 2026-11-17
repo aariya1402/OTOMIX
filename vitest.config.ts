@@ -1,8 +1,13 @@
+// P01-T01-S02-M01 (coverage threshold traceability)
 import { defineConfig } from 'vitest/config';
 import path from 'path';
 
 export default defineConfig({
   test: {
+    poolOptions: {
+      threads: { execArgv: ['--expose-gc'] },
+      forks: { execArgv: ['--expose-gc'] }
+    },
     benchmark: { include: ['bench/**/*.bench.ts'] },
     include: [
       'bench/**/*.spec.ts','tools/test/**/*.spec.ts', 'packages/**/test/**/*.spec.ts', 'scripts/test/**/*.spec.ts', 'tools/rt-audit/**/*.spec.ts', 'tools/eslint-rules/**/*.spec.ts'],

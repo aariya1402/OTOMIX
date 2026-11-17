@@ -1,5 +1,5 @@
 // OTOMIX §3.2 · Butterworth low-pass filter (cascaded biquads)
-import { Biquad, BiquadCoeffs } from './biquad';
+import { Biquad, BiquadCoeffs } from './biquad.js';
 
 function biquadLowpass(fc: number, fs: number, q: number): BiquadCoeffs {
   const wc = 2 * Math.PI * fc / fs;

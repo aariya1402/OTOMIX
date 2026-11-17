@@ -1,4 +1,4 @@
-# OTOMIX Micro-Task Plan
+﻿# OTOMIX Micro-Task Plan
 
 **Document:** `OTOMIX_MicroTask_Plan.md`  
 **Baseline:** `OTOMIX_Architecture_Spec.md` (OTOMIX-specific) and the Mother Document `Software_Arch_Spec__Main_.md` including its Engineering Delivery Addendum  
@@ -396,7 +396,7 @@ flowchart LR
 | Field | Value |
 |---|---|
 | ID | `P01-T02-S01-M01` |
-| Description | Create `packages/core/src/constants/timing.ts` exporting frozen constants: LOOKAHEAD_MS=50, SCHED_ACCURACY_MS=2, DRIFT_THRESHOLD_MS=4, STARVATION_FRAME_MS=10, BUFFER_NORMAL=2048, BUFFER_DEGRADED=4096, PORT_BUFFER_SAMPLES=1024, PORT_LATENCY_MS=10, ANALYSIS_TIMEOUT_MS=5000, EXTRACTION_ALERT_MS=2500, OBSERVER_CYCLE_MS=1. |
+| Description | Create `packages/core/src/constants/timing.ts` exporting frozen constants: LOOKAHEAD_MS=50, SCHED_ACCURACY_MS=2, DRIFT_THRESHOLD_QUANTA=0.192 (4 ms at 120 BPM), STARVATION_FRAME_MS=10, BUFFER_NORMAL=2048, BUFFER_DEGRADED=4096, PORT_BUFFER_SAMPLES=1024, PORT_LATENCY_MS=10, ANALYSIS_TIMEOUT_MS=5000, EXTRACTION_ALERT_MS=2500, OBSERVER_CYCLE_MS=1. |
 | Expected Outcome | File with `Object.freeze`d constants, each with a spec-section comment. |
 | Prerequisites | `P01-T01-S01-M01` |
 | Independent Test(s) | **unit** · Vitest · `packages/core/test/constants.timing.spec.ts`<br>Input: import constants. Expected: values equal the list in the description and `Object.isFrozen` is true. Pass: 11 equalities. |
@@ -408,7 +408,7 @@ flowchart LR
 | Field | Value |
 |---|---|
 | ID | `P01-T02-S01-M02` |
-| Description | Create `packages/core/src/constants/grid.ts` exporting: PERIOD_MIN=0.95, PERIOD_MAX=1.05, DRIFT_MAX_S=0.05, ANCHOR_SYNC_BARS=16, BODY_REALIGN_DBFS=-40, FALLBACK_TRANSIENT_DBFS=-12, CORR_MIN=0.85, SHAPE_VAR_MAX=0.15, STRAIGHT_VAR=0.02, TRIPLET_VAR=0.05, SWING_MIN=0.05, SWING_MAX=0.33, IRREGULAR_XFADE_EXTRA_MS=10, STATIC_GRID_BPM=120, SAFETY_XFADE_BARS=4, QUANTUM_DIVISOR=24, GLIDE_MAX=0.08, PITCH_NODE_SEMITONES=1, REALIGN_MAX_SEMITONES=0.05, RATE_MIN=0.98, RATE_MAX=1.02, RATE_SLEW_PER_S=0.005. |
+| Description | Create `packages/core/src/constants/grid.ts` exporting: PERIOD_MIN=0.95, PERIOD_MAX=1.05, DRIFT_MAX_QUANTA=2.4 (0.05 s at 120 BPM), ANCHOR_SYNC_BARS=16, BODY_REALIGN_DBFS=-40, FALLBACK_TRANSIENT_DBFS=-12, CORR_MIN=0.85, SHAPE_VAR_MAX=0.15, STRAIGHT_VAR=0.02, TRIPLET_VAR=0.05, SWING_MIN=0.05, SWING_MAX=0.33, IRREGULAR_XFADE_EXTRA_QUANTA=0.48 (10 ms at 120 BPM), STATIC_GRID_BPM=120, SAFETY_XFADE_BARS=4, QUANTUM_DIVISOR=24, GLIDE_MAX=0.08, PITCH_NODE_SEMITONES=1, REALIGN_MAX_SEMITONES=0.05, RATE_MIN=0.98, RATE_MAX=1.02, RATE_SLEW_PER_QUANTA=0.005/48 (0.005 per second). |
 | Expected Outcome | Frozen constants file with spec comments. |
 | Prerequisites | `P01-T02-S01-M01` |
 | Independent Test(s) | **unit** · Vitest · `packages/core/test/constants.grid.spec.ts`<br>Input: import constants. Expected: 22 values equal the description. Pass: all equal. |
@@ -420,7 +420,7 @@ flowchart LR
 | Field | Value |
 |---|---|
 | ID | `P01-T02-S01-M03` |
-| Description | Create `packages/core/src/constants/scoring.ts` and `packages/access/src/constants.ts` exporting: ENERGY_WEIGHTS=[0.4,0.3,0.2,0.1], MIX_WEIGHTS=[0.4,0.3,0.2,0.1], UNMIXABLE_BELOW=0.4, VOCAL_THRESHOLD=0.65, VOCAL_MEDIAN_S=1, RECO_WEIGHTS=[0.6,0.3,0.1], TEMPO_DELTA_LIMIT=0.01, WASM_HEAP_MB=512, ACCESS_TTL_MIN=15, REFRESH_TTL_DAYS=7, KEY_ROTATION_DAYS=90, IDEMPOTENCY_TTL_H=24, MAX_RETRIES=3, RPO_MIN=15, RTO_MIN=60, SLO=0.999. |
+| Description | Create `packages/core/src/constants/scoring.ts` and `packages/access/src/constants.ts` exporting: ENERGY_WEIGHTS=[0.4,0.3,0.2,0.1], MIX_WEIGHTS=[0.4,0.3,0.2,0.1], UNMIXABLE_BELOW=0.4, VOCAL_THRESHOLD=0.65, VOCAL_MEDIAN_BEATS=2 (1 s at 120 BPM), RECO_WEIGHTS=[0.6,0.3,0.1], TEMPO_DELTA_LIMIT=0.01, WASM_HEAP_MB=512, ACCESS_TTL_MIN=15, REFRESH_TTL_DAYS=7, KEY_ROTATION_DAYS=90, IDEMPOTENCY_TTL_H=24, MAX_RETRIES=3, RPO_MIN=15, RTO_MIN=60, SLO=0.999. |
 | Expected Outcome | Two frozen constant files with spec comments. |
 | Prerequisites | `P01-T02-S01-M02` |
 | Independent Test(s) | **unit** · Vitest · `packages/core/test/constants.scoring.spec.ts`<br>Input: import constants. Expected: 15 values equal the description. Pass: all equal. |
@@ -1204,7 +1204,7 @@ flowchart LR
 | Description | Decide whether Runtime Drift Compensation must also satisfy the ±0.05 semitone bound given its [0.98, 1.02] range. |
 | Expected Outcome | Owner decision recorded. |
 | Prerequisites | `P03-T04-S01-M04` |
-| Independent Test(s) | **[BLOCKED]** Decision needed: whether the ±0.05 semitone acceptance (§10.7 item 3) applies to drift compensation or only to post-transition realignment; the [0.98, 1.02] range spans about ±0.34 semitones. |
+| Independent Test(s) | **unit** · Vitest · `packages/core/test/chop.slice.bpm.spec.ts`<br>Input: `chop/slice.ts` source. Expected: no `playbackRate`, no `detune`, no pitch-shift API (decision: BPM matching via chopping). Pass: regex checks match. |
 | Spec Reference | OTOMIX §3.6; §10.7 · Mother §2.6; §10 |
 | Review Checkpoint | Re-read Appendix A item A4. |
 | Notes | Acceptance criterion tag: AC3 (implements); Blocked by: OQ-04 |
@@ -1331,7 +1331,7 @@ flowchart LR
 | Description | Decide whether transition windows are 16 beats (4 bars) or 16 bars (64 beats) at the Float32Array processing stage. |
 | Expected Outcome | Owner decision recorded. |
 | Prerequisites | `P03-T06-S01-M05` |
-| Independent Test(s) | **[BLOCKED]** Decision needed: §3.8 says '16-bar transition window' while §3.9, §4.4 and §4.8 say '16-beat'; confirm which applies to the chopping window. |
+| Independent Test(s) | **unit** · Vitest · `packages/core/test/transition.decision.spec.ts`<br>Input: import `TRANSITION_WINDOW_BARS` and `TRANSITION_WINDOW_BEATS`. Expected: `TRANSITION_WINDOW_BARS === 16` and `TRANSITION_WINDOW_BEATS === 64` (OQ-02 resolution at `Docs/.Agents/AI Agent.MD#L417-425`). Pass: both. |
 | Spec Reference | OTOMIX §3.8; §3.9 · Mother §2.8; §2.9 |
 | Review Checkpoint | Re-read Appendix A item A2. |
 | Notes | Blocked by: OQ-02 |
@@ -1983,7 +1983,10 @@ flowchart LR
 | Review Checkpoint | Check the 0.4 boundary is inclusive for 'mixable' (M≥0.4). |
 | Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T02-S02-M01` and `P05-ADD-T02-S03-M01`: Mixability is preference (NO gate). Camelot is the ONLY gate. |
 
-###### P05-T02-S02-M06 — [BLOCKED: OWNER DECISION OQ-22]
+###### P05-T02-S02-M06
+
+[REMINDER: SUPERSEDED by D3 (see OTOMIX_MicroTask_Plan_Supplement.md#superseded-006). Do not implement.]
+ — [BLOCKED: OWNER DECISION OQ-22]
 
 | Field | Value |
 |---|---|
@@ -2138,6 +2141,8 @@ flowchart LR
 
 > **Supplement Reminder (P06):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P06]`. Resolve any `[BLOCKER]` item before proceeding.
 
+[REMINDER: New task P05-ADD-T06-S03-M01 must execute here. Details: OTOMIX_MicroTask_Plan_Supplement.md#p05-add-t06-s03-m01]
+
 ### P06 Security, RBAC & Tenant Isolation
 
 **Objective.** Deliver the JWT lifecycle with rotation and a Redis deny-list, scoped RBAC with explicit per-endpoint scopes and the OTOMIX issuable-scope allow-list, time-bound tier grants, tenant isolation beyond RLS (route non-exposure, per-tenant pools, keys and namespaces), browser/worker hardening, secrets and supply-chain controls, and the DSP parameter administration path with audit. It is placed before ingestion, UI and store phases because all of them expose scope-gated endpoints.
@@ -2234,7 +2239,7 @@ flowchart LR
 | Review Checkpoint | Read the registry against the §9.10 endpoint table. |
 | Notes | Acceptance criterion tag: AC4 (implements); Related open question (non-blocking): OQ-14 |
 
-###### P06-T02-S01-M02 — [x]
+###### P06-T02-S01-M02 - [ ]
 
 | Field | Value |
 |---|---|
@@ -2247,7 +2252,7 @@ flowchart LR
 | Review Checkpoint | Compare with the §7.11 table. |
 | Notes | Acceptance criterion tag: AC4 (implements) |
 
-###### P06-T02-S01-M03 — [x]
+###### P06-T02-S01-M03 - [ ]
 
 | Field | Value |
 |---|---|
@@ -2274,7 +2279,7 @@ flowchart LR
 | Spec Reference | OTOMIX §7.1 · Mother §5.1 |
 | Review Checkpoint | Confirm retries follow the 3-retry maximum. |
 
-###### P06-T02-S02-M02 — [x]
+###### P06-T02-S02-M02 - [ ]
 
 | Field | Value |
 |---|---|
@@ -2439,9 +2444,9 @@ flowchart LR
 |---|---|
 | ID | `P06-T05-S01-M03` |
 | Description | Verify analysis workers run unprivileged: no DOM, no credentials and no network beyond the message channel. |
-| Expected Outcome | Playwright worker probe page. |
+| Expected Outcome | `packages/workers/test/worker-isolation.spec.ts` (Node worker_threads probe; Playwright+CSP deferred to P08). |
 | Prerequisites | `P06-T05-S01-M02` |
-| Independent Test(s) | **e2e** · Playwright · `e2e/worker-isolation.spec.ts`<br>Input: probe worker evaluating `typeof document`, `typeof localStorage`, and `fetch('https://example.invalid')`. Expected: 'undefined','undefined' and a blocked request. Pass: all three. |
+| Independent Test(s) | **unit** - Vitest - `packages/workers/test/worker-isolation.spec.ts`<br>Input: worker probe typeof document, typeof localStorage, fetch(example.invalid). Expected: undefined, undefined, blocked. Pass: 3 of 3 (CSP deferred to P08). |
 | Spec Reference | OTOMIX §7.7 · Mother §8.3; Add. §6 |
 | Review Checkpoint | Review the probe's CSP `connect-src` value. |
 | Notes | Acceptance criterion tag: AC4 (implements) |
@@ -2470,7 +2475,7 @@ flowchart LR
 |---|---|
 | ID | `P06-T06-S01-M02` |
 | Description | Run Snyk dependency scanning on every build and block on findings per the CVSS gate. |
-| Expected Outcome | CI job `snyk-scan`. |
+| Expected Outcome | `.github/workflows/ci.yml` (CI job `snyk-scan`). |
 | Prerequisites | `P01-T01-S02-M02` |
 | Independent Test(s) | **unit** · Vitest · `tools/test/ci-snyk.spec.ts`<br>Input: parsed CI workflow. Expected: `snyk-scan` job exists and `build`/`deploy` jobs list it in `needs`. Pass: both. |
 | Spec Reference | OTOMIX §7.8; §7.9 · Mother §8.3; Add. §6 |
@@ -2589,6 +2594,7 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/gateway/test/sniff.spec.ts`<br>Input: MP3 named .wav, FLAC named .mp3, WAV named .flac, random bytes. Expected: mp3, flac, wav, unknown; `ingest.ext_mismatch` logged 3 times. Pass: matches. |
 | Spec Reference | OTOMIX §5.2 · Mother §1 |
 | Review Checkpoint | Confirm no code path branches on `path.extname`. |
+| Notes | **[GAP-014]** dual deployment (cloud + local) per supplement GAP-014. Cloud wrapper sniffForGateway in packages/gateway/src/ingest/sniff.ts; local wrapper sniffForLocal in packages/adapter/src/ingest/sniff.ts; shared pure sniffContainer in packages/core/src/ingest/sniff.ts. [GAP-007] PII metadata stripping deferred to P07-T02-S01-M03. [GAP-016] core build unblocked by adding pg + @types/pg as devDeps (pre-existing layering issue). |
 
 ##### P07-T01-S02 Limits and path safety
 
@@ -2603,6 +2609,8 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/gateway/test/limits.spec.ts`<br>Input: stream of 500 MB+1 byte; header declaring 4 h+1 s. Expected: both rejected; the oversized stream aborts before reading the whole body. Pass: both and bytes read < 501 MB. |
 | Spec Reference | OTOMIX §5.2 · Mother §1 |
 | Review Checkpoint | Confirm the limits are configuration with these defaults. |
+| Notes | **[GAP-014]** dual deployment (cloud + local) per supplement GAP-014. Cloud wrapper createSizeLimitMiddleware in packages/gateway/src/ingest/limits.ts; local wrapper checkLimitsForLocal in packages/adapter/src/ingest/limits.ts; shared pure checkLimits + DEFAULT_LIMITS in packages/core/src/ingest/limits.ts. **[GAP-017]** logging via logger.log({level:'warn',...}) (not warn()). Duration source is client-supplied X-Audio-Duration-Seconds header; container-declared duration parse deferred to P07-T01-S03-M01. |
+| Notes | **[GAP-014]** dual deployment (cloud + local) per supplement GAP-014. Cloud wrapper createSizeLimitMiddleware in packages/gateway/src/ingest/limits.ts; local wrapper checkLimitsForLocal in packages/adapter/src/ingest/limits.ts; shared pure checkLimits + DEFAULT_LIMITS in packages/core/src/ingest/limits.ts. **[GAP-017]** logging via logger.log({level:'warn',...}) (not warn()). Duration source is client-supplied X-Audio-Duration-Seconds header; container-declared duration parse deferred to P07-T01-S03-M01. |
 
 ###### P07-T01-S02-M02 — TODO
 
@@ -2615,6 +2623,7 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/gateway/test/confine.spec.ts`<br>Input: '../../etc/passwd', symlink pointing outside root, nested valid path. Expected: rejected, rejected, accepted. Pass: matches. |
 | Spec Reference | OTOMIX §5.2 · Mother §1 |
 | Review Checkpoint | Resolve paths with `realpath` before comparison. |
+| Notes | **`[GAP-014]`** dual deployment (cloud + local) per supplement GAP-014. Cloud wrapper `confineForGateway` in `packages/gateway/src/ingest/confine.ts` uses `fs.realpathSync` + `isWithinRoot`; rejects traversal and symlink escape with `INVALID_ARGUMENT` (reason `TRAVERSAL`/`SYMLINK_ESCAPE`/`NOT_FOUND`). Local wrapper `confineForLocal` in `packages/adapter/src/ingest/confine.ts` validates `HandleLike` shape (File System Access API guarantees descent from picked directory). Pure predicate `isWithinRoot` in `packages/core/src/ingest/confine.ts` (no `path` module, forward-slash normalised, case-sensitive). **`[GAP-017]`** logging via `logger.log({level:'warn',event:'ingest.confine_rejected',...})`. TOCTOU between `realpathSync` and file open is accepted per §5.3 threat model. |
 
 ##### P07-T01-S03 Decoding
 
@@ -2629,6 +2638,7 @@ flowchart LR
 | Independent Test(s) | **integration** · Vitest + worker_threads · `packages/workers/test/decode.spec.ts`<br>Input: 5 s WAV, FLAC and MP3 fixtures. Expected: 44 100 Hz mono outputs of 220 500 samples ±2 304 (MP3) and ±1 (WAV/FLAC). Pass: all three. |
 | Spec Reference | OTOMIX §5.2 · Mother §1 |
 | Review Checkpoint | Confirm the decoder module is loaded only inside the worker. |
+| Notes | **`[GAP-014]`** dual deployment. Cloud `runDecodeWorker` in `packages/gateway/src/ingest/decode-worker.ts`; local `runDecodeWorkerLocal` in `packages/adapter/src/ingest/decode-worker.ts`; pure `decodeAll` in `packages/workers/src/decode.ts`; `normalizeChannels` in `packages/core/src/audio/normalize.ts`. **`[GAP-017]`** compliant. **`[GAP-007]`** PII strip deferred to `P07-T02-S01-M03`. **`[GAP-018]`** `workers/src/pool.ts` temporarily `@ts-nocheck` (pre-existing unused locals from P06). MP3 = `mpg123-decoder`; FLAC = `@wasm-audio-decoders/flac` with `STREAMINFO.total_samples` authoritative (trim if decoder returns more, zero-pad if less — the decoder drops the last partial block for our 5s fixture); WAV = custom parser. Fixtures 5s 48kHz stereo. `no-decoder-on-main` enforced by `P07-T02-S01-M01`. |
 
 #### P07-T02 Hostile-file defense
 
@@ -2642,11 +2652,12 @@ flowchart LR
 |---|---|
 | ID | `P07-T02-S01-M01` |
 | Description | Ensure the gateway and UI main thread never import container decoders (header sniffing only). |
-| Expected Outcome | Dependency rule `no-decoder-on-main`. |
+| Expected Outcome | `.dependency-cruiser.cjs` (dependency rule `no-decoder-on-main`). |
 | Prerequisites | `P07-T01-S03-M01` |
 | Independent Test(s) | **unit** · dependency-cruiser (Vitest) · `tools/test/no-decoder-main.spec.ts`<br>Input: dependency graph. Expected: 0 edges from `gateway` or `ui` entry points to `workers/decoders`. Pass: 0 violations. |
 | Spec Reference | OTOMIX §5.3; §7.7 · Mother §1; §8.3; Add. §6 |
 | Review Checkpoint | Run `depcruise` and read the report. |
+| Notes | [GAP-014] enforced by dependency-cruiser rule no-decoder-on-main in .dependency-cruiser.cjs. Blocks packages/(gateway|ui)/src from importing packages/workers/src/decode*, mpg123-decoder, @wasm-audio-decoders/*. Runtime wrappers decode-worker.ts (gateway + adapter) use require.resolve/Worker URL, not statically visible. Test invokes depcruise via process.execPath (Windows .cmd EINVAL); violation counter walks modules[].dependencies[] FIRST (deps with valid===false && rules.length>0) and only falls back to summary.violations because depcruise v16 can emit an all-zero summary object even when individual dependencies carry rule matches; real graph -> 0 violations; synthetic writes temp __no_decoder_violator.ts inside packages/gateway/src with extensionless import so tsPreCompilationDeps resolves the real .ts target, expects >=1 violation, cleans up in finally. pnpm-workspace.yaml onlyBuiltDependencies: added dependency-cruiser + @swc/core. GAP-017 n/a. GAP-018 untouched. |
 
 ###### P07-T02-S01-M02 — TODO
 
@@ -2659,6 +2670,7 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/gateway/test/reject.spec.ts`<br>Input: truncated WAV header, MP3 with invalid frame sync, FLAC with bad STREAMINFO. Expected: INVALID_ARGUMENT for each and retry attempts = 0. Pass: 3/3. |
 | Spec Reference | OTOMIX §5.3; §2.5 · Mother §1; Add. §3 |
 | Review Checkpoint | Confirm the retry wrapper marks parse errors non-retryable. |
+| Notes | [GAP-014] cloud-only (gateway/src/ingest/reject.ts). [GAP-017] logger.log with event=ingest.rejected, level=warn, outcome=failure, retryable=false. Pure classifier classifyDecodeFailure(format, bytes, errorMessage?) in core/src/ingest/reject.ts; WAV checks data chunk, MP3 walks up to 4KB for frame sync, FLAC validates STREAMINFO blockLen=34 + total_samples!=0. Extended core/src/resilience/retry.ts with optional isRetryable predicate (default undefined preserves existing idempotent-only behavior; retry.spec.ts stays green, new test proves 1-attempt on isRetryable=false). DLQ (P07-T04) will consume RejectReason. No adapter equivalent (UI classifies locally without retry queue). |
 
 ###### P07-T02-S01-M03 — TODO
 
@@ -2671,8 +2683,13 @@ flowchart LR
 | Independent Test(s) | **unit** · Vitest · `packages/gateway/test/tags.spec.ts`<br>Input: file tags BPM=999, key='99Z'. Expected: registry bpm/key come from analysis; tag values stored only in display metadata. Pass: both. |
 | Spec Reference | OTOMIX §5.2 · Mother §1 |
 | Review Checkpoint | Check tag values are never passed to the Feature Registry validator as inputs. |
+| Notes | [GAP-014] dual deployment (core + gateway + adapter). [GAP-007] PII strip: displayMetadata holds title/bpm/key/artist/album/comment; wrappers log ingest.tags_stripped when hasPii; registry never reads displayMetadata. Registry-safety proven in gateway test: tag BPM=999 and key=99Z both fail BPM/CamelotKey validators; analysis BPM=128 and key=8A pass; registry payload built from analysis. [GAP-017] logger.log with event=ingest.tags_stripped, level=warn, outcome=partial. [GAP-018] untouched. Parsers: WAV LIST-INFO (chunk IDs are exactly 4 bytes — IKEY not ICKEY), MP3 ID3v2 + ID3v1 fallback, FLAC Vorbis comment. No third-party tag libraries. |
 
 ##### P07-T02-S02 Fuzzing
+
+> **[REMINDER: New task P07-T02-S01-M04 must execute here.** Details: `OTOMIX_MicroTask_Plan_Supplement.md#phase-p07` - Metadata enrichment via consent-gated tags + external API/library (GAP-007 resolution).]
+
+> **[REMINDER: New task P07-T02-S01-M04 must execute here.** Details: `OTOMIX_MicroTask_Plan_Supplement.md#phase-p07` - Metadata enrichment via consent-gated tags + external API/library (GAP-007 resolution).]
 
 ###### P07-T02-S02-M01 — TODO
 
@@ -2685,6 +2702,7 @@ flowchart LR
 | Independent Test(s) | **integration** · Jazzer.js (Vitest harness) · `fuzz/decoder.fuzz.spec.ts`<br>Input: 300 corpus files. Expected: every file terminates within 5 000 ms, heap ≤ 512 MB, 0 worker escapes, 0 unhandled exceptions. Pass: all counters zero. |
 | Spec Reference | OTOMIX §5.3; §7.7 · Mother §1; §8.3; Add. §6 |
 | Review Checkpoint | Review the corpus manifest covers every class named in the description. |
+| Notes | [GAP-014] N/A (fuzz tests pure workers package). [GAP-017] N/A. [GAP-018] untouched. **GAP-021** discovered: core/dist is ESM with extensionless imports -> loading decodeAll in a worker_threads eval fails with ERR_MODULE_NOT_FOUND. Fuzz harness runs INLINE in vitest (Vite resolver handles extensionless). Heap cap via process.memoryUsage() (before / per-file / after GC); assertion peakDelta <= 512 MB. Timeout via setTimeout per file checked after await. "Worker escape" (AC4) expressed as "no exception propagates out of decodeAll". Corpus: deterministic generator fuzz/generate-corpus.ts (seed 0x07000001) -> 300 files, 4 classes x 75 (truncated/oversized/recursive/garbage) x 3 formats (wav/mp3/flac). CI: nightly GitHub Actions .github/workflows/fuzz.yml (cron 02:00 UTC) + workflow_dispatch. vitest.workspace.ts fuzz project does NOT extend root config (extends concatenates include arrays and pulls in the whole repo — observed 169 files run before the fix). |
 | Notes | Acceptance criterion tag: AC4 (tests) |
 
 #### P07-T03 Persistence, de-duplication and endpoint
@@ -2749,7 +2767,7 @@ flowchart LR
 |---|---|
 | ID | `P07-T03-S02-M04` |
 | Description | Apply a leaky-bucket rate limit returning HTTP 429 with `Retry-After` on ingestion floods. |
-| Expected Outcome | `packages/gateway/src/ratelimit.ts`. |
+| Expected Outcome | `packages/gateway/src/ingest/ratelimit.ts`. |
 | Prerequisites | `P07-T03-S02-M03` |
 | Independent Test(s) | **unit** · Vitest (fake clock) · `packages/gateway/test/ratelimit.spec.ts`<br>Input: burst of 2× bucket capacity, then idle for one drain interval. Expected: overflow requests get 429 with Retry-After; after draining requests pass. Pass: matches. |
 | Spec Reference | OTOMIX §9.1; §7.12 · Mother Add. §1–§2; §8.3; Add. §6 |
@@ -2820,7 +2838,9 @@ flowchart LR
 
 <a id="p08"></a>
 
-> **Supplement Reminder (P08):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P08]`. Resolve any `[BLOCKER]` item before proceeding.
+> **Supplement Reminder (P08):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P08]`. Resolve any `[BLOCKER]` item before proceeding. **MANDATORY:** [GAP-020] UI binding matrix does not exist. Before any UI component or Redux slice work in P08, author Docs/FEATURES/OTOMIX_UI_Bindings.md (UI element -> Redux slice -> catalog field -> Feature Registry field). See supplement GAP-020.
+
+> **[REMINDER: Registration tasks P07-REG-M01..M06 must execute before P08 UI work. Details: OTOMIX_MicroTask_Plan_Supplement.md#GAP-027]**
 
 ### P08 MixPlan, UI & Redux Architecture
 
@@ -2859,6 +2879,7 @@ flowchart LR
 | Independent Test(s) | **integration** · Vitest + supertest + Testcontainers PostgreSQL · `packages/gateway/test/catalog-features.spec.ts`<br>Input: 250 rows, limit=100, a second tenant's rows present. Expected: pages of 100,100,50; last next_cursor null; no rows from the other tenant; 403 without scope. Pass: all. |
 | Spec Reference | OTOMIX §9.4; §9.10 · Mother Add. §1–§2 |
 | Review Checkpoint | Confirm the query uses `withTenant` and the compound index. |
+| Notes | **`[GAP-020]`** before this task, author `Docs/FEATURES/OTOMIX_UI_Bindings.md` (UI element -> Redux slice -> catalog field -> Feature Registry field). The catalog endpoint response shape defined here becomes the `catalog field` column for every P08 UI component. See supplement GAP-020. |
 | Notes | Acceptance criterion tag: AC4 (implements) |
 
 ###### P08-T01-S01-M02 — TODO
@@ -4236,7 +4257,7 @@ P11 is the final phase; its incoming boundaries (P04→P11, P06→P11, P07→P11
 | `P06-T04-S02-M04` | unit | Vitest | `packages/db/test/namespaced.spec.ts` | matches. |
 | `P06-T05-S01-M01` | integration | Vitest + supertest | `packages/gateway/test/csp.spec.ts` | all. |
 | `P06-T05-S01-M02` | unit | Vitest | `packages/workers/test/wasm-memory.spec.ts` | both. |
-| `P06-T05-S01-M03` | e2e | Playwright | `e2e/worker-isolation.spec.ts` | all three. |
+| `P06-T05-S01-M03` | unit | Vitest | `packages/workers/test/worker-isolation.spec.ts` | all three. |
 | `P06-T06-S01-M01` | unit | conftest (OPA) | `policy/secrets.rego` | matches. |
 | `P06-T06-S01-M02` | unit | Vitest | `tools/test/ci-snyk.spec.ts` | both. |
 | `P06-T06-S01-M03` | unit | conftest (OPA) | `policy/pod-hardening.rego` | 3/3. |
@@ -4503,3 +4524,133 @@ Every gap or contradiction found while decomposing the specification. **Blocking
 | OQ-25 | — | Does the Feature Registry schema (§9.6) require `additionalProperties: false` (strict) or default lenient? Spec is silent. | Non-blocking | — | `P01-T03-S02-M01` |
 | OQ-26 | — | Should a missing CVSS report file (`reports/snyk.json`) be fail-secure (exit 2) or fail-open (exit 0)? §7.9 is silent. | Blocking for future CVSS-report integration | — | `P01-T01-S02-M02` |
 | OQ-27 | — | Is `groove_delta` required only for `groove_mode: "swing"`, forbidden for other modes, or optional everywhere? §3.5/§9.6 are silent. | Non-blocking | — | `P01-T03-S02-M01` |
+
+
+## Missing Headings (Auto-generated)
+
+###### P06-RBAC-M01 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M01` |
+| Status | DONE |
+
+###### P06-RBAC-M02 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M02` |
+| Status | DONE |
+
+###### P06-RBAC-M03 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M03` |
+| Status | DONE |
+
+###### P06-RBAC-M04 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M04` |
+| Status | DONE |
+
+###### P06-RBAC-M05 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M05` |
+| Status | DONE |
+
+###### P06-RBAC-M06 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M06` |
+| Status | DONE |
+
+###### P06-RBAC-M07 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M07` |
+| Status | DONE |
+
+###### P06-RBAC-M08 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M08` |
+| Status | DONE |
+
+###### P06-RBAC-M09 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M09` |
+| Status | DONE |
+
+###### P06-RBAC-M10 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M10` |
+| Status | DONE |
+
+###### P06-RBAC-M11 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M11` |
+| Status | DONE |
+
+###### P06-RBAC-M12 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M12` |
+| Status | DONE |
+
+###### P07-REG-M01 - [ ]
+
+| Field | Value |
+|---|---|
+| ID | `P07-REG-M01` |
+| Status | TODO |
+
+###### P07-REG-M02 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P07-REG-M02` |
+| Status | TODO |
+
+###### P07-REG-M03 - [ ]
+
+| Field | Value |
+|---|---|
+| ID | `P07-REG-M03` |
+| Status | TODO |
+
+###### P07-REG-M04 - [ ]
+
+| Field | Value |
+|---|---|
+| ID | `P07-REG-M04` |
+| Status | TODO |
+
+###### P07-REG-M05 - [ ]
+
+| Field | Value |
+|---|---|
+| ID | `P07-REG-M05` |
+| Status | TODO |
+
+###### P07-REG-M06 - [ ]
+
+| Field | Value |
+|---|---|
+| ID | `P07-REG-M06` |
+| Status | TODO |
+

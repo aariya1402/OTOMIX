@@ -28,9 +28,9 @@ beforeAll(async () => {
   await mig("001_core.sql"); await mig("002_rls.sql");
   await mig("003_global_features_jsonb.sql"); await mig("004_rbac.sql");
   await seedAllAsync();
-});
-afterAll(async () => { await db?.end(); await c?.stop(); });
-describe("RBAC-M03 base roles seed", () => {
+}, 30000);
+afterAll(async () => { await db?.end(); await c?.stop(); }, 30000);
+describe("RBAC-M03 base roles seed", { hookTimeout: 30000, timeout: 15000 }, () => {
   it("has 18 roles (9 x 2 tenants)", async () => {
     const r = await db.query("SELECT COUNT(*)::int AS n FROM roles");
     expect(r.rows[0].n).toBe(18);

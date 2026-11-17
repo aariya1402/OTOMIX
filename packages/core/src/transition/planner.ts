@@ -1,8 +1,8 @@
 // OTOMIX §3.9 · Mother §2.9
-import { computeTransitionAnchors, TrackGridParams } from './anchors';
-import { TransitionPlan, TransitionRung } from './types';
-import { STATIC_GRID_BPM } from '../constants/grid';
-import { resolveTransitionWindow } from './window';
+import { computeTransitionAnchors, TrackGridParams } from './anchors.js';
+import { TransitionPlan, TransitionRung } from './types.js';
+import { STATIC_GRID_BPM } from '../constants/grid.js';
+import { resolveTransitionWindow } from './window.js';
 
 function isOutgoingShort(outgoing: TrackGridParams): boolean {
   const beatPeriod = 60 / outgoing.bpmSeed;

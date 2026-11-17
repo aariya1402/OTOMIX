@@ -1,4 +1,4 @@
-# OTOMIX Micro-Task Plan — P05 Addendum
+﻿# OTOMIX Micro-Task Plan — P05 Addendum
 
 **Document:** `OTOMIX_MicroTask_Plan_Addendum.md`
 **Baseline:** `OTOMIX_Architecture_Spec.md` and the owner's decisions recorded in the 2026-11-12 conversation.
@@ -246,9 +246,9 @@
 |---|---|
 | ID | `P05-ADD-T06-S03-M01` |
 | Description | Implement the `EnrichmentPipeline`. When a track is requested, if `raw_analysis_data` is missing or stale, the API returns the RMS fallback immediately and enqueues a job. The pipeline worker picks up the job, sends it through all registered workers (Essentia, Spotify, etc.), and merges the results into `raw_analysis_data`. |
-| Expected Outcome | `packages/workers/src/enrichment-pipeline.ts` and queue integration. |
+| Expected Outcome | `packages/core/src/pipeline/enrichment.ts` and queue integration. |
 | Prerequisites | `P05-ADD-T06-S02-M01`, `P05-T04-S01-M01` |
-| Independent Test(s) | **integration** · Vitest + worker_threads · `packages/workers/test/enrichment.spec.ts`<br>Input: a track hash with no data. Expected: returns fallback, enqueues job, job runs both mock workers, updates DB. Pass: DB contains data after job. |
+| Independent Test(s) | **integration** · Vitest + worker_threads · `packages/core/test/pipeline.enrichment.spec.ts`<br>Input: a track hash with no data. Expected: returns fallback, enqueues job, job runs both mock workers, updates DB. Pass: DB contains data after job. |
 | Spec Reference | Owner decision (2026-11-12) |
 | Review Checkpoint | Confirm the API response is instant (does not wait for the analysis to finish). |
 

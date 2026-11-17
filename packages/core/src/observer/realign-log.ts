@@ -1,5 +1,5 @@
 // OTOMIX §3.6 · Mother §2.6
-import { ANCHOR_SYNC_BARS, LOG_REALIGN_K } from '../constants/grid';
+import { ANCHOR_SYNC_BARS, LOG_REALIGN_K } from '../constants/grid.js';
 
 /** 16 bars × 4 beats/bar = 64 beats */
 export const OBSERVER_REALIGN_BEATS = ANCHOR_SYNC_BARS * 4;

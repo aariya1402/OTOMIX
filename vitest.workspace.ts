@@ -5,7 +5,7 @@ export default defineWorkspace([
     extends: './vitest.config.ts',
     test: {
       name: 'default',
-      include: ['packages/**/test/**/*.spec.ts', 'tools/test/**/*.spec.ts', 'scripts/test/**/*.spec.ts'],
+      include: ['packages/**/test/**/*.spec.ts', 'tools/test/**/*.spec.ts', 'scripts/test/**/*.spec.ts', 'tools/rt-audit/**/*.spec.ts', 'tools/eslint-rules/**/*.spec.ts'],
       exclude: [
         '**/node_modules/**',
         '**/dist/**',
@@ -15,8 +15,7 @@ export default defineWorkspace([
         '**/rls.spec.ts',
         '**/with-tenant.spec.ts',
         '**/idem-store.spec.ts',
-        '**/global-features.spec.ts',
-        '**/rt-audit/test/audit.spec.ts'
+        '**/global-features.spec.ts'
       ]
     }
   },
@@ -68,4 +67,15 @@ export default defineWorkspace([
       testTimeout: 300000
     }
   }
+
+  ,
+    {
+      test: {
+        name: 'fuzz',
+        include: ['fuzz/decoder.fuzz.spec.ts'],
+        environment: 'node',
+        testTimeout: 1800000,
+        hookTimeout: 120000
+      }
+    }
 ])

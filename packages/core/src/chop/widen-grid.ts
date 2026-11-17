@@ -1,4 +1,4 @@
-import { ChopGridDenominator } from './slice';
+import { ChopGridDenominator } from './slice.js';
 
 /**
  * Determines the effective chop grid based on CPU load.

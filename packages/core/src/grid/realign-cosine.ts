@@ -1,5 +1,5 @@
 // OTOMIX §3.2 · Mother §2.2
-import { REALIGN_BEATS } from '../constants/grid';
+import { REALIGN_BEATS } from '../constants/grid.js';
 
 /**
  * Computes the 4-bar cosine realignment correction at a given beat offset.

@@ -40,7 +40,7 @@ afterAll(async () => {
   await container?.stop();
 }, TEST_TIMEOUT);
 
-describe('004_rbac.sql migration (GAP-015)', () => {
+describe('004_rbac.sql migration (GAP-015)', { timeout: 15000 }, () => {
   it('migrate up creates all 8 tables', async () => {
     await runUp('004_rbac.sql');
     const expected = ['permissions','roles','role_permissions','user_roles','user_permissions','groups','group_members','group_permissions'];

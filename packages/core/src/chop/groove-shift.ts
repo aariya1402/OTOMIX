@@ -1,4 +1,4 @@
-import { GrooveMode } from '../groove/types';
+import { GrooveMode } from '../groove/types.js';
 
 /**
  * Applies the swing offset to every second slice boundary in place.

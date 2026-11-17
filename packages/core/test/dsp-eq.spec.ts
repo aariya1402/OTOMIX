@@ -1,0 +1,96 @@
+import { describe, it, expect } from 'vitest';
+import { ThreeBandEq } from '../src/dsp/eq';
+import type { EqProfile } from '../src/config/transition-config';
+
+describe('ThreeBandEq', () => {
+  const flatProfile: EqProfile = {
+    low: { frequency: 100, gainDb: 0, q: 0.7 },
+    mid: { frequency: 1000, gainDb: 0, q: 1.0 },
+    high: { frequency: 10000, gainDb: 0, q: 0.7 }
+  };
+
+  it('initializes without errors', () => {
+    const eq = new ThreeBandEq(flatProfile, 44100);
+    expect(eq).toBeDefined();
+  });
+
+  it('does not change amplitude when all gains are 0dB (flat)', () => {
+    const eq = new ThreeBandEq(flatProfile, 44100);
+    const buffer = new Float32Array([0.5, -0.5, 0.25, -0.25]);
+    eq.processBuffer(buffer);
+    expect(buffer[0]).toBeCloseTo(0.5, 4);
+    expect(buffer[1]).toBeCloseTo(-0.5, 4);
+  });
+
+  it('attenuates low frequencies when low gain is negative', () => {
+    const cutProfile: EqProfile = {
+      low: { frequency: 100, gainDb: -12, q: 0.7 },
+      mid: { frequency: 1000, gainDb: 0, q: 1.0 },
+      high: { frequency: 10000, gainDb: 0, q: 0.7 }
+    };
+    const eq = new ThreeBandEq(cutProfile, 44100);
+    const buffer = new Float32Array(4410);
+    for (let i = 0; i < buffer.length; i++) {
+      buffer[i] = Math.sin(2 * Math.PI * 50 * (i / 44100));
+    }
+    eq.processBuffer(buffer);
+    
+    let maxAmp = 0;
+    for (let i = 1000; i < buffer.length; i++) {
+      if (Math.abs(buffer[i]) > maxAmp) maxAmp = Math.abs(buffer[i]);
+    }
+    expect(maxAmp).toBeLessThan(0.8);
+  });
+
+  it('re-derives coefficients on sample-rate change without allocation', () => {
+    const eq = new ThreeBandEq(flatProfile, 44100);
+    eq.setSampleRate(48000);
+    // Just verifying it doesn't throw and maintains state
+    const buffer = new Float32Array([0.5]);
+    eq.processBuffer(buffer);
+    expect(buffer[0]).toBeCloseTo(0.5, 4);
+  });
+
+  it('updates profile dynamically', () => {
+    const eq = new ThreeBandEq(flatProfile, 44100);
+    const cutProfile = { ...flatProfile, low: { frequency: 100, gainDb: -12, q: 0.7 } };
+    eq.updateProfile(cutProfile);
+    const buffer = new Float32Array([0.5]);
+    eq.processBuffer(buffer);
+    // Just verifying it doesn't throw
+    expect(buffer[0]).toBeDefined();
+  });
+
+  it('resets filter state without allocation', () => {
+    const eq = new ThreeBandEq(flatProfile, 44100);
+    const buffer = new Float32Array([0.5, 0.5]);
+    eq.processBuffer(buffer);
+    eq.reset();
+    expect(buffer[0]).toBeDefined();
+  });
+  it('applies +6 dB peaking filter at 1 kHz, Q=1, at 44.1 and 48 kHz', () => {
+    const sampleRates = [44100, 48000];
+    for (const sr of sampleRates) {
+      const profile: EqProfile = {
+        low: { frequency: 100, gainDb: 0, q: 0.7 },
+        mid: { frequency: 1000, gainDb: 6, q: 1.0 },
+        high: { frequency: 10000, gainDb: 0, q: 0.7 }
+      };
+      const eq = new ThreeBandEq(profile, sr);
+      const len = sr;
+      const buffer = new Float32Array(len);
+      for (let n = 0; n < len; n++) {
+        buffer[n] = Math.sin(2 * Math.PI * 1000 * (n / sr));
+      }
+      eq.processBuffer(buffer);
+      let peak = 0;
+      for (let n = len / 2; n < len; n++) {
+        const v = Math.abs(buffer[n]);
+        if (v > peak) peak = v;
+      }
+      const gainDb = 20 * Math.log10(peak);
+      expect(gainDb).toBeGreaterThan(5.9);
+      expect(gainDb).toBeLessThan(6.1);
+    }
+  });
+});

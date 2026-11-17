@@ -37,4 +37,16 @@ describe('retry', () => {
     expect(fn).toHaveBeenCalledTimes(1);
     expect(elapsed).toBeLessThan(100);
   });
+  it('isRetryable=false: deterministic failure aborts after 1 attempt', async () => {
+    const fn = vi.fn().mockRejectedValue(new Error('malformed container'));
+    const t0 = Date.now();
+
+    await expect(
+      retry(fn, { idempotent: true, isRetryable: () => false, rng: () => 0.5, baseMs: 30, capMs: 1000 }),
+    ).rejects.toThrow('malformed container');
+
+    const elapsed = Date.now() - t0;
+    expect(fn).toHaveBeenCalledTimes(1);
+    expect(elapsed).toBeLessThan(100);
+  });
 });

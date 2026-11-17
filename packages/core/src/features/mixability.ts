@@ -16,7 +16,7 @@
 // Rule 25: no rejection, no throwing, no boolean gate.
 // Rule 26: dimensionless score, no time units.
 
-import { getAnalysisConfig } from '../config/analysis';
+import { getAnalysisConfig } from '../config/analysis.js';
 
 export interface MixabilityFeaturesInput {
   readonly kick_grid_lock?: number;

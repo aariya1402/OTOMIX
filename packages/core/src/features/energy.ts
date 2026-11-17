@@ -3,8 +3,8 @@
 // Rule 26: Dimensionless score; no time units.
 // D9: All weights/caps from AnalysisConfig.
 
-import { getAnalysisConfig } from '../config/analysis';
-import { computeStars } from './stars';
+import { getAnalysisConfig } from '../config/analysis.js';
+import { computeStars } from './stars.js';
 
 export interface EnergyFeaturesInput {
   readonly danceability?: number;

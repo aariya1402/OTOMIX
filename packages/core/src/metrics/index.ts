@@ -1,2 +1,2 @@
-export * from './histogram';
-export * from './alert';
+export * from './histogram.js';
+export * from './alert.js';

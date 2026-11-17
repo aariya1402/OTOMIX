@@ -1,5 +1,6 @@
-import { BEAT_EPSILON } from '../constants/grid';
-import { quantumSeconds } from '../timing/quantum';
+// P03-T04-S02-M01 (BPM matching via chopping, no pitch shift)
+import { BEAT_EPSILON } from '../constants/grid.js';
+import { quantumSeconds } from '../timing/quantum.js';
 
 /** 8 = 1/8 beat, 16 = 1/16 beat, 32 = 1/32 beat */
 export type ChopGridDenominator = 8 | 16 | 32;

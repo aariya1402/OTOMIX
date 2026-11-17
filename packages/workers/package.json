@@ -18,8 +18,10 @@
     "author":  "",
     "license":  "MIT",
     "dependencies":  {
-    "@otomix/core": "workspace:*",
-                         "@otomix/contracts":  "workspace:*"
+                         "@otomix/core":  "workspace:*",
+                         "@otomix/contracts":  "workspace:*",
+                         "mpg123-decoder":  "^1.0.0",
+                         "@wasm-audio-decoders/flac":  "^0.2.0"
                      },
     "devDependencies":  {
                             "typescript":  "^5.0.0",
