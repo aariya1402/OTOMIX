@@ -1,0 +1,8 @@
+{
+    "P01-T03-S02-M02":  {
+                            "ignoreSymbols":  [
+                                                  "PURGE_AND_REANALYZE"
+                                              ],
+                            "note":  "PURGE_AND_REANALYZE is a string literal in a type union, not a declaration"
+                        }
+}
