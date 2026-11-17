@@ -74,3 +74,4 @@ export * from './audio/normalize.js';
 export * from './ingest/reject.js';
 export * from './ingest/tags.js';
 export * from './chop/shed.js';
+export * from './ingest/metadata-enrichment.js';

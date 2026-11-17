@@ -90,9 +90,9 @@
   - `MetadataEnrichmentInput` = `{ rawTags: DisplayMetadata | null; consent: boolean; external: ExternalMetadata | null }`
   - `enrichMetadata(input): DisplayMetadata` — merge per the design above; returns `{}` PII fields when `consent === false`.
 - **Review Checkpoint:** Confirm that when `consent === false` the output contains no `artist` / `album` / `comment` field. Confirm that when `consent === true` and `rawTags` is present, external fields do not overwrite but only fill missing keys.
-- **Independent Test(s):** unit · Vitest · `packages/core/test/ingest.metadata-enrichment.spec.ts`<br>Input: 4 fixtures (consent+tags+external / consent+tags-no-external / no-consent+tags+external / no-consent-no-tags+external).<br>Expected: no PII field when consent=false; embedded baseline enriched by external when consent=true.<br>Pass: all 4 fixtures match.
+- **Independent Test(s):** unit · Vitest · `packages/core/test/ingest/metadata-enrichment.spec.ts`<br>Input: 4 fixtures (consent+tags+external / consent+tags-no-external / no-consent+tags+external / no-consent-no-tags+external).<br>Expected: no PII field when consent=false; embedded baseline enriched by external when consent=true.<br>Pass: all 4 fixtures match.
 - **Spec Reference:** OTOMIX 5.2 · Mother 1; GAP-007; GAP-014
-- **Files:** `packages/core/src/ingest/metadata-enrichment.ts`, `packages/core/test/ingest.metadata-enrichment.spec.ts`
+- **Files:** `packages/core/src/ingest/metadata-enrichment.ts`, `packages/core/test/ingest/metadata-enrichment.spec.ts`
 - **Notes:** No stripping. The gate is user consent; the mechanism is additive enrichment.
 
 ---
