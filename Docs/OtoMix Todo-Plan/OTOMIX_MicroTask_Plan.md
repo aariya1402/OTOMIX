@@ -2687,6 +2687,10 @@ flowchart LR
 
 ##### P07-T02-S02 Fuzzing
 
+> **[REMINDER: New task P07-T02-S01-M04 must execute here.** Details: `OTOMIX_MicroTask_Plan_Supplement.md#phase-p07` - Metadata enrichment via consent-gated tags + external API/library (GAP-007 resolution).]
+
+> **[REMINDER: New task P07-T02-S01-M04 must execute here.** Details: `OTOMIX_MicroTask_Plan_Supplement.md#phase-p07` - Metadata enrichment via consent-gated tags + external API/library (GAP-007 resolution).]
+
 ###### P07-T02-S02-M01 — TODO
 
 | Field | Value |

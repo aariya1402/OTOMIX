@@ -65,15 +65,37 @@
 
 ## Phase P07
 
-### [GAP-007] [PHASE: P07] [MEDIUM] No explicit metadata stripping for GDPR/PII- **Status:** open
-
-- **Status:** open`r`n- **Discovered:** 2026-11-13
+### [GAP-007] [PHASE: P07] [MEDIUM] [RESOLVED] Consent-gated metadata enrichment (PII)
+- **Status:** resolved (2026-11-18)
+- **Discovered:** 2026-11-13
 - **Source:** No task in current plan
-- **Impact:** Uploaded audio files may contain ID3 tags with personal info (artist name, album, comments). GDPR "right to erasure" applies. `P07-T02-S01-M03` treats tags as untrusted display hints but does not strip them.
-- **Resolution:** When scheduling P07, add a metadata-stripping step for uploads that enter the shared library, OR document the retention policy that allows tagged PII to remain client-side only.
-
+- **Impact:** Uploaded audio files may contain ID3 tags with personal info (artist name, album, comments). GDPR right-to-erasure applies. `P07-T02-S01-M03` treats tags as untrusted display hints but does not strip them.
+- **Resolution approach:** consent-gated enrichment, not stripping.
+- **Design (owner decision 2026-11-18):**
+  1. External metadata source (official API / library) is the primary input.
+  2. Embedded ID3 tags are read only when the user grants explicit consent.
+  3. Consent granted + tags present: embedded values are the default baseline.
+  4. External results enrich the baseline additively (missing fields filled; conflicts resolved per implementation policy).
+  5. Consent not granted: embedded tags are never read; only external metadata is used.
+- **Resolution task:** `P07-T02-S01-M04` (see 'Phase P07 - New Tasks' section below).
 ---
 
+### [P07-T02-S01-M04] [PHASE: P07] Metadata enrichment via consent-gated tags + external API/library
+
+- **Status:** TODO
+- **Source:** GAP-007 resolution (2026-11-18)
+- **Prerequisite:** `P07-T02-S01-M03`
+- **Description:** Enrich track metadata from two sources under a consent gate. External API/library is primary. Embedded ID3 tags are read only when the user consents; with consent they form the default baseline, then external results enrich them additively. Without consent, embedded tags are never read.
+- **Expected Outcome:** `packages/core/src/ingest/metadata-enrichment.ts` exporting:
+  - `MetadataEnrichmentInput` = `{ rawTags: DisplayMetadata | null; consent: boolean; external: ExternalMetadata | null }`
+  - `enrichMetadata(input): DisplayMetadata` — merge per the design above; returns `{}` PII fields when `consent === false`.
+- **Review Checkpoint:** Confirm that when `consent === false` the output contains no `artist` / `album` / `comment` field. Confirm that when `consent === true` and `rawTags` is present, external fields do not overwrite but only fill missing keys.
+- **Independent Test(s):** unit · Vitest · `packages/core/test/ingest.metadata-enrichment.spec.ts`<br>Input: 4 fixtures (consent+tags+external / consent+tags-no-external / no-consent+tags+external / no-consent-no-tags+external).<br>Expected: no PII field when consent=false; embedded baseline enriched by external when consent=true.<br>Pass: all 4 fixtures match.
+- **Spec Reference:** OTOMIX 5.2 · Mother 1; GAP-007; GAP-014
+- **Files:** `packages/core/src/ingest/metadata-enrichment.ts`, `packages/core/test/ingest.metadata-enrichment.spec.ts`
+- **Notes:** No stripping. The gate is user consent; the mechanism is additive enrichment.
+
+---
 ## Phase P08
 
 ### [CONFLICT-007] [PHASE: P08] [HIGH] BDC schema uses `t_start`/`t_end` in seconds â€” Rule 26 tension- **Status:** open

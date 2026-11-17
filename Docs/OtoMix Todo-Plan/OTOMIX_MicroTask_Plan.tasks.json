@@ -1648,6 +1648,17 @@
         "description_fa": "توضیح ساده: ????????? ????? (?????? BPM? ????) ?? ?? ????? ????????? ?????? ??????? ?????? ?? ??? ?????? ?? ???? ????? ????? ?? ??? ????????."
     },
     {
+        "id":  "P07-T02-S01-M04",
+        "status":  "TODO",
+        "description":  "Metadata enrichment via consent-gated tags + external API/library (GAP-007).",
+        "prerequisites":  [
+                              "P07-T02-S01-M03"
+                          ],
+        "test":  "unit|Vitest|packages/core/test/ingest.metadata-enrichment.spec.ts|Input: 4 fixtures (consent+tags+external / consent+tags-no-external / no-consent+tags+external / no-consent-no-tags+external). Expected: no PII field when consent=false; embedded baseline enriched by external when consent=true. Pass: all 4 fixtures match.",
+        "spec":  "OTOMIX 5.2 - Mother 1; GAP-007; GAP-014",
+        "description_fa":  "غنی‌سازی متادیتا از طریق تگ‌های داخلی فایل (فقط با رضایت کاربر) و API رسمی. بدون رضایت، تگ‌های داخلی خوانده نمی‌شوند."
+    },
+    {
         "id": "P07-T02-S02-M01",
         "status": "DONE",
         "description": "Add a container-parser fuzz corpus (truncated frames, oversized chunk sizes, recursive tag structures) run in CI with a time and heap cap.",
@@ -2786,7 +2797,7 @@
     },
     {
         "id": "P07-REG-M02",
-        "status": "TODO",
+        "status": "DONE",
         "description": "Google OAuth 2.0 flow: /auth/google/start and /auth/google/callback. Verify state, exchange code, verify id_token, upsert user by google_id then email. Env: GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI.",
         "prerequisites": [
             "P07-REG-M01"
