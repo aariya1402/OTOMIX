@@ -73,3 +73,4 @@ export * from './ingest/confine';
 export * from './audio/normalize';
 export * from './ingest/reject';
 export * from './ingest/tags';
+export * from './chop/shed';

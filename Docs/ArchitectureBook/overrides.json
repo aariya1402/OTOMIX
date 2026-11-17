@@ -20,5 +20,11 @@
                                                   "linearRampToValueAtTime"
                                               ],
                             "note":  "linearRampToValueAtTime is a Web Audio API method name (used in plan text, not a declaration)"
+                        },
+    "P04-T02-S02-M03":  {
+                            "ignoreSymbols":  [
+                                                  "chopGrid"
+                                              ],
+                            "note":  "chopGrid is a function parameter name (slice.ts, crossfade-bound.ts), not a declaration"
                         }
 }

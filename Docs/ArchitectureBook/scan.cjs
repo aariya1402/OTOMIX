@@ -30,6 +30,7 @@ const SKIP_DIRS = new Set(['node_modules', 'dist', 'coverage', '.git', '.turbo',
 const TEXT_EXT = new Set(['.ts', '.tsx', '.js', '.jsx', '.cjs', '.mjs', '.sql', '.proto', '.feature', '.json', '.yaml', '.yml', '.rego']);
 const MAX_BYTES = 1024 * 1024;
 const TEST_FILE = /\.(?:spec|test)\.[cm]?[jt]sx?$/;
+const BARREL_FILE = /^packages\/[^/]+\/src\/index\.ts$/; // barrels re-export; mtime change is not a test failure signal
 const TASK_ID = /\bP\d{2}(?:-[A-Z0-9]+)+\b/g;
 const PATH_TOKEN = /(?:packages|tools|scripts|features|bench|fuzz|policy|deploy|proto|e2e)\/[A-Za-z0-9_./@-]+\.(?:tsx|json|ts|js|cjs|mjs|sql|proto|feature|yaml|yml|rego)(?!\w)/g;
 const WEIGHTS = { files: 25, symbols: 25, testFile: 15, testRun: 20, tsc: 15 };
@@ -541,8 +542,11 @@ function build() {
       const kind = TEST_FILE.test(file) && vitest ? 'vitest' : 'manual';
       const record = evidence.tests[file] || null;
       const imports = (index.files.get(file) ? index.files.get(file).imports : [])
-        .map(imp => resolveImport(index, file, imp.spec)).filter(imp => imp.resolved && imp.type === 'relative').map(imp => imp.resolved);
-      const newest = newestMtime(index, [file, ...imports, ...sourceMtimeSet]);
+        .map(imp => resolveImport(index, file, imp.spec))
+        .filter(imp => imp.resolved && imp.type === 'relative' && !BARREL_FILE.test(imp.resolved))
+        .map(imp => imp.resolved);
+      const stalenessPaths = [file, ...imports, ...sourceMtimeSet.filter(p => !BARREL_FILE.test(p))];
+      const newest = newestMtime(index, stalenessPaths);
       let state = 'unrun';
       if (!exists) state = 'missing';
       else if (kind === 'manual') state = 'manual';
