@@ -38,5 +38,12 @@
                                                   "SharedArrayBuffer"
                                               ],
                             "note":  "SharedArrayBuffer is a Web API name used in plan text, not a declaration. The SPSC ring class is SpscRing in packages/workers/src/ring.ts."
-                        }
+                        },
+    "P05-ADD-T01-S01-M01":  {
+                                "ignoreSymbols":  [
+                                                      "energyWeights",
+                                                      "mixabilityWeights"
+                                                  ],
+                                "note":  "energyWeights and mixabilityWeights are \u0027e.g.\u0027 example identifiers in the plan description text (Addendum L19), not code declarations. The actual config uses energy.weights and mixability.weights (nested Record\u003cstring, number\u003e), defined in packages/core/src/config/analysis.ts and populated in analysis-config.json."
+                            }
 }
