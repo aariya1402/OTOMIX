@@ -1,4 +1,4 @@
-﻿# OTOMIX Micro-Task Plan
+# OTOMIX Micro-Task Plan
 
 **Document:** `OTOMIX_MicroTask_Plan.md`  
 **Baseline:** `OTOMIX_Architecture_Spec.md` (OTOMIX-specific) and the Mother Document `Software_Arch_Spec__Main_.md` including its Engineering Delivery Addendum  
@@ -2141,6 +2141,8 @@ flowchart LR
 
 > **Supplement Reminder (P06):** Before starting this phase, consult `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` and read every item tagged `[PHASE: P06]`. Resolve any `[BLOCKER]` item before proceeding.
 
+[REMINDER: New task P05-ADD-T06-S03-M01 must execute here. Details: OTOMIX_MicroTask_Plan_Supplement.md#gap-030]
+
 ### P06 Security, RBAC & Tenant Isolation
 
 **Objective.** Deliver the JWT lifecycle with rotation and a Redis deny-list, scoped RBAC with explicit per-endpoint scopes and the OTOMIX issuable-scope allow-list, time-bound tier grants, tenant isolation beyond RLS (route non-exposure, per-tenant pools, keys and namespaces), browser/worker hardening, secrets and supply-chain controls, and the DSP parameter administration path with audit. It is placed before ingestion, UI and store phases because all of them expose scope-gated endpoints.
@@ -2237,7 +2239,7 @@ flowchart LR
 | Review Checkpoint | Read the registry against the §9.10 endpoint table. |
 | Notes | Acceptance criterion tag: AC4 (implements); Related open question (non-blocking): OQ-14 |
 
-###### P06-T02-S01-M02 — [x]
+###### P06-T02-S01-M02 - [ ]
 
 | Field | Value |
 |---|---|
@@ -2250,7 +2252,7 @@ flowchart LR
 | Review Checkpoint | Compare with the §7.11 table. |
 | Notes | Acceptance criterion tag: AC4 (implements) |
 
-###### P06-T02-S01-M03 — [x]
+###### P06-T02-S01-M03 - [ ]
 
 | Field | Value |
 |---|---|
@@ -2277,7 +2279,7 @@ flowchart LR
 | Spec Reference | OTOMIX §7.1 · Mother §5.1 |
 | Review Checkpoint | Confirm retries follow the 3-retry maximum. |
 
-###### P06-T02-S02-M02 — [x]
+###### P06-T02-S02-M02 - [ ]
 
 | Field | Value |
 |---|---|
@@ -4518,3 +4520,133 @@ Every gap or contradiction found while decomposing the specification. **Blocking
 | OQ-25 | — | Does the Feature Registry schema (§9.6) require `additionalProperties: false` (strict) or default lenient? Spec is silent. | Non-blocking | — | `P01-T03-S02-M01` |
 | OQ-26 | — | Should a missing CVSS report file (`reports/snyk.json`) be fail-secure (exit 2) or fail-open (exit 0)? §7.9 is silent. | Blocking for future CVSS-report integration | — | `P01-T01-S02-M02` |
 | OQ-27 | — | Is `groove_delta` required only for `groove_mode: "swing"`, forbidden for other modes, or optional everywhere? §3.5/§9.6 are silent. | Non-blocking | — | `P01-T03-S02-M01` |
+
+
+## Missing Headings (Auto-generated)
+
+###### P06-RBAC-M01 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M01` |
+| Status | DONE |
+
+###### P06-RBAC-M02 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M02` |
+| Status | DONE |
+
+###### P06-RBAC-M03 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M03` |
+| Status | DONE |
+
+###### P06-RBAC-M04 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M04` |
+| Status | DONE |
+
+###### P06-RBAC-M05 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M05` |
+| Status | DONE |
+
+###### P06-RBAC-M06 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M06` |
+| Status | DONE |
+
+###### P06-RBAC-M07 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M07` |
+| Status | DONE |
+
+###### P06-RBAC-M08 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M08` |
+| Status | DONE |
+
+###### P06-RBAC-M09 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M09` |
+| Status | DONE |
+
+###### P06-RBAC-M10 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M10` |
+| Status | DONE |
+
+###### P06-RBAC-M11 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M11` |
+| Status | DONE |
+
+###### P06-RBAC-M12 - [x]
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M12` |
+| Status | DONE |
+
+###### P07-REG-M01 - [ ]
+
+| Field | Value |
+|---|---|
+| ID | `P07-REG-M01` |
+| Status | TODO |
+
+###### P07-REG-M02 - [ ]
+
+| Field | Value |
+|---|---|
+| ID | `P07-REG-M02` |
+| Status | TODO |
+
+###### P07-REG-M03 - [ ]
+
+| Field | Value |
+|---|---|
+| ID | `P07-REG-M03` |
+| Status | TODO |
+
+###### P07-REG-M04 - [ ]
+
+| Field | Value |
+|---|---|
+| ID | `P07-REG-M04` |
+| Status | TODO |
+
+###### P07-REG-M05 - [ ]
+
+| Field | Value |
+|---|---|
+| ID | `P07-REG-M05` |
+| Status | TODO |
+
+###### P07-REG-M06 - [ ]
+
+| Field | Value |
+|---|---|
+| ID | `P07-REG-M06` |
+| Status | TODO |
+
