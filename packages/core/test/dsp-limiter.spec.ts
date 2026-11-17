@@ -37,20 +37,30 @@ describe('LookaheadLimiter', () => {
     expect(limiter.getLatencySamples()).toBe(143);
   });
 
-  it('limits signals exceeding ceiling', () => {
+    it('limits a 1 kHz sine at +6 dB over the ceiling to <= ceiling', () => {
     const limiter = new LookaheadLimiter(baseConfig, params, 44100);
-    const buffer = new Float32Array(500).fill(1.5);
-    
-    limiter.processBuffer(buffer);
-    
-    let maxAmp = 0;
-    for (let i = 200; i < buffer.length; i++) {
-      if (Math.abs(buffer[i]) > maxAmp) maxAmp = Math.abs(buffer[i]);
-    }
-    
-    expect(maxAmp).toBeLessThanOrEqual(Math.pow(10, -1.0 / 20) + 0.05);
-  });
+    const sr = 44100;
+    const ceilingLinear = Math.pow(10, params.ceilingDb / 20);
+    const amp = ceilingLinear * Math.pow(10, 6 / 20); // +6 dB over ceiling
 
+    const buffer = new Float32Array(8192);
+    for (let i = 0; i < buffer.length; i++) {
+      buffer[i] = amp * Math.sin(2 * Math.PI * 1000 * i / sr);
+    }
+
+    limiter.processBuffer(buffer);
+
+    // Skip settling region (lookahead + several attack time constants)
+    const settle = params.lookaheadSamples + params.attackSamples * 8;
+    let peak = 0;
+    for (let i = settle; i < buffer.length; i++) {
+      const v = Math.abs(buffer[i]);
+      if (v > peak) peak = v;
+    }
+    const peakDb = 20 * Math.log10(peak);
+    // Plan: peak must not exceed ceiling (-1.0 dBFS). 0.1 dB margin for one-pole ripple.
+    expect(peakDb).toBeLessThanOrEqual(params.ceilingDb + 0.1);
+  });
   it('resets state', () => {
     const limiter = new LookaheadLimiter(baseConfig, params, 44100);
     limiter.processBuffer(new Float32Array([1.5]));
