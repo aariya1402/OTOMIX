@@ -26,5 +26,11 @@
                                                   "chopGrid"
                                               ],
                             "note":  "chopGrid is a function parameter name (slice.ts, crossfade-bound.ts), not a declaration"
+                        },
+    "P04-T03-S01-M01":  {
+                            "ignoreSymbols":  [
+                                                  "AudioWorkletProcessor"
+                                              ],
+                            "note":  "AudioWorkletProcessor is a Web API name used in plan text, not a declaration. Skeleton class is OtomixProcessor in packages/workers/src/processor.ts."
                         }
 }
