@@ -33,13 +33,18 @@ describe('MultibandCompressor', () => {
     }
   });
 
-  it('applies expected gain reduction for signal above threshold', () => {
+    // Steady-state band tone: a constant -10 dBFS signal in the low band.
+  // A time-varying sine would produce AM (envelope detector modulation) and its
+  // RMS-based gain reduction would not be 7.5 dB; the compressor's per-sample
+  // attack/release smoothing assumes a steady-state signal to reach the
+  // threshold -20 dB, ratio 4:1 => 10 dB over * (1 - 1/4) = 7.5 dB GR exactly.
+  it('applies 7.5 dB gain reduction (Plan tolerance +/-0.3) for a -10 dBFS steady-state band tone', () => {
     const input = new Float32Array(1024).fill(dbToLinear(-10));
     const output = new Float32Array(1024);
     comp.processBuffer(input, output);
     const outDb = 20 * Math.log10(rms(output));
     const gainReduction = -10 - outDb;
-    expect(gainReduction).toBeCloseTo(7.5, 0); // toBeCloseTo(7.5, 0) means within 0.5 tolerance which is ~±0.3
+    expect(Math.abs(gainReduction - 7.5)).toBeLessThanOrEqual(0.3);
   });
 
   it('crossover frequency change re-splits bands without allocating new Biquads', () => {
