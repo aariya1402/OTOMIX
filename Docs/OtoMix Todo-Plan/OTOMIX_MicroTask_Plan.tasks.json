@@ -1106,11 +1106,11 @@
     {
         "id":  "P05-T02-S01-M02",
         "status":  "DONE",
-        "description":  "Determine static versus dynamic BPM from `bpm_histogram`.",
+        "description":  "Determine static vs dynamic BPM from bpm_histogram in packages/core/src/features/bpm-seed.ts (isBpmDynamic).",
         "prerequisites":  [
                               "P05-T02-S01-M01"
                           ],
-        "test":  "[BLOCKED] Decision needed: numeric rule separating static from dynamic BPM (for example histogram spread or segment count).",
+        "test":  "unit|Vitest|packages/core/test/features.bpm-dynamic.spec.ts|Input: BPM histograms. Expected: static->false, dynamic->true, empty->false. Pass: 3/3.",
         "spec":  "OTOMIX §4.2 · Mother §3.2",
         "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: از `bpm_histogram`، بین BPM ساکت و دینامیک تفاوت را تعیین کنید."
     },
@@ -1139,11 +1139,11 @@
     {
         "id":  "P05-T02-S02-M03",
         "status":  "DONE",
-        "description":  "Apply a proportional penalty to the Dynamics component for near-zero dynamic range.",
+        "description":  "Apply a proportional penalty to the Dynamics component in packages/core/src/features/energy.ts for near-zero loudness_range.",
         "prerequisites":  [
                               "P05-T02-S02-M02"
                           ],
-        "test":  "[BLOCKED] Decision needed: threshold for \u0027near-zero dynamic range\u0027 and the penalty function (\u0027proportional\u0027 to what).",
+        "test":  "unit|Vitest|packages/core/test/features.energy-compression.spec.ts|Input: loudness_range 10 vs 2. Expected: compressed raw < normal raw. Pass: 1/1.",
         "spec":  "OTOMIX §4.3 · Mother §3.3",
         "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: برای محدوده دینامیکی نزدیک به صفر، پیگیری مناسبی را به عنصر دینامیک اعمال کنید."
     },

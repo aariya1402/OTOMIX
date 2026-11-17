@@ -327,6 +327,22 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 | Expected Outcome | `packages/gateway/src/interceptor.ts` (rewritten to use `computeEffectivePermissions`; legacy scope-allowlist deleted). |
 | Independent Test(s) | **unit** - Vitest - `packages/gateway/test/interceptor.spec.ts` |
 
+
+###### P05-T02-S01-M02 - decision (bpmDynamicThresholdBpm)
+
+| Field | Value |
+|---|---|
+| Decision | `bpmDynamicThresholdBpm = 2.0` BPM spread (max - min of bpm_histogram). |
+| Expected Outcome | `packages/core/src/features/bpm-seed.ts` - `isBpmDynamic` reads `analysis.tempo.bpmDynamicThresholdBpm` (currently via `|| 2.0` fallback; D9 follow-up: promote to analysis-config.json). |
+| Independent Test(s) | **unit** - Vitest - `packages/core/test/features.bpm-dynamic.spec.ts` |
+
+###### P05-T02-S02-M03 - decision (near-zero dynamic range)
+
+| Field | Value |
+|---|---|
+| Decision | "Near-zero" = `loudness_range < 3.0`. Penalty is the existing linear `loudness_range` term weight (0.05). No threshold branch needed. |
+| Expected Outcome | `packages/core/src/features/energy.ts` - unchanged; `computeEnergy` naturally reduces raw score as loudness_range -> 0. |
+| Independent Test(s) | **unit** - Vitest - `packages/core/test/features.energy-compression.spec.ts` |
 ## Maintenance Rules
 
 - **Append, do not rewrite.** New items get a new ID. Never renumber.
