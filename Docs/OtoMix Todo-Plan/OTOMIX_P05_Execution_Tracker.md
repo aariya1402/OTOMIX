@@ -39,7 +39,7 @@
 | `P05-ADD-T03-S01-M01` | Grid Locking rule | grid primitives | DONE (b757c3f+) |
 | `P05-ADD-T03-S02-M01` | Transition Window (variable) | AdminConfig | DONE (57bac8e+) |
 | `P05-ADD-T03-S03-M01` | Essentia 31 Features (26 non-TF) | normalizeInput, Essentia | DONE (4862b16+) |
-| `P05-ADD-T04-S01-M01` | Starter Track (Redux) | Compatibility | DONE (`69e72d8`) |
+| `P05-ADD-T04-S01-M01` | Starter Track (Redux) | Compatibility | REOPENED (core only; UI Redux missing) |
 | `P05-ADD-T04-S02-M01` | Live Re-eval (drag-reorder) | Starter Track | DONE (`6ab705c`) |
 | `P05-ADD-T05-S01-M01` | Engine API Contract | contracts pkg | DONE (db7035f+) |
 | `P05-ADD-T05-S02-M01` | Isolated Worker | Engine API + extract | DONE |
