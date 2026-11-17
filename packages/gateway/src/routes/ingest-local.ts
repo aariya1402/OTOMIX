@@ -29,7 +29,7 @@ interface IngestResponseBody {
   track_id: string;
   format: string;
   sha256: string;
-  display_metadata: Record<string, unknown>;
+  display_metadata: object;
 }
 
 function sendJson(res: ServerResponse, status: number, body: unknown): void {
