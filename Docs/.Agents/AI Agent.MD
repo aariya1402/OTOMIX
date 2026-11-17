@@ -314,7 +314,7 @@ This section acts as a living memory for technical debt, pending decisions, and 
 ### 3. Technical Debt & Flaky Tests
 *   **Heap-Proof Flakiness:** `scripts/test/heap-proof.spec.ts` can occasionally fail due to V8 heap noise during parallel test execution. It requires `NODE_OPTIONS="--expose-gc"`. If it fails, re-run or isolate the test.
 *   **Floating-Point EPSILON:** `prekick-short.ts` uses `EPSILON = 1e-9` to correctly handle IEEE 754 floating-point rounding (e.g., `-1.0000000000000002` should floor to `-1`, not `-2`).
-*   **Missing Spec File:** `OTOMIX_Architecture_Spec.md` is not in the repository. Formulas (like `beatInBar`) are inferred from the MicroTask Plan and test cases.
+*   **Spec File:** `OTOMIX_Architecture_Spec.md` is present at `Docs/OTOMIX_Architecture_Spec.md`. All formulas (like `beatInBar`) MUST be cross-referenced against it before implementation. The MicroTask Plan and test cases are secondary evidence only.
 
 ### 4. Blocked Tasks (Awaiting Owner Decision - OQ)
 *   `P02-T05-S01-M02` (OQ-07): Exact numbering for shifted pre-kick anchor >= 1 bar.
