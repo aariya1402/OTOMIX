@@ -428,12 +428,15 @@ See `CONFLICT-009`. Always `git -c core.quotePath=false`.
 - **Risk:** duplicated field names, silent renames when a P05 schema field changes, each P08 task re-derives the binding from scratch.
 - **Resolution:** at the start of P08 (before `P08-T01-S01-M02`), produce `Docs/FEATURES/OTOMIX_UI_Bindings.md` -- a table with columns: `UI element` | `Redux slice.field` | `catalog endpoint field` | `Feature Registry field (schema v1.2)` | `source task` | `consumer task`. Source from: P08 plan task descriptions, `X-P05-P08` + `X-P07-P08` test assertions, `packages/contracts/schemas/feature-registry-1.2.json`, and the eventual `GET /api/v1/catalog/features` response shape (`P08-T01-S01-M01`). Add a `P08-T01-S01-M01` (new) task to author this doc before other P08 UI work begins.
 - **Do NOT add to the plan's per-task IDs yet** -- this gap is registered here and a reminder is added to the P08 phase block; a new micro-task ID (`P08-T01-S01-M01`) will be formalised when P08 starts.
-### [GAP-021] [PHASE: P07, P10, P11] [HIGH] `packages/core/dist` is ESM with extensionless relative imports
-- **Status:** open`r`n- **Discovered:** 2026-11-14 during P07-T02-S02-M01 fuzz harness design.
+### [GAP-021] [PHASE: P07, P10, P11] [HIGH] [RESOLVED] `packages/core/dist` is ESM with extensionless relative imports
+- **Status:** resolved
+- **Resolved:** 2026-11-18
+- **Discovered:** 2026-11-14 during P07-T02-S02-M01 fuzz harness design.
 - **Evidence:** importing `./packages/workers/dist/decode.js` from a raw Node `worker_threads` eval worker fails with `ERR_MODULE_NOT_FOUND: Cannot find module '.../packages/core/dist/config/analysis' imported from .../packages/core/dist/index.js`. `core/dist/index.js` is ESM but its relative imports are extensionless. Node's native ESM resolver requires `.js`. Vitest, tsx, and Vite all resolve extensionless, so tests pass â€” the bug only surfaces outside those toolchains.
 - **Impact:** any code path that loads `@otomix/core` from a native Node ESM context (worker_threads eval, standalone scripts, CLI tools) will fail.
 - **Workaround applied:** fuzz harness runs inline in vitest (Vite resolver) rather than in a `worker_threads` sandbox.
 - **Proper fix (deferred):** either (a) migrate `packages/core/src/**/*.ts` to use `.js` extensions on every relative import (same pattern applied to `gateway` and `db`), or (b) add `rewriteRelativeImportExtensions: true` in `core/tsconfig.json` (TS 5.7+) so `dist` carries `.js` automatically. (b) is preferred.
+- **Resolution:** Two-part fix. (1) Every relative import in `packages/core/src/**/*.ts` now carries an explicit `.js` extension, matching `packages/gateway` and `packages/db`. The three directory imports in `packages/core/src/index.ts` (`./groove`, `./transition`, `./metrics`) were rewritten to `./<dir>/index.js`. (2) `packages/core/tsconfig.json` now declares `rootDir: "./src"` so `tsc` emits a flat `dist/` structure instead of the nested `dist/core/src/...` path, matching `gateway` and `db`. `packages/core/dist` is rebuilt from clean. Verified with `node --input-type=module import("./packages/core/dist/index.js")` and `vitest run packages/core/test/` (no regressions).
 - **Rule for future tasks:** any tooling that loads `@otomix/core` from raw Node ESM must either use vitest/tsx or wait for GAP-021.
 ---
 ## [ARCHITECTURE CHANGE] P07-T03-S01-M01 Migration Filename & Scope
