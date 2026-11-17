@@ -1,4 +1,4 @@
-﻿# OTOMIX Micro-Task Plan — Supplement (متمم مکمل)
+# OTOMIX Micro-Task Plan — Supplement (متمم مکمل)
 
 **Parent document:** `OTOMIX_MicroTask_Plan.md`
 **Purpose:** Complement the main micro-task plan. Captures known gaps, deferred decisions, technical gotchas, cross-phase conflicts, and unscheduled feature proposals that do **not** belong in the per-task fields of the main plan but MUST inform decisions in later phases.
@@ -476,8 +476,11 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - **Discovered:** 2026-11-14 during P07-T05-S01-M01.
 - **Context:** OTOMIX_MicroTask_Plan.md for M07 describes the field as ction; migration  07_tracks_source_declarations.sql uses scope.
 - **Resolution:** Code and tests use scope (the actual DB column). No schema change. Future references should use scope.
-### [GAP-029] [PHASE: P05, P11] [ADVISORY] Extraction benchmark deferred to P11 acceptance run
-- **Discovered:** 2026-11-14 during P05 status reconciliation.
-- **Context:** P05-T04-S01-M03 requires a benchmark on an AWS M5.large-class runner (< 1.5x real-time for a 4-minute 320 kbps MP3). CI runners cannot reproduce M5.large-class single-core throughput deterministically.
-- **Resolution:** P05-T04-S01-M03 remains TODO but the benchmark runs inside P11-T04-S01-M03 (same benchmark with pinned runner) instead of CI. No new work is required; only the placement moves.
-- **Owner reminder:** if M5.large is not the target production class, adjust both this gap and P11-T04-S01-M03.
+### [GOTCHA-HIST-001] [PHASE: ALL] [LOW] Duplicate commit messages from script re-execution
+
+- **Discovered:** 2026-11-17
+- **Issue:** Running the same commit script twice creates two commits. The first carries the substantive change; the second carries only auto-regenerated ook-data.js (from scan.cjs). Both share the same message.
+- **Example:** 45cbb4e (6 files, P04-T02-S02-M03) followed by 5617ed3 (book-data.js only).
+- **Impact:** Cosmetic. All files are in HEAD, no code lost, no test broken.
+- **Resolution:** Do not force-push. Treat the first commit as canonical for the task. The second is a book refresh.
+- **Prevention:** Scripts that build scan.cjs rebuild (ook-data.js) MUST stage ook-data.js BEFORE invoking git commit, or omit it and let the auto-rebuild happen in a separate step. Do not run the same commit script twice.
