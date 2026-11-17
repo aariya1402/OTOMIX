@@ -25,12 +25,11 @@ export interface IngestLocalDeps {
   idempotencyStore: IdempotencyStore;
 }
 
-type DisplayMeta = ReturnType<typeof extractTagsForGateway>['displayMetadata'];
 interface IngestResponseBody {
   track_id: string;
   format: string;
   sha256: string;
-  display_metadata: DisplayMeta;
+  display_metadata: Record<string, unknown>;
 }
 
 function sendJson(res: ServerResponse, status: number, body: unknown): void {
