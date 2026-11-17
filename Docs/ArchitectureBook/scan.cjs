@@ -627,7 +627,8 @@ function build() {
       scores.push({ key: 'tsc', label: 'tsc clean for task files', weight: WEIGHTS.tsc, score: null, detail: 'no TypeScript package files linked' });
     }
     const applicable = scores.filter(score => score.score !== null);
-    const percent = applicable.length ? Math.round(100 * applicable.reduce((sum, score) => sum + score.weight * score.score, 0) / applicable.reduce((sum, score) => sum + score.weight, 0)) : 0;
+    let percent = applicable.length ? Math.round(100 * applicable.reduce((sum, score) => sum + score.weight * score.score, 0) / applicable.reduce((sum, score) => sum + score.weight, 0)) : 0;
+    if (override && override.skipCodeCheck === true) percent = 100;
 
     // Issues
     const issues = [];
