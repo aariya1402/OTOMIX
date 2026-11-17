@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { ThreeBandEq } from '../src/dsp/three-band-eq';
+import { ThreeBandEq } from '../src/dsp/eq';
 import type { EqProfile } from '../src/config/transition-config';
 
 describe('ThreeBandEq', () => {
@@ -67,5 +67,30 @@ describe('ThreeBandEq', () => {
     eq.processBuffer(buffer);
     eq.reset();
     expect(buffer[0]).toBeDefined();
+  });
+  it('applies +6 dB peaking filter at 1 kHz, Q=1, at 44.1 and 48 kHz', () => {
+    const sampleRates = [44100, 48000];
+    for (const sr of sampleRates) {
+      const profile: EqProfile = {
+        low: { frequency: 100, gainDb: 0, q: 0.7 },
+        mid: { frequency: 1000, gainDb: 6, q: 1.0 },
+        high: { frequency: 10000, gainDb: 0, q: 0.7 }
+      };
+      const eq = new ThreeBandEq(profile, sr);
+      const len = sr;
+      const buffer = new Float32Array(len);
+      for (let n = 0; n < len; n++) {
+        buffer[n] = Math.sin(2 * Math.PI * 1000 * (n / sr));
+      }
+      eq.processBuffer(buffer);
+      let peak = 0;
+      for (let n = len / 2; n < len; n++) {
+        const v = Math.abs(buffer[n]);
+        if (v > peak) peak = v;
+      }
+      const gainDb = 20 * Math.log10(peak);
+      expect(gainDb).toBeGreaterThan(5.9);
+      expect(gainDb).toBeLessThan(6.1);
+    }
   });
 });
