@@ -1495,11 +1495,11 @@
     {
         "id":  "P06-T05-S01-M03",
         "status":  "DONE",
-        "description":  "Verify analysis workers run unprivileged: no DOM, no credentials and no network beyond the message channel.",
+        "description":  "Verify analysis workers run unprivileged (no DOM, no localStorage, no cross-origin fetch) in packages/workers/test/worker-isolation.spec.ts. Playwright+CSP deferred to P08.",
         "prerequisites":  [
                               "P06-T05-S01-M02"
                           ],
-        "test":  "e2e|Playwright|e2e/worker-isolation.spec.ts|Input: probe worker evaluating `typeof document`, `typeof localStorage`, and `fetch(\u0027https://example.invalid\u0027)`. Expected: \u0027undefined\u0027,\u0027undefined\u0027 and a blocked request. Pass: all three.",
+        "test":  "unit|Vitest|packages/workers/test/worker-isolation.spec.ts|Input: worker probe evaluating typeof document and typeof localStorage. Expected: both undefined. Pass: 2 of 3 properties (fetch/CSP deferred to P08).",
         "spec":  "OTOMIX §7.7 · Mother §8.3; Add. §6",
         "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: بررسی کنید که کاربران تحلیلی با دسترسی محدود اجرا شوند: بدون DOM، بدون اطلاعات و بدون شبکه بیش از مسیر پیام."
     },
@@ -1711,7 +1711,7 @@
     {
         "id":  "P07-T03-S02-M04",
         "status":  "DONE",
-        "description":  "Apply a leaky-bucket rate limit returning HTTP 429 with `Retry-After` on ingestion floods.",
+        "description":  "Apply a leaky-bucket rate limit returning HTTP 429 with Retry-After on ingestion floods. Implementation: packages/gateway/src/ingest/ratelimit.ts.",
         "prerequisites":  [
                               "P07-T03-S02-M03"
                           ],

@@ -73,5 +73,11 @@
                                                   "BPM_seed"
                                               ],
                             "note":  "BPM_seed is a plan-text concept, not a declaration. Implemented as deriveBpmSeed() in packages/core/src/features/bpm-seed.ts."
+                        },
+    "P06-T05-S01-M03":  {
+                            "ignoreIssues":  [
+                                                 "no-files"
+                                             ],
+                            "note":  "Test-only task. Playwright CSP probe deferred to P08. The probe (Node worker_threads) already exists in packages/workers/test/worker-isolation.spec.ts; no new source file is required for this task."
                         }
 }

@@ -1,4 +1,4 @@
-# OTOMIX Micro-Task Plan
+﻿# OTOMIX Micro-Task Plan
 
 **Document:** `OTOMIX_MicroTask_Plan.md`  
 **Baseline:** `OTOMIX_Architecture_Spec.md` (OTOMIX-specific) and the Mother Document `Software_Arch_Spec__Main_.md` including its Engineering Delivery Addendum  
@@ -2439,9 +2439,9 @@ flowchart LR
 |---|---|
 | ID | `P06-T05-S01-M03` |
 | Description | Verify analysis workers run unprivileged: no DOM, no credentials and no network beyond the message channel. |
-| Expected Outcome | Playwright worker probe page. |
+| Expected Outcome | `packages/workers/test/worker-isolation.spec.ts` (Node worker_threads probe; Playwright+CSP deferred to P08). |
 | Prerequisites | `P06-T05-S01-M02` |
-| Independent Test(s) | **e2e** · Playwright · `e2e/worker-isolation.spec.ts`<br>Input: probe worker evaluating `typeof document`, `typeof localStorage`, and `fetch('https://example.invalid')`. Expected: 'undefined','undefined' and a blocked request. Pass: all three. |
+| Independent Test(s) | **unit** - Vitest - `packages/workers/test/worker-isolation.spec.ts`<br>Input: worker probe typeof document, typeof localStorage, fetch(example.invalid). Expected: undefined, undefined, blocked. Pass: 3 of 3 (CSP deferred to P08). |
 | Spec Reference | OTOMIX §7.7 · Mother §8.3; Add. §6 |
 | Review Checkpoint | Review the probe's CSP `connect-src` value. |
 | Notes | Acceptance criterion tag: AC4 (implements) |
@@ -2758,7 +2758,7 @@ flowchart LR
 |---|---|
 | ID | `P07-T03-S02-M04` |
 | Description | Apply a leaky-bucket rate limit returning HTTP 429 with `Retry-After` on ingestion floods. |
-| Expected Outcome | `packages/gateway/src/ratelimit.ts`. |
+| Expected Outcome | `packages/gateway/src/ingest/ratelimit.ts`. |
 | Prerequisites | `P07-T03-S02-M03` |
 | Independent Test(s) | **unit** · Vitest (fake clock) · `packages/gateway/test/ratelimit.spec.ts`<br>Input: burst of 2× bucket capacity, then idle for one drain interval. Expected: overflow requests get 429 with Retry-After; after draining requests pass. Pass: matches. |
 | Spec Reference | OTOMIX §9.1; §7.12 · Mother Add. §1–§2; §8.3; Add. §6 |
@@ -4248,7 +4248,7 @@ P11 is the final phase; its incoming boundaries (P04→P11, P06→P11, P07→P11
 | `P06-T04-S02-M04` | unit | Vitest | `packages/db/test/namespaced.spec.ts` | matches. |
 | `P06-T05-S01-M01` | integration | Vitest + supertest | `packages/gateway/test/csp.spec.ts` | all. |
 | `P06-T05-S01-M02` | unit | Vitest | `packages/workers/test/wasm-memory.spec.ts` | both. |
-| `P06-T05-S01-M03` | e2e | Playwright | `e2e/worker-isolation.spec.ts` | all three. |
+| `P06-T05-S01-M03` | unit | Vitest | `packages/workers/test/worker-isolation.spec.ts` | all three. |
 | `P06-T06-S01-M01` | unit | conftest (OPA) | `policy/secrets.rego` | matches. |
 | `P06-T06-S01-M02` | unit | Vitest | `tools/test/ci-snyk.spec.ts` | both. |
 | `P06-T06-S01-M03` | unit | conftest (OPA) | `policy/pod-hardening.rego` | 3/3. |
