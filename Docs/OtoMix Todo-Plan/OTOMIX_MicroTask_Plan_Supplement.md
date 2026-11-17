@@ -493,8 +493,10 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - **Current safety:** the idempotency store (withIdempotency(job_id, sha256(payload), handler)) prevents double-execution; XDEL removes the entry only on resh.
 - **Test coverage:** packages/gateway/test/dlq-replay.spec.ts proves effect-once, second-replay no-op, and conflict on payload mismatch.
 - **Follow-up:** P10-T05-S01-M04 (runbooks) already includes DLQ replay; extend it with a registry table once the P10 phase starts.
-### [GAP-027] [PHASE: P07, P08] [BLOCKER-for-registration] Registration methods (Gmail / Telegram / Phone OTP) not scheduled; owner mandates all three [BLOCKER]
-- **Status:** open`r`n- **Discovered:** 2026-11-14. Owner directive.
+### [GAP-027] [PHASE: P07, P08] [BLOCKER-for-registration] [RESOLVED] Registration methods (Gmail / Telegram / Phone OTP) not scheduled; owner mandates all three [BLOCKER]
+- **Status:** scheduled
+- **Scheduled:** 2026-11-18
+- **Discovered:** 2026-11-14. Owner directive.
 - **Related:** [GAP-015] (dynamic RBAC) provides the identity scaffolding; [GAP-014] (cloud+local) applies (registration is server-side only).
 - **OQ-11 resolved:** owner confirmed on 2026-11-14 that source declarations are mandatory; site carries no copyright liability; terms_version v1.0 effective 2026-11-14.
 - **Scope:** Three registration methods required: Google OAuth 2.0, Telegram Login Widget, Phone OTP. Plus terms acceptance + source declaration at registration.
@@ -555,6 +557,7 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - Rate-limit exact numbers (proposed 3/10min; owner can override).
 - Account linking when a user registers with two methods (e.g. Google then Phone) â€” proposal: match on email or phone_e164 and merge, else prompt to link. Defer to M02..M04 implementation details.
 - Terms text: v1.0 effective 2026-11-14; owner must supply the legal text (mocked in tests).
+- **Resolution:** Scheduling completed 2026-11-18. Six tasks (`P07-REG-M01..M06`) are registered in `OTOMIX_MicroTask_Plan.tasks.json` as `TODO`, and the `Reminder` is in place in `OTOMIX_MicroTask_Plan.md`. The GAP was about scheduling, not about the implementation itself; the implementation now proceeds task-by-task under the standard 9-step loop. `SMS provider` fixed to `Kavenegar` (owner decision 2026-11-18). UI task `P07-REG-M06` is scheduled after the backend tasks per `Execution placement`.
 ### [GAP-028] [PHASE: P07] [ADVISORY] [RESOLVED] Plan says 'action', DDL uses 'scope'
 - **Status:** resolved
 - **Resolved:** 2026-11-17
