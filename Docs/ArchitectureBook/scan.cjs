@@ -241,11 +241,7 @@ function parseClues() {
         if (commit) current.commits.push({ sha: commit[1], file: rel(path.join(dir, name)) });
         const file = /^\s+-\s+`([^`]+)`/.exec(line);
         if (file && !file[1].startsWith('...')) current.files.add(file[1]);
-        // Parse defects/issues from clues
-        const defect = /^\*\*(What|Expected|Test|Review|Files changed|New exports|New tests)\*\*:\s*(.+)$/.exec(line);
-        if (defect) {
-          current.defects.push({ type: defect[1], text: defect[2] });
-        }
+        // BUGFIX-SCAN-DEFECTS-001: structural clue fields (What/Expected/Test/...) are metadata, not defects.
       }
     }
   }
@@ -274,14 +270,15 @@ function computePhaseStats(tasks, phases) {
     const total = phaseTasks.length;
     const done = phaseTasks.filter(t => t.status === 'DONE' && t.color === 'green').length;
     const inProgress = phaseTasks.filter(t => t.color === 'yellow').length;
-    const blocked = phaseTasks.filter(t => t.color === 'blue').length;
+    const blocked = phaseTasks.filter(t => t.status === 'BLOCKED').length;
     const notStarted = phaseTasks.filter(t => t.color === 'grey').length;
     const failed = phaseTasks.filter(t => t.color === 'red').length;
     const excluded = phaseTasks.filter(t => t.color === 'muted').length;
     
     // Calculate completion percentage based on weighted scores
-    const totalPercent = phaseTasks.reduce((sum, t) => sum + (t.percent || 0), 0);
-    const avgPercent = total > 0 ? Math.round(totalPercent / total) : 0;
+    const scored = phaseTasks.filter(t => t.color !== 'muted');
+    const totalPercent = scored.reduce((sum, t) => sum + (t.percent || 0), 0);
+    const avgPercent = scored.length > 0 ? Math.round(totalPercent / scored.length) : 0;
     
     // Count defects from clues
     const defects = phaseTasks.reduce((sum, t) => sum + (t.defects?.length || 0), 0);
@@ -299,7 +296,7 @@ function computePhaseStats(tasks, phases) {
       excluded,
       avgPercent,
       defects,
-      color: failed > 0 ? 'red' : (blocked > 0 ? 'blue' : (done === total && total > 0 ? 'green' : 'yellow'))
+      color: failed > 0 ? 'red' : (blocked > 0 ? 'blue' : (excluded === total && total > 0 ? 'muted' : (done === (total - excluded) && (total - excluded) > 0 ? 'green' : 'yellow')))
     };
   }
   return stats;
@@ -595,8 +592,9 @@ function build() {
     if (declaredSource.length) {
       scores.push({ key: 'files', label: 'Declared files exist', weight: WEIGHTS.files, score: declaredSourceOk / declaredSource.length, detail: declaredSourceOk + ' of ' + declaredSource.length + ' declared files exist' });
     } else {
-      scores.push({ key: 'files', label: 'Implementation files found', weight: WEIGHTS.files, score: sourceFiles.length ? 1 : 0,
-        detail: sourceFiles.length ? sourceFiles.length + ' files linked by commit clues or task-ID citations' : 'no declared paths and no linked files' });
+      scores.push({ key: 'files', label: 'Implementation files found', weight: WEIGHTS.files,
+        score: override.skipCodeCheck === true ? null : (sourceFiles.length ? 1 : 0),
+        detail: override.skipCodeCheck === true ? 'skipped (skipCodeCheck: decision task)' : (sourceFiles.length ? sourceFiles.length + ' files linked by commit clues or task-ID citations' : 'no declared paths and no linked files') });
     }
     const counted = symbols.filter(symbol => !symbol.ignored);
     if (counted.length) {
@@ -634,11 +632,8 @@ function build() {
     for (const file of declaredSource.filter(entry => !entry.exists)) {
       issues.push({ kind: 'file-missing', severity: done ? 'error' : 'warn', text: 'Declared file does not exist' + hint(file.path), path: file.path });
     }
-    if (!declaredSource.length && !sourceFiles.length) {
-      const __nfo = readJson(OVERRIDES, {})[item.id] || {}; // SCAN_NOFILES_SKIP_PATCH_V1
-      if (__nfo.skipCodeCheck !== true) {
-        issues.push({ kind: 'no-files', severity: 'warn', text: 'No declared path and no linked file; implementation cannot be located' });
-      }
+    if (!declaredSource.length && !sourceFiles.length && override.skipCodeCheck !== true) {
+      issues.push({ kind: 'no-files', severity: 'warn', text: 'No declared path and no linked file; implementation cannot be located' });
     }
     for (const symbol of counted.filter(entry => !entry.found)) {
       issues.push({ kind: 'symbol-missing', severity: 'warn', text: 'Symbol named in the plan was not found as a declaration: ' + symbol.name });
