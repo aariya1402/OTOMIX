@@ -485,3 +485,11 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - **Impact:** Cosmetic. All files are in HEAD, no code lost, no test broken.
 - **Resolution:** Do not force-push. Treat the first commit as canonical for the task. The second is a book refresh.
 - **Prevention:** Scripts that build scan.cjs rebuild (ook-data.js) MUST stage ook-data.js BEFORE invoking git commit, or omit it and let the auto-rebuild happen in a separate step. Do not run the same commit script twice.
+
+### [GAP-029] [PHASE: P05] [MEDIUM] Reference runner benchmark deferred for P05-T04-S01-M03
+- **Discovered:** 2026-11-17
+- **Source:** `P05-T04-S01-M03` deferral in `OTOMIX_MicroTask_Plan.tasks.json`
+- **Impact:** `P05-T04-S01-M03` requires a benchmark run on an AWS M5.large-class reference runner (target: wall time < 360 s for a 240 s MP3 at 320 kbps). Cannot be executed in the local development environment or in standard CI without a provisioned reference runner.
+- **Resolution:** Provision an AWS M5.large-class runner (or equivalent); run `bench/extract.bench.ts` with the reference MP3 fixture; record measured wall time in the bench output; flip `tasks.json` status from `DEFERRED:GAP-029` to `DONE`; close this gap.
+- **Must resolve before:** `P11-T07-*` regression and acceptance sign-off.
+- **Related Tasks:** `P05-T04-S01-M03`
