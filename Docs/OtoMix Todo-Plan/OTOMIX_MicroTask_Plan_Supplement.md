@@ -1,8 +1,8 @@
-# OTOMIX Micro-Task Plan — Supplement (متمم مکمل)
+# OTOMIX Micro-Task Plan â€” Supplement (Ù…ØªÙ…Ù… Ù…Ú©Ù…Ù„)
 
 **Parent document:** `OTOMIX_MicroTask_Plan.md`
 **Purpose:** Complement the main micro-task plan. Captures known gaps, deferred decisions, technical gotchas, cross-phase conflicts, and unscheduled feature proposals that do **not** belong in the per-task fields of the main plan but MUST inform decisions in later phases.
-**Status:** LIVE DOCUMENT — appended to as new items are discovered. Never rewrite, never renumber.
+**Status:** LIVE DOCUMENT â€” appended to as new items are discovered. Never rewrite, never renumber.
 **How to use:** Before starting any phase, search this file for `[PHASE: Pnn]` (e.g. `[PHASE: P06]`) and read every match. `[BLOCKER]` items must be resolved before the phase begins. `[HIGH]`/`[MEDIUM]`/`[LOW]`/`[ADVISORY]` items are informational and should inform design decisions but do not block work.
 
 **Legend**
@@ -14,16 +14,16 @@
 
 ## Phase P05
 
-### [GAP-001] [PHASE: P05, P08] [BLOCKER] Feature Registry 1.2 → 1.3 bump via BDC module
+### [GAP-001] [PHASE: P05, P08] [BLOCKER] Feature Registry 1.2 â†’ 1.3 bump via BDC module
 - **Discovered:** 2026-11-13
-- **Source:** `Docs/FEATURES/Module 11 Breakdown Density Control (BDC).md` §11.7
+- **Source:** `Docs/FEATURES/Module 11 Breakdown Density Control (BDC).md` Â§11.7
 - **Impact:** Per `P01-T03-S02-M02`, a major version increment purges the Feature Registry cache and enqueues re-analysis of every track. This is not optional.
-- **Resolution:** When BDC is scheduled, add a migration step that calls `packages/core/src/features/cache-invalidate.ts` on the 1.2→1.3 bump. Do NOT change the schema version without calling the invalidator.
+- **Resolution:** When BDC is scheduled, add a migration step that calls `packages/core/src/features/cache-invalidate.ts` on the 1.2â†’1.3 bump. Do NOT change the schema version without calling the invalidator.
 - **Related Tasks:** `P01-T03-S02-M02`, `P05-T02-S03-M02`
 
 ### [GAP-002] [PHASE: P05] [ADVISORY] New Essentia features from BDC / Smart Setlist not in current P05 scope
 - **Discovered:** 2026-11-13
-- **Source:** `Docs/FEATURES/Module 11 BDC.md` §11.6, `Docs/FEATURES/OTOMIX – Smart Setlist Engine Feature Proposals & Auto-Cue Parameters.md`
+- **Source:** `Docs/FEATURES/Module 11 BDC.md` Â§11.6, `Docs/FEATURES/OTOMIX â€“ Smart Setlist Engine Feature Proposals & Auto-Cue Parameters.md`
 - **Features not in current P05-T02 scope:** `SBic`, `NoveltyCurve`, `Flux`, `ChromaCrossSimilarity`, `HPCP`, `Dissonance`, `CoverSongSimilarity`, `BpmHistogramDescriptors`.
 - **Impact:** Each is a new adapter route. The Abstract API Adapter (`P05-T01`) is designed to be pluggable, so no adapter contract change is required, but each new extractor requires its own P05 micro-task when scheduled.
 - **Resolution:** Add as new P05 micro-tasks when the corresponding feature is scheduled in P08.
@@ -42,7 +42,7 @@
 - **Impact:** `P06-T02-S03-M01` and `P09-T03-S01-M01` are both `BLOCKED`. No work can start until the owner chooses between new scopes under `end_user` or a new role.
 - **Resolution:** Owner decision required. Record decision here when received.
 
-### [CONFLICT-005] [PHASE: P06] [HIGH] Vault client does not exist yet — P06-T01-S01-M01 relies on DI
+### [CONFLICT-005] [PHASE: P06] [HIGH] Vault client does not exist yet â€” P06-T01-S01-M01 relies on DI
 - **Discovered:** 2026-11-13 (Match step for `P06-T01-S01-M01`)
 - **Evidence:** `grep` for `vault|hvac|ExternalSecret|kid` in `packages/` returns 0 hits.
 - **Impact:** `P06-T01-S01-M01` uses an injected `VaultClient` interface (`getCurrentKid()`, `getSigningKey(kid)`). Unit tests stub it. The real wrapper is deferred.
@@ -50,10 +50,10 @@
 
 ### [CONFLICT-006] [PHASE: P06] [BLOCKER] Rule 25 tension: gate vs preference
 - **Discovered:** 2026-11-13
-- **Source:** `AI Agent.MD` Rule 25 (as written) treats `mixability_score` as a hard gate; `OTOMIX_Admin_Interaction_Skill.md` and the P05→P06 handoff treat it as a preference; `ADDENDUM OVERRIDE` notes in the plan also say preference.
+- **Source:** `AI Agent.MD` Rule 25 (as written) treats `mixability_score` as a hard gate; `OTOMIX_Admin_Interaction_Skill.md` and the P05â†’P06 handoff treat it as a preference; `ADDENDUM OVERRIDE` notes in the plan also say preference.
 - **Winning position:** **Preference.** Only `Camelot` is a hard gate. `Energy` and `Mixability` are `Preference` scores that affect ranking, never rejection.
 - **Impact:** `P05-T02-S02-M05` and `P08-T04-S01-M02` notes still say "gate". Any code gating on mixability violates the winning position.
-- **Resolution:** Update `AI Agent.MD` Rule 25 to match the preference semantics, OR mark the old Rule 25 as superseded by `OTOMIX_Admin_Interaction_Skill.md` §5. Do this in a dedicated docs commit.
+- **Resolution:** Update `AI Agent.MD` Rule 25 to match the preference semantics, OR mark the old Rule 25 as superseded by `OTOMIX_Admin_Interaction_Skill.md` Â§5. Do this in a dedicated docs commit.
 
 ---
 
@@ -69,27 +69,27 @@
 
 ## Phase P08
 
-### [CONFLICT-007] [PHASE: P08] [HIGH] BDC schema uses `t_start`/`t_end` in seconds — Rule 26 tension
+### [CONFLICT-007] [PHASE: P08] [HIGH] BDC schema uses `t_start`/`t_end` in seconds â€” Rule 26 tension
 - **Discovered:** 2026-11-13
-- **Source:** `Docs/FEATURES/Module 11 BDC.md` §11.7
+- **Source:** `Docs/FEATURES/Module 11 BDC.md` Â§11.7
 - **Impact:** `Rule 26` forbids `_S`/`seconds` identifiers inside `packages/core/src`. The Feature Registry lives outside core, so this is not a strict violation today. But if breakdown segment boundaries ever flow into `packages/core/src/timing/`, `grid/`, or `chop/`, they must be converted to `Beat` units via `tOfI` (or its inverse).
 - **Resolution:** When BDC is implemented in P08, ensure `t_start`/`t_end` are converted to `BeatIndex` at the DSP port boundary and never enter core in seconds. Document the conversion as a `BOUNDARY_IO` bridge function.
 
 ### [GAP-008] [PHASE: P08] [HIGH] BDC REST endpoint introduces new scope + idempotency
-- **Source:** BDC §11.9.1
+- **Source:** BDC Â§11.9.1
 - **Endpoint:** `PATCH /api/v1/sets/{set_id}/break-profile`
 - **New requirement:** `Idempotency-Key` header required (state-mutating). Scope `local:process`.
 - **Impact:** The scope registry (`P06-T02-S01-M01`) must add this route before the endpoint is built. The idempotency middleware (`P01-T06-S01-M02`) already handles the pattern.
 - **Resolution:** When scheduling the BDC PATCH endpoint, first register it in `packages/gateway/src/scopes.ts` and re-run `features/authz.feature`.
 
 ### [GAP-009] [PHASE: P08] [HIGH] BDC database schema change requires new migration
-- **Source:** BDC §11.9.2
+- **Source:** BDC Â§11.9.2
 - **Change:** `ALTER TABLE sets ADD COLUMN break_profile jsonb NOT NULL DEFAULT '...'` + CHECK constraint on range and enum values.
 - **Impact:** New reversible migration (next number after `005_store.sql`). RLS on `sets` already exists so no policy change needed.
 - **Resolution:** Add to the migration numbering sequence.
 
 ### [GAP-010] [PHASE: P08] [ADVISORY] Smart Setlist proposes 10 features not scheduled in any phase
-- **Source:** `Docs/FEATURES/OTOMIX – Smart Setlist Engine Feature Proposals & Auto-Cue Parameters.md`
+- **Source:** `Docs/FEATURES/OTOMIX â€“ Smart Setlist Engine Feature Proposals & Auto-Cue Parameters.md`
 - **Resolution:** See `PROPOSAL-001` through `PROPOSAL-010`. Each requires explicit owner scheduling before entering the plan.
 
 ---
@@ -97,7 +97,7 @@
 ## Phase P09
 
 ### [GAP-011] [PHASE: P09] [ADVISORY] BDC failure matrix may affect Set persistence semantics
-- **Source:** BDC §11.8.4
+- **Source:** BDC Â§11.8.4
 - **Impact:** `bdc_unsatisfied` blocks produce a plan but with a flagged explain record. The `sets` table may need to store this explain record (either inside `break_profile` JSON or a new `sets.explain` column).
 - **Resolution:** Decide at `P09-T01-S01` whether `break_profile` extension already covers this or whether a separate column is needed.
 
@@ -106,10 +106,10 @@
 ## Phase P10
 
 ### [GAP-012] [PHASE: P10] [MEDIUM] BDC adds four new metrics not in P10 registry
-- **Source:** BDC §11.11
+- **Source:** BDC Â§11.11
 - **New metrics:** `bdc_constraint_satisfaction_rate` (Gauge %), `bdc_fallback_tier_count{tier}` (Counter), `bdc_guard_overridden_count` (Counter), `bdc_solver_latency_ms` (Histogram).
 - **Impact:** Must be added to `P10-T01-S01` registry and to `deploy/monitors/otomix.tf`.
-- **Alert threshold:** `bdc_constraint_satisfaction_rate < 95%` over a rolling 1h → P2.
+- **Alert threshold:** `bdc_constraint_satisfaction_rate < 95%` over a rolling 1h â†’ P2.
 - **Resolution:** Add when BDC is scheduled in P08/P09.
 
 ---
@@ -125,10 +125,10 @@
 
 ## Cross-Phase Conflicts
 
-### [CONFLICT-001] [PHASE: ALL] [BLOCKER] `AI Agent.MD` claims `OTOMIX_Architecture_Spec.md` is missing — it exists
+### [CONFLICT-001] [PHASE: ALL] [BLOCKER] `AI Agent.MD` claims `OTOMIX_Architecture_Spec.md` is missing â€” it exists
 - **Discovered:** 2026-11-13
-- **Evidence:** `Docs/OTOMIX_Architecture_Spec.md` is present (1573 lines). §7.4 and §7.5 verified by direct read during `P06-T01-S01-M01` Match.
-- **Impact:** Any AI agent assumption that the spec is missing is wrong. Citations to §-numbered sections are valid.
+- **Evidence:** `Docs/OTOMIX_Architecture_Spec.md` is present (1573 lines). Â§7.4 and Â§7.5 verified by direct read during `P06-T01-S01-M01` Match.
+- **Impact:** Any AI agent assumption that the spec is missing is wrong. Citations to Â§-numbered sections are valid.
 - **Resolution:** Correct the "Missing Spec File" note in `AI Agent.MD` in a dedicated docs commit.
 
 ### [CONFLICT-002] [PHASE: ALL] [HIGH] Config name inconsistency: `AnalysisConfig` vs `AdminTuningConfig` vs `UserFacingConfig`
@@ -145,9 +145,10 @@
 - **Issue:** Each is `RESOLVED`/`CANCELLED` in its title but its `Independent Test(s)` field still says `[BLOCKED]`. `OQ-05`, `OQ-06`, `OQ-07` are resolved in `AI Agent.MD` but task text is stale.
 - **Resolution:** Update every affected task's `Independent Test(s)` to reference the resolved OQ and provide a real test.
 
-### [CONFLICT-008] [PHASE: P04] [HIGH] P04 execution order anomaly
+### [CONFLICT-008] [PHASE: P04] [RESOLVED 2026-11-17] P04 execution order anomaly
 - **Issue:** `P04-T01-S02-M01` is `TODO` but `P04-T02-S01-M01` through `P04-T04-S03-M02` are `DONE`. Downstream cannot be done if upstream is not.
 - **Resolution:** Either mark `P04-T01-S02-M01` done (verify it was actually implemented) or re-open its dependents. Do not proceed assuming correctness.
+- **Resolved 2026-11-17:** P04-T01-S02-M01 was verified implemented (see its own task report). Downstream tasks P04-T03-S01-M01/M02/M03/M05 have been re-implemented in `packages/workers/src` per `Plan.md` (commits `97600a0`, `5a5c24e`, `de01628`, `1bf2a66`, `b4dd3be`) so the upstream/downstream order is now consistent.
 
 ### [CONFLICT-009] [PHASE: ALL] [MEDIUM] Console encoding corruption in Match reports
 - **Discovered:** 2026-11-13
@@ -171,13 +172,13 @@ IEEE-754 rounding: `-1.0000000000000002` must floor to `-1`, not `-2`. Do not ch
 Fixed to port `12345`. If a new Pact test is added, use the same port. See `P05-T01-S02-M01`.
 
 ### [GOTCHA-005] [PHASE: P05] TensorFlow models `DEFERRED`
-`P05-T03-S01-M03` is stubbed. `voice_instrumental` model loading is not implemented yet. Do NOT mark tests that depend on real TF inference as PASS — they must run in stub mode with an explicit `TF_DEFERRED` flag.
+`P05-T03-S01-M03` is stubbed. `voice_instrumental` model loading is not implemented yet. Do NOT mark tests that depend on real TF inference as PASS â€” they must run in stub mode with an explicit `TF_DEFERRED` flag.
 
 ### [GOTCHA-006] [PHASE: ALL] `exit 0` / `exit 1` in PowerShell crashes VS Code terminal
-Always use `return`. Documented in `OTOMIX_Admin_Interaction_Skill.md` §4.
+Always use `return`. Documented in `OTOMIX_Admin_Interaction_Skill.md` Â§4.
 
 ### [GOTCHA-007] [PHASE: ALL] `Set-Content -Encoding UTF8` in PowerShell 5.1 writes BOM
-Use `[System.IO.File]::WriteAllText(path, content, $utf8NoBom)`. Documented in `OTOMIX_Admin_Interaction_Skill.md` §4.
+Use `[System.IO.File]::WriteAllText(path, content, $utf8NoBom)`. Documented in `OTOMIX_Admin_Interaction_Skill.md` Â§4.
 
 ### [GOTCHA-008] [PHASE: ALL] Non-ASCII filenames in Match scripts
 See `CONFLICT-009`. Always `git -c core.quotePath=false`.
@@ -186,17 +187,17 @@ See `CONFLICT-009`. Always `git -c core.quotePath=false`.
 `P08-T01-S02-M02` triggers a memoized recompute on every queue mutation. The memo key MUST include queue hash + all mixplan inputs. Otherwise stale timelines will render.
 
 ### [GOTCHA-010] [PHASE: P09] XML exporter manual certification
-`P09-T01-S02-M02`–`M04` require manual verification in the target DJ software (Rekordbox, Traktor, VirtualDJ). Automation alone does not prove bit-correct import.
+`P09-T01-S02-M02`â€“`M04` require manual verification in the target DJ software (Rekordbox, Traktor, VirtualDJ). Automation alone does not prove bit-correct import.
 
 ---
 
 ## Deferred Items
 
 ### [DEFERRED-001] [PHASE: P05] TensorFlow `voice_instrumental` model
-Deferred per `AI Agent.MD` §2. Do not implement until explicitly unblocked.
+Deferred per `AI Agent.MD` Â§2. Do not implement until explicitly unblocked.
 
 ### [DEFERRED-002] [PHASE: P05] MAEST / Discogs-EffNet embeddings for playlist similarity
-Deferred per `AI Agent.MD` §2. Currently playlist similarity is not implemented with these embeddings; a placeholder similarity is used.
+Deferred per `AI Agent.MD` Â§2. Currently playlist similarity is not implemented with these embeddings; a placeholder similarity is used.
 
 ### [DEFERRED-003] [PHASE: P09] Serato export mechanism (OQ-12)
 Serato library metadata is not natively XML. Awaiting owner decision on interchange mechanism.
@@ -253,7 +254,7 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 ### [GAP-014] [PHASE: ALL] [HIGH] Dual deployment required: cloud AND local, implemented separately
 - **Discovered:** 2026-11-13
 - **Source:** Owner directive
-- **Directive:** `Local-First` is **one** target, not the only target. OTOMIX MUST support **both** a cloud deployment AND a local (on-device) deployment as **two separate implementations** — not one implementation behind feature flags, not runtime switching.
+- **Directive:** `Local-First` is **one** target, not the only target. OTOMIX MUST support **both** a cloud deployment AND a local (on-device) deployment as **two separate implementations** â€” not one implementation behind feature flags, not runtime switching.
 - **Scope:** Wherever the two targets diverge, each gets its own code path. The Abstract API Adapter (`P05-T01`) is a natural seam but each adapter implementation must exist independently. Ingestion (`P07`), extraction execution (`P05`), storage backend (`P07`), deployment topology (`P10`), and acceptance runs (`P11`) must each produce two variants.
 - **Affected phases:** P05, P07, P10, P11.
 - **Resolution rule:** When scheduling any affected micro-task, add a sibling micro-task for the other deployment target. Do NOT conflate the two targets in code, tests, or acceptance criteria. A single-task PR that only covers cloud or only covers local is incomplete for that phase.
@@ -282,18 +283,18 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 
 | ID | Description | Prerequisites |
 |---|---|---|
-| `RBAC-M01` ✅ DONE (2026-11-13, commit pending) | Migration: 8 tables + RLS + indexes + audit. | P01-T05-S01-M01 |
-| `RBAC-M02` ✅ DONE (2026-11-13, 8985495) | Feature scan + seed catalog (≥40 keys). | RBAC-M01 |
-| `RBAC-M03` ✅ DONE (2026-11-13) | Seed base roles. | RBAC-M02 |
-| `RBAC-M04` ✅ DONE (2026-11-13) | Grant/revoke service + audit + Slack escalation. | RBAC-M03, P06-T02-S02-M01 |
-| `RBAC-M05` ✅ DONE (2026-11-13) | Effective permissions evaluator. | RBAC-M04 |
-| `RBAC-M06` ✅ DONE (2026-11-13) | Redis cache TTL 60s + LISTEN/NOTIFY invalidation. | RBAC-M05 |
-| `RBAC-M07` ✅ DONE (2026-11-13) | Bootstrap super_admin + regular_user. | RBAC-M04 |
-| `RBAC-M08` ✅ DONE (2026-11-13) | Group CRUD + time-bound group perms. | RBAC-M04 |
-| `RBAC-M09` ✅ DONE (2026-11-13) | Expiry test frozen clock T-1/T/T+1. | RBAC-M05 |
-| `RBAC-M10` ✅ DONE (2026-11-13) | Drop scopes[]/tier from token. | RBAC-M07 |
-| `RBAC-M11` ✅ DONE (2026-11-13) | Rewrite interceptor; delete scope-allowlist. | RBAC-M10, RBAC-M06 |
-| `RBAC-M12` ✅ DONE (2026-11-13) | Rewrite Cucumber from dynamic catalog. | RBAC-M11 |
+| `RBAC-M01` âœ… DONE (2026-11-13, commit pending) | Migration: 8 tables + RLS + indexes + audit. | P01-T05-S01-M01 |
+| `RBAC-M02` âœ… DONE (2026-11-13, 8985495) | Feature scan + seed catalog (â‰¥40 keys). | RBAC-M01 |
+| `RBAC-M03` âœ… DONE (2026-11-13) | Seed base roles. | RBAC-M02 |
+| `RBAC-M04` âœ… DONE (2026-11-13) | Grant/revoke service + audit + Slack escalation. | RBAC-M03, P06-T02-S02-M01 |
+| `RBAC-M05` âœ… DONE (2026-11-13) | Effective permissions evaluator. | RBAC-M04 |
+| `RBAC-M06` âœ… DONE (2026-11-13) | Redis cache TTL 60s + LISTEN/NOTIFY invalidation. | RBAC-M05 |
+| `RBAC-M07` âœ… DONE (2026-11-13) | Bootstrap super_admin + regular_user. | RBAC-M04 |
+| `RBAC-M08` âœ… DONE (2026-11-13) | Group CRUD + time-bound group perms. | RBAC-M04 |
+| `RBAC-M09` âœ… DONE (2026-11-13) | Expiry test frozen clock T-1/T/T+1. | RBAC-M05 |
+| `RBAC-M10` âœ… DONE (2026-11-13) | Drop scopes[]/tier from token. | RBAC-M07 |
+| `RBAC-M11` âœ… DONE (2026-11-13) | Rewrite interceptor; delete scope-allowlist. | RBAC-M10, RBAC-M06 |
+| `RBAC-M12` âœ… DONE (2026-11-13) | Rewrite Cucumber from dynamic catalog. | RBAC-M11 |
 
 **Existing plan tasks affected (in supplement, NOT in plan):**
 
@@ -309,12 +310,12 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 
 **Downstream long-term cleanup (deferred):** P06-T06 (DSP admin), P06-T07 (propagation), P08, P09, P10, P11.
 
-**Migration path:** (1) M01-M09 add new model alongside; zero breakage. (2) M10 stop scopes[]; tokens expire ≤15 min. (3) M11 interceptor switch; delete old scope-allowlist. (4) M12 regenerate Cucumber. (5) downstream cleanup.
+**Migration path:** (1) M01-M09 add new model alongside; zero breakage. (2) M10 stop scopes[]; tokens expire â‰¤15 min. (3) M11 interceptor switch; delete old scope-allowlist. (4) M12 regenerate Cucumber. (5) downstream cleanup.
 
 **Execution order:** Start at `RBAC-M01`. Do NOT resume `P06-T02-S03-*` or `P06-T03-*` on their old scope.
 
 
-**P06 STATUS:** ✅ COMPLETE (2026-11-13, RBAC-M12). All 12 RBAC tasks and all 9 original P06-T01/T02 tasks done. Superseded tasks (T02-S01-M02/M03, T02-S02-M02, T02-S03-M01, T03-S01-M01/M02) replaced by RBAC-M10/M11/M12/M05. Next phase: P07 (Local Ingestion + Cloud Ingestion per GAP-014).
+**P06 STATUS:** âœ… COMPLETE (2026-11-13, RBAC-M12). All 12 RBAC tasks and all 9 original P06-T01/T02 tasks done. Superseded tasks (T02-S01-M02/M03, T02-S02-M02, T02-S03-M01, T03-S01-M01/M02) replaced by RBAC-M10/M11/M12/M05. Next phase: P07 (Local Ingestion + Cloud Ingestion per GAP-014).
 
 ## Maintenance Rules
 
@@ -334,9 +335,9 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 - **Pragmatic fix applied:** Added `pg` + `@types/pg` to `packages/core/devDependencies`. `tsc` passes; runtime unaffected (`repository/global-features.ts` is not exported).
 - **Proper fix (deferred):** Move `repository/global-features.ts` to `packages/db`, or refactor to accept a `pg.Pool` interface via DI so `core` stays pure. Schedule as a P05/P06 follow-up.
 
-### [GAP-017] [PHASE: P07] [HIGH] `Logger` exposes only `.log(record)` — not `.warn/.info/.error`
+### [GAP-017] [PHASE: P07] [HIGH] `Logger` exposes only `.log(record)` â€” not `.warn/.info/.error`
 - **Discovered:** 2026-11-13 (Match step for `P07-T01-S02-M01`).
-- **Evidence:** `packages/core/src/telemetry/logger.ts` — `interface Logger { log(record: LogRecord): void; }`. No `warn/info/debug/error` convenience methods. `log()` requires explicit `level, trace_id, span_id, event, outcome, durationMs`; the factory only injects `service` and `tenant_id`.
+- **Evidence:** `packages/core/src/telemetry/logger.ts` â€” `interface Logger { log(record: LogRecord): void; }`. No `warn/info/debug/error` convenience methods. `log()` requires explicit `level, trace_id, span_id, event, outcome, durationMs`; the factory only injects `service` and `tenant_id`.
 - **Root cause:** `P07-T01-S01-M01` used `logger.warn({...})`; the test's `mockLogger` (which had a fake `warn`) hid the bug. Production path (`deps.logger` omitted) would throw `TypeError: logger.warn is not a function`.
 - **Fix applied:** `sniff.ts` now calls `logger.log({ level:'warn', trace_id, span_id, ... })`; test mock only implements `.log`; production-path test (no logger injected) added so the bug cannot regress. [GAP-017] documents the logger contract for every future P07 task (`limits.ts`, `decode.ts`, `dlq-park.ts`, ...).
 - **Rule for future tasks:** every `logger.log({...})` must include `level`, `trace_id`, `span_id`, `event`, `outcome`, `durationMs`. `createLogger` only injects `service` and `tenant_id`.
@@ -351,7 +352,7 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 - **Evidence:** `Docs/ArchitectureBook/sync-and-translate.ps1` last lines: `& git commit -m 'fix(book): translate tasks...'`, then `& git push origin P04`. A copy-paste from the P04 phase.
 - **Impact:** running the script from any branch other than P04 pushes the LOCAL `P04` ref (not the current branch) to `origin/P04`, which means the actual commit on the current branch is never pushed, and `origin/P04` is silently synced to whatever local `P04` contained (usually stale).
 - **Workaround applied:** after every `sync-and-translate.ps1` invocation, explicitly `git push origin <current-branch>`.
-- **Proper fix (deferred):** replace `git push origin P04` with `git push origin HEAD` or read the current branch via `git rev-parse --abbrev-ref HEAD`. Same for the commit message — accept a `-CommitMessage` parameter or use a stable generic message.
+- **Proper fix (deferred):** replace `git push origin P04` with `git push origin HEAD` or read the current branch via `git rev-parse --abbrev-ref HEAD`. Same for the commit message â€” accept a `-CommitMessage` parameter or use a stable generic message.
 
 ### [GAP-020] [PHASE: P08] [HIGH] No central UI binding matrix (UI element -> Redux slice -> catalog field -> Feature Registry)
 - **Discovered:** 2026-11-14 during P07. 
@@ -361,7 +362,7 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 - **Do NOT add to the plan's per-task IDs yet** -- this gap is registered here and a reminder is added to the P08 phase block; a new micro-task ID (`P08-T01-S01-M03`) will be formalised when P08 starts.
 ### [GAP-021] [PHASE: P07, P10, P11] [HIGH] `packages/core/dist` is ESM with extensionless relative imports
 - **Discovered:** 2026-11-14 during P07-T02-S02-M01 fuzz harness design.
-- **Evidence:** importing `./packages/workers/dist/decode.js` from a raw Node `worker_threads` eval worker fails with `ERR_MODULE_NOT_FOUND: Cannot find module '.../packages/core/dist/config/analysis' imported from .../packages/core/dist/index.js`. `core/dist/index.js` is ESM but its relative imports are extensionless. Node's native ESM resolver requires `.js`. Vitest, tsx, and Vite all resolve extensionless, so tests pass — the bug only surfaces outside those toolchains.
+- **Evidence:** importing `./packages/workers/dist/decode.js` from a raw Node `worker_threads` eval worker fails with `ERR_MODULE_NOT_FOUND: Cannot find module '.../packages/core/dist/config/analysis' imported from .../packages/core/dist/index.js`. `core/dist/index.js` is ESM but its relative imports are extensionless. Node's native ESM resolver requires `.js`. Vitest, tsx, and Vite all resolve extensionless, so tests pass â€” the bug only surfaces outside those toolchains.
 - **Impact:** any code path that loads `@otomix/core` from a native Node ESM context (worker_threads eval, standalone scripts, CLI tools) will fail.
 - **Workaround applied:** fuzz harness runs inline in vitest (Vite resolver) rather than in a `worker_threads` sandbox.
 - **Proper fix (deferred):** either (a) migrate `packages/core/src/**/*.ts` to use `.js` extensions on every relative import (same pattern applied to `gateway` and `db`), or (b) add `rewriteRelativeImportExtensions: true` in `core/tsconfig.json` (TS 5.7+) so `dist` carries `.js` automatically. (b) is preferred.
@@ -424,7 +425,7 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - Authorized redirect URI: https://<api>/auth/google/callback.
 - Env: GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI.
 - Routes: /auth/google/start (302 to Google), /auth/google/callback (verify state, exchange code, verify id_token, upsert user by google_id then email).
-- State token stored in Redis (TTL 5 min) — not stateless HMAC, so callback can be traced to a session.
+- State token stored in Redis (TTL 5 min) â€” not stateless HMAC, so callback can be traced to a session.
 
 **Telegram Login Widget requirements (P07-REG-M03):**
 - Bot via @BotFather, bot token, domain bound in BotFather.
@@ -438,7 +439,7 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - Env: TELEGRAM_BOT_TOKEN.
 
 **Phone OTP requirements (P07-REG-M04):**
-- SMS provider: choose between Kavenegar / SMS.ir (Iran) or Twilio (international). Owner decision pending — flag as follow-up.
+- SMS provider: choose between Kavenegar / SMS.ir (Iran) or Twilio (international). Owner decision pending â€” flag as follow-up.
 - Env: SMS_PROVIDER_API_KEY (+ provider-specific endpoint).
 - Redis: key otp:<phone_e164> value {hash, attempts} TTL 120s.
 - Rate limit: 3 requests per 10 min per phone (defends SMS bombing).
@@ -470,7 +471,7 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 **Open follow-ups:**
 - SMS provider selection (owner).
 - Rate-limit exact numbers (proposed 3/10min; owner can override).
-- Account linking when a user registers with two methods (e.g. Google then Phone) — proposal: match on email or phone_e164 and merge, else prompt to link. Defer to M02..M04 implementation details.
+- Account linking when a user registers with two methods (e.g. Google then Phone) â€” proposal: match on email or phone_e164 and merge, else prompt to link. Defer to M02..M04 implementation details.
 - Terms text: v1.0 effective 2026-11-14; owner must supply the legal text (mocked in tests).
 ### [GAP-028] [PHASE: P07] [ADVISORY] Plan says 'action', DDL uses 'scope'
 - **Discovered:** 2026-11-14 during P07-T05-S01-M01.

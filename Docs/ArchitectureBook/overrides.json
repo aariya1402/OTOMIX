@@ -32,5 +32,11 @@
                                                   "AudioWorkletProcessor"
                                               ],
                             "note":  "AudioWorkletProcessor is a Web API name used in plan text, not a declaration. Skeleton class is OtomixProcessor in packages/workers/src/processor.ts."
+                        },
+    "P04-T03-S01-M02":  {
+                            "ignoreSymbols":  [
+                                                  "SharedArrayBuffer"
+                                              ],
+                            "note":  "SharedArrayBuffer is a Web API name used in plan text, not a declaration. The SPSC ring class is SpscRing in packages/workers/src/ring.ts."
                         }
 }
