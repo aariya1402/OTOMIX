@@ -45,5 +45,12 @@
                                                       "mixabilityWeights"
                                                   ],
                                 "note":  "energyWeights and mixabilityWeights are \u0027e.g.\u0027 example identifiers in the plan description text (Addendum L19), not code declarations. The actual config uses energy.weights and mixability.weights (nested Record\u003cstring, number\u003e), defined in packages/core/src/config/analysis.ts and populated in analysis-config.json."
+                            },
+    "P05-ADD-T01-S03-M01":  {
+                                "skipCodeCheck":  true,
+                                "note":  "Build-debt task. No independent vitest test is declared by the plan; the Expected Outcome IS \u0027pnpm -F @otomix/core build\u0027 exits 0 (tsc --build). Verified manually: npx --no-install tsc --build packages/core/tsconfig.json exits 0, and dist/index.js:1 contains \u0027export * from \u0027\u0027.\\\\config\\\\analysis\u0027\u0027\u0027. skipCodeCheck is set so the registry does not flag the intentionally-missing test file; tsc is re-verified on every System Review.",
+                                "ignoreIssues":  [
+                                                     "no-test"
+                                                 ]
                             }
 }

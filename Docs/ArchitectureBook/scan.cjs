@@ -460,6 +460,7 @@ function build() {
     const override = overrides[item.id] || {};
     const ignoreFiles = new Set(override.ignoreFiles || []);
     const ignoreSymbols = new Set(override.ignoreSymbols || []);
+    const ignoreIssues = new Set(override.ignoreIssues || []);
 
     const parts = item.testField.split('|');
     const runnerText = parts.length >= 3 ? parts[1] : String(item.planTest || plan['Independent Test(s)'] || '');
@@ -651,7 +652,7 @@ function build() {
       else if (test.state === 'stale') issues.push({ kind: 'test-stale', severity: 'warn', text: 'Recorded run is older than a related file change', path: test.path });
       else if (test.state === 'manual') issues.push({ kind: 'test-manual', severity: 'info', text: 'Not runnable by Vitest (' + test.runner + ')', path: test.path });
     }
-    if (!tests.length) issues.push({ kind: 'no-test', severity: 'warn', text: 'No test declared or linked for this task' });
+    if (!tests.length && !ignoreIssues.has('no-test')) issues.push({ kind: 'no-test', severity: 'warn', text: 'No test declared or linked for this task' });
     for (const item2 of tsc) {
       if (item2.state === 'errors' || item2.state === 'error') {
         for (const diag of item2.diagnostics) issues.push({ kind: 'tsc-error', severity: 'error', text: diag.code + ': ' + diag.message, path: diag.file, line: diag.line });
