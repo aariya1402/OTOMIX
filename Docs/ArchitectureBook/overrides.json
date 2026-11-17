@@ -4,5 +4,11 @@
                                                   "PURGE_AND_REANALYZE"
                                               ],
                             "note":  "PURGE_AND_REANALYZE is a string literal in a type union, not a declaration"
+                        },
+    "P01-T08-S01-M02":  {
+                            "ignoreSymbols":  [
+                                                  "postMessage"
+                                              ],
+                            "note":  "postMessage is a Web API name (used in a comment, not a declaration); flagged from plan description text"
                         }
 }
