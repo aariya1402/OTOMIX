@@ -2,7 +2,7 @@
 // Fallback anchor: first transient exceeding -12 dBFS.
 // Zero-RAM: O(N) time, O(1) space, no allocations.
 
-import { FALLBACK_TRANSIENT_DBFS } from '../constants/grid';
+import { FALLBACK_TRANSIENT_DBFS } from '../constants/grid.js';
 
 export interface Transient {
   time: number;

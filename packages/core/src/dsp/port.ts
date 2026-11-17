@@ -1,5 +1,5 @@
-import type { DspEngineConfig } from '../config/transition-config';
-import type { TransitionPlan } from '../transition/types';
+import type { DspEngineConfig } from '../config/transition-config.js';
+import type { TransitionPlan } from '../transition/types.js';
 
 export type AutomationCurve = 'linear' | 'exponential' | 'step';
 

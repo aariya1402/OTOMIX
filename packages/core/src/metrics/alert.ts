@@ -3,10 +3,10 @@
 // Rule 26: Beat-Index Absolute. No milliseconds in musical logic.
 // The alert threshold is derived dynamically from the Phase 1 tOfI formula.
 
-import { getAnalysisConfig } from '../config/analysis';
-import { tOfI } from '../grid/t-of-i';
-import type { BeatIndex } from '../types/beat-index';
-import type { BPM } from '../types/bpm';
+import { getAnalysisConfig } from '../config/analysis.js';
+import { tOfI } from '../grid/t-of-i.js';
+import type { BeatIndex } from '../types/beat-index.js';
+import type { BPM } from '../types/bpm.js';
 
 export function isExtractionDurationCritical(durationMs: number, bpm: BPM): boolean {
   const cfg = getAnalysisConfig();

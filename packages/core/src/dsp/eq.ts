@@ -1,5 +1,5 @@
-import { Biquad, BiquadCoeffs } from './biquad';
-import type { EqProfile } from '../config/transition-config';
+import { Biquad, BiquadCoeffs } from './biquad.js';
+import type { EqProfile } from '../config/transition-config.js';
 
 function calcPeakingCoeffs(freq: number, gainDb: number, q: number, sampleRate: number): BiquadCoeffs {
   const A = Math.pow(10, gainDb / 40);

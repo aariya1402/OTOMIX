@@ -1,9 +1,9 @@
 // OTOMIX §3.6 · Mother §2.6
-import { DRIFT_THRESHOLD_QUANTA } from '../constants/timing';
+import { DRIFT_THRESHOLD_QUANTA } from '../constants/timing.js';
 import {
   RATE_MIN, RATE_MAX, RATE_SLEW_PER_QUANTA,
   OBSERVER_GAIN_RANGE, OBSERVER_MAX_EXPECTED_DRIFT_QUANTA, QUANTUM_DIVISOR,
-} from '../constants/grid';
+} from '../constants/grid.js';
 
 export function computeNextRate(
   currentRate: number,

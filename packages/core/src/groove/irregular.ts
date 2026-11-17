@@ -1,6 +1,6 @@
 // OTOMIX §3.5 · Mother §2.5
-import { IRREGULAR_XFADE_EXTRA_QUANTA } from '../constants/grid';
-import { GrooveMode } from './types';
+import { IRREGULAR_XFADE_EXTRA_QUANTA } from '../constants/grid.js';
+import { GrooveMode } from './types.js';
 
 /**
  * Resolves the effective groove mode for rendering.

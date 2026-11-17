@@ -5,8 +5,8 @@
 //
 // Rule 26: BPM is dimensionless, no time units.
 
-import { getAnalysisConfig } from '../config/analysis';
-import { BPM, BPMResult } from '../types/bpm';
+import { getAnalysisConfig } from '../config/analysis.js';
+import { BPM, BPMResult } from '../types/bpm.js';
 
 export interface TempoEntry {
   readonly bpm: number;
@@ -128,4 +128,12 @@ export function deriveBpmSeed(
 
   // 7. Return validated BPM
   return BPM.parse(Math.round(bestCentroid));
+}
+export function isBpmDynamic(histogram: readonly TempoEntry[]): boolean {
+  if (histogram.length === 0) return false;
+  const bpmValues = histogram.map(e => e.bpm);
+  const min = Math.min(...bpmValues);
+  const max = Math.max(...bpmValues);
+  const cfg = getAnalysisConfig().tempo;
+  return (max - min) > ((cfg as any).bpmDynamicThresholdBpm || 2.0);
 }

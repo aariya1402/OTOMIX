@@ -1,7 +1,7 @@
-import { Biquad, BiquadCoeffs } from './biquad';
-import { OnePoleSmoother } from './smoother';
-import { flushDenormal } from './denormal';
-import type { CompressorProfile } from '../config/transition-config';
+import { Biquad, BiquadCoeffs } from './biquad.js';
+import { OnePoleSmoother } from './smoother.js';
+import { flushDenormal } from './denormal.js';
+import type { CompressorProfile } from '../config/transition-config.js';
 
 // LR4 is two cascaded Butterworth (Q = 1/sqrt(2))
 function calcButterworthLPF(freq: number, sampleRate: number): BiquadCoeffs {

@@ -1,7 +1,7 @@
 // OTOMIX §3.9 — Transition constants.
 // All values derived from AdminConfig; no hardcoded numbers.
 
-import { getAnalysisConfig } from '../config/analysis';
+import { getAnalysisConfig } from '../config/analysis.js';
 
 export function getTransitionWindowBeats(): number {
   return getAnalysisConfig().transition.defaultWindowBars * 4;

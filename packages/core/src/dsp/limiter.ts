@@ -1,6 +1,6 @@
-import type { AdminTuningConfig } from '../config/transition-config';
-import { OnePoleSmoother } from './smoother';
-import { flushDenormal } from './denormal';
+import type { AdminTuningConfig } from '../config/transition-config.js';
+import { OnePoleSmoother } from './smoother.js';
+import { flushDenormal } from './denormal.js';
 
 export interface LimiterParams {
   ceilingDb: number;

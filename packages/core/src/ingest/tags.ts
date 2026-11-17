@@ -2,7 +2,7 @@
 // Pure tag parser. Extracts display hints. Never feeds analysis.
 // Registry safety: `DisplayMetadata` is a distinct type from
 // `RegistryFields`; the two must never be spread together.
-import type { DetectedFormat } from './sniff';
+import type { DetectedFormat } from './sniff.js';
 
 export interface DisplayMetadata {
   title?: string;

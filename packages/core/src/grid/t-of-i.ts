@@ -1,7 +1,7 @@
 // OTOMIX §3.1; §3.10 · Mother §2.1; §2.10
-import { BeatIndex } from '../types/beat-index';
-import { BPM } from '../types/bpm';
-import { DRIFT_MAX_QUANTA, QUANTUM_DIVISOR } from '../constants/grid';
+import { BeatIndex } from '../types/beat-index.js';
+import { BPM } from '../types/bpm.js';
+import { DRIFT_MAX_QUANTA, QUANTUM_DIVISOR } from '../constants/grid.js';
 
 let deltaClampedCount = 0;
 

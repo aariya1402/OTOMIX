@@ -6,7 +6,7 @@
  * All quantities are in beats. No seconds, no milliseconds.
  */
 
-import { CHOP_CROSSFADE_BEATS } from '../constants/grid';
+import { CHOP_CROSSFADE_BEATS } from '../constants/grid.js';
 
 /**
  * Raised-cosine fade curve evaluated at time t (beats).

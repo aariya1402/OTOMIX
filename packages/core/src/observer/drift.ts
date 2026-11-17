@@ -1,5 +1,5 @@
 // OTOMIX §3.6 · Mother §2.6
-import { quantumSeconds } from '../timing/quantum';
+import { quantumSeconds } from '../timing/quantum.js';
 
 /**
  * Computes the phase drift between the real-time rendering context clock

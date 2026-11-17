@@ -1,6 +1,6 @@
 // OTOMIX §3.5 · Mother §2.5
-import { STRAIGHT_VAR, TRIPLET_VAR, SWING_MIN, SWING_MAX, BEAT_EPSILON } from '../constants/grid';
-import { GrooveInput, GrooveResult } from './types';
+import { STRAIGHT_VAR, TRIPLET_VAR, SWING_MIN, SWING_MAX, BEAT_EPSILON } from '../constants/grid.js';
+import { GrooveInput, GrooveResult } from './types.js';
 
 /** 1/3 - 1/4 = 0.08333... (triplet offset from 16th grid) */
 const TRIPLET_OFFSET = 1 / 3 - 0.25;

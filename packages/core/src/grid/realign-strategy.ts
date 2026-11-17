@@ -2,7 +2,7 @@
 // Stub for P05 build unblock; uses AdminConfig-derived defaults.
 // TODO(P11): replace with real grid-realignment logic.
 
-import { getAnalysisConfig } from '../config/analysis';
+import { getAnalysisConfig } from '../config/analysis.js';
 
 export interface RealignmentStrategyResult {
   windowBars: number;

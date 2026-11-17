@@ -2,7 +2,7 @@
 // OTOMIX §3.3 · Quantum timing arithmetic
 // Zero-RAM: pure O(1) arithmetic, zero allocation.
 
-import { QUANTUM_DIVISOR } from '../constants/grid';
+import { QUANTUM_DIVISOR } from '../constants/grid.js';
 
 /**
  * Duration of one quantum (1/24 beat) in seconds at given BPM.

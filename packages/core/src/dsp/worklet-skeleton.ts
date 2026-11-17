@@ -1,5 +1,5 @@
 // @rt-safe
-import { AdminTuningConfig } from '../config/transition-config';
+import { AdminTuningConfig } from '../config/transition-config.js';
 
 /**
  * AudioWorkletProcessor Skeleton (Mock for Unit Tests).

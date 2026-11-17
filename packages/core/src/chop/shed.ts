@@ -9,8 +9,8 @@
  * Rule 26: Pure logic, no seconds.
  */
 
-import { ChopGridDenominator } from './slice';
-import { widenChopGridIfNeeded } from './widen-grid';
+import { ChopGridDenominator } from './slice.js';
+import { widenChopGridIfNeeded } from './widen-grid.js';
 
 /**
  * Sheds the chop grid when the P03 observer reports starvation,

@@ -1,8 +1,8 @@
 // OTOMIX §3.3 · Lookahead Scheduler with 50 ms window, ±2 ms accuracy
 // Zero-RAM: pre-allocated heap, no allocations in poll()
 
-import { LOOKAHEAD_MS, SCHED_ACCURACY_MS } from '../constants/timing';
-import { Clock } from './clock';
+import { LOOKAHEAD_MS, SCHED_ACCURACY_MS } from '../constants/timing.js';
+import { Clock } from './clock.js';
 
 export interface ScheduledEvent {
   beat: number;

@@ -1,7 +1,7 @@
 // OTOMIX §3.9 · Mother §2.9
-import { tOfI } from '../grid/t-of-i';
-import { BeatIndex } from '../types/beat-index';
-import { TRANSITION_WINDOW_BEATS } from '../constants/grid';
+import { tOfI } from '../grid/t-of-i.js';
+import { BeatIndex } from '../types/beat-index.js';
+import { TRANSITION_WINDOW_BEATS } from '../constants/grid.js';
 
 export interface TransitionAnchors {
   /** Absolute time (seconds) of incoming track's Beat 1 */
@@ -48,7 +48,7 @@ export function computeTransitionAnchors(
     throw new Error(`Invalid outgoing beat index: ${outBeatIndex}`);
   }
 
-  const tOutSeconds = tOfI(beatIndexResult.value, outgoing.T0, outgoing.bpmSeed as unknown as import('../types/bpm').BPM, 0);
+  const tOutSeconds = tOfI(beatIndexResult.value, outgoing.T0, outgoing.bpmSeed as unknown as import('../types/bpm.js').BPM, 0);
 
   return { tInSeconds, tOutSeconds, inBeatIndex, outBeatIndex };
 }

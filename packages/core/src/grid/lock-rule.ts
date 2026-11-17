@@ -15,7 +15,7 @@
 //
 // D9: toleranceBeats comes from AnalysisConfig.grid.lockToleranceBeats.
 
-import { getAnalysisConfig } from '../config/analysis';
+import { getAnalysisConfig } from '../config/analysis.js';
 
 /**
  * HARD-CODED CONTRACT: runtime realignment is never allowed.

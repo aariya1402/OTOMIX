@@ -1,6 +1,6 @@
-import type { DspEngineConfig } from '../config/transition-config';
-import type { TransitionPlan } from '../transition/types';
-import type { DspPort, AudioParamAutomation } from './port';
+import type { DspEngineConfig } from '../config/transition-config.js';
+import type { TransitionPlan } from '../transition/types.js';
+import type { DspPort, AudioParamAutomation } from './port.js';
 
 export interface ScheduledTransitionRecord {
   readonly plan: TransitionPlan;

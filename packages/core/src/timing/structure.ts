@@ -2,8 +2,8 @@
 // OTOMIX §3.15 · Mother §2.3; Add. §4
 // Zero-RAM structural arithmetic: all functions O(1) time & space, zero allocation.
 
-import { BEATS_PER_BAR } from '../constants/grid';
-export { BEATS_PER_BAR } from '../constants/grid';
+import { BEATS_PER_BAR } from '../constants/grid.js';
+export { BEATS_PER_BAR } from '../constants/grid.js';
 
 /**
  * Floor modulo: returns non-negative remainder for any integer x, positive m.

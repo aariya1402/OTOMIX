@@ -1,5 +1,5 @@
 // OTOMIX §3.2 · Precomputed Hamming window
-import { ATTACK_WINDOW_SIZE } from '../constants/grid';
+import { ATTACK_WINDOW_SIZE } from '../constants/grid.js';
 
 export const WINDOW_SIZE = ATTACK_WINDOW_SIZE;
 export const hammingWindow = new Float32Array(WINDOW_SIZE);

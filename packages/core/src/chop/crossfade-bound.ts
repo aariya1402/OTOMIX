@@ -1,4 +1,4 @@
-import { ChopGridDenominator } from './slice';
+import { ChopGridDenominator } from './slice.js';
 
 /**
  * Validates that the requested crossfade length does not exceed 

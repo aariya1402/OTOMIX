@@ -2,8 +2,8 @@
 // extract(): adapter -> registry fields -> validate -> features + outbox in one transaction.
 
 import type { Pool } from 'pg';
-import { withTenant } from '../../../db/src/with-tenant';
-import type { Logger } from '../telemetry/logger';
+import { withTenant } from '../../../db/src/with-tenant.js';
+import type { Logger } from '../telemetry/logger.js';
 
 export type TenantId = 'otomix' | 'otodj';
 

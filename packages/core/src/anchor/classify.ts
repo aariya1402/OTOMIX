@@ -1,6 +1,6 @@
 // OTOMIX §3.4 · Mother §2.4
-import { CORR_MIN, SHAPE_VAR_MAX } from '../constants/grid';
-import { pearsonCorrelation, PearsonResult } from './pearson';
+import { CORR_MIN, SHAPE_VAR_MAX } from '../constants/grid.js';
+import { pearsonCorrelation, PearsonResult } from './pearson.js';
 
 export type KickClassification = 'ON_BEAT' | 'OFF_BEAT';
 export type KickEnvelope = Float32Array;

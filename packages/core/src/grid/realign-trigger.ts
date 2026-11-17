@@ -1,7 +1,7 @@
 // OTOMIX §3.2 · Mother §2.2
 // Detects Body-to-Attack realignment trigger.
 // Pure predicate: zero-RAM, no allocations, no state.
-import { BODY_REALIGN_DBFS } from '../constants/grid';
+import { BODY_REALIGN_DBFS } from '../constants/grid.js';
 
 /**
  * Returns true if the outgoing sub-band RMS (in dBFS) is strictly below

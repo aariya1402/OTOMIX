@@ -1,5 +1,5 @@
 // OTOMIX §3.1 · Mother §2.1
-import { ANCHOR_SYNC_BARS, DRIFT_MAX_QUANTA } from '../constants/grid';
+import { ANCHOR_SYNC_BARS, DRIFT_MAX_QUANTA } from '../constants/grid.js';
 
 /** 16 bars × 4 beats/bar = 64 beats. Derived from ANCHOR_SYNC_BARS. */
 export const ANCHOR_SYNC_INTERVAL_BEATS = ANCHOR_SYNC_BARS * 4;

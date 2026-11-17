@@ -1,5 +1,5 @@
 // OTOMIX §3.5 · Mother §2.5
-import { QUANTUM_DIVISOR, SWING_MIN, SWING_MAX } from '../constants/grid';
+import { QUANTUM_DIVISOR, SWING_MIN, SWING_MAX } from '../constants/grid.js';
 
 /**
  * Converts swing displacement (in beats) to quanta (1 quantum = 1/24 beat).
