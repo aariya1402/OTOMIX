@@ -635,7 +635,10 @@ function build() {
       issues.push({ kind: 'file-missing', severity: done ? 'error' : 'warn', text: 'Declared file does not exist' + hint(file.path), path: file.path });
     }
     if (!declaredSource.length && !sourceFiles.length) {
-      issues.push({ kind: 'no-files', severity: 'warn', text: 'No declared path and no linked file; implementation cannot be located' });
+      const __nfo = readJson(OVERRIDES, {})[item.id] || {}; // SCAN_NOFILES_SKIP_PATCH_V1
+      if (__nfo.skipCodeCheck !== true) {
+        issues.push({ kind: 'no-files', severity: 'warn', text: 'No declared path and no linked file; implementation cannot be located' });
+      }
     }
     for (const symbol of counted.filter(entry => !entry.found)) {
       issues.push({ kind: 'symbol-missing', severity: 'warn', text: 'Symbol named in the plan was not found as a declaration: ' + symbol.name });

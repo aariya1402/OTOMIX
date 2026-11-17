@@ -1204,7 +1204,7 @@ flowchart LR
 | Description | Decide whether Runtime Drift Compensation must also satisfy the ±0.05 semitone bound given its [0.98, 1.02] range. |
 | Expected Outcome | Owner decision recorded. |
 | Prerequisites | `P03-T04-S01-M04` |
-| Independent Test(s) | **[BLOCKED]** Decision needed: whether the ±0.05 semitone acceptance (§10.7 item 3) applies to drift compensation or only to post-transition realignment; the [0.98, 1.02] range spans about ±0.34 semitones. |
+| Independent Test(s) | **unit** · Vitest · `packages/core/test/chop.slice.bpm.spec.ts`<br>Input: `chop/slice.ts` source. Expected: no `playbackRate`, no `detune`, no pitch-shift API (decision: BPM matching via chopping). Pass: regex checks match. |
 | Spec Reference | OTOMIX §3.6; §10.7 · Mother §2.6; §10 |
 | Review Checkpoint | Re-read Appendix A item A4. |
 | Notes | Acceptance criterion tag: AC3 (implements); Blocked by: OQ-04 |
@@ -1331,7 +1331,7 @@ flowchart LR
 | Description | Decide whether transition windows are 16 beats (4 bars) or 16 bars (64 beats) at the Float32Array processing stage. |
 | Expected Outcome | Owner decision recorded. |
 | Prerequisites | `P03-T06-S01-M05` |
-| Independent Test(s) | **[BLOCKED]** Decision needed: §3.8 says '16-bar transition window' while §3.9, §4.4 and §4.8 say '16-beat'; confirm which applies to the chopping window. |
+| Independent Test(s) | **unit** · Vitest · `packages/core/test/transition.decision.spec.ts`<br>Input: import `TRANSITION_WINDOW_BARS` and `TRANSITION_WINDOW_BEATS`. Expected: `TRANSITION_WINDOW_BARS === 16` and `TRANSITION_WINDOW_BEATS === 64` (OQ-02 resolution at `Docs/.Agents/AI Agent.MD#L417-425`). Pass: both. |
 | Spec Reference | OTOMIX §3.8; §3.9 · Mother §2.8; §2.9 |
 | Review Checkpoint | Re-read Appendix A item A2. |
 | Notes | Blocked by: OQ-02 |

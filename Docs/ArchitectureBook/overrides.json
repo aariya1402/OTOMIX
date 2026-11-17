@@ -10,5 +10,9 @@
                                                   "postMessage"
                                               ],
                             "note":  "postMessage is a Web API name (used in a comment, not a declaration); flagged from plan description text"
+                        },
+    "P03-T06-S01-M06":  {
+                            "skipCodeCheck":  true,
+                            "note":  "Decision task; output documented at AI Agent.MD#L417-425 (transition window = 16 bars = 64 beats). Not a code task."
                         }
 }

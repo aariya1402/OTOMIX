@@ -602,7 +602,7 @@
         "prerequisites":  [
                               "P03-T04-S01-M04"
                           ],
-        "test":  "[BLOCKED] Decision needed: whether the ±0.05 semitone acceptance (§10.7 item 3) applies to drift compensation or only to post-transition realignment; the [0.98, 1.02] range spans about ±0.34 semitones.",
+        "test":  "unit|Vitest|packages/core/test/chop.slice.bpm.spec.ts|Input: `chop/slice.ts` source. Expected: no `playbackRate`, no `detune`, no pitch-shift API (decision: BPM matching via chopping). Pass: regex checks match.",
         "spec":  "OTOMIX §3.6; §10.7 · Mother §2.6; §10",
         "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: استفاده از تقسیم قطعات برای تطابق BPM تا هرگونه تغییر نوت جلوگیری شود. کلید اصلی حفظ می‌شود."
     },
@@ -702,7 +702,7 @@
         "prerequisites":  [
                               "P03-T06-S01-M05"
                           ],
-        "test":  "[BLOCKED] Decision needed: §3.8 says \u002716-bar transition window\u0027 while §3.9, §4.4 and §4.8 say \u002716-beat\u0027; confirm which applies to the chopping window.",
+        "test":  "unit|Vitest|packages/core/test/transition.decision.spec.ts|Input: import TRANSITION_WINDOW_BARS and TRANSITION_WINDOW_BEATS. Expected: TRANSITION_WINDOW_BARS === 16 and TRANSITION_WINDOW_BEATS === 64. Pass: both.",
         "spec":  "OTOMIX §3.8; §3.9 · Mother §2.8; §2.9",
         "description_fa":  "ØªÙˆØ¶ÛŒØ­ Ø³Ø§Ø¯Ù‡: تعیین کنید که فاصله‌های تغییر 16 ضربه (4 بار) یا 16 بار (64 ضربه) در مرحله پردازش Float32Array چیست."
     },
