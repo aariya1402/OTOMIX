@@ -625,3 +625,14 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - **Plan reference:** Reminder inserted before `## Phase P06` in `OTOMIX_MicroTask_Plan.md`.
 
 ---
+
+### [GOTCHA-HIST-002] [PHASE: ALL] [MEDIUM] Contaminated commit due to pre-staged files from parallel session
+
+- **Discovered:** 2026-11-18
+- **Issue:** `git commit` picked up files that were staged by a parallel session before the committing script ran. Commit `28d29da` (message: "docs(plan): record GAP-007...") contained 7 unintended files (`packages/gateway/src/oauth/google.ts`, `user-repository.ts`, `auth-google.ts`, `auth-google.spec.ts`, `gateway/package.json`, `pnpm-lock.yaml`, `book-data.js`) from the `P07-REG` track.
+- **Impact:** Message-vs-content mismatch. No code lost, no test broken (all files are in HEAD and on `origin/P07`).
+- **Resolution:** Do not force-push. Document the mismatch here. The unintended files are legitimate work from a parallel session; they remain valid.
+- **Prevention (MANDATORY for every commit):**
+  1. Before `git add`, run `git diff --cached --name-only`. If anything is staged, ABORT.
+  2. After `git add` of your own files, run `git diff --cached --name-only` again and confirm the count matches your expected files. If not, ABORT.
+  3. Only then invoke `git commit -F <msgfile>`.
