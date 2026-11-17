@@ -5,6 +5,34 @@
  * All DSP tunables come from WorkletConfig (D9 - no hardcoded values).
  */
 
+interface WorkletPort {
+  postMessage: (msg: unknown) => void;
+  onmessage: ((ev: unknown) => void) | null;
+}
+
+interface AudioWorkletProcessorInstance {
+  readonly port: WorkletPort;
+}
+
+type AudioWorkletProcessorCtor = new (
+  ...args: never[]
+) => AudioWorkletProcessorInstance;
+
+const globalRef = globalThis as unknown as {
+  AudioWorkletProcessor?: AudioWorkletProcessorCtor;
+  registerProcessor?: (name: string, ctor: AudioWorkletProcessorCtor) => void;
+};
+
+const FallbackBase: AudioWorkletProcessorCtor = class {
+  readonly port: WorkletPort = {
+    postMessage: () => {},
+    onmessage: null,
+  };
+};
+
+const AudioWorkletProcessorBase: AudioWorkletProcessorCtor =
+  globalRef.AudioWorkletProcessor ?? FallbackBase;
+
 export interface WorkletConfig {
   readonly chopGrid: number;
   readonly crossfadeBeats: number;
@@ -15,19 +43,6 @@ export interface WorkletConfig {
   readonly exitBeat: number;
   readonly transitionLengthBeats: number;
 }
-
-const AudioWorkletProcessorBase: any =
-  typeof (globalThis as any).AudioWorkletProcessor !== 'undefined'
-    ? (globalThis as any).AudioWorkletProcessor
-    : class {
-        readonly port: {
-          postMessage: (msg: unknown) => void;
-          onmessage: ((ev: unknown) => void) | null;
-        } = {
-          postMessage: () => {},
-          onmessage: null,
-        };
-      };
 
 export class OtomixProcessor extends AudioWorkletProcessorBase {
   private readonly config: WorkletConfig;
@@ -59,11 +74,9 @@ export class OtomixProcessor extends AudioWorkletProcessorBase {
     if (n <= 0) {
       return true;
     }
-    // Reference pre-allocated state (no allocation; single-slot writes only).
     this.sliceBuffer[0] = input[0] ?? 0;
     this.gridState[0] = this.config.chopGrid;
     this.smoothingState[0] = this.outputScratch[0] ?? 0;
-    // Copy through the pre-allocated scratch buffer.
     for (let i = 0; i < n; i++) {
       this.outputScratch[i] = input[i] ?? 0;
     }
@@ -74,6 +87,6 @@ export class OtomixProcessor extends AudioWorkletProcessorBase {
   }
 }
 
-if (typeof (globalThis as any).registerProcessor === 'function') {
-  (globalThis as any).registerProcessor('otomix-processor', OtomixProcessor);
+if (typeof globalRef.registerProcessor === 'function') {
+  globalRef.registerProcessor('otomix-processor', OtomixProcessor);
 }
