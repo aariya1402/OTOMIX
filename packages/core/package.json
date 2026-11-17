@@ -17,7 +17,7 @@
     ],
     "author": "",
     "license": "MIT",
-    "dependencies": {},
+    "dependencies": { "@otomix/db": "workspace:*" },
     "devDependencies": {
         "@testcontainers/postgresql": "^12.2.1",
         "@types/node": "^20.0.0",

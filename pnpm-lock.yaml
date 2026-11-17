@@ -184,6 +184,10 @@ importers:
         version: 1.6.1(@types/node@20.19.43)(@vitest/ui@1.6.1)(supports-color@7.2.0)
 
   packages/core:
+    dependencies:
+      '@otomix/db':
+        specifier: workspace:*
+        version: link:../db
     devDependencies:
       '@testcontainers/postgresql':
         specifier: ^12.2.1
@@ -209,9 +213,6 @@ importers:
 
   packages/db:
     dependencies:
-      '@otomix/core':
-        specifier: workspace:*
-        version: link:../core
       '@types/ioredis-mock':
         specifier: ^8.2.8
         version: 8.2.8(ioredis@5.11.1(supports-color@7.2.0))
