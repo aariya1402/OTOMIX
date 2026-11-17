@@ -343,6 +343,13 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 | Decision | "Near-zero" = `loudness_range < 3.0`. Penalty is the existing linear `loudness_range` term weight (0.05). No threshold branch needed. |
 | Expected Outcome | `packages/core/src/features/energy.ts` - unchanged; `computeEnergy` naturally reduces raw score as loudness_range -> 0. |
 | Independent Test(s) | **unit** - Vitest - `packages/core/test/features.energy-compression.spec.ts` |
+
+### [SUPERSEDED-006] [PHASE: P05] M06 (E_kick/C_bass/S_tempo/V_tune) superseded by D3
+- **Discovered:** 2026-11-17 (during Match for P05-T02-S02-M06).
+- **Context:** Plan text for M06 specifies `M = 0.4(E_kick) + 0.3(C_bass) + 0.2(S_tempo) + 0.1(V_tune)` per §4.5.
+- **Superseding decision:** Owner decision D3 (2026-11-12), implemented in `packages/core/src/features/mixability.ts`, replaces the 4-term formula with 6 intrinsic factors: `kick_grid_lock`, `drift_absence`, `kick_clarity`, `grid_type_clarity`, `transition_window_present`, `vocal_absence`. Each factor is already normalized to [0,1] at the boundary (`clamp01` in `computeMixability`).
+- **Resolution:** M06 is closed as SUPERSEDED. No new code (would contradict D3). No new test (existing tests at `packages/core/test/features.mixability.spec.ts` cover the shipped implementation).
+- **Override:** `Docs/ArchitectureBook/overrides.json` -> `P05-T02-S02-M06` -> `skipCodeCheck: true`.
 ## Maintenance Rules
 
 - **Append, do not rewrite.** New items get a new ID. Never renumber.

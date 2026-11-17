@@ -1983,7 +1983,10 @@ flowchart LR
 | Review Checkpoint | Check the 0.4 boundary is inclusive for 'mixable' (M≥0.4). |
 | Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T02-S02-M01` and `P05-ADD-T02-S03-M01`: Mixability is preference (NO gate). Camelot is the ONLY gate. |
 
-###### P05-T02-S02-M06 — [BLOCKED: OWNER DECISION OQ-22]
+###### P05-T02-S02-M06
+
+[REMINDER: SUPERSEDED by D3 (see OTOMIX_MicroTask_Plan_Supplement.md#superseded-006). Do not implement.]
+ — [BLOCKED: OWNER DECISION OQ-22]
 
 | Field | Value |
 |---|---|

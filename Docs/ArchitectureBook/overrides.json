@@ -79,5 +79,19 @@
                                                  "no-files"
                                              ],
                             "note":  "Test-only task. Playwright CSP probe deferred to P08. The probe (Node worker_threads) already exists in packages/workers/test/worker-isolation.spec.ts; no new source file is required for this task."
+                        },
+    "P05-T02-S02-M06":  {
+                            "note":  "Superseded by D3 (2026-11-12). Plan describes the 4-term formula (E_kick/C_bass/S_tempo/V_tune); shipped implementation uses 6 intrinsic factors in packages/core/src/features/mixability.ts. See SUPERSEDED-006.",
+                            "ignoreSymbols":  [
+                                                  "E_kick",
+                                                  "C_bass",
+                                                  "S_tempo",
+                                                  "V_tune"
+                                              ],
+                            "ignoreIssues":  [
+                                                 "no-test",
+                                                 "no-files"
+                                             ],
+                            "skipCodeCheck":  true
                         }
 }
