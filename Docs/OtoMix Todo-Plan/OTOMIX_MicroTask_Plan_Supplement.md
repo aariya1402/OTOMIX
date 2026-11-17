@@ -139,17 +139,6 @@
 
 ## Cross-Phase Conflicts
 
-### [CONFLICT-001] [PHASE: ALL] [BLOCKER] [RESOLVED] AI Agent.MD claim about OTOMIX_Architecture_Spec.md corrected
-
-- **Status:** resolved
-- **Discovered:** 2026-11-13
-- **Resolved:** 2026-11-17
-- **Evidence:** `Docs/OTOMIX_Architecture_Spec.md` is present on disk (114972 bytes). The stale spec-absence claim at `AI Agent.MD` line 317 was replaced with a positive reference requiring cross-reference against the spec.
-- **Impact:** Closed. The spec is authoritative; all formulas MUST be cross-referenced against it before implementation.
-- **Resolution:** Replaced the spec-absence claim in `AI Agent.MD` with an explicit "Spec File" reference pointing at `Docs/OTOMIX_Architecture_Spec.md`. Byte-level verification passed: old claim gone, new claim present.
-
----
-
 ### [CONFLICT-002] [PHASE: ALL] [HIGH] Config name inconsistency: `AnalysisConfig` vs `AdminTuningConfig` vs `UserFacingConfig`- **Status:** open
 
 - **Status:** open`r`n- **Source:** `AI Agent.MD` (defines `AdminTuningConfig`, `UserFacingConfig`), `OTOMIX_Admin_Interaction_Skill.md` (defines `AnalysisConfig`).
