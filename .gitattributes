@@ -1,0 +1,19 @@
+# Default: normalize line endings to LF in the repository.
+# This prevents Git from touching working-tree files on Windows
+# due to core.autocrlf, which caused spurious test-stale warnings.
+* text=auto eol=lf
+
+# Explicit binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.mp3 binary
+*.wav binary
+*.zip binary
+*.gz binary

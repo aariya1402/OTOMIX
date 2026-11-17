@@ -547,7 +547,7 @@ function build() {
         .map(imp => resolveImport(index, file, imp.spec))
         .filter(imp => imp.resolved && imp.type === 'relative' && !BARREL_FILE.test(imp.resolved))
         .map(imp => imp.resolved);
-      const stalenessPaths = [file, ...imports, ...sourceMtimeSet.filter(p => !BARREL_FILE.test(p) && !GENERATED_FILE.test(p))];
+      const stalenessPaths = [file, ...imports];
       const newest = newestMtime(index, stalenessPaths);
       let state = 'unrun';
       if (!exists) state = 'missing';
