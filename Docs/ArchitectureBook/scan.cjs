@@ -609,7 +609,8 @@ function build() {
       scores.push({ key: 'symbols', label: 'Named symbols defined', weight: WEIGHTS.symbols, score: null, detail: 'no checkable symbols in the plan text' });
     }
     const existingTests = tests.filter(test => test.exists).length;
-    scores.push({ key: 'testFile', label: 'Test file exists', weight: WEIGHTS.testFile, score: tests.length ? existingTests / tests.length : 0,
+    const testFileApplies = ignoreIssues.size === 0 || !ignoreIssues.has('no-test');
+    scores.push({ key: 'testFile', label: 'Test file exists', weight: WEIGHTS.testFile, score: tests.length && testFileApplies ? existingTests / tests.length : null,
       detail: tests.length ? existingTests + ' of ' + tests.length + ' expected test files exist' : 'no test file declared or linked' });
     const runnable = tests.filter(test => test.kind === 'vitest');
     if (runnable.length) {
