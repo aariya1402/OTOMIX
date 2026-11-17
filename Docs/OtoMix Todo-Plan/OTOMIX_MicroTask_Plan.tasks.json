@@ -2798,7 +2798,7 @@
     {
         "id": "P07-REG-M02",
         "status": "DONE",
-        "description": "Google OAuth 2.0 flow: /auth/google/start and /auth/google/callback. Verify state, exchange code, verify id_token, upsert user by google_id then email. Env: GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI.",
+        "description": "Google OAuth 2.0 flow: /auth/google/start and /auth/google/callback. Verify state, exchange code, verify id_token, upsert user by google_id then email. Env: GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI. Implementation: packages/gateway/src/routes/auth-google.ts.",
         "prerequisites": [
             "P07-REG-M01"
         ],

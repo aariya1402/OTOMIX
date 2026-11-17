@@ -1,4 +1,4 @@
-# OTOMIX Micro-Task Plan
+﻿# OTOMIX Micro-Task Plan
 
 **Document:** `OTOMIX_MicroTask_Plan.md`  
 **Baseline:** `OTOMIX_Architecture_Spec.md` (OTOMIX-specific) and the Mother Document `Software_Arch_Spec__Main_.md` including its Engineering Delivery Addendum  
@@ -4619,7 +4619,7 @@ Every gap or contradiction found while decomposing the specification. **Blocking
 | ID | `P07-REG-M01` |
 | Status | TODO |
 
-###### P07-REG-M02 - [ ]
+###### P07-REG-M02 - [x]
 
 | Field | Value |
 |---|---|
