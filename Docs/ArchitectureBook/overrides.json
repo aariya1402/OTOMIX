@@ -1,4 +1,4 @@
-﻿{
+{
     "P01-T03-S02-M02":  {
                             "ignoreSymbols":  [
                                                   "PURGE_AND_REANALYZE"
@@ -67,5 +67,11 @@
                                                       "EnrichmentPipeline"
                                                   ],
                                 "note":  "Plan-text token. Implemented as runEnrichment() in packages/core/src/pipeline/enrichment.ts. See GAP-030."
-                            }
+                            },
+    "P05-T02-S01-M01":  {
+                            "ignoreSymbols":  [
+                                                  "BPM_seed"
+                                              ],
+                            "note":  "BPM_seed is a plan-text concept, not a declaration. Implemented as deriveBpmSeed() in packages/core/src/features/bpm-seed.ts."
+                        }
 }
