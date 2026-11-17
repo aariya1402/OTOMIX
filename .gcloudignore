@@ -1,0 +1,87 @@
+# Cloud Code / gcloud ignore patterns
+# This file specifies files that should not be uploaded when deploying to Google Cloud
+
+# Version control
+.git
+.gitignore
+.gitmodules
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules
+**/node_modules/**
+
+# Build outputs
+dist
+build
+**/dist/**
+**/build/**
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Testing
+coverage
+.nyc_output
+**/test/**
+**/*.spec.ts
+**/*.test.ts
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.env
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Kubernetes
+k8s/**/*.yaml
+!k8s/dev/deployment.yaml
+
+# Documentation
+docs
+README.md
+CHANGELOG.md
+*.md
+!README.md
+
+# Temporary files
+tmp
+temp
+*.tmp
+*.temp
+
+# Cache
+.cache
+.eslintcache
+.pnp
+.pnp.js
+
+# TypeScript
+*.tsbuildinfo
+
+# Cloud Code specific
+skaffold.yaml
+cloudbuild.yaml

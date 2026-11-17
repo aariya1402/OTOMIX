@@ -1,0 +1,73 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Cloud Code: Run/Debug Locally",
+      "type": "cloudcode",
+      "request": "launch",
+      "platform": "local",
+      "skaffoldConfig": "${workspaceFolder}/skaffold.yaml",
+      "watch": true,
+      "cleanUp": true,
+      "portForward": true
+    },
+    {
+      "name": "Cloud Code: Run/Debug on Kubernetes",
+      "type": "cloudcode",
+      "request": "launch",
+      "platform": "kubernetes",
+      "skaffoldConfig": "${workspaceFolder}/skaffold.yaml",
+      "kubeContext": "",
+      "namespace": "default",
+      "watch": true,
+      "cleanUp": false,
+      "portForward": true
+    },
+    {
+      "name": "Cloud Code: Run/Debug on Cloud Run",
+      "type": "cloudcode",
+      "request": "launch",
+      "platform": "cloudrun",
+      "skaffoldConfig": "${workspaceFolder}/skaffold.yaml",
+      "projectId": "",
+      "region": "us-central1",
+      "service": "",
+      "watch": true,
+      "cleanUp": false
+    },
+    {
+      "name": "Cloud Code: Attach to Kubernetes Pod",
+      "type": "cloudcode",
+      "request": "attach",
+      "platform": "kubernetes",
+      "kubeContext": "",
+      "namespace": "default",
+      "selector": "",
+      "port": 5005,
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/app"
+    },
+    {
+      "name": "Cloud Code: Debug Node.js",
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Node.js App",
+      "program": "${workspaceFolder}/index.js",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--inspect=5005"],
+      "port": 5005,
+      "sourceMaps": true,
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Cloud Code: Full Stack Debug",
+      "configurations": [
+        "Cloud Code: Debug Node.js",
+        "Cloud Code: Run/Debug Locally"
+      ]
+    }
+  ]
+}

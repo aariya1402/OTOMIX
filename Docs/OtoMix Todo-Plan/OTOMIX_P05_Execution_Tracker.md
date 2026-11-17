@@ -1,4 +1,4 @@
-# OTOMIX P05 — Execution Tracker
+﻿# OTOMIX P05 — Execution Tracker
 
 **Document:** `OTOMIX_P05_Execution_Tracker.md`
 **Location:** `Docs/OtoMix Todo-Plan/`
@@ -13,10 +13,10 @@
 
 | Item | Value |
 |---|---|
-| Working branch | `feature/p05-arch-upgrade` |
+| Working branch | `P07` |
 | Base branch (task list) | `P05` at `716419c` (clean, no arch changes) |
-| Architecture commits (on feature branch) | `15fe180`, `d196a44`, `e5511a7` |
-| HEAD | `e5511a7` |
+| Architecture commits (on feature branch) | `15fe180`, `d196a44`, `95e289f` |
+| HEAD | `95e289f` |
 | Dist state | `packages/core/dist` is manually patched; full `tsc --build` fails with ~100 errors |
 | Blocked tests (aggregate) | `npx tsc -p packages/core/tsconfig.json` returns non-zero |
 
@@ -29,8 +29,8 @@
 | ID | Title | Prereq | Status |
 |---|---|---|---|
 | `P05-ADD-T01-S01-M01` | AdminConfig Layer | — | DONE (`d196a44`) |
-| `P05-ADD-T01-S02-M01` | Stereo normalizeInput | T01-S01 | DONE (`e5511a7`) |
-| `P05-ADD-T01-S03-M01` | TypeScript Build Debt (~100 errors) | — | DONE (e5511a7+) |
+| `P05-ADD-T01-S02-M01` | Stereo normalizeInput | T01-S01 | DONE (`95e289f`) |
+| `P05-ADD-T01-S03-M01` | TypeScript Build Debt (~100 errors) | — | DONE (95e289f+) |
 | `P05-ADD-T02-S01-M01` | Energy skeleton (extended) | Essentia 31 features | DONE (7017176+) |
 | `P05-ADD-T02-S02-M01` | Mixability skeleton (preference) | Energy + grid | DONE (1aade59+) |
 | `P05-ADD-T02-S03-M01` | Camelot Gate | `CamelotKey` from P01 | DONE (bc13750+) |
@@ -57,18 +57,18 @@
 | `P05-T01-S03-M02` | mem-check | DONE |
 | `P05-T01-S03-M03` | fallback-rms | DONE |
 | `P05-T02-S01-M01` | BPM seed | DONE |
-| `P05-T02-S01-M02` | Static vs Dynamic | BLOCKED (OQ-20) |
-| `P05-T02-S02-M01` | Energy formula | TODO (overridden by ADD-T02-S01) |
-| `P05-T02-S02-M02` | Silence E=0 | TODO |
-| `P05-T02-S02-M03` | Compression penalty | BLOCKED (OQ-21) |
-| `P05-T02-S02-M04` | Stars from percentile | TODO |
-| `P05-T02-S02-M05` | Mixability formula | TODO (overridden by ADD-T02-S02) |
-| `P05-T02-S02-M06` | Normalize mix factors | BLOCKED (OQ-22) |
+| `P05-T02-S01-M02` | Static vs Dynamic | DONE |
+| `P05-T02-S02-M01` | Energy formula | DONE |
+| `P05-T02-S02-M02` | Silence E=0 | DONE |
+| `P05-T02-S02-M03` | Compression penalty | DONE |
+| `P05-T02-S02-M04` | Stars from percentile | DONE |
+| `P05-T02-S02-M05` | Mixability formula | DONE |
+| `P05-T02-S02-M06` | Normalize mix factors | DONE |
 | `P05-T02-S03-M01` | Interpolation | DONE |
-| `P05-T02-S03-M02` | Cache invalidation | TODO |
-| `P05-T03-S01-M01..M04` | Vocal map | TODO |
-| `P05-T04-S01-M01` | extract() orchestrator | TODO (overridden by ADD-T06-S03) |
-| `P05-T04-S01-M02` | Metric 2500ms | TODO |
+| `P05-T02-S03-M02` | Cache invalidation | DONE |
+| `P05-T03-S01-M01..M04` | Vocal map | DONE |
+| `P05-T04-S01-M01` | extract() orchestrator | DONE |
+| `P05-T04-S01-M02` | Metric 2500ms | DONE |
 | `P05-T04-S01-M03` | Benchmark 1.5x | OBSOLETE (Moved to Worker background) |
 
 ---
@@ -116,7 +116,7 @@ Short, appendable. Each session appends one block: date, scope, outcome.
 
 ### 2026-11-12 — Setup
 
-- Created `feature/p05-arch-upgrade` branch (3 arch commits).
+- Created `P07` branch (3 arch commits).
 - Reset `P05` to `716419c` (clean task-list state); force-pushed to origin.
 - Applied `AdminConfig` layer and stereo `normalizeInput`; discovered ~100 pre-existing TS errors; logged as `P05-ADD-T01-S03-M01`.
 - Created this tracker.

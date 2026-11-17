@@ -44,7 +44,7 @@ export function recomputeOnReorder(
   for (let i = 0; i < validPlan.length - 1; i++) {
     const trackA = validPlan[i];
     const trackB = validPlan[i + 1];
-    const score = getCompatibility(trackA, trackB);
+    const score = getCompatibility(trackA!, trackB!);
     pairScores[trackA + ':' + trackB] = score;
   }
 

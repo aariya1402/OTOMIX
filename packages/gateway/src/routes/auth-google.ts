@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from 'node:http';
 import { OAuth2Client } from 'google-auth-library';
 import Redis from 'ioredis';
 import { Pool } from 'pg';
-import { issueAccessToken } from '@otomix/access';
+import { issueAccessToken, type VaultClient } from '@otomix/access';
 import { upsertGoogleUser } from '../repository/user-repository.js';
 
 export interface AuthGoogleDeps {
@@ -12,6 +12,7 @@ export interface AuthGoogleDeps {
   clientSecret: string;
   redirectUri: string;
   oauthClient: OAuth2Client;
+  vault: VaultClient;
 }
 
 export function createAuthGoogleRoutes(deps: AuthGoogleDeps) {
@@ -78,10 +79,10 @@ export function createAuthGoogleRoutes(deps: AuthGoogleDeps) {
           displayName: payload.name,
         });
 
-        const token = issueAccessToken({ sub: userId, tenant_id: 'otomix', scopes: [], tier: 1 });
+        const token = await issueAccessToken({ sub: userId, tenantId: 'otomix' }, deps.vault);
         
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ user_id: userId, access_token: token }));
+        res.end(JSON.stringify({ user_id: userId, access_token: token.token }));
         return true;
       } catch (err: any) {
         res.writeHead(500); res.end(err.message); return true;

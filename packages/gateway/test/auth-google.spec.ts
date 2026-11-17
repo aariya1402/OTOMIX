@@ -10,6 +10,8 @@ import request from 'supertest';
 import { OAuth2Client } from 'google-auth-library';
 import { createAuthGoogleRoutes } from '../src/routes/auth-google.js';
 import { createOAuthClient } from '../src/oauth/google.js';
+import { generateKeyPairSync } from 'node:crypto';
+import type { VaultClient } from '@otomix/access';
 
 const TEST_TIMEOUT = 180_000;
 
@@ -45,6 +47,12 @@ beforeAll(async () => {
   });
 
   oauthClient = createOAuthClient('test-client', 'test-secret', 'http://localhost/callback');
+
+  const { privateKey: testPrivateKey } = generateKeyPairSync('rsa', { modulusLength: 2048 });
+  const testVault: VaultClient = {
+    getCurrentKid: async () => 'test-kid',
+    getSigningKey: async () => testPrivateKey,
+  };
   
   const routes = createAuthGoogleRoutes({
     pool,
@@ -53,6 +61,7 @@ beforeAll(async () => {
     clientSecret: 'test-secret',
     redirectUri: 'http://localhost/callback',
     oauthClient,
+    vault: testVault,
   });
 
   server = http.createServer(async (req, res) => {

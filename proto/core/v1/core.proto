@@ -1,0 +1,31 @@
+syntax = "proto3";
+package otodsp.core.v1;
+
+message AnalyzeAudioRequest {
+  string tenant_id = 1;
+  string track_id = 2;
+  bytes audio_data = 3;
+  string schema_version = 4;
+  string trace_id = 5;
+  string idempotency_key = 6;
+}
+
+message AnalyzeAudioResponse {
+  string feature_id = 1;
+  string status = 2;
+}
+
+message TransitionPlanRequest {
+  string out_track_id = 1;
+  string in_track_id = 2;
+  int32 window_beats = 3;
+}
+
+message ExecutionFallback {
+  enum Rung {
+    RUNG_NONE = 0;
+    RUNG_STATIC_120_GRID = 1;
+    RUNG_FOUR_BAR_CROSSFADE = 2;
+  }
+  Rung rung = 1;
+}

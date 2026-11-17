@@ -5,7 +5,7 @@ import { randomUUID } from 'node:crypto';
 export interface GoogleUserData {
   googleId: string;
   email: string;
-  displayName?: string;
+  displayName?: string | undefined;
 }
 
 export async function upsertGoogleUser(pool: Pool, data: GoogleUserData): Promise<string> {

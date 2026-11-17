@@ -1,108 +1,100 @@
 # OTOMIX Architecture Book
 
-A living HTML encyclopedia of the OTOMIX architecture. Generated from source — always current.
+A live status book for the OTOMIX task plan. Every number comes from physical evidence on disk
+(plan files, source files, git history, recorded Vitest and tsc runs). Nothing is estimated.
 
-## What This Book Is
+## Open it (Go Live)
 
-This is a **single-page application** (no server required) that documents every phase, micro-task, module, constant, and dependency of the OTOMIX beat-based automatic DJ mixing engine. It serves two audiences:
+1. In a PowerShell terminal at the repository root, start the watcher and leave it running:
 
-- **Non-experts** (product, design, new hires): Read the narrative chapters (CH0, CH1, P01–P11) for the "why" and mental models.
-- **Experts** (engineers, auditors): Drill into any task to see exact description, test file, spec reference, review checkpoint, and resolved `file:line` links to source symbols.
-
-## How to Open
-
-**No build step required for viewing.** Just double-click `index.html` in your browser, or:
-
-```bash
-# From repo root
-start Docs/ArchitectureBook/index.html
-```
-
-Or serve locally (optional):
-```bash
-cd Docs/ArchitectureBook
-npx serve .
-```
-
-## How to Rebuild After Changes
-
-After any micro-task commit (or when you modify narratives, add constants, etc.):
-
-```bash
-# From repo root (PowerShell 7+)
-pwsh -File Docs/ArchitectureBook/build-book.ps1
-```
-
-This regenerates `content.js` from:
-- `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan.md` (task details)
-- `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan.tasks.json` (authoritative status)
-- `packages/core/src/**/*.ts` and `packages/contracts/src/**/*.ts` (exports, constants)
-- `packages/core/test/**/*.spec.ts` and `packages/contracts/test/**/*.spec.ts` (test map)
-- `Docs/ArchitectureBook/narratives/**/*.md` (narrative chapters)
-
-The script is **idempotent** — safe to run repeatedly.
-
-## How to Add a Narrative
-
-1. Create a Markdown file under `narratives/`:
-   - Phase chapter: `narratives/P01/README.md`, `narratives/P02/README.md`, etc.
-   - Task detail (optional): `narratives/P01/P01-T01-S01-M01.md`
-2. Rebuild: `pwsh -File build-book.ps1`
-
-The narrative will appear in the corresponding phase view.
-
-## How to Add a Language (i18n)
-
-1. Create `i18n/xx.json` with the same keys as English content (structure only for MVP):
-   ```json
-   { "Phase 1 — Foundation": "Fase 1 — Fundación" }
+   ```powershell
+   node .\Docs\ArchitectureBook\scan.cjs --watch
    ```
-2. Rebuild: `pwsh -File build-book.ps1`
-3. The language will appear in `available_languages` and the `LANG` selector (future UI).
 
-## Source of Truth
+   It rewrites `book-data.js` whenever a plan, source, test, clue or evidence file changes.
+2. In VS Code, right-click `Docs/ArchitectureBook/index.html` and choose **Open with Live Server**
+   (the Go Live button). Live Server reloads the page when `book-data.js` changes.
+3. First time only, record a baseline of test and compiler results (takes a few minutes):
 
-| Source | Purpose |
-|--------|---------|
-| `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan.md` | Human-readable task breakdown with field tables |
-| `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan.tasks.json` | Machine-readable task status (authoritative) |
-| `packages/core/src/**/*.ts` | Core engine source — exports, constants, types |
-| `packages/contracts/src/**/*.ts` | Contracts — schemas, validation, semver gate |
-| `packages/core/test/**/*.spec.ts` | Core test specifications |
-| `packages/contracts/test/**/*.spec.ts` | Contracts test specifications |
-| `Docs/.Agents/AI Agent.MD` | Rules, OQ decisions, block list |
+   ```powershell
+   node .\Docs\ArchitectureBook\task-check.cjs all
+   ```
 
-## Auto-Update Workflow
+## Views
 
-Per Rule 10 of `AI Agent.MD`: after every micro-task commit, the orchestrator runs `build-book.ps1` automatically. The book is always current with the latest commit.
+| Route | Content |
+|---|---|
+| `#/` | Dashboard: overall percent, one card per phase (stacked colour bar, task chips) |
+| `#/phase/P01` | Phase tasks, filters, compiler/test findings and plan gaps (Supplement) |
+| `#/task/<ID>` | Files with path:line, symbols, tests, tsc, dependencies, commits, issues |
+| `#/defects` | Every defect, grouped by phase, with Report and Verify buttons |
 
-## Features
+Colours: green = verified 100 percent, yellow = in progress or unproven, red = failing or disproved,
+grey = not started, blue = blocked, striped = cancelled or superseded (excluded from totals).
 
-- **Collapsible TOC** with progress badges per phase
-- **Full-text search** (press `/`) across tasks, constants, narratives, source symbols
-- **Hash-based routing**: `#/P01`, `#/P01/P01-T01-S01-M01`, `#/constants`, `#/glossary`
-- **Dark/Light theme** with persistence
-- **Mermaid.js diagrams** for architecture graphs
-- **vscode:// links** — click any `file:line` to open in VS Code
-- **Responsive** — mobile-friendly with slide-out sidebar
-- **Print stylesheet** — clean PDF export
-- **Accessible** — ARIA labels, keyboard navigation, semantic HTML
+## The fix loop
 
-## Validation Checklist
+1. Click **Report** on a task. The page copies a PowerShell command; paste it into a terminal.
+   The command runs the task's Vitest files and the `tsc` projects of the packages it touches,
+   cross-checks the plan against the disk and copies a plain-text report to the clipboard.
+2. Give the report to an external AI, apply the fixes it proposes.
+3. Click **Verify** and run the copied command. It re-runs the checks. When the task has no open issues it prints
+   `RESOLVED` and the task leaves the defect list; otherwise it prints `STILL OPEN` and copies a fresh report.
+4. Repeat until the task is green.
 
-After rebuild, verify:
+## Where the data comes from
 
-1. `index.html` opens with zero JS errors
-2. `content.js` exists with all 11 phases
-3. TOC shows correct counts (P01 23/23, P02 17/18+1 blocked, P03 21/24+3 blocked, P04 1/29+4 blocked, etc.)
-4. Clicking P03 shows narrative + full task table
-5. Clicking `P03-T06-S01-M01` shows task detail with file:line links
-6. Search "anchor" returns results across multiple phases
-7. Search "TRANSITION_WINDOW_BEATS" returns constant at `packages/core/src/constants/grid.ts:99`
-8. Mermaid diagrams on CH1 and P03 render
-9. Theme toggle persists across reloads
-10. `build-book.ps1` exits 0 with summary block
+| Evidence | Source |
+|---|---|
+| Task list, status, prerequisites, registry test locator | `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan.tasks.json` |
+| Expected outcome, review checkpoint, definition line | `OTOMIX_MicroTask_Plan.md`, `OTOMIX_MicroTask_Plan_Addendum.md` (Addendum tasks are added when not in the registry) |
+| Gaps, conflicts, deferred items | `OTOMIX_MicroTask_Plan_Supplement.md` (`GAP`, `CONFLICT`, `DEFERRED`); referenced paths are checked against the disk |
+| Files linked to a task | Paths declared in the plan; files changed by commits whose subject names the task (`git log`); `clues/*.md`; source files citing the task ID (only files citing at most 3 tasks) |
+| Symbols | Identifiers in backticks and `NAME=` constants in the plan text, looked up as declarations in the source |
+| Test and tsc results | `evidence.json`, written by `task-check.cjs` |
+| Dependencies | Relative and `@otomix/*` imports of the linked files, plan prerequisites and their reverse |
 
-## License
+`OTOMIX_Audit_Report.md` is not used: it is a stale snapshot whose failures are mostly encoding noise in a translated field.
 
-MIT — same as OTOMIX core.
+## Completion percent
+
+Each applicable check contributes its weight times its result; the percent is normalised over applicable checks.
+
+| Check | Weight |
+|---|---|
+| Declared files exist (or linked implementation files when none are declared) | 25 |
+| Symbols named in the plan are declared in the source | 25 |
+| Declared test file exists | 15 |
+| Test files have a fresh passing Vitest run | 20 |
+| `tsc --noEmit` is clean for the task's files (fresh run) | 15 |
+
+A run is fresh only if it is newer than every related file (the test, its relative imports, the task's source files, and for tsc
+any file in the package). Editing a file therefore lowers the percent until the check is run again.
+Registry `DONE` alone never gives a percent. A task is green only at 100 percent with no open issue.
+
+Test failures caused by a missing Docker or container runtime are classified as `env` (not verifiable here), not as code failures.
+
+## False symbols
+
+If a flagged symbol is a plan-text token and not code, list it in `overrides.json`:
+
+```json
+{ "P01-T02-S01-M02": { "ignoreSymbols": ["EXAMPLE_NAME"], "note": "reason" } }
+```
+
+`ignoreFiles` works the same way for a declared path that is wrong in the plan.
+
+## Commands
+
+| Command | Purpose |
+|---|---|
+| `node .\Docs\ArchitectureBook\scan.cjs` | Rebuild `book-data.js` once |
+| `node .\Docs\ArchitectureBook\scan.cjs --watch` | Rebuild on every change |
+| `node .\Docs\ArchitectureBook\task-check.cjs report <ID>` | Run checks, copy report to clipboard |
+| `node .\Docs\ArchitectureBook\task-check.cjs verify <ID>` | Re-run checks, report whether the task is resolved |
+| `node .\Docs\ArchitectureBook\task-check.cjs all` | Run the whole suite and every tsc project once |
+
+## Files
+
+`index.html`, `app.js`, `style.css` (viewer) | `scan.cjs` (data builder and watcher) | `task-check.cjs` (checks and reports) |
+`book-data.js` and `evidence.json` (generated) | `overrides.json` (manual exceptions) | `clues/` (per-task commit records).

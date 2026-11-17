@@ -1,0 +1,84 @@
+steps:
+  # Install dependencies
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['install', '-g', 'pnpm']
+    id: 'install-pnpm'
+
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['install', '-g', '@google-cloud/cloudbuild']
+    id: 'install-cloudbuild'
+
+  # Install project dependencies
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'install:all']
+    id: 'install-deps'
+    env:
+      - 'PNPM_HOME=/root/.local/share/pnpm'
+      - 'PATH=/root/.local/share/pnpm:$PATH'
+
+  # Run tests
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'test']
+    id: 'run-tests'
+    env:
+      - 'PNPM_HOME=/root/.local/share/pnpm'
+      - 'PATH=/root/.local/share/pnpm:$PATH'
+
+  # Build project
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'build']
+    id: 'build-project'
+    env:
+      - 'PNPM_HOME=/root/.local/share/pnpm'
+      - 'PATH=/root/.local/share/pnpm:$PATH'
+
+  # Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/oto-mix:$COMMIT_SHA', '-t', 'gcr.io/$PROJECT_ID/oto-mix:latest', '.']
+    id: 'build-docker'
+    waitFor: ['build-project']
+
+  # Push Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/oto-mix:$COMMIT_SHA']
+    id: 'push-docker-sha'
+    waitFor: ['build-docker']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/oto-mix:latest']
+    id: 'push-docker-latest'
+    waitFor: ['build-docker']
+
+  # Deploy to Cloud Run (optional - triggered manually)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args: [
+      'run', 'deploy', 'oto-mix',
+      '--image=gcr.io/$PROJECT_ID/oto-mix:$COMMIT_SHA',
+      '--region=us-central1',
+      '--platform=managed',
+      '--allow-unauthenticated',
+      '--set-env-vars=NODE_ENV=production'
+    ]
+    id: 'deploy-cloudrun'
+    waitFor: ['push-docker-sha']
+    env:
+      - 'CLOUDSDK_CORE_DISABLE_PROMPTS=1'
+
+images:
+  - 'gcr.io/$PROJECT_ID/oto-mix'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: 'E2_HIGHCPU_8'
+  diskSizeGb: 100
+  substitutionOption: ALLOW_LOOSE
+
+substitutions:
+  _REGION: 'us-central1'
+  _SERVICE_NAME: 'oto-mix'
+
+tags:
+  - 'oto-mix'
+  - 'cloudbuild'
+  - 'ci-cd'

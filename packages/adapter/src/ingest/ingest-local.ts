@@ -71,7 +71,7 @@ export async function ingestLocal(
     throw new LocalIngestError('INVALID_ARGUMENT', 'Unsupported audio format');
   }
 
-  deps.checkLimits({ size: input.bytes.length, durationSeconds: input.durationSeconds });
+  deps.checkLimits({ size: input.bytes.length, ...(input.durationSeconds !== undefined ? { durationSeconds: input.durationSeconds } : {}) });
 
   const decoded = await deps.decode(input.bytes, sniffed.format);
   if (!decoded.ok) {

@@ -40,7 +40,7 @@ module.exports = {
       },
     ],
   },
-  ignorePatterns: ['dist/', 'node_modules/', '*.config.*', '*.d.ts'],
+  ignorePatterns: ['dist/', 'node_modules/', '*.config.*', '*.d.ts', '*.min.js'],
   overrides: [
     {
       files: ['**/*.test.ts', '**/*.spec.ts'],
@@ -59,6 +59,52 @@ module.exports = {
       rules: {
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
+      },
+    },
+    {
+      // Architecture Book — browser JavaScript (not TypeScript)
+      files: ['Docs/ArchitectureBook/*.js'],
+      env: {
+        browser: true,
+        es2022: true,
+      },
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'script', // IIFE, not modules
+      },
+      globals: {
+        window: 'readonly',
+        document: 'readonly',
+        location: 'readonly',
+        navigator: 'readonly',
+        sessionStorage: 'readonly',
+        localStorage: 'readonly',
+        fetch: 'readonly',
+        EventSource: 'readonly',
+        console: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        crypto: 'readonly',
+        PerformanceObserver: 'readonly',
+      },
+      rules: {
+        // Disable TypeScript-specific rules for plain JS files
+        '@typescript-eslint/no-unsafe-assignment': 'off',
+        '@typescript-eslint/no-unsafe-member-access': 'off',
+        '@typescript-eslint/no-unsafe-return': 'off',
+        '@typescript-eslint/no-unsafe-call': 'off',
+        '@typescript-eslint/no-unsafe-argument': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-floating-promises': 'off',
+        '@typescript-eslint/no-misused-promises': 'off',
+        '@typescript-eslint/consistent-type-imports': 'off',
+        '@typescript-eslint/array-type': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
+        // Regular ESLint rules still apply
+        'no-undef': 'error',
+        'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
       },
     },
   ],

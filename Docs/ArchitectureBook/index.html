@@ -5,24 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>OTOMIX Architecture Book</title>
   <link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<button id="lang-toggle">FA</button>
   <header id="topbar">
-    <button id="menu-toggle" aria-label="Toggle menu">☰</button>
-    <div id="brand" onclick="location.hash='#/'">OTOMIX Architecture Book</div>
-    <input id="search-input" type="search" placeholder="Search (press /)" aria-label="Search">
-    <button id="theme-toggle" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+    <button id="menu-toggle" type="button" aria-label="Toggle menu">Menu</button>
+    <a id="brand" href="#/">OTOMIX Architecture Book</a>
+    <input id="search" type="search" placeholder="Search tasks (press /)" aria-label="Search tasks" autocomplete="off">
+    <button id="theme-toggle" type="button" aria-label="Toggle theme">Theme</button>
   </header>
-  <div id="app">
-    <aside id="sidebar">
-      <nav id="toc" role="navigation" aria-label="Table of contents"></nav>
-    </aside>
-    <main id="content" role="main"></main>
-  </div>
   <div id="search-results" hidden></div>
-  <script src="content.js"></script>
+  <div id="layout">
+    <aside id="sidebar"><nav id="nav" aria-label="Phases"></nav></aside>
+    <main id="main"></main>
+  </div>
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+  <script src="book-data.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

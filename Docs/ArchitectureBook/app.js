@@ -1,715 +1,677 @@
-﻿/* OTOMIX Architecture Book — app.js
- * Reads window.OTOMIX_BOOK (from content.js), renders TOC + content + search.
- * All string data goes through textContent (safe). No innerHTML with user data.
+/* OTOMIX Architecture Book - app.js
+ * Renders window.OTOMIX_BOOK (written by scan.cjs). Every string goes through textContent.
+ * Works from a static server (VS Code Go Live): buttons copy PowerShell commands, they never call an API.
  */
 (function () {
   'use strict';
 
-  var BOOK = window.OTOMIX_BOOK;
-  var LANG = localStorage.getItem('otomix_book_lang') || 'en';
-
-  // ====== helpers ======
-  function t(obj) {
-    if (!obj) return '';
-    if (typeof obj === 'string') return obj;
-    if (typeof obj === 'object') {
-      if (obj[LANG] != null) return obj[LANG];
-      if (obj.en != null) return obj.en;
+  const D = window.OTOMIX_BOOK;
+  const COLORS = [
+    ['green', 'Verified 100%', 'All applicable checks pass on fresh evidence'],
+    ['yellow', 'In progress / unproven', 'Some evidence found; not everything is verified'],
+    ['red', 'Failing or disproved', 'Failing test, tsc error, or a DONE task whose declared file or test is missing'],
+    ['grey', 'Not started', 'No evidence found on disk'],
+    ['blue', 'Blocked', 'Registry status BLOCKED (open question)'],
+    ['muted', 'Cancelled / superseded', 'Excluded from totals']
+  ];
+  const COLOR_NAME = Object.fromEntries(COLORS.map(item => [item[0], item[1]]));
+  const CLAIM_TEXT = {
+    verified: 'DONE and verified',
+    'done-unproven': 'Registry says DONE, evidence incomplete',
+    'ahead-of-registry': 'Complete on disk, registry still TODO',
+    pending: 'Pending',
+    excluded: 'Excluded'
+  };
+  const ISSUE_ORDER = { error: 0, warn: 1, info: 2 };
+  
+  // PowerShell execution via fetch to local API
+  async function executePowerShell(command) {
+    try {
+      const response = await fetch('/api/execute', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ command })
+      });
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      return { success: false, output: error.message, error: true };
     }
-    return '';
+  }
+  
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('Copied to clipboard', 'success');
+    }).catch(() => {
+      showToast('Failed to copy to clipboard', 'error');
+    });
+  }
+  
+  function showToast(message, type = 'info') {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = 'toast ' + type;
+    toast.hidden = false;
+    setTimeout(() => { toast.hidden = true; }, 3000);
   }
 
-  function el(tag, opts) {
-    var e = document.createElement(tag);
-    if (opts) {
-      for (var k in opts) {
-        if (k === 'text') e.textContent = opts[k];
-        else if (k === 'class') e.className = opts[k];
-        else if (k === 'html') { /* forbidden */ }
-        else e.setAttribute(k, opts[k]);
+  // ------------------------------------------------------------------ helpers
+  function h(tag, props, ...kids) {
+    const node = document.createElement(tag);
+    for (const [key, value] of Object.entries(props || {})) {
+      if (value === null || value === undefined || value === false) continue;
+      if (key === 'class') node.className = value;
+      else if (key === 'text') node.textContent = value;
+      else if (key.startsWith('on')) node.addEventListener(key.slice(2), value);
+      else node.setAttribute(key, value === true ? '' : value);
+    }
+    const add = kid => {
+      if (kid === null || kid === undefined || kid === false) return;
+      if (Array.isArray(kid)) kid.forEach(add);
+      else node.appendChild(kid instanceof Node ? kid : document.createTextNode(String(kid)));
+    };
+    kids.forEach(add);
+    return node;
+  }
+
+  const clear = node => { while (node.firstChild) node.removeChild(node.firstChild); };
+  const when = ms => (ms ? new Date(ms).toLocaleString('en-GB') : 'never');
+  const plural = (n, word) => n + ' ' + word + (n === 1 ? '' : 's');
+
+  function fileLink(file, line, label) {
+    if (!file) return h('span', { class: 'mono muted-text', text: '-' });
+    const text = label || file + (line ? ':' + line : '');
+    if (/[*?]/.test(file)) return h('span', { class: 'mono', text });
+    const href = encodeURI('vscode://file/' + D.root.replace(/\\/g, '/') + '/' + file + (line ? ':' + line : ''));
+    return h('a', { class: 'file-link mono', href, title: 'Open in VS Code', text });
+  }
+
+  function badge(text, kind) { return h('span', { class: 'badge b-' + (kind || 'plain'), text }); }
+  function dot(color) { return h('span', { class: 'dot c-' + color, title: COLOR_NAME[color] }); }
+
+  function bar(percent, color) {
+    return h('div', { class: 'bar', title: percent + '%' }, h('span', { class: 'fill c-' + color, style: 'width:' + percent + '%' }));
+  }
+
+  function stacked(counts, total) {
+    const wrap = h('div', { class: 'stacked' });
+    for (const [color] of COLORS) {
+      if (counts[color]) wrap.appendChild(h('span', { class: 'seg c-' + color, style: 'width:' + (100 * counts[color] / total) + '%', title: COLOR_NAME[color] + ': ' + counts[color] }));
+    }
+    return wrap;
+  }
+
+  function aggregate(ids) {
+    const counts = { green: 0, yellow: 0, red: 0, grey: 0, blue: 0, muted: 0 };
+    let sum = 0;
+    let counted = 0;
+    let defects = 0;
+    for (const id of ids) {
+      const task = D.tasks[id];
+      counts[task.color] += 1;
+      if (task.color !== 'muted') { sum += task.percent; counted += 1; }
+      if (task.defect) defects += 1;
+    }
+    return { counts, total: ids.length, counted, percent: counted ? Math.round(sum / counted) : 0, defects };
+  }
+
+  const phaseTasks = phaseId => D.order.filter(id => D.tasks[id].phase === phaseId);
+
+  // ------------------------------------------------------------------ commands + toast
+  let toastTimer = null;
+  function toast(message, command) {
+    const node = document.getElementById('toast');
+    clear(node);
+    node.appendChild(h('div', { text: message }));
+    if (command) node.appendChild(h('code', { text: command }));
+    node.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { node.hidden = true; }, 9000);
+  }
+
+  function psCommand(args) {
+    const root = D.root.replace(/'/g, "''");
+    return "Set-Location -LiteralPath '" + root + "'; node .\\Docs\\ArchitectureBook\\" + args;
+  }
+
+  async function copyText(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (error) {
+      const area = h('textarea', { style: 'position:fixed;opacity:0' });
+      area.value = text;
+      document.body.appendChild(area);
+      area.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+      area.remove();
+      return ok;
+    }
+  }
+
+  function commandButton(label, args, hint, extraClass) {
+    const command = psCommand(args);
+    return h('button', {
+      type: 'button', class: 'btn ' + (extraClass || ''), title: hint,
+      onclick: async event => {
+        event.preventDefault();
+        event.stopPropagation();
+        const ok = await copyText(command);
+        toast(ok ? 'PowerShell command copied. Paste it into a terminal and press Enter.' : 'Clipboard blocked - select and copy the command manually.', command);
       }
-    }
-    return e;
+    }, label);
   }
 
-  function clear(node) {
-    while (node.firstChild) node.removeChild(node.firstChild);
-  }
-
-  function vscodeLink(path, line) {
-    var p = path.replace(/\\/g, '/');
-    var href = 'vscode://file/C:/Oto Dj - Oto Mix/Oto Mix/' + p + (line ? ':' + line : '');
-    var a = el('a', { class: 'file-link', href: href, title: path + ':' + line });
-    a.textContent = path + (line ? ':' + line : '');
-    return a;
-  }
-
-  // ====== inline markdown renderer (safe) ======
-  function renderInline(text, parent) {
-    var codeParts = String(text).split(/(`[^`]+`)/);
-    for (var i = 0; i < codeParts.length; i++) {
-      var part = codeParts[i];
-      if (!part) continue;
-      if (part.charAt(0) === '`' && part.charAt(part.length - 1) === '`' && part.length > 1) {
-        var c = el('code');
-        c.textContent = part.slice(1, -1);
-        parent.appendChild(c);
-        continue;
-      }
-      var boldParts = part.split(/(\*\*[^*]+\*\*)/);
-      for (var j = 0; j < boldParts.length; j++) {
-        var bp = boldParts[j];
-        if (!bp) continue;
-        if (bp.slice(0, 2) === '**' && bp.slice(-2) === '**') {
-          var b = el('strong');
-          b.textContent = bp.slice(2, -2);
-          parent.appendChild(b);
-        } else {
-          var linkParts = bp.split(/(\[[^\]]+\]\([^)]+\))/);
-          for (var k = 0; k < linkParts.length; k++) {
-            var lp = linkParts[k];
-            if (!lp) continue;
-            var lm = lp.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
-            if (lm) {
-              var a = el('a', { href: lm[2] });
-              a.textContent = lm[1];
-              if (lm[2].indexOf('http') !== 0 && lm[2].indexOf('vscode') !== 0) {
-                a.href = '#';
-                a.title = lm[2];
-              }
-              parent.appendChild(a);
-            } else {
-              parent.appendChild(document.createTextNode(lp));
-            }
-          }
-        }
-      }
-    }
-  }
-
-  function renderMarkdown(mdText, container) {
-    if (!mdText) return;
-    var lines = String(mdText).split(/\r?\n/);
-    var i = 0;
-    var inCode = false;
-    var codeBuf = [];
-    var listBuf = [];
-
-    function flushList() {
-      if (listBuf.length === 0) return;
-      var ul = el('ul');
-      for (var n = 0; n < listBuf.length; n++) {
-        var li = el('li');
-        renderInline(listBuf[n], li);
-        ul.appendChild(li);
-      }
-      container.appendChild(ul);
-      listBuf = [];
-    }
-
-    function flushCode() {
-      if (codeBuf.length === 0) return;
-      var pre = el('pre');
-      var code = el('code');
-      code.textContent = codeBuf.join('\n');
-      pre.appendChild(code);
-      container.appendChild(pre);
-      codeBuf = [];
-    }
-
-    while (i < lines.length) {
-      var line = lines[i];
-      if (/^\s*```/.test(line)) {
-        if (inCode) { flushCode(); inCode = false; } else { inCode = true; }
-        i++; continue;
-      }
-      if (inCode) { codeBuf.push(line); i++; continue; }
-      if (/^### /.test(line)) { flushList(); var h4 = el('h4'); renderInline(line.slice(4), h4); container.appendChild(h4); i++; continue; }
-      if (/^## /.test(line))  { flushList(); var h3 = el('h3'); renderInline(line.slice(3), h3); container.appendChild(h3); i++; continue; }
-      if (/^# /.test(line))   { flushList(); var h2 = el('h2'); renderInline(line.slice(2), h2); container.appendChild(h2); i++; continue; }
-      if (/^[-*] /.test(line)) { listBuf.push(line.slice(2)); i++; continue; }
-      if (line.trim() === '') { flushList(); i++; continue; }
-      flushList();
-      var p = el('p');
-      renderInline(line, p);
-      container.appendChild(p);
-      i++;
-    }
-    flushList();
-    flushCode();
-  }
-
-  // ====== state ======
-  function getPhases() {
-    if (!BOOK || !Array.isArray(BOOK.phases)) return [];
-    return BOOK.phases;
-  }
-
-  function getPhase(id) {
-    var phases = getPhases();
-    for (var i = 0; i < phases.length; i++) {
-      if (phases[i].id === id) return phases[i];
-    }
-    return null;
-  }
-
-  function getTask(phaseId, taskId) {
-    var phase = getPhase(phaseId);
-    if (!phase || !Array.isArray(phase.tasks)) return null;
-    for (var i = 0; i < phase.tasks.length; i++) {
-      if (phase.tasks[i].id === taskId) return phase.tasks[i];
-    }
-    return null;
-  }
-
-  function statusOf(task) {
-    var s = (task && task.status) || 'TODO';
-    if (s.indexOf('BLOCKED') === 0) return 'blocked';
-    if (s === 'DONE') return 'done';
-    return 'todo';
-  }
-
-  // ====== TOC ======
-  function renderToc() {
-    var toc = document.getElementById('toc');
-    if (!toc) return;
-    clear(toc);
-
-    // Home
-    var homeLabel = el('div', { class: 'toc-label', text: 'Home' });
-    toc.appendChild(homeLabel);
-    var home = el('a', { class: 'toc-item', href: '#/' });
-    home.textContent = 'Overview';
-    toc.appendChild(home);
-
-    var phaseLabel = el('div', { class: 'toc-label', text: 'Phases' });
-    toc.appendChild(phaseLabel);
-
-    var phases = getPhases();
-    for (var i = 0; i < phases.length; i++) {
-      var p = phases[i];
-      var done = 0, total = 0, blocked = 0;
-      if (Array.isArray(p.tasks)) {
-        total = p.tasks.length;
-        for (var j = 0; j < p.tasks.length; j++) {
-          var st = statusOf(p.tasks[j]);
-          if (st === 'done') done++;
-          else if (st === 'blocked') blocked++;
-        }
-      }
-      var link = el('a', { class: 'toc-item', href: '#/' + p.id });
-      link.setAttribute('data-phase', p.id);
-      link.textContent = p.id + ' — ' + t(p.title).replace(/^Phase \d+ — /, '');
-      var badgeClass = 'in-progress';
-            if (done === total && total > 0) badgeClass = 'done';
-            else if (done === 0) badgeClass = 'todo';
-            else if (blocked > 0) badgeClass = 'blocked';
-            var badge = el('span', { class: 'badge ' + badgeClass });
-      badge.textContent = done + '/' + total + (blocked > 0 ? ' + ' + blocked : '');
-      link.appendChild(badge);
-      toc.appendChild(link);
-    }
-
-    // Appendices
-    var appLabel = el('div', { class: 'toc-label', text: 'Appendices' });
-    toc.appendChild(appLabel);
-    var cLink = el('a', { class: 'toc-item', href: '#/constants' });
-    cLink.textContent = 'Constants Reference';
-    toc.appendChild(cLink);
-    var gLink = el('a', { class: 'toc-item', href: '#/glossary' });
-    gLink.textContent = 'Glossary';
-    toc.appendChild(gLink);
-    var todoLink = el('a', { class: 'toc-item', href: '#/todo' });
-    todoLink.textContent = 'TODO Tracker';
-    toc.appendChild(todoLink);
-
-    // highlight active
-    updateActive();
-  }
-
-  function updateActive() {
-    var hash = location.hash.replace(/^#/, '') || '/';
-    var toc = document.getElementById('toc');
-    if (!toc) return;
-    var links = toc.querySelectorAll('.toc-item');
-    for (var i = 0; i < links.length; i++) links[i].classList.remove('active');
-    var parts = hash.split('/').filter(Boolean);
-    if (parts.length === 0) {
-      var home = toc.querySelector('a[href="#/"]');
-      if (home) home.classList.add('active');
-      return;
-    }
-    var sel = 'a[href="#/' + parts[0] + '"]';
-    var active = toc.querySelector(sel);
-    if (active) active.classList.add('active');
-  }
-
-  // ====== views ======
-  function renderHome(container) {
-    container.appendChild(el('h1', { text: 'OTOMIX Architecture Book' }));
-    var meta = (BOOK && BOOK.metadata) || {};
-    var p = el('p');
-    p.textContent = 'A living encyclopedia of OTOMIX — a beat-based automatic DJ mixing engine.';
-    container.appendChild(p);
-
-    var info = el('p');
-    info.style.color = 'var(--fg2)';
-    info.style.fontSize = '13px';
-    info.textContent = 'Generated: ' + (meta.generated || '—')
-      + ' · Branch: ' + (meta.current_branch || '—')
-      + ' · Tests: ' + (meta.total_tests || '—');
-    container.appendChild(info);
-
-    container.appendChild(el('h2', { text: 'Phases' }));
-    var phases = getPhases();
-    for (var i = 0; i < phases.length; i++) {
-      var ph = phases[i];
-      var a = el('a', { class: 'task-row', href: '#/' + ph.id });
-      var title = el('div', { class: 'task-desc' });
-      title.textContent = t(ph.title);
-      a.appendChild(title);
-      var meta2 = el('div');
-      meta2.style.fontSize = '12px';
-      meta2.style.color = 'var(--fg2)';
-      meta2.style.marginTop = '4px';
-      meta2.textContent = t(ph.status_label) || ph.status || '';
-      a.appendChild(meta2);
-      container.appendChild(a);
-    }
-  }
-
-  function renderPhase(container, phaseId) {
-    var phase = getPhase(phaseId);
-    if (!phase) {
-      container.appendChild(el('h1', { text: 'Phase not found: ' + phaseId }));
-      return;
-    }
-    container.appendChild(el('h1', { text: t(phase.title) || phaseId }));
-    var status = el('p');
-    var badge = el('span', { class: 'badge-status ' + (phase.status || 'todo') });
-    badge.textContent = phase.status || 'unknown';
-    status.appendChild(badge);
-    var lbl = document.createTextNode('  ' + (t(phase.status_label) || ''));
-    status.appendChild(lbl);
-    container.appendChild(status);
-
-    if (phase.narrative) {
-      var narDiv = el('div');
-      const lang = localStorage.getItem("book_lang") || "en"; const text = lang === "fa" && phase.narrative_fa ? phase.narrative_fa : phase.narrative; renderMarkdown(t(text), narDiv);
-      container.appendChild(narDiv);
-    }
-
-    // tasks
-    if (Array.isArray(phase.tasks) && phase.tasks.length > 0) {
-      container.appendChild(el('h2', { text: 'Tasks (' + phase.tasks.length + ')' }));
-      for (var i = 0; i < phase.tasks.length; i++) {
-        var tk = phase.tasks[i];
-        var a = el('a', { class: 'task-row', href: '#/' + phaseId + '/' + tk.id });
-        var dot = el('span', { class: 'status-dot ' + statusOf(tk) });
-        a.appendChild(dot);
-        var idSpan = el('span', { class: 'task-id', text: tk.id });
-        a.appendChild(idSpan);
-        var desc = el('span', { class: 'task-desc', text: t(tk.description) });
-        a.appendChild(desc);
-        container.appendChild(a);
-      }
-    }
-  }
-
-  function renderTask(container, phaseId, taskId) {
-    var task = getTask(phaseId, taskId);
-    if (!task) {
-      container.appendChild(el('h1', { text: 'Task not found: ' + taskId }));
-      return;
-    }
-    var back = el('a', { href: '#/' + phaseId });
-    back.textContent = '← Back to ' + phaseId;
-    back.style.fontSize = '13px';
-    container.appendChild(back);
-    container.appendChild(el('h1', { text: task.id }));
-
-    var tbl = el('table', { class: 'field-table' });
-    var rows = [
-      ['Status', task.status || 'TODO'],
-      ['Description', t(task.description)],
-      ['Expected Outcome', t(task.expected_outcome)],
-      ['Prerequisites', Array.isArray(task.prerequisites) ? task.prerequisites.join(', ') : ''],
-      ['Test', t(task.test)],
-      ['Spec Reference', t(task.spec_reference)],
-      ['Review Checkpoint', t(task.review_checkpoint)],
-      ['Notes', t(task.notes)],
-      ['Test File', task.test_file || ''],
-      ['Test Count', task.test_count != null ? String(task.test_count) : ''],
-      ['MD Line', task.md_line != null ? String(task.md_line) : '']
-    ];
-    for (var i = 0; i < rows.length; i++) {
-      var v = rows[i][1];
-      if (!v) continue;
-      var tr = el('tr');
-      var th = el('th');
-      th.textContent = rows[i][0];
-      tr.appendChild(th);
-      var td = el('td');
-      if (rows[i][0] === 'Test File') {
-        td.appendChild(vscodeLink(v));
-      } else if (rows[i][0] === 'MD Line') {
-        td.textContent = v;
+  const reportButton = id => commandButton('Report', 'task-check.cjs report ' + id, 'Copy a PowerShell command that checks this task and puts a report on your clipboard');
+  const verifyButton = id => h('button', {
+    type: 'button', class: 'btn btn-primary', title: 'Deep verify: runs tests, checks disk reality, compares with plan, generates comprehensive report',
+    onclick: async event => {
+      event.preventDefault();
+      event.stopPropagation();
+      const command = 'node Docs/ArchitectureBook/task-check.cjs deep-verify ' + id;
+      showToast('Running deep verification...', 'info');
+      const result = await executePowerShell(command);
+      if (result.success) {
+        showToast('✅ Verification PASSED - Task resolved! Report copied to clipboard.', 'success');
+        // Refresh task data
+        location.reload();
       } else {
-        renderInline(v, td);
+        // Check if it's a verification failure (exit code 1) vs actual error
+        const output = result.output || '';
+        if (output.includes('VERIFICATION FAILED') || output.includes('VERIFICATION PASSED')) {
+          showToast('❌ Verification failed - issues remain. Report copied to clipboard.', 'warning');
+        } else {
+          showToast('Execution error: ' + output, 'error');
+        }
+        location.reload();
       }
-      tr.appendChild(td);
-      tbl.appendChild(tr);
     }
-    container.appendChild(tbl);
+  }, 'Verify (Deep)');
+  
+  const executeButton = id => h('button', {
+    type: 'button', class: 'btn', title: 'Quick check: runs tests and TypeScript check',
+    onclick: async event => {
+      event.preventDefault();
+      event.stopPropagation();
+      const command = 'node Docs/ArchitectureBook/task-check.cjs report ' + id;
+      showToast('Executing quick check...', 'info');
+      const result = await executePowerShell(command);
+      if (result.success) {
+        showToast('Quick check completed. Report copied to clipboard.', 'success');
+        location.reload();
+      } else {
+        showToast('Execution failed: ' + (result.output || result.error), 'error');
+      }
+    }
+  }, 'Quick Check');
+
+  // ------------------------------------------------------------------ shared pieces
+  function taskTestSummary(task) {
+    if (!task.tests.length) return h('span', { class: 'muted-text', text: 'no test' });
+    const counts = {};
+    for (const test of task.tests) counts[test.state] = (counts[test.state] || 0) + 1;
+    return h('span', { class: 'test-summary' }, Object.entries(counts).map(([state, n]) => h('span', { class: 'ts ts-' + state, text: n + ' ' + state })));
   }
 
-  function renderConstants(container) {
-    container.appendChild(el('h1', { text: 'Constants Reference' }));
-    if (!BOOK || !BOOK.constants) return;
-    var groups = BOOK.constants;
-    for (var cat in groups) {
-      if (!Array.isArray(groups[cat]) || groups[cat].length === 0) continue;
-      container.appendChild(el('h2', { text: cat.charAt(0).toUpperCase() + cat.slice(1) }));
-      var tbl = el('table');
-      var thead = el('thead');
-      var hr = el('tr');
-      ['Name', 'Value', 'File', 'Line'].forEach(function (h) {
-        var th = el('th'); th.textContent = h; hr.appendChild(th);
+  function issueList(issues, limit) {
+    const sorted = issues.slice().sort((a, b) => ISSUE_ORDER[a.severity] - ISSUE_ORDER[b.severity]);
+    const list = h('ul', { class: 'issues' });
+    for (const issue of limit ? sorted.slice(0, limit) : sorted) {
+      list.appendChild(h('li', { class: 'issue i-' + issue.severity },
+        h('span', { class: 'sev', text: issue.severity }),
+        h('span', { class: 'kind mono', text: issue.kind }),
+        ' ', issue.text, ' ',
+        issue.path ? fileLink(issue.path, issue.line) : null));
+    }
+    if (limit && sorted.length > limit) list.appendChild(h('li', { class: 'muted-text', text: '+ ' + (sorted.length - limit) + ' more' }));
+    return list;
+  }
+
+  function taskTable(ids) {
+    const table = h('table', { class: 'task-table' });
+    table.appendChild(h('thead', {}, h('tr', {}, ['', 'Task', 'Registry', 'Done', 'Tests', 'Issues', 'Actions'].map(text => h('th', { text })))));
+    const body = h('tbody');
+    for (const id of ids) {
+      const task = D.tasks[id];
+      const open = task.issues.filter(issue => issue.severity !== 'info').length;
+      body.appendChild(h('tr', { class: 'row-' + task.color },
+        h('td', {}, dot(task.color)),
+        h('td', {}, h('a', { class: 'mono', href: '#/task/' + id, text: id }), h('div', { class: 'title', text: task.title })),
+        h('td', {}, badge(task.status + (task.statusNote ? ':' + task.statusNote : ''), task.status.toLowerCase()), task.claim === 'ahead-of-registry' ? badge('ahead', 'ahead') : null),
+        h('td', { class: 'pct-cell' }, h('span', { class: 'pct', text: task.percent + '%' }), bar(task.percent, task.color)),
+        h('td', {}, taskTestSummary(task)),
+        h('td', { text: open ? String(open) : '-' }),
+        h('td', { class: 'actions' }, reportButton(id), verifyButton(id))));
+    }
+    table.appendChild(body);
+    return h('div', { class: 'table-wrap' }, table);
+  }
+
+  function legend() {
+    return h('div', { class: 'legend' }, COLORS.map(([color, label, hint]) => h('span', { class: 'legend-item', title: hint }, dot(color), ' ' + label)));
+  }
+
+  function gapRow(gap) {
+    const missing = gap.refs.filter(ref => !ref.exists);
+    return h('li', { class: 'gap g-' + gap.state },
+      h('div', {},
+        badge(gap.id, gap.category.toLowerCase()), ' ', badge(gap.severity, 'sev-' + gap.severity.toLowerCase().replace(/[^a-z]/g, '')), ' ',
+        badge(gap.state === 'open' ? 'open' : 'claims resolved', gap.state),
+        ' ', h('strong', { text: gap.title })),
+      h('div', { class: 'gap-meta' },
+        'Phases: ' + gap.phases.join(', ') + ' | ', fileLink(gap.source, gap.line),
+        gap.tasks.length ? [' | Tasks: ', gap.tasks.map(id => [h('a', { class: 'mono', href: '#/task/' + id, text: id }), ' '])] : null),
+      gap.refs.length ? h('div', { class: 'gap-meta' }, 'Code references: ',
+        gap.refs.map(ref => [h('span', { class: 'ref ' + (ref.exists ? 'ref-ok' : 'ref-missing') }, ref.exists ? fileLink(ref.path) : ref.path + ' (missing)'), ' '])) : null,
+      missing.length ? h('div', { class: 'gap-meta warn-text', text: missing.length + ' referenced path(s) not found on disk' }) : null);
+  }
+
+  function findingRow(finding) {
+    return h('li', { class: 'gap' },
+      h('div', {}, badge(finding.kind, finding.kind), ' ', badge(finding.fresh ? 'fresh run' : 'stale run', finding.fresh ? 'open' : 'stale'), ' ', finding.text),
+      h('div', { class: 'gap-meta' }, fileLink(finding.file, finding.line), ' | recorded ' + when(finding.at),
+        finding.tasks.length ? [' | Tasks: ', finding.tasks.slice(0, 6).map(id => [h('a', { class: 'mono', href: '#/task/' + id, text: id }), ' '])] : null));
+  }
+
+  // ------------------------------------------------------------------ views
+  function dashboardView() {
+    const all = D.order;
+    const total = aggregate(all);
+    const root = h('div', { class: 'view' });
+    root.appendChild(h('h1', { text: 'Dashboard' }));
+    const complete = total.counted > 0 && total.counts.green === total.counted;
+    root.appendChild(h('div', { class: 'hero ' + (complete ? 'hero-done' : '') },
+      h('div', { class: 'hero-pct', text: total.percent + '%' }),
+      h('div', { class: 'hero-body' },
+        h('div', { class: 'hero-title', text: complete ? 'All tasks are complete and verified.' : total.counts.green + ' of ' + total.counted + ' counted tasks are verified complete' }),
+        stacked(total.counts, total.total),
+        h('div', { class: 'hero-sub', text: plural(total.defects, 'defect') + ' | ' + total.counts.muted + ' cancelled/superseded excluded | data generated ' + when(Date.parse(D.generatedAt)) +
+          ' | last test run ' + when(D.evidenceAt.tests) + ' | last tsc run ' + when(D.evidenceAt.tsc) }))));
+    root.appendChild(legend());
+
+    root.appendChild(h('div', { class: 'toolbar' },
+      h('a', { class: 'btn', href: '#/defects', text: 'Defect list (' + total.defects + ')' }),
+      commandButton('Copy: start live watcher', 'scan.cjs --watch', 'Keeps book-data.js up to date; Go Live reloads the page automatically'),
+      commandButton('Copy: seed all evidence', 'task-check.cjs all', 'Runs the whole test suite and tsc once')));
+
+    const grid = h('div', { class: 'phase-grid' });
+    for (const phase of D.phases) {
+      const ids = phaseTasks(phase.id);
+      if (!ids.length) continue;
+      const agg = aggregate(ids);
+      const chips = h('div', { class: 'chips' });
+      for (const id of ids) {
+        const task = D.tasks[id];
+        chips.appendChild(h('a', { class: 'chip c-' + task.color, href: '#/task/' + id, title: id + ' - ' + task.percent + '% - ' + task.title }));
+      }
+      grid.appendChild(h('section', { class: 'card' },
+        h('div', { class: 'card-head' },
+          h('a', { href: '#/phase/' + phase.id }, h('strong', { text: phase.id }), ' ' + phase.name),
+          h('span', { class: 'pct big', text: agg.percent + '%' })),
+        stacked(agg.counts, agg.total),
+        h('div', { class: 'counts' }, COLORS.filter(([color]) => agg.counts[color]).map(([color]) => h('span', { class: 'count' }, dot(color), ' ' + agg.counts[color]))),
+        h('div', { class: 'card-sub', text: plural(agg.total, 'task') + ' | ' + plural(agg.defects, 'defect') }),
+        chips));
+    }
+    root.appendChild(grid);
+    return root;
+  }
+
+  function phaseView(phaseId) {
+    const phase = D.phases.find(item => item.id === phaseId);
+    if (!phase) return h('p', { text: 'Unknown phase: ' + phaseId });
+    const ids = phaseTasks(phaseId);
+    const agg = aggregate(ids);
+    const root = h('div', { class: 'view' });
+    root.appendChild(h('a', { href: '#/', class: 'back', text: 'Dashboard' }));
+    root.appendChild(h('h1', { text: phase.id + ' - ' + phase.name }));
+    root.appendChild(h('p', { class: 'objective', text: phase.objective }));
+    root.appendChild(h('p', { class: 'muted-text', text: 'Upstream: ' + phase.upstream + ' | Downstream: ' + phase.downstream }));
+    root.appendChild(h('div', { class: 'hero' }, h('div', { class: 'hero-pct', text: agg.percent + '%' }),
+      h('div', { class: 'hero-body' }, stacked(agg.counts, agg.total),
+        h('div', { class: 'hero-sub', text: agg.counts.green + ' verified | ' + plural(agg.defects, 'defect') + ' | ' + plural(agg.total, 'task') }))));
+    root.appendChild(legend());
+
+    const filter = h('select', { 'aria-label': 'Filter tasks' },
+      h('option', { value: 'all', text: 'All tasks' }), h('option', { value: 'defects', text: 'Defects only' }),
+      h('option', { value: 'open', text: 'Not verified yet' }), h('option', { value: 'untested', text: 'Tests not run / missing' }));
+    const holder = h('div');
+    const apply = () => {
+      const mode = filter.value;
+      const shown = ids.filter(id => {
+        const task = D.tasks[id];
+        if (mode === 'defects') return task.defect;
+        if (mode === 'open') return task.color !== 'green' && task.color !== 'muted';
+        if (mode === 'untested') return task.tests.length === 0 || task.tests.some(test => ['unrun', 'stale', 'missing', 'error', 'env'].includes(test.state));
+        return true;
       });
-      thead.appendChild(hr);
-      tbl.appendChild(thead);
-      var tbody = el('tbody');
-      for (var i = 0; i < groups[cat].length; i++) {
-        var c = groups[cat][i];
-        var tr = el('tr');
-        var c1 = el('td'); var code = el('code'); code.textContent = c.name; c1.appendChild(code); tr.appendChild(c1);
-        var c2 = el('td'); c2.textContent = String(c.value); tr.appendChild(c2);
-        var c3 = el('td'); c3.appendChild(vscodeLink(c.file || '', c.line)); tr.appendChild(c3);
-        var c4 = el('td'); c4.textContent = c.line != null ? String(c.line) : ''; tr.appendChild(c4);
-        tbody.appendChild(tr);
+      clear(holder);
+      holder.appendChild(shown.length ? taskTable(shown) : h('p', { class: 'muted-text', text: 'No tasks match this filter.' }));
+    };
+    filter.addEventListener('change', apply);
+    root.appendChild(h('h2', { text: 'Tasks' }), h('div', { class: 'toolbar' }, filter), holder);
+    apply();
+
+    const gaps = D.gaps.filter(gap => gap.phases.includes(phaseId));
+    const generalGaps = D.gaps.filter(gap => !gap.phases.includes(phaseId) && gap.phases.some(item => item === 'ALL'));
+    const findingIds = new Set();
+    ids.forEach(id => D.tasks[id].findingIds.forEach(fid => findingIds.add(fid)));
+    const findings = D.findings.filter(finding => findingIds.has(finding.id));
+    root.appendChild(h('h2', { text: 'Gaps and bugs' }));
+    root.appendChild(h('p', { class: 'muted-text', text: 'Machine findings come from recorded tsc and Vitest runs (evidence.json). Plan gaps come from the Supplement; they state what the plan documents, with referenced paths checked against disk.' }));
+    root.appendChild(h('h3', { text: 'Compiler and test findings (' + findings.length + ')' }));
+    root.appendChild(findings.length ? h('ul', { class: 'gaps' }, findings.map(findingRow)) : h('p', { class: 'muted-text', text: 'None recorded for the files of this phase.' }));
+    root.appendChild(h('h3', { text: 'Plan gaps for this phase (' + gaps.length + ')' }));
+    root.appendChild(gaps.length ? h('ul', { class: 'gaps' }, gaps.map(gapRow)) : h('p', { class: 'muted-text', text: 'None.' }));
+    if (generalGaps.length) {
+      root.appendChild(h('h3', { text: 'Cross-phase gaps (' + generalGaps.length + ')' }));
+      root.appendChild(h('ul', { class: 'gaps' }, generalGaps.map(gapRow)));
+    }
+    return root;
+  }
+
+  function taskView(id) {
+    const task = D.tasks[id];
+    if (!task) return h('p', { text: 'Unknown task: ' + id });
+    const phase = D.phases.find(item => item.id === task.phase);
+    const root = h('div', { class: 'view task-view' });
+    root.appendChild(h('a', { href: '#/phase/' + task.phase, class: 'back', text: task.phase + (phase ? ' - ' + phase.name : '') }));
+    root.appendChild(h('h1', { class: 'mono' }, dot(task.color), ' ' + task.id));
+    root.appendChild(h('p', { class: 'objective', text: task.description }));
+    root.appendChild(h('div', { class: 'badges' },
+      badge('Registry ' + task.status + (task.statusNote ? ':' + task.statusNote : ''), task.status.toLowerCase()),
+      badge(COLOR_NAME[task.color], 'c-' + task.color), badge(CLAIM_TEXT[task.claim], task.claim),
+      badge(task.source === 'addendum' ? 'Addendum task' : 'Registry task', 'plain')));
+    root.appendChild(h('div', { class: 'hero' }, h('div', { class: 'hero-pct', text: task.percent + '%' }),
+      h('div', { class: 'hero-body' }, bar(task.percent, task.color),
+        h('div', { class: 'toolbar' }, reportButton(id), verifyButton(id), executeButton(id),
+          h('span', { class: 'muted-text', text: 'Report: copies check command. Verify: re-checks after fix. Execute: runs check and auto-refreshes.' })))));
+
+    root.appendChild(h('h2', { text: 'Issues (' + task.issues.filter(issue => issue.severity !== 'info').length + ')' }));
+    root.appendChild(task.issues.length ? issueList(task.issues) : h('p', { class: 'ok-text', text: 'No open issues.' }));
+
+    // Defects from clues
+    const defects = task.defects || [];
+    if (defects.length) {
+      root.appendChild(h('h2', { text: 'Defects / Clues (' + defects.length + ')' }));
+      const defectList = h('ul', { class: 'issues' });
+      for (const d of defects) {
+        defectList.appendChild(h('li', { class: 'i-' + (d.type.toLowerCase().includes('test') ? 'warn' : 'info') },
+          h('span', { class: 'sev', text: d.type.toUpperCase() }),
+          h('span', { class: 'kind', text: d.text }),
+          d.phase ? h('span', { class: 'muted-text small', text: ' (phase: ' + d.phase + ')' }) : null
+        ));
       }
-      tbl.appendChild(tbody);
-      container.appendChild(tbl);
+      root.appendChild(defectList);
+    }
+
+    root.appendChild(h('h2', { text: 'Completion breakdown' }));
+    const scoreTable = h('table', { class: 'plain' });
+    scoreTable.appendChild(h('thead', {}, h('tr', {}, ['Check', 'Weight', 'Result', 'Evidence'].map(text => h('th', { text })))));
+    scoreTable.appendChild(h('tbody', {}, task.scores.map(score => h('tr', {},
+      h('td', { text: score.label }), h('td', { text: String(score.weight) }),
+      h('td', { text: score.score === null ? 'n/a' : Math.round(score.score * 100) + '%' }), h('td', { text: score.detail })))));
+    root.appendChild(h('div', { class: 'table-wrap' }, scoreTable));
+
+    if (task.expected || task.review) {
+      root.appendChild(h('h2', { text: 'Plan' }));
+      if (task.expected) root.appendChild(h('p', {}, h('strong', { text: 'Expected outcome: ' }), task.expected));
+      if (task.review) root.appendChild(h('p', {}, h('strong', { text: 'Review checkpoint: ' }), task.review));
+    }
+    root.appendChild(h('p', { class: 'muted-text' }, 'Defined at: ', task.definitions.map(def => [fileLink(def.path, def.line), ' '])));
+
+    root.appendChild(h('h2', { text: 'Files (' + task.files.length + ')' }));
+    const fileTable = h('table', { class: 'plain' });
+    fileTable.appendChild(h('thead', {}, h('tr', {}, ['Path : line', 'Role', 'Linked by', 'On disk'].map(text => h('th', { text })))));
+    fileTable.appendChild(h('tbody', {}, task.files.map(file => h('tr', {},
+      h('td', {}, fileLink(file.path, file.line)), h('td', { text: file.role }), h('td', { text: file.via.join(', ') }),
+      h('td', { class: file.exists ? 'ok-text' : 'bad-text', text: file.exists ? 'yes' : 'MISSING' })))));
+    root.appendChild(task.files.length ? h('div', { class: 'table-wrap' }, fileTable) : h('p', { class: 'muted-text', text: 'No file could be linked to this task.' }));
+
+    root.appendChild(h('h2', { text: 'Symbols named in the plan (' + task.symbols.length + ')' }));
+    if (task.symbols.length) {
+      const symbolTable = h('table', { class: 'plain' });
+      symbolTable.appendChild(h('thead', {}, h('tr', {}, ['Symbol', 'Result', 'Location'].map(text => h('th', { text })))));
+      symbolTable.appendChild(h('tbody', {}, task.symbols.map(symbol => h('tr', {},
+        h('td', { class: 'mono', text: symbol.name }),
+        h('td', { class: symbol.ignored ? 'muted-text' : symbol.found ? 'ok-text' : 'bad-text', text: symbol.ignored ? 'ignored' : symbol.found ? symbol.kind + ' (' + symbol.where + ')' : 'NOT FOUND' }),
+        h('td', {}, symbol.found ? fileLink(symbol.path, symbol.line) : symbol.note || '-')))));
+      root.appendChild(h('div', { class: 'table-wrap' }, symbolTable));
+    } else {
+      root.appendChild(h('p', { class: 'muted-text', text: 'The plan text names no checkable symbols.' }));
+    }
+
+    root.appendChild(h('h2', { text: 'Tests (' + task.tests.length + ')' }));
+    if (task.tests.length) {
+      const testTable = h('table', { class: 'plain' });
+      testTable.appendChild(h('thead', {}, h('tr', {}, ['Test file', 'State', 'Cases', 'Last run', 'Failures'].map(text => h('th', { text })))));
+      testTable.appendChild(h('tbody', {}, task.tests.map(test => h('tr', {},
+        h('td', {}, fileLink(test.path)), h('td', {}, h('span', { class: 'ts ts-' + test.state, text: test.state })),
+        h('td', { text: test.total === null ? '-' : test.passed + '/' + test.total }), h('td', { text: test.at ? when(test.at) : '-' }),
+        h('td', {}, test.failures.map(failure => h('div', { class: 'bad-text small', text: failure.name + ' :: ' + String(failure.message).split('\n')[0].slice(0, 160) })), test.note ? h('div', { class: 'muted-text small', text: test.note }) : null)))));
+      root.appendChild(h('div', { class: 'table-wrap' }, testTable));
+    } else {
+      root.appendChild(h('p', { class: 'warn-text', text: 'No test is declared or linked for this task.' }));
+    }
+
+    root.appendChild(h('h2', { text: 'TypeScript (tsc per package)' }));
+    root.appendChild(task.tsc.length ? h('ul', { class: 'plain-list' }, task.tsc.map(item => h('li', {},
+      h('span', { class: 'ts ts-' + (item.state === 'clean' ? 'passed' : item.state), text: item.state }), ' ', fileLink(item.config),
+      ' | errors in task files: ' + item.count + ' | errors in package: ' + item.packageErrors + ' | run ' + when(item.at),
+      item.diagnostics.map(diag => h('div', { class: 'bad-text small' }, fileLink(diag.file, diag.line), ' ' + diag.code + ' ' + diag.message))))) :
+      h('p', { class: 'muted-text', text: 'No TypeScript package files linked.' }));
+
+    root.appendChild(h('h2', { text: 'Dependencies' }));
+    root.appendChild(h('h3', { text: 'Prerequisites' }));
+    root.appendChild(task.prerequisites.length ? h('ul', { class: 'plain-list' }, task.prerequisites.map(pre => {
+      const target = D.tasks[pre];
+      return h('li', {}, target ? [dot(target.color), ' ', h('a', { class: 'mono', href: '#/task/' + pre, text: pre }), ' - registry ' + target.status + ', verified ' + target.percent + '%'] : pre + ' (not in registry)');
+    })) : h('p', { class: 'muted-text', text: 'None.' }));
+    root.appendChild(h('h3', { text: 'Dependents' }));
+    root.appendChild(task.dependents.length ? h('p', {}, task.dependents.map(dep => [h('a', { class: 'mono', href: '#/task/' + dep, text: dep }), ' '])) : h('p', { class: 'muted-text', text: 'None.' }));
+    root.appendChild(h('h3', { text: 'Imports from linked files (' + task.deps.imports.length + ')' }));
+    if (task.deps.imports.length) {
+      const importTable = h('table', { class: 'plain' });
+      importTable.appendChild(h('thead', {}, h('tr', {}, ['From', 'Import', 'Resolved to'].map(text => h('th', { text })))));
+      importTable.appendChild(h('tbody', {}, task.deps.imports.map(imp => h('tr', {},
+        h('td', {}, fileLink(imp.from, imp.line)), h('td', { class: 'mono', text: imp.spec }),
+        h('td', {}, imp.resolved ? fileLink(imp.resolved) : h('span', { class: 'bad-text', text: 'unresolved' }))))));
+      root.appendChild(h('div', { class: 'table-wrap' }, importTable));
+    }
+    if (task.deps.external.length) root.appendChild(h('p', { class: 'muted-text' }, 'External packages: ' + task.deps.external.join(', ')));
+
+    root.appendChild(h('h2', { text: 'Commits naming this task (' + task.clues.length + ')' }));
+    root.appendChild(task.clues.length ? h('ul', { class: 'plain-list' }, task.clues.map(commit => h('li', {}, h('span', { class: 'mono', text: commit.sha }), ' ' + (commit.subject || '') + ' (' + commit.file + ')'))) : h('p', { class: 'muted-text', text: 'No commit message or clue file names this task.' }));
+
+    const gaps = task.gapIds.map(gid => D.gaps.find(gap => gap.id === gid)).filter(Boolean);
+    const findings = task.findingIds.map(fid => D.findings.find(finding => finding.id === fid)).filter(Boolean);
+    if (gaps.length || findings.length) {
+      root.appendChild(h('h2', { text: 'Related gaps and findings' }));
+      root.appendChild(h('ul', { class: 'gaps' }, findings.map(findingRow), gaps.map(gapRow)));
+    }
+    if (task.override) root.appendChild(h('p', { class: 'muted-text', text: 'overrides.json note: ' + task.override }));
+    return root;
+  }
+
+  function defectsView() {
+    const root = h('div', { class: 'view' });
+    root.appendChild(h('a', { href: '#/', class: 'back', text: 'Dashboard' }));
+    root.appendChild(h('h1', { text: 'Defect list' }));
+    root.appendChild(h('p', { class: 'muted-text', text: 'A defect is a task with a failing test, a tsc error, or a registry DONE claim that the evidence on disk does not support. Use Report, apply the fix, then Verify; a task leaves this list when it has no open issues.' }));
+    let any = false;
+    for (const phase of D.phases) {
+      const ids = phaseTasks(phase.id).filter(id => D.tasks[id].defect);
+      if (!ids.length) continue;
+      any = true;
+      root.appendChild(h('h2', {}, h('a', { href: '#/phase/' + phase.id, text: phase.id + ' - ' + phase.name }), ' (' + ids.length + ')'));
+      for (const id of ids) {
+        const task = D.tasks[id];
+        root.appendChild(h('div', { class: 'defect' },
+          h('div', { class: 'defect-head' }, dot(task.color), h('a', { class: 'mono', href: '#/task/' + id, text: id }), h('span', { class: 'title', text: task.title }),
+            h('span', { class: 'pct', text: task.percent + '%' }), h('span', { class: 'actions' }, reportButton(id), verifyButton(id))),
+          issueList(task.issues.filter(issue => issue.severity !== 'info'), 4)));
+      }
+    }
+    if (!any) root.appendChild(h('p', { class: 'ok-text', text: 'No defects. Every task is either verified, pending, or excluded.' }));
+    return root;
+  }
+
+  // ------------------------------------------------------------------ Dashboard View
+  function dashboardView() {
+    const root = h('div', { class: 'view dashboard-view' });
+    root.appendChild(h('h1', { text: 'OTOMIX Architecture Dashboard' }));
+    root.appendChild(h('p', { class: 'muted-text objective' }, 'Phase completion status based on physical evidence on disk. Click a phase to drill down.'));
+    
+    // Overall stats
+    const totalTasks = D.order.length;
+    const completedTasks = D.order.filter(id => D.tasks[id].color === 'green').length;
+    const overallPercent = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+    
+    root.appendChild(h('div', { class: 'hero' },
+      h('div', { class: 'hero-pct', text: overallPercent + '%' }),
+      h('div', { class: 'hero-body' },
+        bar(overallPercent, overallPercent === 100 ? 'green' : 'yellow'),
+        h('div', { class: 'toolbar' },
+          h('span', { class: 'muted-text', text: completedTasks + ' of ' + totalTasks + ' tasks verified' })
+        )
+      )
+    ));
+    
+    // Phase cards
+    const phaseContainer = h('div', { class: 'phase-grid' });
+    for (const phase of D.phases) {
+      const stats = D.phaseStats?.[phase.id];
+      if (!stats) continue;
+      
+      const card = h('div', { class: 'phase-card c-' + stats.color });
+      card.appendChild(h('a', { class: 'phase-header', href: '#/phase/' + phase.id },
+        h('span', { class: 'phase-id mono', text: phase.id }),
+        h('span', { class: 'phase-name', text: phase.name }),
+        h('span', { class: 'phase-pct mono', text: stats.avgPercent + '%' })
+      ));
+      
+      const statsRow = h('div', { class: 'phase-stats' });
+      statsRow.appendChild(statItem('Done', stats.done, 'green'));
+      statsRow.appendChild(statItem('In Progress', stats.inProgress, 'yellow'));
+      statsRow.appendChild(statItem('Failed', stats.failed, 'red'));
+      statsRow.appendChild(statItem('Blocked', stats.blocked, 'blue'));
+      statsRow.appendChild(statItem('Not Started', stats.notStarted, 'grey'));
+      statsRow.appendChild(statItem('Defects', stats.defects, 'red'));
+      card.appendChild(statsRow);
+      
+      // Progress bar
+      card.appendChild(h('div', { class: 'bar' }, h('span', { class: 'fill c-' + stats.color, style: 'width:' + stats.avgPercent + '%' })));
+      
+      phaseContainer.appendChild(card);
+    }
+    root.appendChild(phaseContainer);
+    
+    return root;
+  }
+  
+  function statItem(label, value, color) {
+    return h('div', { class: 'stat-item' },
+      h('span', { class: 'stat-label muted-text', text: label }),
+      h('span', { class: 'stat-value mono c-' + color, text: String(value) })
+    );
+  }
+
+  // ------------------------------------------------------------------ navigation, search, refresh
+  function renderNav() {
+    const nav = document.getElementById('nav');
+    clear(nav);
+    nav.appendChild(h('a', { class: 'nav-link', href: '#/', 'data-route': '#/' }, 'Dashboard'));
+    const defects = aggregate(D.order).defects;
+    nav.appendChild(h('a', { class: 'nav-link', href: '#/defects', 'data-route': '#/defects' }, 'Defect list ', h('span', { class: 'count-pill', text: String(defects) })));
+    for (const phase of D.phases) {
+      const ids = phaseTasks(phase.id);
+      if (!ids.length) continue;
+      const agg = aggregate(ids);
+      nav.appendChild(h('a', { class: 'nav-link', href: '#/phase/' + phase.id, 'data-route': '#/phase/' + phase.id },
+        h('span', { class: 'nav-id', text: phase.id }), ' ', h('span', { class: 'nav-name', text: phase.name }), h('span', { class: 'nav-pct', text: agg.percent + '%' }),
+        bar(agg.percent, agg.percent === 100 ? 'green' : 'yellow')));
     }
   }
 
-  function renderGlossary(container) {
-    container.appendChild(el('h1', { text: 'Glossary' }));
-    if (!BOOK || !Array.isArray(BOOK.glossary)) return;
-    for (var i = 0; i < BOOK.glossary.length; i++) {
-      var g = BOOK.glossary[i];
-      container.appendChild(el('h3', { text: t(g.term) }));
-      var p = el('p');
-      renderInline(t(g.definition), p);
-      container.appendChild(p);
-    }
-  }
-
-  // ====== TODO tracker ======
-  function renderTodo(container) {
-    if (!BOOK) return;
-    if (!BOOK.todo_md) {
-      var warn = el('div');
-      warn.style.cssText = 'background:#3d1f1f;border:1px solid #f85149;padding:20px;border-radius:8px;margin:20px 0';
-      warn.appendChild(el('h2', { text: '⚠️ TODO tracker not embedded' }));
-      warn.appendChild(el('p', { text: 'Run the TODO generator, then rebuild with build-book.ps1.' }));
-      container.appendChild(warn);
-      return;
-    }
-    renderMarkdown(BOOK.todo_md, container);
-  }
-
-  // ====== router ======
   function render() {
-    var content = document.getElementById('content');
-    if (!content) return;
-    clear(content);
-    if (!BOOK) {
-      var err = el('div');
-      err.style.cssText = 'background:#3d1f1f;border:1px solid #f85149;padding:20px;border-radius:8px;margin:20px 0';
-      err.appendChild(el('h2', { text: '⚠️ content.js not loaded' }));
-      err.appendChild(el('p', { text: 'Run build-book.ps1 to generate content.js, then reload this page.' }));
-      content.appendChild(err);
-      return;
+    const main = document.getElementById('main');
+    clear(main);
+    const parts = (location.hash.slice(1) || '/').split('/').filter(Boolean);
+    let view;
+    if (parts[0] === 'phase') view = phaseView(parts[1]);
+    else if (parts[0] === 'task') view = taskView(parts[1]);
+    else if (parts[0] === 'defects') view = defectsView();
+    else view = dashboardView();
+    main.appendChild(view);
+    window.scrollTo(0, 0);
+    const route = '#/' + parts.slice(0, parts[0] === 'task' ? 0 : 2).join('/');
+    for (const link of document.querySelectorAll('#nav a')) {
+      const target = link.getAttribute('data-route');
+      link.classList.toggle('active', target === (parts[0] === 'phase' ? route : parts[0] === 'defects' ? '#/defects' : parts[0] === 'task' ? '#/phase/' + (D.tasks[parts[1]] || {}).phase : '#/'));
     }
-    var hash = location.hash.replace(/^#/, '') || '/';
-    var parts = hash.split('/').filter(Boolean);
-    if (parts.length === 0) return renderHome(content);
-    if (parts[0] === 'constants') return renderConstants(content);
-    if (parts[0] === 'glossary') return renderGlossary(content);
-    if (parts[0] === 'todo') return renderTodo(content);
-    if (parts[0] === 'ch0' || parts[0] === 'ch1') {
-      return renderPhase(content, parts[0]);
-    }
-    if (parts.length === 1) return renderPhase(content, parts[0]);
-    if (parts.length === 2) return renderTask(content, parts[0], parts[1]);
-    renderHome(content);
+    document.getElementById('sidebar').classList.remove('open');
   }
 
-  // ====== search ======
-  var searchIndex = null;
-
-  function buildSearchIndex() {
-    if (!BOOK) return [];
-    var idx = [];
-    var phases = getPhases();
-    for (var i = 0; i < phases.length; i++) {
-      var p = phases[i];
-      idx.push({ type: 'phase', id: p.id, label: p.id + ' — ' + t(p.title), text: (p.id + ' ' + t(p.title) + ' ' + t(p.narrative)).toLowerCase(), href: '#/' + p.id });
-      if (Array.isArray(p.tasks)) {
-        for (var j = 0; j < p.tasks.length; j++) {
-          var tk = p.tasks[j];
-          idx.push({
-            type: 'task', id: tk.id,
-            label: tk.id + ' — ' + t(tk.description),
-            text: (tk.id + ' ' + t(tk.description) + ' ' + t(tk.expected_outcome) + ' ' + (tk.prerequisites || []).join(' ')).toLowerCase(),
-            href: '#/' + p.id + '/' + tk.id
-          });
-        }
-      }
-    }
-    if (BOOK.constants) {
-      for (var cat in BOOK.constants) {
-        if (!Array.isArray(BOOK.constants[cat])) continue;
-        for (var k = 0; k < BOOK.constants[cat].length; k++) {
-          var c = BOOK.constants[cat][k];
-          idx.push({ type: 'constant', id: c.name, label: c.name + ' = ' + c.value + ' (' + cat + ')', text: (c.name + ' ' + c.value + ' ' + cat).toLowerCase(), href: '#/constants' });
-        }
-      }
-    }
-    if (BOOK.todo_md) {
-      var todoLines = String(BOOK.todo_md).split(/\r?\n/);
-      for (var ti = 0; ti < todoLines.length; ti++) {
-        var tm = todoLines[ti].match(/^#{1,4}\s+(.+?)\s*$/);
-        if (tm) idx.push({ type: 'todo', id: tm[1], label: tm[1], text: tm[1].toLowerCase(), href: '#/todo' });
-      }
-    }
-    if (Array.isArray(BOOK.glossary)) {
-      for (var g = 0; g < BOOK.glossary.length; g++) {
-        var gl = BOOK.glossary[g];
-        idx.push({ type: 'glossary', id: t(gl.term), label: t(gl.term), text: (t(gl.term) + ' ' + t(gl.definition)).toLowerCase(), href: '#/glossary' });
-      }
-    }
-    return idx;
-  }
-
-  function doSearch(query) {
-    if (!searchIndex) searchIndex = buildSearchIndex();
-    var q = query.toLowerCase().trim();
-    var resultsEl = document.getElementById('search-results');
-    if (!resultsEl) return;
-    if (q.length < 2) {
-      resultsEl.hidden = true;
-      clear(resultsEl);
-      return;
-    }
-    var hits = [];
-    for (var i = 0; i < searchIndex.length && hits.length < 20; i++) {
-      var entry = searchIndex[i];
-      if (entry.text.indexOf(q) !== -1) hits.push(entry);
-    }
-    clear(resultsEl);
-    if (hits.length === 0) {
-      var empty = el('div');
-      empty.style.padding = '16px';
-      empty.style.color = 'var(--fg2)';
-      empty.textContent = 'No results for "' + query + '"';
-      resultsEl.appendChild(empty);
-    } else {
-      for (var h = 0; h < hits.length; h++) {
-        var hit = hits[h];
-        var a = el('a', { class: 'search-result', href: hit.href });
-        var meta = el('div', { class: 'sr-meta', text: hit.type.toUpperCase() });
-        a.appendChild(meta);
-        var label = el('div');
-        label.textContent = hit.label;
-        a.appendChild(label);
-        (function (href) {
-          a.addEventListener('click', function () {
-            resultsEl.hidden = true;
-            document.getElementById('search-input').value = '';
-          });
-        })(hit.href);
-        resultsEl.appendChild(a);
-      }
-    }
-    resultsEl.hidden = false;
-  }
-
-  // ====== theme ======
-  function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    var btn = document.getElementById('theme-toggle');
-    if (btn) btn.textContent = theme === 'light' ? '☀️' : '🌙';
-  }
-
-  function initTheme() {
-    var stored = localStorage.getItem('otomix_book_theme') || 'dark';
-    applyTheme(stored);
-    var btn = document.getElementById('theme-toggle');
-    if (btn) {
-      btn.addEventListener('click', function () {
-        var cur = document.documentElement.getAttribute('data-theme') || 'dark';
-        var next = cur === 'dark' ? 'light' : 'dark';
-        applyTheme(next);
-        localStorage.setItem('otomix_book_theme', next);
-      });
-    }
-  }
-
-  // ====== mobile sidebar ======
-  function initMobile() {
-    var btn = document.getElementById('menu-toggle');
-    var sidebar = document.getElementById('sidebar');
-    if (btn && sidebar) {
-      btn.addEventListener('click', function () {
-        sidebar.classList.toggle('open');
-      });
-      document.addEventListener('click', function (e) {
-        if (window.innerWidth <= 768 && sidebar.classList.contains('open')
-          && !sidebar.contains(e.target) && e.target !== btn) {
-          sidebar.classList.remove('open');
-        }
-      });
-    }
-  }
-
-  // ====== search input ======
   function initSearch() {
-    var inp = document.getElementById('search-input');
-    var resultsEl = document.getElementById('search-results');
-    if (!inp) return;
-    inp.addEventListener('input', function () { doSearch(inp.value); });
-    inp.addEventListener('focus', function () { if (inp.value.length >= 2) doSearch(inp.value); });
-    document.addEventListener('click', function (e) {
-      if (resultsEl && !resultsEl.contains(e.target) && e.target !== inp) {
-        resultsEl.hidden = true;
+    const input = document.getElementById('search');
+    const box = document.getElementById('search-results');
+    const run = () => {
+      const query = input.value.trim().toLowerCase();
+      clear(box);
+      if (query.length < 2) { box.hidden = true; return; }
+      const hits = D.order.filter(id => (id + ' ' + D.tasks[id].title).toLowerCase().includes(query)).slice(0, 20);
+      if (!hits.length) box.appendChild(h('div', { class: 'muted-text pad', text: 'No tasks match "' + input.value + '".' }));
+      for (const id of hits) {
+        const task = D.tasks[id];
+        box.appendChild(h('a', { class: 'hit', href: '#/task/' + id, onclick: () => { box.hidden = true; input.value = ''; } },
+          dot(task.color), h('span', { class: 'mono', text: id }), h('span', { class: 'title', text: task.title }), h('span', { class: 'pct', text: task.percent + '%' })));
       }
+      box.hidden = false;
+    };
+    input.addEventListener('input', run);
+    document.addEventListener('keydown', event => {
+      if (event.key === '/' && document.activeElement !== input && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { event.preventDefault(); input.focus(); }
+      else if (event.key === 'Escape') { input.blur(); box.hidden = true; }
     });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === '/' && document.activeElement !== inp) {
-        e.preventDefault();
-        inp.focus();
-      } else if (e.key === 'Escape') {
-        inp.blur();
-        if (resultsEl) resultsEl.hidden = true;
-        inp.value = '';
-      }
-    });
+    document.addEventListener('click', event => { if (!box.contains(event.target) && event.target !== input) box.hidden = true; });
   }
 
-  // ====== boot ======
+  function initChrome() {
+    const apply = theme => { document.documentElement.setAttribute('data-theme', theme); localStorage.setItem('otomix_book_theme', theme); };
+    apply(localStorage.getItem('otomix_book_theme') || 'dark');
+    document.getElementById('theme-toggle').addEventListener('click', () => apply(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+    document.getElementById('menu-toggle').addEventListener('click', () => document.getElementById('sidebar').classList.toggle('open'));
+  }
+
+  // Go Live reloads on file changes; this poll covers a missed reload by watching the data file's headers.
+  function watchDataFile() {
+    if (location.protocol === 'file:') return;
+    let known = null;
+    setInterval(async () => {
+      try {
+        const response = await fetch('book-data.js', { method: 'HEAD', cache: 'no-store' });
+        const stamp = response.headers.get('last-modified') + '|' + response.headers.get('content-length');
+        if (known && stamp !== known) location.reload();
+        known = stamp;
+      } catch (error) { /* server stopped; keep the current view */ }
+    }, 10000);
+  }
+
   function boot() {
-    if (!BOOK) {
-      console.error('[OTOMIX Book] window.OTOMIX_BOOK not defined — content.js missing or failed.');
-    } else {
-      console.log('[OTOMIX Book] Loaded: ' + (Array.isArray(BOOK.phases) ? BOOK.phases.length : 0) + ' phases');
+    initChrome();
+    if (!D) {
+      document.getElementById('main').appendChild(h('div', { class: 'view' }, h('h1', { text: 'No data' }),
+        h('p', { text: 'book-data.js is missing. Run this in a PowerShell terminal from the repository root:' }),
+        h('pre', {}, h('code', { text: 'node .\\Docs\\ArchitectureBook\\scan.cjs --watch' }))));
+      return;
     }
-    initTheme();
-    initMobile();
+    renderNav();
     initSearch();
-    renderToc();
+    window.addEventListener('hashchange', render);
     render();
-    window.addEventListener('hashchange', function () {
-      render();
-      updateActive();
-      var sidebar = document.getElementById('sidebar');
-      if (sidebar) sidebar.classList.remove('open');
-    });
+    watchDataFile();
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', boot);
-  } else {
-    boot();
-  }
+  boot();
 })();
-// --- Language Toggle Logic ---
-(function() {
-  const i18n = {
-    'Overview': 'نمای کلی',
-    'Phases': 'فازها',
-    'Appendices': 'ضمائم',
-    'Constants Reference': 'مرجع ثابت‌ها',
-    'Glossary': 'واژه‌نامه',
-    'Tasks': 'تسک‌ها',
-    'blocked': 'بلاک شده',
-    'todo': 'در انتظار',
-    'done': 'انجام شده',
-    'in-progress': 'در حال انجام',
-    'Status': 'وضعیت',
-    'Description': 'توضیحات',
-    'Test': 'تست',
-    'Spec Reference': 'مرجع مشخصات',
-    'Review Checkpoint': 'نقطه بازبینی',
-    'Notes': 'یادداشت‌ها',
-    'Prerequisites': 'پیش‌نیازها',
-    'Expected Outcome': 'خروجی مورد انتظار',
-    'Search (press /)': 'جستجو (دکمه /)'
-  };
-
-  const reverseI18n = {};
-  for (const [en, fa] of Object.entries(i18n)) {
-    reverseI18n[fa] = en;
-  }
-
-  function translateDOM(lang) {
-    const dict = lang === 'fa' ? i18n : reverseI18n;
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-    let node;
-    const nodesToReplace = [];
-    
-    while (node = walker.nextNode()) {
-      const text = node.nodeValue.trim();
-      if (dict[text]) {
-        nodesToReplace.push({ node, newText: dict[text] });
-      }
-    }
-    
-    nodesToReplace.forEach(item => {
-      item.node.nodeValue = item.node.nodeValue.replace(item.node.nodeValue.trim(), item.newText);
-    });
-  }
-
-  function setLanguage(lang) {
-    document.documentElement.lang = lang;
-    document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
-    localStorage.setItem('otomix_book_lang', lang);
-    const btn = document.getElementById('lang-toggle');
-    if (btn) btn.textContent = lang === 'fa' ? 'EN' : 'FA';
-    translateDOM(lang);
-  }
-
-  window.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('lang-toggle');
-    const currentLang = localStorage.getItem('otomix_book_lang') || 'en';
-    
-    // Initial set
-    setTimeout(() => setLanguage(currentLang), 100);
-
-    if (btn) {
-      btn.addEventListener('click', () => {
-        const newLang = localStorage.getItem('otomix_book_lang') === 'fa' ? 'en' : 'fa';
-        setLanguage(newLang);
-      });
-    }
-  });
-
-  // Hook into hashchange to translate newly rendered content
-  window.addEventListener('hashchange', () => {
-    setTimeout(() => translateDOM(localStorage.getItem('otomix_book_lang') || 'en'), 100);
-  });
-})();
-// --- Language Toggle Logic ---
-window.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('lang-toggle');
-  if (!btn) return;
-  const lang = localStorage.getItem('book_lang') || 'en';
-  document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
-  btn.textContent = lang === 'fa' ? 'EN' : 'FA';
-  btn.onclick = () => {
-    const newLang = localStorage.getItem('book_lang') === 'fa' ? 'en' : 'fa';
-    localStorage.setItem('book_lang', newLang);
-    location.reload();
-  };
-});

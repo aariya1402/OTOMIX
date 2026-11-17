@@ -53,6 +53,8 @@ const RULE_26_ALLOWLIST: ReadonlySet<string> = new Set([
   'alignToSeconds',
   'quantumSeconds',
   'gridTimeSeconds',
+  'windowSeconds',
+  'barBoundarySeconds',
   'contextTimeSeconds',
   'dtSeconds',
 ]);

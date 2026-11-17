@@ -54,11 +54,11 @@ export function normalizeInput(input: AudioBufferInput, forceMonoOverride?: bool
 
   if (sampleRate === TARGET_SAMPLE_RATE) {
     if (outChannelsCount === 1) {
-      fillMono(out[0]);
+      fillMono(out[0]!);
     } else {
       for (let c = 0; c < outChannelsCount; c++) {
         const ch = input.getChannelData(c);
-        for (let n = 0; n < outLen; n++) out[c][n] = ch[n]!;
+        for (let n = 0; n < outLen; n++) out[c]![n]! = ch[n]!;
       }
     }
     return { ok: true, value: out };
@@ -79,7 +79,7 @@ export function normalizeInput(input: AudioBufferInput, forceMonoOverride?: bool
         const ch = input.getChannelData(c);
         sum += ch[i0]! + (ch[i1]! - ch[i0]!) * frac;
       }
-      outBuf[n] = sum * invCh;
+      outBuf![n] = sum * invCh;
     }
   } else {
     for (let c = 0; c < outChannelsCount; c++) {
@@ -89,7 +89,7 @@ export function normalizeInput(input: AudioBufferInput, forceMonoOverride?: bool
         const pos = n * step;
         let i0 = pos | 0; if (i0 > lastIdx) i0 = lastIdx;
         const frac = pos - i0; const i1 = i0 < lastIdx ? i0 + 1 : i0;
-        outBuf[n] = ch[i0]! + (ch[i1]! - ch[i0]!) * frac;
+        outBuf![n] = ch[i0]! + (ch[i1]! - ch[i0]!) * frac;
       }
     }
   }

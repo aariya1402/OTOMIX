@@ -1,0 +1,74 @@
+apiVersion: skaffold/v4beta5
+kind: Config
+metadata:
+  name: oto-mix
+build:
+  artifacts:
+    - image: gcr.io/PROJECT_ID/oto-mix
+      context: .
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        - "**/*.js"
+        - "**/*.ts"
+        - "**/*.json"
+        - "**/*.yaml"
+        - "**/*.yml"
+  local:
+    push: false
+  tagPolicy:
+    gitCommit: {}
+deploy:
+  kubectl:
+    manifests:
+      - k8s/**/*.yaml
+  cloudrun:
+    projectid: PROJECT_ID
+    region: us-central1
+profiles:
+  - name: local
+    activation:
+      - command: dev
+    build:
+      local:
+        push: false
+    deploy:
+      kubectl:
+        manifests:
+          - k8s/dev/*.yaml
+  - name: staging
+    activation:
+      - command: deploy
+      - env: STAGING=true
+    build:
+      local:
+        push: true
+    deploy:
+      kubectl:
+        manifests:
+          - k8s/staging/*.yaml
+  - name: production
+    activation:
+      - command: deploy
+      - env: PRODUCTION=true
+    build:
+      local:
+        push: true
+    deploy:
+      kubectl:
+        manifests:
+          - k8s/production/*.yaml
+  - name: cloudrun
+    activation:
+      - command: deploy
+      - env: CLOUD_RUN=true
+    build:
+      local:
+        push: true
+    deploy:
+      cloudrun: {}
+portForward:
+  - resourceType: service
+    resourceName: oto-mix-service
+    port: 8080
+    localPort: 8080
