@@ -2,6 +2,7 @@
 // Generates linearRampToValueAtTime automation for both tracks.
 
 export interface AudioParamAutomation {
+  startValue: number;
   target: number;
   startTime: number;
   endTime: number;
@@ -25,10 +26,10 @@ export function generateGlideAutomation(
   
   return {
     outTrack: [
-      { target: outRateEnd, startTime, endTime, curve: 'linear' }
+      { startValue: outRateStart, target: outRateEnd, startTime, endTime, curve: 'linear' }
     ],
     inTrack: [
-      { target: inRateEnd, startTime, endTime, curve: 'linear' }
+      { startValue: inRateStart, target: inRateEnd, startTime, endTime, curve: 'linear' }
     ],
   };
 }

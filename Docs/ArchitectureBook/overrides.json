@@ -14,5 +14,11 @@
     "P03-T06-S01-M06":  {
                             "skipCodeCheck":  true,
                             "note":  "Decision task; output documented at AI Agent.MD#L417-425 (transition window = 16 bars = 64 beats). Not a code task."
+                        },
+    "P04-T01-S02-M01":  {
+                            "ignoreSymbols":  [
+                                                  "linearRampToValueAtTime"
+                                              ],
+                            "note":  "linearRampToValueAtTime is a Web Audio API method name (used in plan text, not a declaration)"
                         }
 }
