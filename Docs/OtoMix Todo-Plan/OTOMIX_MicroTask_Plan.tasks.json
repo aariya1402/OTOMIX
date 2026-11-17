@@ -2775,7 +2775,7 @@
     },
     {
         "id": "P07-REG-M01",
-        "status": "TODO",
+        "status": "DONE",
         "description": "Migration 008_registration.sql: add google_id, telegram_id, phone_e164, email, display_name, terms_version, terms_accepted_at to users. All nullable, each UNIQUE. RLS unchanged.",
         "prerequisites": [
             "P07-T05-S01-M01"
