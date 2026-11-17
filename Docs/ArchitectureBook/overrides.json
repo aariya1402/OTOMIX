@@ -1,4 +1,4 @@
-{
+﻿{
     "P01-T03-S02-M02":  {
                             "ignoreSymbols":  [
                                                   "PURGE_AND_REANALYZE"
@@ -61,5 +61,11 @@
                                                       "GlobalFeatureRepository"
                                                   ],
                                 "note":  "Plan uses placeholder names. Actual: (1) file 003_global_features_jsonb.sql; (2) class GlobalFeaturesRepository (plural). Verified by disk read + commit 6497756."
+                            },
+    "P05-ADD-T06-S03-M01":  {
+                                "ignoreSymbols":  [
+                                                      "EnrichmentPipeline"
+                                                  ],
+                                "note":  "Plan-text token. Implemented as runEnrichment() in packages/core/src/pipeline/enrichment.ts. See GAP-030."
                             }
 }

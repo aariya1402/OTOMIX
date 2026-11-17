@@ -493,3 +493,10 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - **Resolution:** Provision an AWS M5.large-class runner (or equivalent); run `bench/extract.bench.ts` with the reference MP3 fixture; record measured wall time in the bench output; flip `tasks.json` status from `DEFERRED:GAP-029` to `DONE`; close this gap.
 - **Must resolve before:** `P11-T07-*` regression and acceptance sign-off.
 - **Related Tasks:** `P05-T04-S01-M03`
+
+### [GAP-030] [PHASE: P05] [ADVISORY] Enrichment Pipeline lives in core, not workers
+- **Discovered:** 2026-11-17 (retro, during Match for P05-ADD-T06-S03-M01).
+- **Context:** Plan text declared packages/workers/src/enrichment-pipeline.ts with symbol EnrichmentPipeline. Commit dce1d1f placed the orchestration in packages/core/src/pipeline/enrichment.ts as runEnrichment().
+- **Rationale:** GAP-021 - core ESM with extensionless imports blocks worker_threads eval. Keeping the orchestrator in workers would force eval-time coupling and risk circular deps.
+- **Decision:** Keep runEnrichment() in core with structural ports (dependency inversion). EnrichmentPipeline is recorded as a plan-text token in overrides.json.
+- **Deferred:** Queue integration + instant API response (Review Checkpoint) not in dce1d1f. Open follow-up P05-ADD-T06-S03-M02 for next session.
