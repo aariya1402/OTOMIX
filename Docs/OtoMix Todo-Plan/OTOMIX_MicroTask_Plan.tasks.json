@@ -2780,11 +2780,11 @@
     {
         "id":  "P06-RBAC-M11",
         "status":  "DONE",
-        "description":  "Rewrite interceptor to read effective permissions per request. GAP-015.",
+        "description":  "Rewrite packages/gateway/src/interceptor.ts to read effective permissions per request. GAP-015.",
         "prerequisites":  [
 
                           ],
-        "test":  "integration|Vitest + Testcontainers PostgreSQL|packages/access/test/rbac.*.spec.ts",
+        "test":  "unit|Vitest|packages/gateway/test/interceptor.spec.ts",
         "spec":  "GAP-015 (OTOMIX_MicroTask_Plan_Supplement.md)",
         "description_fa":  "مکمل GAP-015: Rewrite interceptor to read effective permissions per request. GAP-015."
     },

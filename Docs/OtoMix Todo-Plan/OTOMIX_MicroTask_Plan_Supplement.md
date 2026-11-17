@@ -1,4 +1,4 @@
-# OTOMIX Micro-Task Plan â€” Supplement (Ù…ØªÙ…Ù… Ù…Ú©Ù…Ù„)
+﻿# OTOMIX Micro-Task Plan â€” Supplement (Ù…ØªÙ…Ù… Ù…Ú©Ù…Ù„)
 
 **Parent document:** `OTOMIX_MicroTask_Plan.md`
 **Purpose:** Complement the main micro-task plan. Captures known gaps, deferred decisions, technical gotchas, cross-phase conflicts, and unscheduled feature proposals that do **not** belong in the per-task fields of the main plan but MUST inform decisions in later phases.
@@ -316,6 +316,16 @@ Global constraint on cumulative BPM slope across the whole set (e.g. +8 to +15 B
 
 
 **P06 STATUS:** âœ… COMPLETE (2026-11-13, RBAC-M12). All 12 RBAC tasks and all 9 original P06-T01/T02 tasks done. Superseded tasks (T02-S01-M02/M03, T02-S02-M02, T02-S03-M01, T03-S01-M01/M02) replaced by RBAC-M10/M11/M12/M05. Next phase: P07 (Local Ingestion + Cloud Ingestion per GAP-014).
+
+
+###### P06-RBAC-M11 - detail (gateway interceptor rewrite)
+
+| Field | Value |
+|---|---|
+| ID | `P06-RBAC-M11` |
+| Description | Rewrite interceptor to read effective permissions per request. GAP-015. |
+| Expected Outcome | `packages/gateway/src/interceptor.ts` (rewritten to use `computeEffectivePermissions`; legacy scope-allowlist deleted). |
+| Independent Test(s) | **unit** - Vitest - `packages/gateway/test/interceptor.spec.ts` |
 
 ## Maintenance Rules
 
