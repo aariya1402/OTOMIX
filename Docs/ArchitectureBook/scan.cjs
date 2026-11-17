@@ -639,7 +639,7 @@ function build() {
     for (const file of declaredSource.filter(entry => !entry.exists)) {
       issues.push({ kind: 'file-missing', severity: done ? 'error' : 'warn', text: 'Declared file does not exist' + hint(file.path), path: file.path });
     }
-    if (!declaredSource.length && !sourceFiles.length && override.skipCodeCheck !== true) {
+    if (!declaredSource.length && !sourceFiles.length && override.skipCodeCheck !== true && !ignoreIssues.has('no-files')) {
       issues.push({ kind: 'no-files', severity: 'warn', text: 'No declared path and no linked file; implementation cannot be located' });
     }
     for (const symbol of counted.filter(entry => !entry.found)) {
