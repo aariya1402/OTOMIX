@@ -1,3 +1,4 @@
+// P03-T02-S01-M02 (body-dominant traceability)
 // OTOMIX 3.2 - Mother 2.2
 // Compare Attack power vs Body power.
 // If body > attack, tag BODY_DOMINANT.
