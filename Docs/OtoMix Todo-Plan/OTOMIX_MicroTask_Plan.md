@@ -2473,7 +2473,7 @@ flowchart LR
 |---|---|
 | ID | `P06-T06-S01-M02` |
 | Description | Run Snyk dependency scanning on every build and block on findings per the CVSS gate. |
-| Expected Outcome | CI job `snyk-scan`. |
+| Expected Outcome | `.github/workflows/ci.yml` (CI job `snyk-scan`). |
 | Prerequisites | `P01-T01-S02-M02` |
 | Independent Test(s) | **unit** · Vitest · `tools/test/ci-snyk.spec.ts`<br>Input: parsed CI workflow. Expected: `snyk-scan` job exists and `build`/`deploy` jobs list it in `needs`. Pass: both. |
 | Spec Reference | OTOMIX §7.8; §7.9 · Mother §8.3; Add. §6 |
@@ -2650,7 +2650,7 @@ flowchart LR
 |---|---|
 | ID | `P07-T02-S01-M01` |
 | Description | Ensure the gateway and UI main thread never import container decoders (header sniffing only). |
-| Expected Outcome | Dependency rule `no-decoder-on-main`. |
+| Expected Outcome | `.dependency-cruiser.cjs` (dependency rule `no-decoder-on-main`). |
 | Prerequisites | `P07-T01-S03-M01` |
 | Independent Test(s) | **unit** · dependency-cruiser (Vitest) · `tools/test/no-decoder-main.spec.ts`<br>Input: dependency graph. Expected: 0 edges from `gateway` or `ui` entry points to `workers/decoders`. Pass: 0 violations. |
 | Spec Reference | OTOMIX §5.3; §7.7 · Mother §1; §8.3; Add. §6 |

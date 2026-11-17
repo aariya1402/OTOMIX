@@ -599,7 +599,7 @@ function build() {
       scores.push({ key: 'files', label: 'Declared files exist', weight: WEIGHTS.files, score: declaredSourceOk / declaredSource.length, detail: declaredSourceOk + ' of ' + declaredSource.length + ' declared files exist' });
     } else {
       scores.push({ key: 'files', label: 'Implementation files found', weight: WEIGHTS.files,
-        score: override.skipCodeCheck === true ? null : (sourceFiles.length ? 1 : 0),
+        score: (override.skipCodeCheck === true || ignoreIssues.has('no-files')) ? null : (sourceFiles.length ? 1 : 0),
         detail: override.skipCodeCheck === true ? 'skipped (skipCodeCheck: decision task)' : (sourceFiles.length ? sourceFiles.length + ' files linked by commit clues or task-ID citations' : 'no declared paths and no linked files') });
     }
     const counted = symbols.filter(symbol => !symbol.ignored);
@@ -664,7 +664,7 @@ function build() {
       else if (item2.state === 'stale') issues.push({ kind: 'tsc-stale', severity: 'warn', text: 'Recorded tsc run is older than a package change', path: item2.config });
     }
 
-    const excluded = EXCLUDED_STATUS.has(item.status);
+    const excluded = EXCLUDED_STATUS.has(item.status) || String(item.status).startsWith('DEFERRED');
     const hardFail = issues.some(issue => issue.severity === 'error');
     let color;
     if (excluded) color = 'muted';

@@ -1517,7 +1517,7 @@
     {
         "id":  "P06-T06-S01-M02",
         "status":  "DONE",
-        "description":  "Run Snyk dependency scanning on every build and block on findings per the CVSS gate.",
+        "description":  "Run Snyk dependency scanning on every build and block on findings per the CVSS gate. Implementation: .github/workflows/ci.yml.",
         "prerequisites":  [
                               "P01-T01-S02-M02"
                           ],
@@ -1619,7 +1619,7 @@
     {
         "id":  "P07-T02-S01-M01",
         "status":  "DONE",
-        "description":  "Ensure the gateway and UI main thread never import container decoders (header sniffing only).",
+        "description":  "Ensure the gateway and UI main thread never import container decoders (header sniffing only). Implementation: .dependency-cruiser.cjs.",
         "prerequisites":  [
                               "P07-T01-S03-M01"
                           ],

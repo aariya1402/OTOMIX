@@ -93,5 +93,23 @@
                                                  "no-files"
                                              ],
                             "skipCodeCheck":  true
+                        },
+    "P07-T01-S01-M01":  {
+                            "ignoreSymbols":  [
+                                                  "fLaC"
+                                              ],
+                            "note":  "fLaC is a FLAC magic-byte string literal, not a declaration. See packages/gateway/src/ingest/sniff.ts."
+                        },
+    "P06-T06-S01-M02":  {
+                            "ignoreIssues":  [
+                                                 "no-files"
+                                             ],
+                            "note":  "Config-only task. Implementation is .github/workflows/ci.yml; not a TS source file."
+                        },
+    "P07-T02-S01-M01":  {
+                            "ignoreIssues":  [
+                                                 "no-files"
+                                             ],
+                            "note":  "Config-only task. Implementation is .dependency-cruiser.cjs; not a TS source file."
                         }
 }
