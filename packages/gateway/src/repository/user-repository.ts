@@ -73,3 +73,22 @@ export async function upsertPhoneUser(pool: Pool, data: PhoneUserData): Promise<
     return newId;
   });
 }
+
+export interface EmailUserData {
+  email: string;
+}
+
+export async function upsertEmailUser(pool: Pool, data: EmailUserData): Promise<string> {
+  return withTenant(pool, 'otomix', async (client) => {
+    let res = await client.query('SELECT user_id FROM users WHERE email = $1', [data.email]);
+    if (res.rows.length > 0) return res.rows[0].user_id;
+    
+    const newId = randomUUID();
+    await client.query(
+      `INSERT INTO users (user_id, tenant_id, role, tier, email)
+         VALUES ($1, 'otomix', 'end_user', 1, $1)`,
+      [newId, data.email]
+    );
+    return newId;
+  });
+}
