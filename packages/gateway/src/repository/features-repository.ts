@@ -39,10 +39,12 @@ export class FeaturesRepository extends BaseRepository {
       const res = await client.query(
         `
         SELECT feature_id, tenant_id, track_id, schema_version, bpm, camelot_key,
-               energy_scalar, energy_stars, mixability, groove_mode, registry_json, analyzed_at
+               energy_scalar, energy_stars, mixability, groove_mode, registry_json,
+               analyzed_at::text AS analyzed_at
         FROM features
-        WHERE tenant_id = current_setting('app.tenant_id', true)
-          AND ($1::timestamptz IS NULL OR analyzed_at > $1 OR (analyzed_at = $1 AND feature_id > $2))
+        WHERE ($1::timestamptz IS NULL
+               OR analyzed_at > $1::timestamptz
+               OR (analyzed_at = $1::timestamptz AND feature_id > $2))
         ORDER BY analyzed_at ASC, feature_id ASC
         LIMIT $3
         `,
@@ -54,8 +56,10 @@ export class FeaturesRepository extends BaseRepository {
       let nextCursor = null;
       if (hasMore && items.length > 0) {
         const last = items[items.length - 1];
+        // analyzed_at from DB (via analyzed_at::text) is already a string in ISO format
+        const analyzedAtStr = typeof last.analyzed_at === 'string' ? last.analyzed_at : last.analyzed_at.toISOString();
         nextCursor = {
-          analyzed_at: last.analyzed_at.toISOString(),
+          analyzed_at: analyzedAtStr,
           feature_id: last.feature_id,
         };
       }

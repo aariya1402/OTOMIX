@@ -18,18 +18,25 @@ function loadUp(rel: string): string {
 
 describe('GET /api/v1/catalog/features (P08-T01-S01-M01)', () => {
   let ctr: StartedPostgreSqlContainer;
-  let pool: Pool;
+  let adminPool: Pool;
+  let appPool: Pool;
   let app: express.Express;
 
   beforeAll(async () => {
     ctr = await new PostgreSqlContainer('postgres:16-alpine').start();
-    pool = new Pool({ connectionString: ctr.getConnectionUri() });
+    const baseUri = ctr.getConnectionUri();
+    // Admin pool (superuser) for migrations and seeding
+    adminPool = new Pool({ connectionString: baseUri });
+    // App pool (app_user role) for handler - RLS is enforced for this role
+    const appUri = baseUri.replace(/postgres:\/\/([^:]+):([^@]+)@/, 'postgres://app_user:app_user_password@');
+    appPool = new Pool({ connectionString: appUri });
+
     for (const f of ['001_core.sql', '002_rls.sql']) {
-      await pool.query(loadUp(f));
+      await adminPool.query(loadUp(f));
     }
 
-    // Seed data using a single client
-    const client = await pool.connect();
+    // Seed data using admin pool (bypasses RLS for setup)
+    const client = await adminPool.connect();
     try {
       await client.query('BEGIN');
       await client.query("SET LOCAL app.tenant_id = 'otomix'");
@@ -73,7 +80,7 @@ describe('GET /api/v1/catalog/features (P08-T01-S01-M01)', () => {
       next();
     });
 
-    const handler = createCatalogFeaturesHandler({ pool });
+    const handler = createCatalogFeaturesHandler({ pool: appPool });
     app.get('/api/v1/catalog/features', async (req, res, next) => {
       // Enforce user:read scope mock
       if (req.headers['x-test-scope'] === 'none') {
@@ -84,7 +91,8 @@ describe('GET /api/v1/catalog/features (P08-T01-S01-M01)', () => {
   }, TEST_TIMEOUT);
 
   afterAll(async () => {
-    await pool.end();
+    await adminPool.end();
+    await appPool.end();
     await ctr.stop();
   });
 
