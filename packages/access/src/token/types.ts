@@ -22,6 +22,7 @@ export interface IssuedAccessToken {
 export interface VaultClient {
   getCurrentKid(): Promise<string>;
   getSigningKey(kid: string): Promise<unknown>;
+  getJwks(): Promise<{ keys: Array<{ kid: string; kty: string; alg: string; use: string; n: string; e: string }> }>;
 }
 
 export class TokenIssuanceError extends Error {
@@ -52,17 +53,14 @@ export interface IssuedRefreshToken {
   token: string;
   claims: RefreshTokenClaims;
 }
-
 export class RefreshTokenReuseError extends Error {
   readonly code = 'REFRESH_TOKEN_REUSE' as const;
   constructor(message: string) { super(message); this.name = 'RefreshTokenReuseError'; }
 }
-
 export class RefreshTokenRevokedError extends Error {
   readonly code = 'REFRESH_TOKEN_REVOKED' as const;
   constructor(message: string) { super(message); this.name = 'RefreshTokenRevokedError'; }
 }
-
 export class RefreshTokenNotFoundError extends Error {
   readonly code = 'REFRESH_TOKEN_NOT_FOUND' as const;
   constructor(message: string) { super(message); this.name = 'RefreshTokenNotFoundError'; }
