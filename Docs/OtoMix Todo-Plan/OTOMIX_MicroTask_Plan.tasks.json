@@ -1649,7 +1649,7 @@
     },
     {
         "id":  "P07-T02-S01-M04",
-        "status":  "TODO",
+        "status":  "DONE",
         "description":  "Metadata enrichment via consent-gated tags + external API/library (GAP-007).",
         "prerequisites":  [
                               "P07-T02-S01-M03"

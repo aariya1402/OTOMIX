@@ -73,7 +73,7 @@
    "failures": []
   },
   "packages/db/test/with-tenant.spec.ts": {
-   "at": 1794954170411,
+   "at": 1794960208467,
    "status": "passed",
    "total": 3,
    "passed": 3,
@@ -623,7 +623,7 @@
    "failures": []
   },
   "packages/core/test/constants.scoring.spec.ts": {
-   "at": 1794874888080,
+   "at": 1794960201980,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -847,7 +847,7 @@
    "failures": []
   },
   "packages/core/test/grid.anchor-sync.spec.ts": {
-   "at": 1794953578480,
+   "at": 1794960227221,
    "status": "passed",
    "total": 6,
    "passed": 6,
@@ -959,7 +959,7 @@
    "failures": []
   },
   "packages/core/test/grid.t-of-i.spec.ts": {
-   "at": 1794953567794,
+   "at": 1794960221759,
    "status": "passed",
    "total": 7,
    "passed": 7,
@@ -1079,7 +1079,7 @@
    "failures": []
   },
   "packages/core/test/retry.spec.ts": {
-   "at": 1794881491667,
+   "at": 1794960230496,
    "status": "passed",
    "total": 3,
    "passed": 3,
@@ -1655,7 +1655,7 @@
    "failures": []
   },
   "packages/gateway/test/auth-google.spec.ts": {
-   "at": 1794959951830,
+   "at": 1794961030795,
    "status": "passed",
    "total": 1,
    "passed": 1,
@@ -1663,7 +1663,7 @@
    "failures": []
   },
   "packages/core/test/ingest/metadata-enrichment.spec.ts": {
-   "at": 1794958691517,
+   "at": 1794961030795,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -1677,16 +1677,29 @@
    "passed": 3,
    "failed": 0,
    "failures": []
+  },
+  "packages/gateway/test/catalog-features.spec.ts": {
+   "at": 1794960255404,
+   "status": "failed",
+   "total": 3,
+   "passed": 2,
+   "failed": 1,
+   "failures": [
+    {
+     "name": "GET /api/v1/catalog/features (P08-T01-S01-M01) paginates 100 -> 100 -> 50 and filters tenant",
+     "message": "AssertionError: expected 52 to be 50 // Object.is equality\n    at C:\\Oto Dj - Oto Mix\\Oto Mix\\packages\\gateway\\test\\catalog-features.spec.ts:107:34\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at file:///C:/Oto%20Dj%20-%20Oto%20Mix/Oto%20Mix/node_modules/.pnpm/@vitest+runner@3.2.7/node_modules/@vitest/runner/dist/chunk-hooks.js:752:20"
+    }
+   ]
   }
  },
  "tsc": {
   "packages/core/tsconfig.json": {
-   "at": 1794958697453,
+   "at": 1794961035850,
    "exit": 0,
    "diagnostics": []
   },
   "packages/access/tsconfig.json": {
-   "at": 1794954192489,
+   "at": 1794960204241,
    "exit": 0,
    "diagnostics": []
   },
@@ -1701,12 +1714,12 @@
    "diagnostics": []
   },
   "packages/db/tsconfig.json": {
-   "at": 1794954193798,
+   "at": 1794960215346,
    "exit": 0,
    "diagnostics": []
   },
   "packages/gateway/tsconfig.json": {
-   "at": 1794959958383,
+   "at": 1794961036649,
    "exit": 2,
    "diagnostics": [
     {
