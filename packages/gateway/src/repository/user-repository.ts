@@ -10,11 +10,9 @@ export interface GoogleUserData {
 
 export async function upsertGoogleUser(pool: Pool, data: GoogleUserData): Promise<string> {
   return withTenant(pool, 'otomix', async (client) => {
-    // 1. Try match by google_id
     let res = await client.query('SELECT user_id FROM users WHERE google_id = $1', [data.googleId]);
     if (res.rows.length > 0) return res.rows[0].user_id;
 
-    // 2. Try match by email
     if (data.email) {
       res = await client.query('SELECT user_id FROM users WHERE email = $1', [data.email]);
       if (res.rows.length > 0) {
@@ -24,7 +22,6 @@ export async function upsertGoogleUser(pool: Pool, data: GoogleUserData): Promis
       }
     }
 
-    // 3. Insert new user
     const newId = randomUUID();
     await client.query(
       `INSERT INTO users (user_id, tenant_id, role, tier, google_id, email, display_name)
@@ -53,6 +50,25 @@ export async function upsertTelegramUser(pool: Pool, data: TelegramUserData): Pr
       `INSERT INTO users (user_id, tenant_id, role, tier, telegram_id, display_name)
          VALUES ($1, 'otomix', 'end_user', 1, $2, $3)`,
       [newId, data.telegramId, data.firstName || data.username || 'Telegram User']
+    );
+    return newId;
+  });
+}
+
+export interface PhoneUserData {
+  phoneE164: string;
+}
+
+export async function upsertPhoneUser(pool: Pool, data: PhoneUserData): Promise<string> {
+  return withTenant(pool, 'otomix', async (client) => {
+    let res = await client.query('SELECT user_id FROM users WHERE phone_e164 = $1', [data.phoneE164]);
+    if (res.rows.length > 0) return res.rows[0].user_id;
+    
+    const newId = randomUUID();
+    await client.query(
+      `INSERT INTO users (user_id, tenant_id, role, tier, phone_e164)
+         VALUES ($1, 'otomix', 'end_user', 1, $2)`,
+      [newId, data.phoneE164]
     );
     return newId;
   });
