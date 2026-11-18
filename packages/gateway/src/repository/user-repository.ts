@@ -28,8 +28,31 @@ export async function upsertGoogleUser(pool: Pool, data: GoogleUserData): Promis
     const newId = randomUUID();
     await client.query(
       `INSERT INTO users (user_id, tenant_id, role, tier, google_id, email, display_name)
-       VALUES ($1, 'otomix', 'end_user', 1, $2, $3, $4)`,
+         VALUES ($1, 'otomix', 'end_user', 1, $2, $3, $4)`,
       [newId, data.googleId, data.email || null, data.displayName || null]
+    );
+    return newId;
+  });
+}
+
+export interface TelegramUserData {
+  telegramId: string;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  username?: string | undefined;
+  photoUrl?: string | undefined;
+}
+
+export async function upsertTelegramUser(pool: Pool, data: TelegramUserData): Promise<string> {
+  return withTenant(pool, 'otomix', async (client) => {
+    let res = await client.query('SELECT user_id FROM users WHERE telegram_id = $1', [data.telegramId]);
+    if (res.rows.length > 0) return res.rows[0].user_id;
+    
+    const newId = randomUUID();
+    await client.query(
+      `INSERT INTO users (user_id, tenant_id, role, tier, telegram_id, display_name)
+         VALUES ($1, 'otomix', 'end_user', 1, $2, $3)`,
+      [newId, data.telegramId, data.firstName || data.username || 'Telegram User']
     );
     return newId;
   });
