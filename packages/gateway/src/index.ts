@@ -30,3 +30,5 @@ export type { RejectDeps, RejectFormat, RejectReason, RejectResult } from './ing
 
 export { extractTagsForGateway } from './ingest/tags.js';
 export type { TagsDeps, TagsResult } from './ingest/tags.js';
+
+export { createCatalogFeaturesHandler } from './routes/catalog-features.js';
