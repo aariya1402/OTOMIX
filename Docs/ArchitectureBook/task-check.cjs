@@ -50,6 +50,7 @@ function runVitest(files, evidence) {
       let status = 'passed';
       if (failures.length) status = failures.every(item => ENV_FAILURE.test(item.message)) ? 'env' : 'failed';
       else if (!assertions.length) status = 'empty';
+      else if (assertions.filter(item => item.status === 'passed').length !== assertions.length) status = 'incomplete';
       evidence.tests[file] = {
         at: startedAt, status, total: assertions.length, passed: assertions.filter(item => item.status === 'passed').length,
         failed: failures.length, failures: failures.slice(0, 12)

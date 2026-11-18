@@ -1752,7 +1752,7 @@
     },
     {
         "id": "P07-T05-S01-M01",
-        "status": "DONE",
+        "status": "BLOCKED",
         "description": "Record user source declarations (ingest, publish, export) with terms version and UTC timestamp.",
         "prerequisites": [
             "P07-T04-S01-M02"
