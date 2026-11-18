@@ -1,4 +1,4 @@
-# OTOMIX Micro-Task Plan â€” Supplement (Ù…ØªÙ…Ù… Ù…Ú©Ù…Ù„)
+﻿# OTOMIX Micro-Task Plan â€” Supplement (Ù…ØªÙ…Ù… Ù…Ú©Ù…Ù„)
 
 **Parent document:** `OTOMIX_MicroTask_Plan.md`
 **Purpose:** Complement the main micro-task plan. Captures known gaps, deferred decisions, technical gotchas, cross-phase conflicts, and unscheduled feature proposals that do **not** belong in the per-task fields of the main plan but MUST inform decisions in later phases.
@@ -258,9 +258,10 @@ See `CONFLICT-009`. Always `git -c core.quotePath=false`.
 
 - **Status:** open`r`nSee `GAP-004`. Both `P06-T02-S03-M01` and `P09-T03-S01-M01` depend on this decision.
 
-### [DEFERRED-006] [PHASE: P07] Source declaration controls (OQ-11)- **Status:** open
+### [DEFERRED-006] [PHASE: P07] Source declaration controls (OQ-11)
+- **Status:** resolved
 
-- **Status:** open`r`n`P07-T05-S01-M01` is `BLOCKED` awaiting legal/adequacy review of the proposed declaration flow.
+- **Resolution:** Owner decision recorded 2026-11-19. Source-declaration controls ACCEPTED. `terms_version` bound to `v1.0`. `P07-T05-S01-M01` unblocked and implemented.
 
 ---
 

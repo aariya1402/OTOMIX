@@ -9,7 +9,7 @@
    "failures": []
   },
   "fuzz/decoder.fuzz.spec.ts": {
-   "at": 1794850051239,
+   "at": 1795032821367,
    "status": "passed",
    "total": 2,
    "passed": 2,
@@ -65,18 +65,18 @@
    "failures": []
   },
   "packages/db/test/rls.spec.ts": {
-   "at": 1794954094568,
+   "at": 1795017045978,
    "status": "passed",
    "total": 18,
-   "passed": 18,
+   "passed": 0,
    "failed": 0,
    "failures": []
   },
   "packages/db/test/with-tenant.spec.ts": {
-   "at": 1794960208467,
+   "at": 1795017230767,
    "status": "passed",
    "total": 3,
-   "passed": 3,
+   "passed": 0,
    "failed": 0,
    "failures": []
   },
@@ -89,34 +89,34 @@
    "failures": []
   },
   "packages/access/test/rbac.bootstrap.spec.ts": {
-   "at": 1794954182089,
+   "at": 1795031454007,
    "status": "passed",
    "total": 6,
-   "passed": 6,
+   "passed": 0,
    "failed": 0,
    "failures": []
   },
   "packages/access/test/rbac.cache.spec.ts": {
-   "at": 1794954182089,
+   "at": 1795031454007,
    "status": "passed",
    "total": 8,
-   "passed": 8,
+   "passed": 0,
    "failed": 0,
    "failures": []
   },
   "packages/access/test/rbac.grant-service.spec.ts": {
-   "at": 1794954182089,
+   "at": 1795031454007,
    "status": "passed",
    "total": 8,
-   "passed": 8,
+   "passed": 0,
    "failed": 0,
    "failures": []
   },
   "packages/access/test/rbac.groups.spec.ts": {
-   "at": 1794954182089,
+   "at": 1795031454007,
    "status": "passed",
    "total": 8,
-   "passed": 8,
+   "passed": 0,
    "failed": 0,
    "failures": []
   },
@@ -225,7 +225,7 @@
    "failures": []
   },
   "packages/db/test/rbac.roles.seed.spec.ts": {
-   "at": 1794876314279,
+   "at": 1795031454007,
    "status": "passed",
    "total": 6,
    "passed": 0,
@@ -297,7 +297,7 @@
    "failures": []
   },
   "tools/test/no-decoder-main.spec.ts": {
-   "at": 1794894127047,
+   "at": 1795032706041,
    "status": "passed",
    "total": 2,
    "passed": 2,
@@ -386,7 +386,7 @@
    "failures": []
   },
   "packages/access/test/rbac.effective.spec.ts": {
-   "at": 1794954182089,
+   "at": 1795031454007,
    "status": "passed",
    "total": 10,
    "passed": 10,
@@ -394,7 +394,7 @@
    "failures": []
   },
   "packages/access/test/rbac.expiry.spec.ts": {
-   "at": 1794954182089,
+   "at": 1795031454007,
    "status": "passed",
    "total": 3,
    "passed": 3,
@@ -458,7 +458,7 @@
    "failures": []
   },
   "packages/adapter/test/confine.spec.ts": {
-   "at": 1794876293988,
+   "at": 1795032694665,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -498,7 +498,7 @@
    "failures": []
   },
   "packages/adapter/test/limits.spec.ts": {
-   "at": 1794876320346,
+   "at": 1795032688883,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -506,7 +506,7 @@
    "failures": []
   },
   "packages/adapter/test/normalize.spec.ts": {
-   "at": 1794884523332,
+   "at": 1795018689284,
    "status": "passed",
    "total": 6,
    "passed": 6,
@@ -514,7 +514,7 @@
    "failures": []
   },
   "packages/adapter/test/sniff.spec.ts": {
-   "at": 1794954196616,
+   "at": 1795032717262,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -522,7 +522,7 @@
    "failures": []
   },
   "packages/adapter/test/tags.spec.ts": {
-   "at": 1794953857353,
+   "at": 1795032750716,
    "status": "passed",
    "total": 2,
    "passed": 2,
@@ -615,7 +615,7 @@
    "failures": []
   },
   "packages/core/test/config.analysis.spec.ts": {
-   "at": 1794953798175,
+   "at": 1795018707911,
    "status": "passed",
    "total": 1,
    "passed": 1,
@@ -647,7 +647,7 @@
    "failures": []
   },
   "packages/core/test/dsp-comp.spec.ts": {
-   "at": 1794953788196,
+   "at": 1795018673464,
    "status": "passed",
    "total": 5,
    "passed": 5,
@@ -655,7 +655,7 @@
    "failures": []
   },
   "packages/core/test/dsp-degraded.spec.ts": {
-   "at": 1794953661170,
+   "at": 1795016909050,
    "status": "passed",
    "total": 1,
    "passed": 1,
@@ -671,7 +671,7 @@
    "failures": []
   },
   "packages/core/test/dsp-input-gain.spec.ts": {
-   "at": 1794953784972,
+   "at": 1795018682483,
    "status": "passed",
    "total": 7,
    "passed": 7,
@@ -679,7 +679,7 @@
    "failures": []
   },
   "packages/core/test/dsp-latency.spec.ts": {
-   "at": 1794953661170,
+   "at": 1795016909050,
    "status": "passed",
    "total": 1,
    "passed": 1,
@@ -695,7 +695,7 @@
    "failures": []
   },
   "packages/core/test/dsp-mock.spec.ts": {
-   "at": 1794953788196,
+   "at": 1795018673464,
    "status": "passed",
    "total": 7,
    "passed": 7,
@@ -703,7 +703,7 @@
    "failures": []
   },
   "packages/core/test/dsp.denormal.spec.ts": {
-   "at": 1794883027377,
+   "at": 1795018646268,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -719,7 +719,7 @@
    "failures": []
   },
   "packages/core/test/dsp.port.spec.ts": {
-   "at": 1794953788196,
+   "at": 1795018673464,
    "status": "passed",
    "total": 10,
    "passed": 10,
@@ -743,7 +743,7 @@
    "failures": []
   },
   "packages/core/test/features.bpm-dynamic.spec.ts": {
-   "at": 1794953802407,
+   "at": 1795018734308,
    "status": "passed",
    "total": 3,
    "passed": 3,
@@ -751,7 +751,7 @@
    "failures": []
   },
   "packages/core/test/features.bpm-seed.spec.ts": {
-   "at": 1794953805651,
+   "at": 1795018727357,
    "status": "passed",
    "total": 5,
    "passed": 5,
@@ -759,7 +759,7 @@
    "failures": []
   },
   "packages/core/test/features.cache.spec.ts": {
-   "at": 1794953809497,
+   "at": 1795018752114,
    "status": "passed",
    "total": 3,
    "passed": 3,
@@ -767,7 +767,7 @@
    "failures": []
   },
   "packages/core/test/features.camelot-gate.spec.ts": {
-   "at": 1794953791963,
+   "at": 1795018699322,
    "status": "passed",
    "total": 7,
    "passed": 7,
@@ -775,7 +775,7 @@
    "failures": []
   },
   "packages/core/test/features.compatibility.spec.ts": {
-   "at": 1794953798175,
+   "at": 1795018703524,
    "status": "passed",
    "total": 8,
    "passed": 8,
@@ -783,7 +783,7 @@
    "failures": []
   },
   "packages/core/test/features.energy-compression.spec.ts": {
-   "at": 1794953812619,
+   "at": 1795018748443,
    "status": "passed",
    "total": 1,
    "passed": 1,
@@ -799,7 +799,7 @@
    "failures": []
   },
   "packages/core/test/features.energy.spec.ts": {
-   "at": 1794953668428,
+   "at": 1795016897825,
    "status": "passed",
    "total": 8,
    "passed": 8,
@@ -815,7 +815,7 @@
    "failures": []
   },
   "packages/core/test/features.mixability.spec.ts": {
-   "at": 1794953795038,
+   "at": 1795018694950,
    "status": "passed",
    "total": 6,
    "passed": 6,
@@ -887,7 +887,7 @@
    "failures": []
   },
   "packages/core/test/grid.lock-rule.spec.ts": {
-   "at": 1794953665396,
+   "at": 1795018707911,
    "status": "passed",
    "total": 8,
    "passed": 8,
@@ -919,7 +919,7 @@
    "failures": []
   },
   "packages/core/test/grid.prekick-map.spec.ts": {
-   "at": 1794876067722,
+   "at": 1795016893521,
    "status": "passed",
    "total": 13,
    "passed": 13,
@@ -1055,7 +1055,7 @@
    "failures": []
   },
   "packages/core/test/pipeline.metric.spec.ts": {
-   "at": 1794953678357,
+   "at": 1795018773199,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -1079,7 +1079,7 @@
    "failures": []
   },
   "packages/core/test/retry.spec.ts": {
-   "at": 1794960230496,
+   "at": 1795032711079,
    "status": "passed",
    "total": 3,
    "passed": 3,
@@ -1167,7 +1167,7 @@
    "failures": []
   },
   "packages/core/test/transition.window.spec.ts": {
-   "at": 1794953672837,
+   "at": 1795018712523,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -1231,7 +1231,7 @@
    "failures": []
   },
   "packages/gateway/test/confine.spec.ts": {
-   "at": 1794876293988,
+   "at": 1795032694665,
    "status": "passed",
    "total": 5,
    "passed": 5,
@@ -1319,7 +1319,7 @@
    "failures": []
   },
   "packages/gateway/test/limits.spec.ts": {
-   "at": 1794876320346,
+   "at": 1795032688883,
    "status": "passed",
    "total": 6,
    "passed": 6,
@@ -1335,7 +1335,7 @@
    "failures": []
   },
   "packages/gateway/test/reject.spec.ts": {
-   "at": 1794876338501,
+   "at": 1795032711079,
    "status": "passed",
    "total": 5,
    "passed": 5,
@@ -1351,7 +1351,7 @@
    "failures": []
   },
   "packages/gateway/test/sniff.spec.ts": {
-   "at": 1794954196616,
+   "at": 1795032717262,
    "status": "passed",
    "total": 7,
    "passed": 7,
@@ -1367,7 +1367,7 @@
    "failures": []
   },
   "packages/gateway/test/status-map.spec.ts": {
-   "at": 1794850051239,
+   "at": 1795018641615,
    "status": "passed",
    "total": 11,
    "passed": 11,
@@ -1375,7 +1375,7 @@
    "failures": []
   },
   "packages/gateway/test/tags.spec.ts": {
-   "at": 1794953857353,
+   "at": 1795032750716,
    "status": "passed",
    "total": 3,
    "passed": 3,
@@ -1415,7 +1415,7 @@
    "failures": []
   },
   "packages/ui/test/reorder.score.spec.ts": {
-   "at": 1794850051239,
+   "at": 1795018716738,
    "status": "passed",
    "total": 3,
    "passed": 3,
@@ -1439,7 +1439,7 @@
    "failures": []
   },
   "packages/workers/test/decode.spec.ts": {
-   "at": 1794953851026,
+   "at": 1795032700065,
    "status": "passed",
    "total": 5,
    "passed": 5,
@@ -1455,7 +1455,7 @@
    "failures": []
   },
   "packages/workers/test/pool-bulkhead.spec.ts": {
-   "at": 1794850051239,
+   "at": 1795016888484,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -1487,7 +1487,7 @@
    "failures": []
   },
   "packages/core/test/ingest/confine.spec.ts": {
-   "at": 1794876293988,
+   "at": 1795032694665,
    "status": "passed",
    "total": 7,
    "passed": 7,
@@ -1495,7 +1495,7 @@
    "failures": []
   },
   "packages/core/test/ingest/tags.spec.ts": {
-   "at": 1794953857353,
+   "at": 1795032750716,
    "status": "passed",
    "total": 2,
    "passed": 2,
@@ -1503,7 +1503,7 @@
    "failures": []
   },
   "packages/adapter/test/pact/map.pact.spec.ts": {
-   "at": 1794891179109,
+   "at": 1795018721684,
    "status": "passed",
    "total": 3,
    "passed": 3,
@@ -1535,7 +1535,7 @@
    "failures": []
   },
   "packages/core/test/vocal.fallback.spec.ts": {
-   "at": 1794875505147,
+   "at": 1795018757911,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -1551,7 +1551,7 @@
    "failures": []
   },
   "tools/rt-audit/test/audit.spec.ts": {
-   "at": 1794953652565,
+   "at": 1795018650743,
    "status": "passed",
    "total": 3,
    "passed": 3,
@@ -1615,7 +1615,7 @@
    "failures": []
   },
   "packages/workers/test/denormal.spec.ts": {
-   "at": 1794883027377,
+   "at": 1795018646268,
    "status": "passed",
    "total": 3,
    "passed": 3,
@@ -1623,7 +1623,7 @@
    "failures": []
   },
   "packages/contracts/test/dsp-port-schema.spec.ts": {
-   "at": 1794953780422,
+   "at": 1795018658732,
    "status": "passed",
    "total": 3,
    "passed": 3,
@@ -1631,7 +1631,7 @@
    "failures": []
   },
   "packages/core/test/dsp-eq.spec.ts": {
-   "at": 1794953657380,
+   "at": 1795018668300,
    "status": "passed",
    "total": 7,
    "passed": 7,
@@ -1655,10 +1655,10 @@
    "failures": []
   },
   "packages/gateway/test/auth-google.spec.ts": {
-   "at": 1794961944528,
+   "at": 1795032839418,
    "status": "passed",
    "total": 1,
-   "passed": 1,
+   "passed": 0,
    "failed": 0,
    "failures": []
   },
@@ -1671,7 +1671,7 @@
    "failures": []
   },
   "packages/ui/test/mixplan.client.spec.ts": {
-   "at": 1794959948438,
+   "at": 1795032839418,
    "status": "passed",
    "total": 3,
    "passed": 3,
@@ -1679,90 +1679,57 @@
    "failures": []
   },
   "packages/gateway/test/catalog-features.spec.ts": {
-   "at": 1794960255404,
-   "status": "failed",
+   "at": 1795032839418,
+   "status": "passed",
    "total": 3,
-   "passed": 2,
-   "failed": 1,
-   "failures": [
-    {
-     "name": "GET /api/v1/catalog/features (P08-T01-S01-M01) paginates 100 -> 100 -> 50 and filters tenant",
-     "message": "AssertionError: expected 52 to be 50 // Object.is equality\n    at C:\\Oto Dj - Oto Mix\\Oto Mix\\packages\\gateway\\test\\catalog-features.spec.ts:107:34\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at file:///C:/Oto%20Dj%20-%20Oto%20Mix/Oto%20Mix/node_modules/.pnpm/@vitest+runner@3.2.7/node_modules/@vitest/runner/dist/chunk-hooks.js:752:20"
-    }
-   ]
+   "passed": 0,
+   "failed": 0,
+   "failures": []
   }
  },
  "tsc": {
   "packages/core/tsconfig.json": {
-   "at": 1794961955495,
+   "at": 1795032754210,
    "exit": 0,
    "diagnostics": []
   },
   "packages/access/tsconfig.json": {
-   "at": 1794960204241,
+   "at": 1795031637346,
    "exit": 0,
    "diagnostics": []
   },
   "packages/adapter/tsconfig.json": {
-   "at": 1794954198871,
+   "at": 1795032753514,
    "exit": 0,
    "diagnostics": []
   },
   "packages/contracts/tsconfig.json": {
-   "at": 1794959950683,
+   "at": 1795018660932,
    "exit": 0,
    "diagnostics": []
   },
   "packages/db/tsconfig.json": {
-   "at": 1794960215346,
+   "at": 1795031638743,
    "exit": 0,
    "diagnostics": []
   },
   "packages/gateway/tsconfig.json": {
-   "at": 1794961952692,
+   "at": 1795033143056,
    "exit": 2,
    "diagnostics": [
     {
-     "file": "packages/gateway/src/routes/catalog-features.ts",
-     "line": 29,
-     "col": 10,
-     "code": "TS7030",
-     "message": "Not all code paths return a value."
+     "file": "packages/gateway/src/routes/auth-telegram.ts",
+     "line": 27,
+     "col": 29,
+     "code": "TS2345",
+     "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
     },
     {
-     "file": "packages/gateway/src/routes/catalog-features.ts",
-     "line": 32,
-     "col": 72,
-     "code": "TS7027",
-     "message": "Unreachable code detected."
-    },
-    {
-     "file": "packages/gateway/src/routes/catalog-features.ts",
-     "line": 37,
-     "col": 121,
-     "code": "TS7027",
-     "message": "Unreachable code detected."
-    },
-    {
-     "file": "packages/gateway/src/routes/catalog-features.ts",
-     "line": 45,
-     "col": 99,
-     "code": "TS7027",
-     "message": "Unreachable code detected."
-    },
-    {
-     "file": "packages/gateway/src/routes/catalog-features.ts",
-     "line": 51,
-     "col": 101,
-     "code": "TS7027",
-     "message": "Unreachable code detected."
-    },
-    {
-     "file": "packages/gateway/src/routes/catalog-features.ts",
-     "line": 58,
-     "col": 61,
-     "code": "TS7027",
-     "message": "Unreachable code detected."
+     "file": "packages/gateway/src/routes/auth-telegram.ts",
+     "line": 59,
+     "col": 60,
+     "code": "TS2379",
+     "message": "Argument of type '{ telegramId: string; firstName: string | undefined; lastName: string | undefined; username: string | undefined; photoUrl: string | undefined; }' is not assignable to parameter of type 'TelegramUserData' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the ty"
     }
    ]
   },
@@ -1772,12 +1739,12 @@
    "diagnostics": []
   },
   "packages/ui/tsconfig.json": {
-   "at": 1794959949582,
+   "at": 1795033143890,
    "exit": 0,
    "diagnostics": []
   },
   "packages/workers/tsconfig.json": {
-   "at": 1794961934522,
+   "at": 1795032701621,
    "exit": 0,
    "diagnostics": []
   }
