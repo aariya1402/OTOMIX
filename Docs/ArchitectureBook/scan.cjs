@@ -652,7 +652,7 @@ function build() {
       else if (test.state === 'env') issues.push({ kind: 'test-env', severity: 'warn', text: 'Test could not run: required environment is unavailable', path: test.path });
       else if (test.state === 'empty') issues.push({ kind: 'test-empty', severity: 'warn', text: 'Test file ran zero test cases', path: test.path });
       else if (test.state === 'unrun') issues.push({ kind: 'test-unrun', severity: 'warn', text: 'No recorded test run', path: test.path });
-      else if (test.state === 'stale') issues.push({ kind: 'test-stale', severity: 'warn', text: 'Recorded run is older than a related file change', path: test.path });
+      else if (test.state === 'stale') issues.push({ kind: 'test-stale', severity: 'info', text: 'Recorded run is older than a related file change', path: test.path });
       else if (test.state === 'manual') issues.push({ kind: 'test-manual', severity: 'info', text: 'Not runnable by Vitest (' + test.runner + ')', path: test.path });
     }
     if (!tests.length && !ignoreIssues.has('no-test')) issues.push({ kind: 'no-test', severity: 'warn', text: 'No test declared or linked for this task' });

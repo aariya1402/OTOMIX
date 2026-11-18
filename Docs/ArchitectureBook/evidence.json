@@ -241,7 +241,7 @@
    "failures": []
   },
   "bench/observer-cycle.threshold.spec.ts": {
-   "at": 1794953732484,
+   "at": 1794961803191,
    "status": "passed",
    "total": 1,
    "passed": 1,
@@ -289,7 +289,7 @@
    "failures": []
   },
   "tools/test/no-alloc.spec.ts": {
-   "at": 1794953704772,
+   "at": 1794961722176,
    "status": "passed",
    "total": 1,
    "passed": 1,
@@ -530,7 +530,7 @@
    "failures": []
   },
   "packages/core/test/anchor.classify.spec.ts": {
-   "at": 1794953615026,
+   "at": 1794961954322,
    "status": "passed",
    "total": 8,
    "passed": 8,
@@ -538,7 +538,7 @@
    "failures": []
   },
   "packages/core/test/anchor.fallback.spec.ts": {
-   "at": 1794953718717,
+   "at": 1794961737251,
    "status": "passed",
    "total": 5,
    "passed": 5,
@@ -575,7 +575,7 @@
    ]
   },
   "packages/core/test/chop.crossfade-bound.spec.ts": {
-   "at": 1794953649094,
+   "at": 1794961912389,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -583,7 +583,7 @@
    "failures": []
   },
   "packages/core/test/chop.groove-shift.spec.ts": {
-   "at": 1794953760986,
+   "at": 1794961893632,
    "status": "passed",
    "total": 8,
    "passed": 8,
@@ -599,7 +599,7 @@
    "failures": []
   },
   "packages/core/test/chop.slice.spec.ts": {
-   "at": 1794953646463,
+   "at": 1794961889534,
    "status": "passed",
    "total": 10,
    "passed": 10,
@@ -607,7 +607,7 @@
    "failures": []
   },
   "packages/core/test/chop.widen-grid.spec.ts": {
-   "at": 1794953770347,
+   "at": 1794961916019,
    "status": "passed",
    "total": 3,
    "passed": 3,
@@ -687,7 +687,7 @@
    "failures": []
   },
   "packages/core/test/dsp-limiter.spec.ts": {
-   "at": 1794953649094,
+   "at": 1794961912389,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -727,7 +727,7 @@
    "failures": []
   },
   "packages/core/test/dsp.smoother.spec.ts": {
-   "at": 1794883023183,
+   "at": 1794961933453,
    "status": "passed",
    "total": 5,
    "passed": 5,
@@ -735,7 +735,7 @@
    "failures": []
   },
   "packages/core/test/dsp.spsc-ring-buffer.spec.ts": {
-   "at": 1794883056990,
+   "at": 1794961925452,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -855,7 +855,7 @@
    "failures": []
   },
   "packages/core/test/grid.attack.spec.ts": {
-   "at": 1794953722149,
+   "at": 1794961758498,
    "status": "passed",
    "total": 5,
    "passed": 5,
@@ -863,7 +863,7 @@
    "failures": []
   },
   "packages/core/test/grid.body.spec.ts": {
-   "at": 1794953595456,
+   "at": 1794961766347,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -871,7 +871,7 @@
    "failures": []
   },
   "packages/core/test/grid.delta-clamp.spec.ts": {
-   "at": 1794953572109,
+   "at": 1794961687240,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -879,7 +879,7 @@
    "failures": []
   },
   "packages/core/test/grid.dormant.spec.ts": {
-   "at": 1794953632026,
+   "at": 1794961769641,
    "status": "passed",
    "total": 7,
    "passed": 7,
@@ -895,7 +895,7 @@
    "failures": []
   },
   "packages/core/test/grid.period.spec.ts": {
-   "at": 1794953575238,
+   "at": 1794961707586,
    "status": "passed",
    "total": 6,
    "passed": 6,
@@ -911,7 +911,7 @@
    "failures": []
   },
   "packages/core/test/grid.piecewise.spec.ts": {
-   "at": 1794953586710,
+   "at": 1794961741059,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -927,7 +927,7 @@
    "failures": []
   },
   "packages/core/test/grid.prekick-short.spec.ts": {
-   "at": 1794953589369,
+   "at": 1794961749541,
    "status": "passed",
    "total": 11,
    "passed": 11,
@@ -935,7 +935,7 @@
    "failures": []
   },
   "packages/core/test/grid.realign-cosine.spec.ts": {
-   "at": 1794953729032,
+   "at": 1794961786996,
    "status": "passed",
    "total": 7,
    "passed": 7,
@@ -943,7 +943,7 @@
    "failures": []
   },
   "packages/core/test/grid.realign-trigger.spec.ts": {
-   "at": 1794953725784,
+   "at": 1794961776591,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -951,7 +951,7 @@
    "failures": []
   },
   "packages/core/test/grid.recovery.spec.ts": {
-   "at": 1794953714574,
+   "at": 1794961745411,
    "status": "passed",
    "total": 8,
    "passed": 8,
@@ -967,7 +967,7 @@
    "failures": []
   },
   "packages/core/test/groove.classify.spec.ts": {
-   "at": 1794953735322,
+   "at": 1794961841322,
    "status": "passed",
    "total": 8,
    "passed": 8,
@@ -975,7 +975,7 @@
    "failures": []
   },
   "packages/core/test/groove.delta.spec.ts": {
-   "at": 1794953747044,
+   "at": 1794961846612,
    "status": "passed",
    "total": 6,
    "passed": 6,
@@ -983,7 +983,7 @@
    "failures": []
   },
   "packages/core/test/groove.irregular.spec.ts": {
-   "at": 1794953640188,
+   "at": 1794961850383,
    "status": "passed",
    "total": 11,
    "passed": 11,
@@ -999,7 +999,7 @@
    "failures": []
   },
   "packages/core/test/observer.degrade.spec.ts": {
-   "at": 1794953636534,
+   "at": 1794961798928,
    "status": "passed",
    "total": 5,
    "passed": 5,
@@ -1007,7 +1007,7 @@
    "failures": []
   },
   "packages/core/test/observer.drift.spec.ts": {
-   "at": 1794953598799,
+   "at": 1794961795449,
    "status": "passed",
    "total": 5,
    "passed": 5,
@@ -1015,7 +1015,7 @@
    "failures": []
   },
   "packages/core/test/observer.realign-log.spec.ts": {
-   "at": 1794953603713,
+   "at": 1794961791606,
    "status": "passed",
    "total": 7,
    "passed": 7,
@@ -1023,7 +1023,7 @@
    "failures": []
   },
   "packages/core/test/observer.scale.spec.ts": {
-   "at": 1794953636534,
+   "at": 1794961798928,
    "status": "passed",
    "total": 5,
    "passed": 5,
@@ -1095,7 +1095,7 @@
    "failures": []
   },
   "packages/core/test/timing.quantum.spec.ts": {
-   "at": 1794953701083,
+   "at": 1794961715583,
    "status": "passed",
    "total": 10,
    "passed": 10,
@@ -1103,7 +1103,7 @@
    "failures": []
   },
   "packages/core/test/timing.scheduler.spec.ts": {
-   "at": 1794953583323,
+   "at": 1794961718763,
    "status": "passed",
    "total": 7,
    "passed": 7,
@@ -1111,7 +1111,7 @@
    "failures": []
   },
   "packages/core/test/timing.structure.spec.ts": {
-   "at": 1794953618570,
+   "at": 1794961711724,
    "status": "passed",
    "total": 59,
    "passed": 59,
@@ -1119,7 +1119,7 @@
    "failures": []
   },
   "packages/core/test/transition.anchors.spec.ts": {
-   "at": 1794953739005,
+   "at": 1794961854118,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -1127,7 +1127,7 @@
    "failures": []
   },
   "packages/core/test/transition.forced.spec.ts": {
-   "at": 1794953754138,
+   "at": 1794961868637,
    "status": "passed",
    "total": 5,
    "passed": 5,
@@ -1135,7 +1135,7 @@
    "failures": []
   },
   "packages/core/test/transition.property.spec.ts": {
-   "at": 1794953757128,
+   "at": 1794961875736,
    "status": "passed",
    "total": 3,
    "passed": 3,
@@ -1143,7 +1143,7 @@
    "failures": []
   },
   "packages/core/test/transition.safety.spec.ts": {
-   "at": 1794953750256,
+   "at": 1794961864918,
    "status": "passed",
    "total": 6,
    "passed": 6,
@@ -1151,7 +1151,7 @@
    "failures": []
   },
   "packages/core/test/transition.short.spec.ts": {
-   "at": 1794953754138,
+   "at": 1794961868637,
    "status": "passed",
    "total": 9,
    "passed": 9,
@@ -1159,7 +1159,7 @@
    "failures": []
   },
   "packages/core/test/transition.static120.spec.ts": {
-   "at": 1794953643447,
+   "at": 1794961861438,
    "status": "passed",
    "total": 6,
    "passed": 6,
@@ -1223,7 +1223,7 @@
    "failures": []
   },
   "packages/core/test/worklet-skeleton.spec.ts": {
-   "at": 1794953766960,
+   "at": 1794961919595,
    "status": "passed",
    "total": 2,
    "passed": 2,
@@ -1423,7 +1423,7 @@
    "failures": []
   },
   "tools/eslint-rules/test/no-alloc.spec.ts": {
-   "at": 1794953704772,
+   "at": 1794961722176,
    "status": "passed",
    "total": 1,
    "passed": 1,
@@ -1511,7 +1511,7 @@
    "failures": []
   },
   "packages/core/test/prekick-long.spec.ts": {
-   "at": 1794875693499,
+   "at": 1794961753871,
    "status": "passed",
    "total": 11,
    "passed": 11,
@@ -1519,7 +1519,7 @@
    "failures": []
   },
   "packages/core/test/grid.body-dominant.spec.ts": {
-   "at": 1794876424777,
+   "at": 1794961772781,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -1527,7 +1527,7 @@
    "failures": []
   },
   "packages/core/test/glide.schedule.spec.ts": {
-   "at": 1794881213914,
+   "at": 1794961886194,
    "status": "passed",
    "total": 1,
    "passed": 1,
@@ -1559,7 +1559,7 @@
    "failures": []
   },
   "packages/core/test/chop.slice.bpm.spec.ts": {
-   "at": 1794953763891,
+   "at": 1794961837020,
    "status": "passed",
    "total": 3,
    "passed": 3,
@@ -1567,7 +1567,7 @@
    "failures": []
   },
   "packages/core/test/transition.decision.spec.ts": {
-   "at": 1794881057693,
+   "at": 1794961872212,
    "status": "passed",
    "total": 3,
    "passed": 3,
@@ -1575,7 +1575,7 @@
    "failures": []
   },
   "packages/core/test/chop.fade.spec.ts": {
-   "at": 1794953773899,
+   "at": 1794961908241,
    "status": "passed",
    "total": 7,
    "passed": 7,
@@ -1583,7 +1583,7 @@
    "failures": []
   },
   "packages/core/test/chop.shed.spec.ts": {
-   "at": 1794953770347,
+   "at": 1794961916019,
    "status": "passed",
    "total": 5,
    "passed": 5,
@@ -1591,7 +1591,7 @@
    "failures": []
   },
   "packages/workers/test/processor.spec.ts": {
-   "at": 1794953766960,
+   "at": 1794961919595,
    "status": "passed",
    "total": 1,
    "passed": 1,
@@ -1599,7 +1599,7 @@
    "failures": []
   },
   "packages/workers/test/ring.spec.ts": {
-   "at": 1794883056990,
+   "at": 1794961925452,
    "status": "passed",
    "total": 1,
    "passed": 1,
@@ -1607,7 +1607,7 @@
    "failures": []
   },
   "packages/workers/test/smooth.spec.ts": {
-   "at": 1794883023183,
+   "at": 1794961933453,
    "status": "passed",
    "total": 2,
    "passed": 2,
@@ -1655,7 +1655,7 @@
    "failures": []
   },
   "packages/gateway/test/auth-google.spec.ts": {
-   "at": 1794961030795,
+   "at": 1794961944528,
    "status": "passed",
    "total": 1,
    "passed": 1,
@@ -1663,7 +1663,7 @@
    "failures": []
   },
   "packages/core/test/ingest/metadata-enrichment.spec.ts": {
-   "at": 1794961030795,
+   "at": 1794961944528,
    "status": "passed",
    "total": 4,
    "passed": 4,
@@ -1694,7 +1694,7 @@
  },
  "tsc": {
   "packages/core/tsconfig.json": {
-   "at": 1794961035850,
+   "at": 1794961955495,
    "exit": 0,
    "diagnostics": []
   },
@@ -1719,7 +1719,7 @@
    "diagnostics": []
   },
   "packages/gateway/tsconfig.json": {
-   "at": 1794961036649,
+   "at": 1794961952692,
    "exit": 2,
    "diagnostics": [
     {
@@ -1777,7 +1777,7 @@
    "diagnostics": []
   },
   "packages/workers/tsconfig.json": {
-   "at": 1794953852540,
+   "at": 1794961934522,
    "exit": 0,
    "diagnostics": []
   }
