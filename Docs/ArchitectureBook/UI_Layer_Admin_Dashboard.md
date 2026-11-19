@@ -14,10 +14,10 @@
 
 ## Implemented Logic
 
-- state/mixplan.ts — selectStarter, SYSTEM fault on Camelot gate failure
-- state/reorder.ts — recomputeOnReorder, removes below gate, never repairs (comment: "We NEVER attempt to repair or fix a broken track.")
-- mixplan/score.ts — DEFAULT_WEIGHTS, dimensionless
-- mixplan/client.ts — fallback rung planner
+- `state/mixplan.ts` — selectStarter, SYSTEM fault on Camelot gate failure
+- `state/reorder.ts` — recomputeOnReorder, removes below gate, never repairs (comment: "We NEVER attempt to repair or fix a broken track.")
+- `mixplan/score.ts` — DEFAULT_WEIGHTS, dimensionless
+- `mixplan/client.ts` — fallback rung planner
 
 ## Rule 25/26 Compliance
 
@@ -27,21 +27,20 @@
 
 ## Gateway Admin Endpoints (all exist)
 
-- dmin:audit:export — found (access/src or db/seeds)
-- dmin:health — found
-- catalog:*, mastering:*, store:purchase — found in packages/gateway/src/scopes.ts
+- `admin:audit:export` — found
+- `admin:health` — found
+- `catalog:*`, `mastering:*`, `store:purchase` — found in `packages/gateway/src/scopes.ts`
 
-## RBAC Roles (all 9 in oles.seed.sql)
+## RBAC Roles (all 9 in `roles.seed.sql`)
 
-super_admin, deputy_admin, accountant, customer_care, content_specialist,
-dsp_specialist, regular_user, tier_1, tier_2
+super_admin, deputy_admin, accountant, customer_care, content_specialist, dsp_specialist, regular_user, tier_1, tier_2
 
 ## Missing (per plan, confirmed absent)
 
-- packages/ui/src/auth/ — **P07-REG-M06 pending** (3 tabs: Google / Telegram / Phone OTP)
+- `packages/ui/src/auth/` — **P07-REG-M06 pending** (3 tabs: Google / Telegram / Phone OTP)
 - Admin dashboard components
 - Publisher panel / Set Shop UI
 
 ## Next Step
 
-Implement packages/ui/src/auth/ (P07-REG-M06), then admin dashboard components.
+Implement `packages/ui/src/auth/` (P07-REG-M06), then admin dashboard components.
