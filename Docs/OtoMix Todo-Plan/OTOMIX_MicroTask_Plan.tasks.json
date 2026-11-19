@@ -1752,7 +1752,7 @@
     },
     {
         "id": "P07-T05-S01-M01",
-        "status": "BLOCKED",
+        "status": "DONE",
         "description": "Record user source declarations (ingest, publish, export) with terms version and UTC timestamp.",
         "prerequisites": [
             "P07-T04-S01-M02"
@@ -2808,7 +2808,7 @@
     },
     {
         "id": "P07-REG-M03",
-        "status": "TODO",
+        "status": "DONE",
         "description": "Telegram Login Widget backend: /auth/telegram/verify. HMAC-SHA256 with key = SHA256(bot_token), auth_date age < 86400s, upsert user by telegram_id. Env: TELEGRAM_BOT_TOKEN.",
         "prerequisites": [
             "P07-REG-M01"
@@ -2819,7 +2819,7 @@
     },
     {
         "id": "P07-REG-M04",
-        "status": "TODO",
+        "status": "DONE",
         "description": "Phone OTP: /auth/otp/send and /auth/otp/verify. Redis key otp:<phone> TTL 120s. Rate limit 3 per 10 min per phone. SMS provider port injectable. Env: SMS_PROVIDER_API_KEY.",
         "prerequisites": [
             "P07-REG-M01"

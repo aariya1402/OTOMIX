@@ -89,40 +89,36 @@
    "failures": []
   },
   "packages/access/test/rbac.bootstrap.spec.ts": {
-   "at": 1795045878609,
-   "status": "error",
-   "total": 0,
-   "passed": 0,
+   "at": 1795046857793,
+   "status": "passed",
+   "total": 6,
+   "passed": 6,
    "failed": 0,
-   "failures": [],
-   "note": "Vitest did not report this file (not included in a workspace project, or the suite failed to load). ol@1.1.1/node_modules/tinypool/dist/index.js:\u001b[2m149:62\u001b[22m\u001b[39m\n\u001b[90m \u001b[2m❯\u001b[22m [nodejs.internal.kHybridDispatch] node:internal/event_target:\u001b[2m856:20\u001b[22m\u001b[39m\n\u001b[90m \u001b[2m❯\u001b[22m MessagePort.<anonymous> node:internal/per_context/messageport:\u001b[2m23:28\u001b[22m\u001b[39m\n\n\u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\u001b[22m\u001b[39m\n\u001b[31m\u001b[1mSerialized Error:\u001b[22m\u001b[39m \u001b[90m{ code: 'ERR_IPC_CHANNEL_CLOSED' }\u001b[39m\n\n\n\n"
+   "failures": []
   },
   "packages/access/test/rbac.cache.spec.ts": {
-   "at": 1795045878609,
-   "status": "error",
-   "total": 0,
-   "passed": 0,
+   "at": 1795046857793,
+   "status": "passed",
+   "total": 8,
+   "passed": 8,
    "failed": 0,
-   "failures": [],
-   "note": "Vitest did not report this file (not included in a workspace project, or the suite failed to load). ol@1.1.1/node_modules/tinypool/dist/index.js:\u001b[2m149:62\u001b[22m\u001b[39m\n\u001b[90m \u001b[2m❯\u001b[22m [nodejs.internal.kHybridDispatch] node:internal/event_target:\u001b[2m856:20\u001b[22m\u001b[39m\n\u001b[90m \u001b[2m❯\u001b[22m MessagePort.<anonymous> node:internal/per_context/messageport:\u001b[2m23:28\u001b[22m\u001b[39m\n\n\u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\u001b[22m\u001b[39m\n\u001b[31m\u001b[1mSerialized Error:\u001b[22m\u001b[39m \u001b[90m{ code: 'ERR_IPC_CHANNEL_CLOSED' }\u001b[39m\n\n\n\n"
+   "failures": []
   },
   "packages/access/test/rbac.grant-service.spec.ts": {
-   "at": 1795045878609,
-   "status": "error",
-   "total": 0,
-   "passed": 0,
+   "at": 1795046857793,
+   "status": "passed",
+   "total": 8,
+   "passed": 8,
    "failed": 0,
-   "failures": [],
-   "note": "Vitest did not report this file (not included in a workspace project, or the suite failed to load). ol@1.1.1/node_modules/tinypool/dist/index.js:\u001b[2m149:62\u001b[22m\u001b[39m\n\u001b[90m \u001b[2m❯\u001b[22m [nodejs.internal.kHybridDispatch] node:internal/event_target:\u001b[2m856:20\u001b[22m\u001b[39m\n\u001b[90m \u001b[2m❯\u001b[22m MessagePort.<anonymous> node:internal/per_context/messageport:\u001b[2m23:28\u001b[22m\u001b[39m\n\n\u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\u001b[22m\u001b[39m\n\u001b[31m\u001b[1mSerialized Error:\u001b[22m\u001b[39m \u001b[90m{ code: 'ERR_IPC_CHANNEL_CLOSED' }\u001b[39m\n\n\n\n"
+   "failures": []
   },
   "packages/access/test/rbac.groups.spec.ts": {
-   "at": 1795045878609,
-   "status": "error",
-   "total": 0,
-   "passed": 0,
+   "at": 1795046857793,
+   "status": "passed",
+   "total": 8,
+   "passed": 8,
    "failed": 0,
-   "failures": [],
-   "note": "Vitest did not report this file (not included in a workspace project, or the suite failed to load). ol@1.1.1/node_modules/tinypool/dist/index.js:\u001b[2m149:62\u001b[22m\u001b[39m\n\u001b[90m \u001b[2m❯\u001b[22m [nodejs.internal.kHybridDispatch] node:internal/event_target:\u001b[2m856:20\u001b[22m\u001b[39m\n\u001b[90m \u001b[2m❯\u001b[22m MessagePort.<anonymous> node:internal/per_context/messageport:\u001b[2m23:28\u001b[22m\u001b[39m\n\n\u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\u001b[22m\u001b[39m\n\u001b[31m\u001b[1mSerialized Error:\u001b[22m\u001b[39m \u001b[90m{ code: 'ERR_IPC_CHANNEL_CLOSED' }\u001b[39m\n\n\n\n"
+   "failures": []
   },
   "packages/access/test/token.denylist.spec.ts": {
    "at": 1794850051239,
@@ -221,10 +217,10 @@
    "failures": []
   },
   "packages/db/test/rbac.migration.spec.ts": {
-   "at": 1795045503253,
-   "status": "incomplete",
+   "at": 1795046857793,
+   "status": "passed",
    "total": 12,
-   "passed": 0,
+   "passed": 12,
    "failed": 0,
    "failures": []
   },
@@ -390,22 +386,20 @@
    "failures": []
   },
   "packages/access/test/rbac.effective.spec.ts": {
-   "at": 1795045878609,
-   "status": "error",
-   "total": 0,
-   "passed": 0,
+   "at": 1795046857793,
+   "status": "passed",
+   "total": 10,
+   "passed": 10,
    "failed": 0,
-   "failures": [],
-   "note": "Vitest did not report this file (not included in a workspace project, or the suite failed to load). ol@1.1.1/node_modules/tinypool/dist/index.js:\u001b[2m149:62\u001b[22m\u001b[39m\n\u001b[90m \u001b[2m❯\u001b[22m [nodejs.internal.kHybridDispatch] node:internal/event_target:\u001b[2m856:20\u001b[22m\u001b[39m\n\u001b[90m \u001b[2m❯\u001b[22m MessagePort.<anonymous> node:internal/per_context/messageport:\u001b[2m23:28\u001b[22m\u001b[39m\n\n\u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\u001b[22m\u001b[39m\n\u001b[31m\u001b[1mSerialized Error:\u001b[22m\u001b[39m \u001b[90m{ code: 'ERR_IPC_CHANNEL_CLOSED' }\u001b[39m\n\n\n\n"
+   "failures": []
   },
   "packages/access/test/rbac.expiry.spec.ts": {
-   "at": 1795045878609,
-   "status": "error",
-   "total": 0,
-   "passed": 0,
+   "at": 1795046857793,
+   "status": "passed",
+   "total": 3,
+   "passed": 3,
    "failed": 0,
-   "failures": [],
-   "note": "Vitest did not report this file (not included in a workspace project, or the suite failed to load). ol@1.1.1/node_modules/tinypool/dist/index.js:\u001b[2m149:62\u001b[22m\u001b[39m\n\u001b[90m \u001b[2m❯\u001b[22m [nodejs.internal.kHybridDispatch] node:internal/event_target:\u001b[2m856:20\u001b[22m\u001b[39m\n\u001b[90m \u001b[2m❯\u001b[22m MessagePort.<anonymous> node:internal/per_context/messageport:\u001b[2m23:28\u001b[22m\u001b[39m\n\n\u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\u001b[22m\u001b[39m\n\u001b[31m\u001b[1mSerialized Error:\u001b[22m\u001b[39m \u001b[90m{ code: 'ERR_IPC_CHANNEL_CLOSED' }\u001b[39m\n\n\n\n"
+   "failures": []
   },
   "packages/access/test/rotate.spec.ts": {
    "at": 1794850051239,
@@ -1310,10 +1304,10 @@
    "failures": []
   },
   "packages/gateway/test/ingest-local.spec.ts": {
-   "at": 1794876330358,
+   "at": 1795046915407,
    "status": "passed",
    "total": 4,
-   "passed": 0,
+   "passed": 4,
    "failed": 0,
    "failures": []
   },
@@ -1543,13 +1537,12 @@
    "failures": []
   },
   "packages/core/test/pipeline.extract.spec.ts": {
-   "at": 1795045494198,
-   "status": "error",
-   "total": 0,
-   "passed": 0,
+   "at": 1795046831857,
+   "status": "passed",
+   "total": 2,
+   "passed": 2,
    "failed": 0,
-   "failures": [],
-   "note": "Vitest did not report this file (not included in a workspace project, or the suite failed to load). \u001b[1m\u001b[43m DEPRECATED \u001b[49m\u001b[22m \u001b[33mThe workspace file is deprecated and will be removed in the next major. Please, use the `test.projects` field in C:/Oto Dj - Oto Mix/Oto Mix/vitest.config.ts instead.\u001b[39m\n"
+   "failures": []
   },
   "tools/rt-audit/test/audit.spec.ts": {
    "at": 1795018650743,
@@ -1686,16 +1679,66 @@
    "passed": 0,
    "failed": 0,
    "failures": []
+  },
+  "packages/gateway/test/source-declarations.spec.ts": {
+   "at": 1795046915407,
+   "status": "passed",
+   "total": 3,
+   "passed": 3,
+   "failed": 0,
+   "failures": []
+  },
+  "packages/gateway/test/auth-telegram.spec.ts": {
+   "at": 1795046922878,
+   "status": "failed",
+   "total": 5,
+   "passed": 2,
+   "failed": 3,
+   "failures": [
+    {
+     "name": "Telegram Auth (P07-REG-M03) valid telegram data -> creates user and returns token",
+     "message": "AssertionError: expected 500 to be 200 // Object.is equality\n    at C:\\Oto Dj - Oto Mix\\Oto Mix\\packages\\gateway\\test\\auth-telegram.spec.ts:105:24\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at file:///C:/Oto%20Dj%20-%20Oto%20Mix/Oto%20Mix/node_modules/.pnpm/@vitest+runner@3.2.7/node_modules/@vitest/runner/dist/chunk-hooks.js:752:20"
+    },
+    {
+     "name": "Telegram Auth (P07-REG-M03) invalid hash -> 401",
+     "message": "AssertionError: expected 500 to be 401 // Object.is equality\n    at C:\\Oto Dj - Oto Mix\\Oto Mix\\packages\\gateway\\test\\auth-telegram.spec.ts:117:24\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at file:///C:/Oto%20Dj%20-%20Oto%20Mix/Oto%20Mix/node_modules/.pnpm/@vitest+runner@3.2.7/node_modules/@vitest/runner/dist/chunk-hooks.js:752:20"
+    },
+    {
+     "name": "Telegram Auth (P07-REG-M03) duplicate telegram_id returns same user",
+     "message": "SyntaxError: Unexpected token 'v', \"vaultClien\"... is not valid JSON\n    at JSON.parse (<anonymous>)\n    at C:\\Oto Dj - Oto Mix\\Oto Mix\\packages\\gateway\\test\\auth-telegram.spec.ts:148:21\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at file:///C:/Oto%20Dj%20-%20Oto%20Mix/Oto%20Mix/node_modules/.pnpm/@vitest+runner@3.2.7/node_modules/@vitest/runner/dist/chunk-hooks."
+    }
+   ]
+  },
+  "packages/gateway/test/auth-otp.spec.ts": {
+   "at": 1795046928691,
+   "status": "failed",
+   "total": 8,
+   "passed": 5,
+   "failed": 3,
+   "failures": [
+    {
+     "name": "Phone OTP Auth (P07-REG-M04) verify: valid code -> creates user, returns token",
+     "message": "AssertionError: expected 500 to be 200 // Object.is equality\n    at C:\\Oto Dj - Oto Mix\\Oto Mix\\packages\\gateway\\test\\auth-otp.spec.ts:154:30\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at file:///C:/Oto%20Dj%20-%20Oto%20Mix/Oto%20Mix/node_modules/.pnpm/@vitest+runner@3.2.7/node_modules/@vitest/runner/dist/chunk-hooks.js:752:20"
+    },
+    {
+     "name": "Phone OTP Auth (P07-REG-M04) verify: expired code (after getdel) -> 401",
+     "message": "AssertionError: expected 500 to be 200 // Object.is equality\n    at C:\\Oto Dj - Oto Mix\\Oto Mix\\packages\\gateway\\test\\auth-otp.spec.ts:183:31\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at file:///C:/Oto%20Dj%20-%20Oto%20Mix/Oto%20Mix/node_modules/.pnpm/@vitest+runner@3.2.7/node_modules/@vitest/runner/dist/chunk-hooks.js:752:20"
+    },
+    {
+     "name": "Phone OTP Auth (P07-REG-M04) verify: duplicate phone returns same user",
+     "message": "SyntaxError: Unexpected token 'v', \"vaultClien\"... is not valid JSON\n    at JSON.parse (<anonymous>)\n    at C:\\Oto Dj - Oto Mix\\Oto Mix\\packages\\gateway\\test\\auth-otp.spec.ts:202:21\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at file:///C:/Oto%20Dj%20-%20Oto%20Mix/Oto%20Mix/node_modules/.pnpm/@vitest+runner@3.2.7/node_modules/@vitest/runner/dist/chunk-hooks.js:75"
+    }
+   ]
   }
  },
  "tsc": {
   "packages/core/tsconfig.json": {
-   "at": 1795045495871,
+   "at": 1795046836441,
    "exit": 0,
    "diagnostics": []
   },
   "packages/access/tsconfig.json": {
-   "at": 1795045881355,
+   "at": 1795046892010,
    "exit": 0,
    "diagnostics": []
   },
@@ -1710,12 +1753,12 @@
    "diagnostics": []
   },
   "packages/db/tsconfig.json": {
-   "at": 1795045690507,
+   "at": 1795046893716,
    "exit": 0,
    "diagnostics": []
   },
   "packages/gateway/tsconfig.json": {
-   "at": 1795045882968,
+   "at": 1795046932988,
    "exit": 0,
    "diagnostics": []
   },
