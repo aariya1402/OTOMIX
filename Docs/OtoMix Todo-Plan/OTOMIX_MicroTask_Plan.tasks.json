@@ -1648,15 +1648,15 @@
         "description_fa": "توضیح ساده: ????????? ????? (?????? BPM? ????) ?? ?? ????? ????????? ?????? ??????? ?????? ?? ??? ?????? ?? ???? ????? ????? ?? ??? ????????."
     },
     {
-        "id":  "P07-T02-S01-M04",
-        "status":  "DONE",
-        "description":  "Metadata enrichment via consent-gated tags + external API/library (GAP-007).",
-        "prerequisites":  [
-                              "P07-T02-S01-M03"
-                          ],
-        "test":  "unit|Vitest|packages/core/test/ingest/metadata-enrichment.spec.ts|Input: 4 fixtures (consent+tags+external / consent+tags-no-external / no-consent+tags+external / no-consent-no-tags+external). Expected: no PII field when consent=false; embedded baseline enriched by external when consent=true. Pass: all 4 fixtures match.",
-        "spec":  "OTOMIX 5.2 - Mother 1; GAP-007; GAP-014",
-        "description_fa":  "غنی‌سازی متادیتا از طریق تگ‌های داخلی فایل (فقط با رضایت کاربر) و API رسمی. بدون رضایت، تگ‌های داخلی خوانده نمی‌شوند."
+        "id": "P07-T02-S01-M04",
+        "status": "DONE",
+        "description": "Metadata enrichment via consent-gated tags + external API/library (GAP-007).",
+        "prerequisites": [
+            "P07-T02-S01-M03"
+        ],
+        "test": "unit|Vitest|packages/core/test/ingest/metadata-enrichment.spec.ts|Input: 4 fixtures (consent+tags+external / consent+tags-no-external / no-consent+tags+external / no-consent-no-tags+external). Expected: no PII field when consent=false; embedded baseline enriched by external when consent=true. Pass: all 4 fixtures match.",
+        "spec": "OTOMIX 5.2 - Mother 1; GAP-007; GAP-014",
+        "description_fa": "غنی‌سازی متادیتا از طریق تگ‌های داخلی فایل (فقط با رضایت کاربر) و API رسمی. بدون رضایت، تگ‌های داخلی خوانده نمی‌شوند."
     },
     {
         "id": "P07-T02-S02-M01",
