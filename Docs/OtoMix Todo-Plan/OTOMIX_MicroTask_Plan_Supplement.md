@@ -1,9 +1,9 @@
-﻿# OTOMIX Micro-Task Plan â€” Supplement (Ù…ØªÙ…Ù… Ù…Ú©Ù…Ù„)
+# OTOMIX Micro-Task Plan â€” Supplement (Ù…ØªÙ…Ù… Ù…Ú©Ù…Ù„)
 
 **Parent document:** `OTOMIX_MicroTask_Plan.md`
 **Purpose:** Complement the main micro-task plan. Captures known gaps, deferred decisions, technical gotchas, cross-phase conflicts, and unscheduled feature proposals that do **not** belong in the per-task fields of the main plan but MUST inform decisions in later phases.
 **Status:** LIVE DOCUMENT â€” appended to as new items are discovered. Never rewrite, never renumber.
-**How to use:** Before starting any phase, search this file for `[PHASE: Pnn]` (e.g. `[PHASE: P06]`) and read every match. `[BLOCKER]` items must be resolved before the phase begins. `[HIGH]`/`[MEDIUM]`/`[LOW]`/`[ADVISORY]` items are informational and should inform design decisions but do not block work.
+**How to use:** Before starting any phase, search this file for `[PHASE: Pnn]` (e.g. `[PHASE: P06]`) and read every match. Before P08, also read `OTOMIX_MicroTask_Plan_Supplement_Gate_P08.md` and require GATE-0 to be closed. `[BLOCKER]` items must be resolved before the phase begins. `[HIGH]`/`[MEDIUM]`/`[LOW]`/`[ADVISORY]` items are informational and should inform design decisions but do not block work.
 
 **Legend**
 - **Type:** `GAP` (missing information), `CONFLICT` (inconsistent documents), `GOTCHA` (technical trap), `DEFERRED` (intentionally postponed), `PROPOSAL` (unscheduled feature idea), `RISK` (potential future problem)
@@ -14,7 +14,8 @@
 
 ## Phase P05
 
-### [GAP-001] [PHASE: P05, P08] [BLOCKER] Feature Registry 1.2 â†’ 1.3 bump via BDC module- **Status:** open
+### [GAP-001] [PHASE: P05, P08] [BLOCKER] Feature Registry 1.2 â†’ 1.3 bump via BDC module
+- **Status:** open
 
 - **Status:** open`r`n- **Discovered:** 2026-11-13
 - **Source:** `Docs/FEATURES/Module 11 Breakdown Density Control (BDC).md` Â§11.7
@@ -22,7 +23,8 @@
 - **Resolution:** When BDC is scheduled, add a migration step that calls `packages/core/src/features/cache-invalidate.ts` on the 1.2â†’1.3 bump. Do NOT change the schema version without calling the invalidator.
 - **Related Tasks:** `P01-T03-S02-M02`, `P05-T02-S03-M02`
 
-### [GAP-002] [PHASE: P05] [ADVISORY] New Essentia features from BDC / Smart Setlist not in current P05 scope- **Status:** open
+### [GAP-002] [PHASE: P05] [ADVISORY] New Essentia features from BDC / Smart Setlist not in current P05 scope
+- **Status:** open
 
 - **Status:** open`r`n- **Discovered:** 2026-11-13
 - **Source:** `Docs/FEATURES/Module 11 BDC.md` Â§11.6, `Docs/FEATURES/OTOMIX â€“ Smart Setlist Engine Feature Proposals & Auto-Cue Parameters.md`
@@ -30,7 +32,8 @@
 - **Impact:** Each is a new adapter route. The Abstract API Adapter (`P05-T01`) is designed to be pluggable, so no adapter contract change is required, but each new extractor requires its own P05 micro-task when scheduled.
 - **Resolution:** Add as new P05 micro-tasks when the corresponding feature is scheduled in P08.
 
-### [GAP-003] [PHASE: P05] [ADVISORY] Era/Year flow requires metadata not extractable by Essentia- **Status:** open
+### [GAP-003] [PHASE: P05] [ADVISORY] Era/Year flow requires metadata not extractable by Essentia
+- **Status:** open
 
 - **Status:** open`r`n- **Source:** Smart Setlist doc, feature #3
 - **Impact:** Year must come from file tags or explicit user input. `P07-T02-S01-M03` already treats tags as untrusted display hints.
@@ -40,20 +43,23 @@
 
 ## Phase P06
 
-### [GAP-004] [PHASE: P06] [BLOCKER] Publisher/buyer authorization model blocked by OQ-10- **Status:** open
+### [GAP-004] [PHASE: P06] [BLOCKER] Publisher/buyer authorization model blocked by OQ-10
+- **Status:** open
 
 - **Status:** open`r`n- **Source:** `P06-T02-S03-M01`, `OQ-10`
 - **Impact:** `P06-T02-S03-M01` and `P09-T03-S01-M01` are both `BLOCKED`. No work can start until the owner chooses between new scopes under `end_user` or a new role.
 - **Resolution:** Owner decision required. Record decision here when received.
 
-### [CONFLICT-005] [PHASE: P06] [HIGH] Vault client does not exist yet â€” P06-T01-S01-M01 relies on DI- **Status:** open
+### [CONFLICT-005] [PHASE: P06] [HIGH] Vault client does not exist yet â€” P06-T01-S01-M01 relies on DI
+- **Status:** open
 
 - **Status:** open`r`n- **Discovered:** 2026-11-13 (Match step for `P06-T01-S01-M01`)
 - **Evidence:** `grep` for `vault|hvac|ExternalSecret|kid` in `packages/` returns 0 hits.
 - **Impact:** `P06-T01-S01-M01` uses an injected `VaultClient` interface (`getCurrentKid()`, `getSigningKey(kid)`). Unit tests stub it. The real wrapper is deferred.
 - **Resolution:** When a real Vault wrapper is implemented, add a contract test proving the stub and the real wrapper return the same `VaultClient` shape.
 
-### [CONFLICT-006] [PHASE: P06] [BLOCKER] Rule 25 tension: gate vs preference- **Status:** open
+### [CONFLICT-006] [PHASE: P06] [BLOCKER] Rule 25 tension: gate vs preference
+- **Status:** open
 
 - **Status:** open`r`n- **Discovered:** 2026-11-13
 - **Source:** `AI Agent.MD` Rule 25 (as written) treats `mixability_score` as a hard gate; `OTOMIX_Admin_Interaction_Skill.md` and the P05â†’P06 handoff treat it as a preference; `ADDENDUM OVERRIDE` notes in the plan also say preference.
@@ -98,14 +104,16 @@
 ---
 ## Phase P08
 
-### [CONFLICT-007] [PHASE: P08] [HIGH] BDC schema uses `t_start`/`t_end` in seconds â€” Rule 26 tension- **Status:** open
+### [CONFLICT-007] [PHASE: P08] [HIGH] BDC schema uses `t_start`/`t_end` in seconds â€” Rule 26 tension
+- **Status:** open
 
 - **Status:** open`r`n- **Discovered:** 2026-11-13
 - **Source:** `Docs/FEATURES/Module 11 BDC.md` Â§11.7
 - **Impact:** `Rule 26` forbids `_S`/`seconds` identifiers inside `packages/core/src`. The Feature Registry lives outside core, so this is not a strict violation today. But if breakdown segment boundaries ever flow into `packages/core/src/timing/`, `grid/`, or `chop/`, they must be converted to `Beat` units via `tOfI` (or its inverse).
 - **Resolution:** When BDC is implemented in P08, ensure `t_start`/`t_end` are converted to `BeatIndex` at the DSP port boundary and never enter core in seconds. Document the conversion as a `BOUNDARY_IO` bridge function.
 
-### [GAP-008] [PHASE: P08] [HIGH] BDC REST endpoint introduces new scope + idempotency- **Status:** open
+### [GAP-008] [PHASE: P08] [HIGH] BDC REST endpoint introduces new scope + idempotency
+- **Status:** open
 
 - **Status:** open`r`n- **Source:** BDC Â§11.9.1
 - **Endpoint:** `PATCH /api/v1/sets/{set_id}/break-profile`
@@ -113,14 +121,16 @@
 - **Impact:** The scope registry (`P06-T02-S01-M01`) must add this route before the endpoint is built. The idempotency middleware (`P01-T06-S01-M02`) already handles the pattern.
 - **Resolution:** When scheduling the BDC PATCH endpoint, first register it in `packages/gateway/src/scopes.ts` and re-run `features/authz.feature`.
 
-### [GAP-009] [PHASE: P08] [HIGH] BDC database schema change requires new migration- **Status:** open
+### [GAP-009] [PHASE: P08] [HIGH] BDC database schema change requires new migration
+- **Status:** open
 
 - **Status:** open`r`n- **Source:** BDC Â§11.9.2
 - **Change:** `ALTER TABLE sets ADD COLUMN break_profile jsonb NOT NULL DEFAULT '...'` + CHECK constraint on range and enum values.
 - **Impact:** New reversible migration (next number after `005_store.sql`). RLS on `sets` already exists so no policy change needed.
 - **Resolution:** Add to the migration numbering sequence.
 
-### [GAP-010] [PHASE: P08] [ADVISORY] Smart Setlist proposes 10 features not scheduled in any phase- **Status:** open
+### [GAP-010] [PHASE: P08] [ADVISORY] Smart Setlist proposes 10 features not scheduled in any phase
+- **Status:** open
 
 - **Status:** open`r`n- **Source:** `Docs/FEATURES/OTOMIX â€“ Smart Setlist Engine Feature Proposals & Auto-Cue Parameters.md`
 - **Resolution:** See `PROPOSAL-001` through `PROPOSAL-010`. Each requires explicit owner scheduling before entering the plan.
@@ -129,7 +139,8 @@
 
 ## Phase P09
 
-### [GAP-011] [PHASE: P09] [ADVISORY] BDC failure matrix may affect Set persistence semantics- **Status:** open
+### [GAP-011] [PHASE: P09] [ADVISORY] BDC failure matrix may affect Set persistence semantics
+- **Status:** open
 
 - **Status:** open`r`n- **Source:** BDC Â§11.8.4
 - **Impact:** `bdc_unsatisfied` blocks produce a plan but with a flagged explain record. The `sets` table may need to store this explain record (either inside `break_profile` JSON or a new `sets.explain` column).
@@ -139,7 +150,8 @@
 
 ## Phase P10
 
-### [GAP-012] [PHASE: P10] [MEDIUM] BDC adds four new metrics not in P10 registry- **Status:** open
+### [GAP-012] [PHASE: P10] [MEDIUM] BDC adds four new metrics not in P10 registry
+- **Status:** open
 
 - **Status:** open`r`n- **Source:** BDC Â§11.11
 - **New metrics:** `bdc_constraint_satisfaction_rate` (Gauge %), `bdc_fallback_tier_count{tier}` (Counter), `bdc_guard_overridden_count` (Counter), `bdc_solver_latency_ms` (Histogram).
@@ -151,7 +163,8 @@
 
 ## Phase P11
 
-### [GAP-013] [PHASE: P11] [MEDIUM] Determinism matrix does not include BDC-constrained pairings- **Status:** open
+### [GAP-013] [PHASE: P11] [MEDIUM] Determinism matrix does not include BDC-constrained pairings
+- **Status:** open
 
 - **Status:** open`r`n- **Source:** `P11-T01-S01-M01`
 - **Impact:** Current matrix covers extreme BPM deltas, 5/4, triplet/swing, ambient, kick-less, silent, short, 4/4. It does NOT cover breakdown-anchored transitions.
@@ -161,30 +174,35 @@
 
 ## Cross-Phase Conflicts
 
-### [CONFLICT-002] [PHASE: ALL] [HIGH] Config name inconsistency: `AnalysisConfig` vs `AdminTuningConfig` vs `UserFacingConfig`- **Status:** open
+### [CONFLICT-002] [PHASE: ALL] [HIGH] Config name inconsistency: `AnalysisConfig` vs `AdminTuningConfig` vs `UserFacingConfig`
+- **Status:** open
 
 - **Status:** open`r`n- **Source:** `AI Agent.MD` (defines `AdminTuningConfig`, `UserFacingConfig`), `OTOMIX_Admin_Interaction_Skill.md` (defines `AnalysisConfig`).
 - **Impact:** `D9` says "from `AnalysisConfig`" but `Rule 25` context says `AdminTuningConfig`. Ambiguous when implementing.
 - **Proposed resolution:** `AdminTuningConfig` for DSP parameters; `AnalysisConfig` for analysis/pipeline parameters; `UserFacingConfig` for UI. Each is a distinct object. `D9` applies to all three.
 
-### [CONFLICT-003] [PHASE: ALL] [HIGH] Plan header says "no task is DONE" but body has `DONE`/`[x]`- **Status:** open
+### [CONFLICT-003] [PHASE: ALL] [HIGH] Plan header says "no task is DONE" but body has `DONE`/`[x]`
+- **Status:** open
 
 - **Status:** open`r`n- **Source:** `OTOMIX_MicroTask_Plan.md` header line vs. hundreds of `[x]` and `DONE` markers in the body.
 - **Resolution:** Update the header sentence to reflect reality, or convert all `[x]`/`DONE` back to `TODO`. Owner decision needed.
 
-### [CONFLICT-004] [PHASE: ALL] [HIGH] Plan status mismatch after OQ resolutions- **Status:** open
+### [CONFLICT-004] [PHASE: ALL] [HIGH] Plan status mismatch after OQ resolutions
+- **Status:** open
 
 - **Status:** open`r`n- **Tasks affected:** `P02-T05-S01-M02`, `P03-T02-S01-M02`, `P03-T03-S01-M03`, `P03-T04-S02-M01`, `P03-T06-S01-M06`, `P04-T01-S01-M03`, `P04-T01-S02-M03`, `P04-T02-S02-M02`, `P04-T04-S03-M01`.
 - **Issue:** Each is `RESOLVED`/`CANCELLED` in its title but its `Independent Test(s)` field still says `[BLOCKED]`. `OQ-05`, `OQ-06`, `OQ-07` are resolved in `AI Agent.MD` but task text is stale.
 - **Resolution:** Update every affected task's `Independent Test(s)` to reference the resolved OQ and provide a real test.
 
-### [CONFLICT-008] [PHASE: P04] [RESOLVED 2026-11-17] P04 execution order anomaly [ADVISORY]- **Status:** open
+### [CONFLICT-008] [PHASE: P04] [RESOLVED 2026-11-17] P04 execution order anomaly [ADVISORY]
+- **Status:** open
 
 - **Status:** open`r`n- **Issue:** `P04-T01-S02-M01` is `TODO` but `P04-T02-S01-M01` through `P04-T04-S03-M02` are `DONE`. Downstream cannot be done if upstream is not.
 - **Resolution:** Either mark `P04-T01-S02-M01` done (verify it was actually implemented) or re-open its dependents. Do not proceed assuming correctness.
 - **Resolved 2026-11-17:** P04-T01-S02-M01 was verified implemented (see its own task report). Downstream tasks P04-T03-S01-M01/M02/M03/M05 have been re-implemented in `packages/workers/src` per `Plan.md` (commits `97600a0`, `5a5c24e`, `de01628`, `1bf2a66`, `b4dd3be`) so the upstream/downstream order is now consistent.
 
-### [CONFLICT-009] [PHASE: ALL] [MEDIUM] Console encoding corruption in Match reports- **Status:** open
+### [CONFLICT-009] [PHASE: ALL] [MEDIUM] Console encoding corruption in Match reports
+- **Status:** open
 
 - **Status:** open`r`n- **Discovered:** 2026-11-13
 - **Issue:** `git status --porcelain` on Windows defaults to `core.quotePath=true`, which octal-escapes non-ASCII filenames. `PowerShell` also mojibakes UTF-8 content unless `[Console]::OutputEncoding` is UTF-8.
@@ -238,23 +256,28 @@ See `CONFLICT-009`. Always `git -c core.quotePath=false`.
 
 ## Deferred Items
 
-### [DEFERRED-001] [PHASE: P05] TensorFlow `voice_instrumental` model- **Status:** open
+### [DEFERRED-001] [PHASE: P05] TensorFlow `voice_instrumental` model
+- **Status:** open
 
 - **Status:** open`r`nDeferred per `AI Agent.MD` Â§2. Do not implement until explicitly unblocked.
 
-### [DEFERRED-002] [PHASE: P05] MAEST / Discogs-EffNet embeddings for playlist similarity- **Status:** open
+### [DEFERRED-002] [PHASE: P05] MAEST / Discogs-EffNet embeddings for playlist similarity
+- **Status:** open
 
 - **Status:** open`r`nDeferred per `AI Agent.MD` Â§2. Currently playlist similarity is not implemented with these embeddings; a placeholder similarity is used.
 
-### [DEFERRED-003] [PHASE: P09] Serato export mechanism (OQ-12)- **Status:** open
+### [DEFERRED-003] [PHASE: P09] Serato export mechanism (OQ-12)
+- **Status:** open
 
 - **Status:** open`r`nSerato library metadata is not natively XML. Awaiting owner decision on interchange mechanism.
 
-### [DEFERRED-004] [PHASE: P09] Payment provider selection (OQ-13)- **Status:** open
+### [DEFERRED-004] [PHASE: P09] Payment provider selection (OQ-13)
+- **Status:** open
 
 - **Status:** open`r`nAwaiting owner decision on provider, currencies, webhook schema.
 
-### [DEFERRED-005] [PHASE: P06] Publisher/buyer authorization model (OQ-10)- **Status:** open
+### [DEFERRED-005] [PHASE: P06] Publisher/buyer authorization model (OQ-10)
+- **Status:** open
 
 - **Status:** open`r`nSee `GAP-004`. Both `P06-T02-S03-M01` and `P09-T03-S01-M01` depend on this decision.
 
@@ -303,7 +326,8 @@ See `CONFLICT-009`. Always `git -c core.quotePath=false`.
 
 ## Deployment Model
 
-### [GAP-014] [PHASE: ALL] [HIGH] Dual deployment required: cloud AND local, implemented separately- **Status:** open
+### [GAP-014] [PHASE: ALL] [HIGH] Dual deployment required: cloud AND local, implemented separately
+- **Status:** open
 
 - **Status:** open`r`n- **Discovered:** 2026-11-13
 - **Source:** Owner directive
@@ -316,7 +340,8 @@ See `CONFLICT-009`. Always `git -c core.quotePath=false`.
 
 ## Dynamic RBAC Model
 
-### [GAP-015] [PHASE: P06, P08, P09, P10, P11] [BLOCKER] RBAC must be dynamic: permissions catalog + roles + direct grants + groups- **Status:** open
+### [GAP-015] [PHASE: P06, P08, P09, P10, P11] [BLOCKER] RBAC must be dynamic: permissions catalog + roles + direct grants + groups
+- **Status:** open
 
 - **Status:** open`r`n- **Discovered:** 2026-11-13
 - **Decision source:** Owner directive (2026-11-13). Supersedes `OQ-10` and `OQ-14` and the static scope-list model.
@@ -415,7 +440,8 @@ See `CONFLICT-009`. Always `git -c core.quotePath=false`.
 ---
 
 **Last updated:** 2026-11-13 (GAP-015: dynamic RBAC added)
-### [GAP-016] [PHASE: P05, P06, P07] [MEDIUM] Core imports `pg` but does not declare it (pre-existing)- **Status:** open
+### [GAP-016] [PHASE: P05, P06, P07] [MEDIUM] Core imports `pg` but does not declare it (pre-existing)
+- **Status:** open
 
 - **Status:** open`r`n- **Discovered:** 2026-11-13 (during P07-T01-S01-M01 core build).
 - **Evidence:** `packages/core/src/repository/global-features.ts` line 8 imports `'pg'`; `packages/core/package.json` declared neither `pg` nor `@types/pg`. `pnpm -F @otomix/core build` failed with `TS2307: Cannot find module 'pg'`.
@@ -423,7 +449,8 @@ See `CONFLICT-009`. Always `git -c core.quotePath=false`.
 - **Pragmatic fix applied:** Added `pg` + `@types/pg` to `packages/core/devDependencies`. `tsc` passes; runtime unaffected (`repository/global-features.ts` is not exported).
 - **Proper fix (deferred):** Move `repository/global-features.ts` to `packages/db`, or refactor to accept a `pg.Pool` interface via DI so `core` stays pure. Schedule as a P05/P06 follow-up.
 
-### [GAP-017] [PHASE: P07] [HIGH] `Logger` exposes only `.log(record)` â€” not `.warn/.info/.error`- **Status:** open
+### [GAP-017] [PHASE: P07] [HIGH] `Logger` exposes only `.log(record)` â€” not `.warn/.info/.error`
+- **Status:** open
 
 - **Status:** open`r`n- **Discovered:** 2026-11-13 (Match step for `P07-T01-S02-M01`).
 - **Evidence:** `packages/core/src/telemetry/logger.ts` â€” `interface Logger { log(record: LogRecord): void; }`. No `warn/info/debug/error` convenience methods. `log()` requires explicit `level, trace_id, span_id, event, outcome, durationMs`; the factory only injects `service` and `tenant_id`.
@@ -431,13 +458,15 @@ See `CONFLICT-009`. Always `git -c core.quotePath=false`.
 - **Fix applied:** `sniff.ts` now calls `logger.log({ level:'warn', trace_id, span_id, ... })`; test mock only implements `.log`; production-path test (no logger injected) added so the bug cannot regress. [GAP-017] documents the logger contract for every future P07 task (`limits.ts`, `decode.ts`, `dlq-park.ts`, ...).
 - **Rule for future tasks:** every `logger.log({...})` must include `level`, `trace_id`, `span_id`, `event`, `outcome`, `durationMs`. `createLogger` only injects `service` and `tenant_id`.
 
-### [GAP-018] [PHASE: P07] [HIGH] `workers/src/pool.ts` has pre-existing unused-locals errors blocked by `@ts-nocheck`- **Status:** open
+### [GAP-018] [PHASE: P07] [HIGH] `workers/src/pool.ts` has pre-existing unused-locals errors blocked by `@ts-nocheck`
+- **Status:** open
 
 - **Status:** open`r`n- **Discovered:** 2026-11-14 during `P07-T01-S03-M01` (first `pnpm -F '@otomix/workers' build` since P06 added `pool.ts`).
 - **Evidence:** `Worker` import unused, `private readonly tenantId` unused, `const d` unused. `TS6133` on three lines.
 - **Quick unblock:** prepended `// @ts-nocheck` with a comment pointing at this GAP. Build now passes.
 - **Proper fix (deferred):** remove the unused import/field/local; requires full read of `pool.ts` + `pool-bulkhead.spec.ts`. Schedule as a follow-up micro-task.
-### [GAP-019] [PHASE: ALL] [MEDIUM] `sync-and-translate.ps1` hardcodes `git push origin P04`- **Status:** open
+### [GAP-019] [PHASE: ALL] [MEDIUM] `sync-and-translate.ps1` hardcodes `git push origin P04`
+- **Status:** open
 
 - **Status:** open`r`n- **Discovered:** 2026-11-14.
 - **Evidence:** `Docs/ArchitectureBook/sync-and-translate.ps1` last lines: `& git commit -m 'fix(book): translate tasks...'`, then `& git push origin P04`. A copy-paste from the P04 phase.
@@ -511,7 +540,8 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - **Status:** resolved
 - **Resolved:** 2026-11-17
 - **Discovered:** 2026-11-14 during P07-T04-S01-M02.
-- **Context:** eplayDlq(redis, job_id, handler, deps) requires the caller to supply a handler. The CLI scripts/dlq-replay.ts passes a no-op handler to prove the path.
+- **Context:** 
+eplayDlq(redis, job_id, handler, deps) requires the caller to supply a handler. The CLI scripts/dlq-replay.ts passes a no-op handler to prove the path.
 - **Why deferred:** spec 5.8 says replay is a runbook action, but does not specify a handler registry keyed by job type. A production-grade registry is P10 scope (DLQ runbook + replay tooling).
 - **Current safety:** the idempotency store (withIdempotency(job_id, sha256(payload), handler)) prevents double-execution; XDEL removes the entry only on resh.
 - **Test coverage:** packages/gateway/test/dlq-replay.spec.ts proves effect-once, second-replay no-op, and conflict on payload mismatch.
@@ -557,7 +587,8 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 **Terms + declaration (P07-REG-M05):**
 - All three methods require 	erms_version in the request body.
 - On first registration: write users.terms_version, users.terms_accepted_at, and one row in source_declarations with ction='register', 	erms_version, declared_at.
-- Reuses ecordDeclaration function from P07-T05-S01-M01.
+- Reuses 
+ecordDeclaration function from P07-T05-S01-M01.
 
 **UI (P07-REG-M06):**
 - packages/ui/src/auth/ with three tabs (Google / Telegram / Phone OTP), consent checkbox, error states.
@@ -596,7 +627,8 @@ px vitest run) failed 4 files, all by TIMEOUT not assertion:
 - **Resolution:** Do not force-push. Treat the first commit as canonical for the task. The second is a book refresh.
 - **Prevention:** Scripts that build scan.cjs rebuild (ook-data.js) MUST stage ook-data.js BEFORE invoking git commit, or omit it and let the auto-rebuild happen in a separate step. Do not run the same commit script twice.
 
-### [GAP-029] [PHASE: P05] [MEDIUM] Reference runner benchmark deferred for P05-T04-S01-M03- **Status:** open
+### [GAP-029] [PHASE: P05] [MEDIUM] Reference runner benchmark deferred for P05-T04-S01-M03
+- **Status:** open
 
 - **Status:** open`r`n- **Discovered:** 2026-11-17
 - **Source:** `P05-T04-S01-M03` deferral in `OTOMIX_MicroTask_Plan.tasks.json`

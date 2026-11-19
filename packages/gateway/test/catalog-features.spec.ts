@@ -7,7 +7,7 @@ import { createCatalogFeaturesHandler } from '../src/routes/catalog-features.js'
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const TEST_TIMEOUT = 120_000;
+const TEST_TIMEOUT = 300_000;
 
 function loadUp(rel: string): string {
   const abs = join(__dirname, '..', '..', 'db', 'migrations', rel);

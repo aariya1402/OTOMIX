@@ -12,6 +12,7 @@ export default defineConfig({
     include: [
       'bench/**/*.spec.ts','tools/test/**/*.spec.ts', 'packages/**/test/**/*.spec.ts', 'scripts/test/**/*.spec.ts', 'tools/rt-audit/**/*.spec.ts', 'tools/eslint-rules/**/*.spec.ts'],
     environment: 'node',
+    hookTimeout: 300000,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

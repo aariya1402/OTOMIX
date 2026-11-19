@@ -467,10 +467,6 @@ Section G).
 
 **At phase boundary (last micro-task of a phase):**
 1. `powershell.exe -File Docs/ArchitectureBook/clues/consolidate-phase.ps1 -Phase Pnn` → prints Cline prompt.
-2. Send prompt to Cline (Ask→Act). Cline rewrites `narratives/Pnn/README.md` (~500 words) using the clues.
-3. Verify: narrative > 400 words, ≥ 5 file:line refs, all OQ IDs mentioned.
-4. `powershell.exe -File Docs/ArchitectureBook/clues/consolidate-phase.ps1 -Phase Pnn -Archive` → moves `clues/Pnn.md` to `clues/archive/Pnn_<ts>.md`, resets it, rebuilds `content.js`.
-5. Commit: `docs(Pnn): consolidate phase narrative from clues`.
 
 **Files:**
 - `clues/generate-clue.ps1` — auto-generate a clue from a commit

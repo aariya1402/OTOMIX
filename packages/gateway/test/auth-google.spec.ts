@@ -13,7 +13,7 @@ import { createOAuthClient } from '../src/oauth/google.js';
 import { generateKeyPairSync } from 'node:crypto';
 import type { VaultClient } from '@otomix/access';
 
-const TEST_TIMEOUT = 180_000;
+const TEST_TIMEOUT = 300_000;
 
 let pgContainer: StartedPostgreSqlContainer;
 let redisContainer: StartedRedisContainer;

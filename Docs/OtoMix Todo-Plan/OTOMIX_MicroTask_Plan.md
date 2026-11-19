@@ -2842,13 +2842,16 @@ flowchart LR
 
 > **[REMINDER: Registration tasks P07-REG-M01..M06 must execute before P08 UI work. Details: OTOMIX_MicroTask_Plan_Supplement.md#GAP-027]**
 
+> **GATE-0 ENTRY CRITERION:** All `GATE0-*` tasks tagged CRITICAL must be `DONE`. See `OTOMIX_MicroTask_Plan_Supplement_Gate_P08.md`. P08 may start only after `GATE0-CHK-M01` passes.
+
 ### P08 MixPlan, UI & Redux Architecture
 
 **Objective.** Build the catalog endpoint and the React/Redux client: normalized library and ordered queue state, the two-column selector with skeleton and empty states, the Starter Track warning, the MixPlan generator (weighted recommendation, tie-breaks, vocal-gated offsets, PlanTransition calls), waveform canvas overlays for vocal zones and pre-kick offsets, and Mix Preview wired to the Runtime Observer through the DSP port.
 
 **Entry criteria**
 
-- P03, P04, P05, P06 and P07 exit criteria met.
+- P03, P04, P05, P06 and P07 exit criteria met **and GATE-0 is closed**.
+- All CRITICAL Gate-0 tasks are DONE and `GATE0-CHK-M01` passes.
 - Playwright and React Testing Library configured; mock DSP driver available to the UI test harness.
 
 **Exit criteria**

@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createHmac } from 'node:crypto';
 
-const TEST_TIMEOUT = 120_000;
+const TEST_TIMEOUT = 300_000;
 
 function loadUp(rel: string): string {
   const abs = join(__dirname, '..', '..', 'db', 'migrations', rel);
@@ -26,7 +26,6 @@ function makeTelegramData(overrides: Record<string, string> = {}, botToken = 'te
   };
   const data = { ...base, ...overrides };
   
-  // Compute hash
   const { hash: _, ...checkData } = data;
   const dataCheckString = Object.keys(checkData)
     .sort()

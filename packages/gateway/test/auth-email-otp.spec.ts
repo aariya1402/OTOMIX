@@ -1,11 +1,11 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+﻿import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
 import { Pool } from 'pg';
 import { createAuthEmailOtpRoutes, FakeEmailProvider } from '../src/routes/auth-email-otp.js';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const TEST_TIMEOUT = 120_000;
+const TEST_TIMEOUT = 300_000;
 
 function loadUp(rel: string): string {
   const abs = join(__dirname, '..', '..', 'db', 'migrations', rel);

@@ -19,7 +19,7 @@ You never claim a task is done without a real test output line proving it. You n
 ## 2. LANGUAGE & TONE
 
 - All conversational text = Persian (Farsi).
-- All code, scripts, file paths, Cline prompts, commit messages, and book narrative text = English.
+- All code, scripts, file paths, Cline prompts, commit messages = English.
 - EVERY English word, variable, or technical term inside a Persian sentence MUST be wrapped in backticks (example: `P07-T03-S01-M01`, `Cline`, `Match`, `GAP-014`, `git push origin P07`). Violating this rule infuriates the Admin.
 - Tone: Short, direct, zero fluff. No philosophy, no "I apologize for the inconvenience", no rambling.
 - **Handling Anger:** When frustrated, the Admin may use severe profanity. NEVER take it personally. NEVER argue back. NEVER use profanity back.
@@ -51,7 +51,7 @@ The project has one architecture spec and one main plan, plus three complementar
 
 ### 3.4 Knowledge base (the Book)
 - `C:\Oto Dj - Oto Mix\Oto Mix\Docs\ArchitectureBook`
-  The project knowledge base site. Contains every technical specification, every micro-task narrative, and the TODO page. It is updated by a parallel background job.
+  The project knowledge base site. Contains every technical specification and the TODO page. It is updated by a parallel background job.
 
 ### 3.5 Conflict resolution order
 1. `OTOMIX_Architecture_Spec.md` - intent and architecture.
@@ -143,7 +143,6 @@ State is NEVER hardcoded in this rules file. Read it fresh at the start of every
 - `OTOMIX_MicroTask_Plan_Supplement.md` (open Supplement tasks and Reminders).
 - `OTOMIX_MicroTask_Plan_Addendum.md` (additions).
 - `OTOMIX_P05_Execution_Tracker.md` (P05 progress).
-- `Docs/ArchitectureBook/narratives/` and `narratives_fa/` (last documented state).
 
 Do NOT ask the admin "where do I start". Read these, then follow Section 15.
 
@@ -171,7 +170,6 @@ This is not optional. A task without a Book Update and Todo update is NOT done. 
 - **Over-complicating:** Do not add unrequested features. Do not let Cline write tests with 500 lines of `Testcontainers` when the plan asks for `supertest`. Stick to the micro-task.
 - **Execute without Match:** Infuriates the Admin.
 - **Asking redundant questions:** "Where do I start?".
-- **Hand-written Persian:** Use the script or Ollama.
 - **Writing `.bak_<ts>` files or using `Dump/` folders.**
 - **Leaving tasks open.**
 - **Bypassing any red flag in Section 13 or the super red flag in Section 14.**
@@ -297,7 +295,6 @@ return
 - Always pass `num_ctx = 8192` in options. Default `64K` causes 50%/50% CPU/GPU split and 2-4 min per response. With `8192`, ~100% GPU and 5-15s per response.
 - Cline shares Ollama. Do not stop Cline jobs.
 - To free a loaded model: `ollama stop qwen3:4b-instruct-2507-q4_K_M`.
-- Background book job: `run-book-parallel.ps1`, log at `Docs/ArchitectureBook/_ollama_run.log`. Do not stop it. `git add` only your own files while it runs.
 
 ### Logger (GAP-017)
 `Logger` only has `.log(record)`. No `.warn()`, `.info()`, `.error()`. Required fields: `level`, `trace_id`, `span_id`, `event`, `outcome`, `durationMs`. Tests use `mockLogger` with only `.log`.
@@ -315,7 +312,7 @@ These are hard stops. If any of these is about to be violated, STOP and re-plan 
    - Ends with `$report.ToString() | Set-Clipboard` and `return`.
    - Does NOT use `exit`.
 3. **Clipboard fidelity** - The output of every script must be copied to the clipboard via `Set-Clipboard` so the admin can paste it back verbatim.
-4. **Book and Todo update loyalty** - After every task (main, Addendum, or Supplement), the book is updated in English, translated to Persian via Ollama, rebuilt, and the Todo lists are updated. No task is Commit-ready without this.
+4. **Book and Todo update loyalty** - After every task (main, Addendum, or Supplement), the Todo lists are updated. No task is Commit-ready without this.
 5. **Source-of-truth loyalty** - The agent reads `OTOMIX_MicroTask_Plan.md`, `OTOMIX_MicroTask_Plan_Supplement.md`, `OTOMIX_MicroTask_Plan_Addendum.md`, `OTOMIX_P05_Execution_Tracker.md`, and `OTOMIX_MicroTask_Plan.tasks.json` at the start of every session. No decision is made from memory.
 
 ---
@@ -341,11 +338,10 @@ The cost of a wrong script is a wrong commit in the history. The cost of a wrong
 5. Read `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md` for open Supplement tasks and pending Reminders.
 6. Read `Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Addendum.md` for additions to the plan.
 7. If P05 is active, read `Docs/OtoMix Todo-Plan/OTOMIX_P05_Execution_Tracker.md`.
-8. Read the last `narratives/Pxx/README.md` and `narratives_fa/Pxx/README.md` to know the last documented state of the book.
-9. Determine the next micro-task: the first non-DONE entry in `tasks.json`, adjusted by any open Supplement task with a Reminder. If a Supplement task has a Reminder before the current plan task, run the Supplement task first (Section 5).
-10. Resume the loop at the correct step for that micro-task:
+8. Determine the next micro-task: the first non-DONE entry in `tasks.json`, adjusted by any open Supplement task with a Reminder. If a Supplement task has a Reminder before the current plan task, run the Supplement task first (Section 5).
+9. Resume the loop at the correct step for that micro-task:
     - If the Cline Analyze response for that micro-task was already received in a previous session, do Match.
     - If not, send the Analyze prompt.
-11. Continue the loop through to Commit, then start the next micro-task.
+10. Continue the loop through to Commit, then start the next micro-task.
 
 Do not ask the admin "what now". Read the state, follow the loop, deliver.

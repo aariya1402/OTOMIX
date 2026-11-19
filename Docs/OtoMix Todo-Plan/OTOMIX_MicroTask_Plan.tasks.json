@@ -2864,5 +2864,375 @@
         ],
         "test": "integration|Vitest + Testcontainers PostgreSQL|packages/gateway/test/ingest-local.spec.ts|Input: POST /api/v1/ingest/local then wait for worker. Expected: features rows on completion match runEnrichment() output; second identical request hits cache. Pass: feature counts + cache_hit=true on second run.",
         "spec": "OTOMIX §4.1 - Mother §7"
+    },
+    {
+        "id": "GATE0-DEC-M01",
+        "status": "TODO",
+        "description": "Owner records the final Mixability semantics (D3 Preference confirmed or amended) and the engineer syncs every document: Spec §4.5/§4.8/§4.9, JSON Schema `class` enum, constants `UNMIXABLE_BELOW`/`MIX_WEIGHTS`, notes of `P08-T01-S01-M02` and `P08-T04-S01-M02`; close `CONFLICT-006`. |",
+        "prerequisites": [
+            "None |"
+        ],
+        "test": "",
+        "spec": "OTOMIX §4.5 · Addendum D3 · CONFLICT-006 |",
+        "description_fa": "متمم Gate P08: GATE0-DEC-M01 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-DEC-M02",
+        "status": "TODO",
+        "description": "Owner picks ONE recommendation formula (Spec 0.6/0.3/0.1, or 0.4M/0.3C/0.2T/0.1E, or config-driven compat score) and answers OQ-09 (component formulas) and OQ-24 (meaning of \"strictly limits tempo deltas <1%\"). |",
+        "prerequisites": [
+            "`GATE0-DEC-M01` |"
+        ],
+        "test": "",
+        "spec": "OTOMIX §4.9 · OQ-09 · OQ-24 |",
+        "description_fa": "متمم Gate P08: GATE0-DEC-M02 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-DEC-M03",
+        "status": "TODO",
+        "description": "Decide the channel policy: stereo kept for storage with explicit mono downmix for Essentia, or mono default. Update Spec §4.1, `P05-T01-S01-M01`, `P07-T01-S03-M01` and the Addendum accordingly. |",
+        "prerequisites": [
+            "None |"
+        ],
+        "test": "",
+        "spec": "OTOMIX §4.1 · Addendum P05-ADD-T01-S02-M01 |",
+        "description_fa": "متمم Gate P08: GATE0-DEC-M03 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-DOC-M01",
+        "status": "TODO",
+        "description": "Apply section B (status flips and prerequisite re-pointing) to `OTOMIX_MicroTask_Plan.md` and `OTOMIX_MicroTask_Plan.tasks.json`; regenerate the MD from JSON, not the reverse. |",
+        "prerequisites": [
+            "None |"
+        ],
+        "test": "",
+        "spec": "CONFLICT-003, CONFLICT-004 |",
+        "description_fa": "متمم Gate P08: GATE0-DOC-M01 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-VER-M01",
+        "status": "TODO",
+        "description": "Run the Verification Pack (Audit Report §12) and store results: build status per package, test totals (pass/fail/skip/flaky), grep outputs. |",
+        "prerequisites": [
+            "None |"
+        ],
+        "test": "",
+        "spec": "Audit Report §12 |",
+        "description_fa": "متمم Gate P08: GATE0-VER-M01 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-VER-M02",
+        "status": "TODO",
+        "description": "Verify and enforce the ingest order in `ingest-local.ts`: rate-limit → auth/permission → sniff → limits → confine → decode (sandboxed) → tags → dedup → commit. Add a test that fails if `decode` runs before `sniff`. |",
+        "prerequisites": [
+            "`GATE0-VER-M01` |"
+        ],
+        "test": "",
+        "spec": "OTOMIX §5.3 · P07-T01-S01..S03 |",
+        "description_fa": "متمم Gate P08: GATE0-VER-M02 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-P05-M01",
+        "status": "TODO",
+        "description": "Normalize Mixability weights so Σ = 1.0 (or document and test the intentional saturation) and add an invariant test over `analysis-config.json`. |",
+        "prerequisites": [
+            "`GATE0-DEC-M01` |"
+        ],
+        "test": "",
+        "spec": "Addendum P05-ADD-T01-S01-M01 · D9 |",
+        "description_fa": "متمم Gate P08: GATE0-P05-M01 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-P05-M02",
+        "status": "TODO",
+        "description": "Apply the `GATE0-DEC-M03` policy: fix `forceMono` default in `core/audio/normalize.ts`, and keep exactly one `normalizeInput` implementation (the other re-exports it). |",
+        "prerequisites": [
+            "`GATE0-DEC-M03` |"
+        ],
+        "test": "",
+        "spec": "OTOMIX §4.1 |",
+        "description_fa": "متمم Gate P08: GATE0-P05-M02 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-P05-M03",
+        "status": "TODO",
+        "description": "Complete `computeEnergy` (replace skeleton) with all components and weights from `AnalysisConfig`; implements `P05-T02-S02-M01`. |",
+        "prerequisites": [
+            "`GATE0-P05-M01` |"
+        ],
+        "test": "",
+        "spec": "OTOMIX §4.3 |",
+        "description_fa": "متمم Gate P08: GATE0-P05-M03 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-P05-M04",
+        "status": "TODO",
+        "description": "Un-defer the minimal slice of `P05-T03-S01-M03`: `V_map = 0` fallback with flag `vocal_map_assumed_zero=true` when no vocal model is available (no TensorFlow dependency). |",
+        "prerequisites": [
+            "None |"
+        ],
+        "test": "",
+        "spec": "OTOMIX §4.4, §4.7 |",
+        "description_fa": "متمم Gate P08: GATE0-P05-M04 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-P05-M05",
+        "status": "TODO",
+        "description": "Validate `pipeline/extract.ts` against the Feature Registry schema (contract test), complete `P05-T04-S01-M01`, and make `isBpmDynamic` read `analysis.tempo.bpmDynamicThresholdBpm` with `??` (no `|| 2.0`). |",
+        "prerequisites": [
+            "`GATE0-P05-M02`",
+            "`GATE0-P05-M03`",
+            "`GATE0-P05-M04` |"
+        ],
+        "test": "",
+        "spec": "OTOMIX §4.2, §4.8 |",
+        "description_fa": "متمم Gate P08: GATE0-P05-M05 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-P05-M06",
+        "status": "TODO",
+        "description": "Add a reversible migration with `analysis_status` (`placeholder` / `pending` / `complete`) on `features`; ingest writes `placeholder`; catalog and recommender exclude `placeholder` rows by default. |",
+        "prerequisites": [
+            "`GATE0-VER-M01` |"
+        ],
+        "test": "",
+        "spec": "GAP-023 · OTOMIX §9.6 |",
+        "description_fa": "متمم Gate P08: GATE0-P05-M06 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-P05-M07",
+        "status": "TODO",
+        "description": "Wire `runEnrichment()` into the ingest flow; API answers 202/200 with resource id before analysis completes; worker result updates the features row to `complete`; identical second request hits cache. Replaces the placeholder block in `commit.ts`. |",
+        "prerequisites": [
+            "`GATE0-P05-M05`",
+            "`GATE0-P05-M06`",
+            "`GATE0-VER-M02` |"
+        ],
+        "test": "",
+        "spec": "GAP-023 · GAP-030 · P05-ADD-T06-S03-M01 |",
+        "description_fa": "متمم Gate P08: GATE0-P05-M07 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-SEC-M01",
+        "status": "TODO",
+        "description": "Implement `P06-T05-S01-M02`: WASM memory hard maximum 512 MB (8192 pages) for analysis/decode workers. |",
+        "prerequisites": [
+            "`GATE0-DEC-M03` |"
+        ],
+        "test": "",
+        "spec": "OTOMIX §5.3, §7 |",
+        "description_fa": "متمم Gate P08: GATE0-SEC-M01 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-DOC-M03",
+        "status": "TODO",
+        "description": "Author `Docs/FEATURES/OTOMIX_UI_Bindings.md`: UI element → Redux slice → catalog field → Feature Registry field, for every P08 component. |",
+        "prerequisites": [
+            "`GATE0-DEC-M01`",
+            "`GATE0-DEC-M02` |"
+        ],
+        "test": "",
+        "spec": "GAP-020 |",
+        "description_fa": "متمم Gate P08: GATE0-DOC-M03 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-CHK-M01",
+        "status": "TODO",
+        "description": "Gate-0 exit script: re-run prerequisite analysis, assert all CRITICAL tasks DONE, assert catalog fixture contains only `complete` rows with non-placeholder values. |",
+        "prerequisites": [
+            "all CRITICAL `GATE0-*` tasks |"
+        ],
+        "test": "",
+        "spec": "P08 Entry criteria |",
+        "description_fa": "متمم Gate P08: GATE0-CHK-M01 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-DOC-M02",
+        "status": "TODO",
+        "description": "Plan hygiene: remove the duplicate `P05-ADD-T01-S03-M01` in the Addendum; fix `P07-REG-M02` heading/status mismatch; fix the invalid Mermaid label in docs; align Config names (CONFLICT-002). |",
+        "prerequisites": [
+            "`GATE0-DOC-M01` |"
+        ],
+        "test": "",
+        "spec": "CONFLICT-002, -003 |",
+        "description_fa": "متمم Gate P08: GATE0-DOC-M02 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-VER-M03",
+        "status": "TODO",
+        "description": "Verify Addendum UI tasks `P05-ADD-T04-S01-M01` and `-S02-M01`: files `packages/ui/src/state/mixplan.ts`, `reorder.ts` and their tests must exist and pass; otherwise flip to TODO. |",
+        "prerequisites": [
+            "`GATE0-VER-M01` |"
+        ],
+        "test": "",
+        "spec": "Addendum P05-ADD-T04 |",
+        "description_fa": "متمم Gate P08: GATE0-VER-M03 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-SEC-M02",
+        "status": "TODO",
+        "description": "Return the container-parser fuzz harness (`P07-T02-S02-M01`) to a real `worker_threads` sandbox now that GAP-021 is resolved. |",
+        "prerequisites": [
+            "`GATE0-SEC-M01` |"
+        ],
+        "test": "",
+        "spec": "OTOMIX §5.3 · GAP-021 |",
+        "description_fa": "متمم Gate P08: GATE0-SEC-M02 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-SEC-M03",
+        "status": "TODO",
+        "description": "Remove `// @ts-nocheck` from `packages/workers/src/pool.ts`: delete unused import/field/local, keep `pool-bulkhead.spec.ts` green. |",
+        "prerequisites": [
+            "None |"
+        ],
+        "test": "",
+        "spec": "GAP-018 |",
+        "description_fa": "متمم Gate P08: GATE0-SEC-M03 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "GATE0-SEC-M04",
+        "status": "TODO",
+        "description": "Prove the permission cache fails closed: Redis down, LISTEN/NOTIFY lost, and TTL expiry after revoke. |",
+        "prerequisites": [
+            "`P06-RBAC-M06` |"
+        ],
+        "test": "",
+        "spec": "GAP-015 · auth-and-authorization discipline |",
+        "description_fa": "متمم Gate P08: GATE0-SEC-M04 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "X-ARC-M01",
+        "status": "TODO",
+        "description": "Move `packages/core/src/repository/global-features.ts` into `packages/db`; remove `pg` and the `core→db` dependency (GAP-016 proper fix). |",
+        "prerequisites": [
+            "None |"
+        ],
+        "test": "",
+        "spec": "GAP-016 · Rule 26 |",
+        "description_fa": "متمم Gate P08: X-ARC-M01 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "X-ARC-M02",
+        "status": "TODO",
+        "description": "Make `@otomix/contracts` a leaf (no imports from gateway/core/db/access) and add a circular-dependency check to CI. |",
+        "prerequisites": [
+            "None |"
+        ],
+        "test": "",
+        "spec": "OTOMIX §2.8 |",
+        "description_fa": "متمم Gate P08: X-ARC-M02 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "X-ARC-M03",
+        "status": "TODO",
+        "description": "Single owner for `confine`, `decode`, `normalize`: keep one implementation (plan locations: `gateway/ingest/confine.ts`, `workers/src/decode.ts`), delete or re-export the others. |",
+        "prerequisites": [
+            "`GATE0-VER-M02`",
+            "`GATE0-P05-M02` |"
+        ],
+        "test": "",
+        "spec": "OTOMIX §5.2 |",
+        "description_fa": "متمم Gate P08: X-ARC-M03 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "X-ARC-M04",
+        "status": "TODO",
+        "description": "Create a migration ledger (`packages/db/migrations/LEDGER.md`: number, file, task, status) and a reversible migration that drops legacy `users.role` and `users.tier` CHECKs (superseded by dynamic RBAC and `tier_N` roles). |",
+        "prerequisites": [
+            "`GATE0-P05-M06` |"
+        ],
+        "test": "",
+        "spec": "GAP-015 · GAP-009 |",
+        "description_fa": "متمم Gate P08: X-ARC-M04 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "X-ARC-M05",
+        "status": "TODO",
+        "description": "Align auth routes to GAP-027 and the `/api/v1` convention (`/auth/google/start`, `/auth/google/callback`, `/auth/telegram/verify`, `/auth/otp/send`, `/auth/otp/verify`); decide and document `auth-email-otp`. |",
+        "prerequisites": [
+            "`GATE0-VER-M01` |"
+        ],
+        "test": "",
+        "spec": "GAP-027 · P07-REG-M02..M04 |",
+        "description_fa": "متمم Gate P08: X-ARC-M05 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "X-TST-M01",
+        "status": "TODO",
+        "description": "Add property-based tests (fast-check): `tOfI` monotonicity and clamp, `GridModel` segment boundaries, Mixability and Compatibility ranges [0,1] for all inputs, weights invariant. |",
+        "prerequisites": [
+            "`GATE0-P05-M01` |"
+        ],
+        "test": "",
+        "spec": "OTOMIX §3.1 · P11 determinism |",
+        "description_fa": "متمم Gate P08: X-TST-M01 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "X-TST-M02",
+        "status": "TODO",
+        "description": "Contract tests for every shared Mock (Logger first): a mock must satisfy the real interface type and behavior (GAP-017 pattern). |",
+        "prerequisites": [
+            "None |"
+        ],
+        "test": "",
+        "spec": "GAP-017 |",
+        "description_fa": "متمم Gate P08: X-TST-M02 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "X-TST-M03",
+        "status": "TODO",
+        "description": "End-to-end integration test of the whole pipeline: upload → sniff → decode → extract → commit → enrich → catalog. |",
+        "prerequisites": [
+            "`GATE0-P05-M07` |"
+        ],
+        "test": "",
+        "spec": "OTOMIX §5.1 |",
+        "description_fa": "متمم Gate P08: X-TST-M03 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "X-SEC-M01",
+        "status": "TODO",
+        "description": "Redis-backed rate limiting for auth endpoints (OTP send 3/10 min per phone, verify attempts cap) and make the ingest limiter store-pluggable. |",
+        "prerequisites": [
+            "`P07-REG-M04` |"
+        ],
+        "test": "",
+        "spec": "GAP-024 · GAP-027 |",
+        "description_fa": "متمم Gate P08: X-SEC-M01 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "X-OPS-M01",
+        "status": "TODO",
+        "description": "Fix `sync-and-translate.ps1` (`git push origin HEAD`, parameterized message) and add a pre-commit guard that aborts if unrelated files are staged. |",
+        "prerequisites": [
+            "None |"
+        ],
+        "test": "",
+        "spec": "GAP-019 · GOTCHA-HIST-002 |",
+        "description_fa": "متمم Gate P08: X-OPS-M01 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "X-DR-M01",
+        "status": "TODO",
+        "description": "Create sibling task stubs for GAP-014 (cloud + local) for every P05/P07 task still open and a template for P10/P11, so no PR claims a phase done with only one target. |",
+        "prerequisites": [
+            "`GATE0-DOC-M01` |"
+        ],
+        "test": "",
+        "spec": "GAP-014 |",
+        "description_fa": "متمم Gate P08: X-DR-M01 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
+    },
+    {
+        "id": "P08-PRE-M01",
+        "status": "TODO",
+        "description": "Add a Playwright skeleton for the core journey (login → upload → library → queue → plan → preview) with a mock DSP driver; P08 tasks extend it. |",
+        "prerequisites": [
+            "`GATE0-CHK-M01`",
+            "`P07-REG-M06` |"
+        ],
+        "test": "",
+        "spec": "OTOMIX §4.9 |",
+        "description_fa": "متمم Gate P08: P08-PRE-M01 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
     }
 ]
