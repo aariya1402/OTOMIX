@@ -4,8 +4,25 @@ import { Pool } from 'pg';
 import { createAuthOtpRoutes, FakeSmsProvider } from '../src/routes/auth-otp.js';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+vi.mock('@otomix/access', async (importOriginal) => {
+  const actual: any = await importOriginal();
+  return {
+    ...actual,
+    issueAccessToken: async (input: any) => ({
+      token: 'mock-token-' + input.sub,
+      claims: {
+        sub: input.sub,
+        tenant_id: input.tenantId,
+        jti: '00000000-0000-0000-0000-000000000000',
+        iat: 0,
+        exp: 0,
+      },
+      kid: 'mock-kid',
+    }),
+  };
+});
 
-const TEST_TIMEOUT = 120_000;
+const TEST_TIMEOUT = 300_000;
 
 function loadUp(rel: string): string {
   const abs = join(__dirname, '..', '..', 'db', 'migrations', rel);

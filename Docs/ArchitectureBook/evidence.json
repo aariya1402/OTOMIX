@@ -1710,25 +1710,12 @@
    ]
   },
   "packages/gateway/test/auth-otp.spec.ts": {
-   "at": 1795046928691,
-   "status": "failed",
+   "at": 1795047135573,
+   "status": "passed",
    "total": 8,
-   "passed": 5,
-   "failed": 3,
-   "failures": [
-    {
-     "name": "Phone OTP Auth (P07-REG-M04) verify: valid code -> creates user, returns token",
-     "message": "AssertionError: expected 500 to be 200 // Object.is equality\n    at C:\\Oto Dj - Oto Mix\\Oto Mix\\packages\\gateway\\test\\auth-otp.spec.ts:154:30\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at file:///C:/Oto%20Dj%20-%20Oto%20Mix/Oto%20Mix/node_modules/.pnpm/@vitest+runner@3.2.7/node_modules/@vitest/runner/dist/chunk-hooks.js:752:20"
-    },
-    {
-     "name": "Phone OTP Auth (P07-REG-M04) verify: expired code (after getdel) -> 401",
-     "message": "AssertionError: expected 500 to be 200 // Object.is equality\n    at C:\\Oto Dj - Oto Mix\\Oto Mix\\packages\\gateway\\test\\auth-otp.spec.ts:183:31\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at file:///C:/Oto%20Dj%20-%20Oto%20Mix/Oto%20Mix/node_modules/.pnpm/@vitest+runner@3.2.7/node_modules/@vitest/runner/dist/chunk-hooks.js:752:20"
-    },
-    {
-     "name": "Phone OTP Auth (P07-REG-M04) verify: duplicate phone returns same user",
-     "message": "SyntaxError: Unexpected token 'v', \"vaultClien\"... is not valid JSON\n    at JSON.parse (<anonymous>)\n    at C:\\Oto Dj - Oto Mix\\Oto Mix\\packages\\gateway\\test\\auth-otp.spec.ts:202:21\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at file:///C:/Oto%20Dj%20-%20Oto%20Mix/Oto%20Mix/node_modules/.pnpm/@vitest+runner@3.2.7/node_modules/@vitest/runner/dist/chunk-hooks.js:75"
-    }
-   ]
+   "passed": 8,
+   "failed": 0,
+   "failures": []
   }
  },
  "tsc": {
@@ -1758,7 +1745,7 @@
    "diagnostics": []
   },
   "packages/gateway/tsconfig.json": {
-   "at": 1795046932988,
+   "at": 1795047139492,
    "exit": 0,
    "diagnostics": []
   },
