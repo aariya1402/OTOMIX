@@ -180,7 +180,7 @@ describe('Task registry: per-task audit (tasks.json)', () => {
 });
 
 describe('Master plan (.md) vs tasks.json', () => {
-  const heads = [...planMd.matchAll(/^#{3,6} (P\d{2}-[A-Z0-9-]+).*?\[(.)\]/gm)].map((m) => ({ id: m[1], mark: m[2] }));
+  const heads = [...planMd.matchAll(/^#{3,6} ((?:P\d{2}|GATE0|X)-[A-Z0-9-]+).*?\[(.)\]/gm)].map((m) => ({ id: m[1], mark: m[2] }));
 
   it('[x] markers in the master plan agree with tasks.json DONE status', () => {
     const v: string[] = [];

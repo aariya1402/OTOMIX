@@ -5,6 +5,23 @@
     "description": "core package for OTOMIX platform",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.js"
+        },
+        "./pipeline/enrichment": {
+            "types": "./dist/pipeline/enrichment.d.ts",
+            "import": "./dist/pipeline/enrichment.js",
+            "require": "./dist/pipeline/enrichment.js"
+        },
+        "./transition": {
+            "types": "./dist/transition/index.d.ts",
+            "import": "./dist/transition/index.js",
+            "require": "./dist/transition/index.js"
+        }
+    },
     "scripts": {
         "build": "tsc",
         "test": "vitest run --passWithNoTests",
@@ -17,13 +34,12 @@
     ],
     "author": "",
     "license": "MIT",
-    "dependencies": { "@otomix/db": "workspace:*" },
+    "dependencies": {
+        "@otomix/contracts": "workspace:*"
+    },
     "devDependencies": {
-        "@testcontainers/postgresql": "^12.2.1",
         "@types/node": "^20.0.0",
-        "@types/pg": "^8.11.0",
         "@vitest/ui": "^1.0.0",
-        "pg": "^8.11.0",
         "typescript": "^5.0.0",
         "vitest": "^1.0.0"
     },

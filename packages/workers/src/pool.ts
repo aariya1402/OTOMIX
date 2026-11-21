@@ -1,10 +1,5 @@
-// @ts-nocheck
-// OTOMIX: pre-existing unused-locals errors from P06 (Worker, tenantId, d).
-// Tracked as supplement GAP-018; proper refactor scheduled as a separate micro-task.
-// This bypass is scoped to this file only and must be removed once GAP-018 is resolved.
-import { Worker } from 'node:worker_threads';
 import { createDegradedModeController, DegradedModeController } from '@otomix/core';
-import { DEFAULT_POOL_SIZE_PER_TENANT, DEFAULT_SATURATION_THRESHOLD } from './constants';
+import { DEFAULT_POOL_SIZE_PER_TENANT, DEFAULT_SATURATION_THRESHOLD } from './constants.js';
 
 export interface WorkerPoolConfig {
   sizePerTenant?: number;
@@ -31,7 +26,6 @@ interface InternalTask {
 }
 
 class TenantPoolImpl implements TenantPool {
-  private readonly tenantId: string;
   private readonly sizePerTenant: number;
   private readonly saturationThreshold: number;
   private readonly degraded: DegradedModeController;
@@ -40,8 +34,7 @@ class TenantPoolImpl implements TenantPool {
   private shuttingDown = false;
   private initialized = false;
 
-  constructor(tenantId: string, sizePerTenant: number, saturationThreshold: number) {
-    this.tenantId = tenantId;
+  constructor(sizePerTenant: number, saturationThreshold: number) {
     this.sizePerTenant = sizePerTenant;
     this.saturationThreshold = saturationThreshold;
     this.degraded = createDegradedModeController();
@@ -58,7 +51,6 @@ class TenantPoolImpl implements TenantPool {
 
   private maybeDegrade(): void {
     const utilization = (this.active + this.queue.length) / this.sizePerTenant;
-    const d = this.degraded as any;
     if (utilization >= this.saturationThreshold) {
       this.degraded.onEvent('POOL_EXHAUSTED');
     } else {
@@ -115,7 +107,7 @@ export function createTenantPoolRegistry(config: WorkerPoolConfig = {}): TenantP
     getPool(tenantId: string): TenantPool {
       let p = pools.get(tenantId);
       if (!p) {
-        p = new TenantPoolImpl(tenantId, size, threshold);
+        p = new TenantPoolImpl(size, threshold);
         pools.set(tenantId, p);
       }
       return p;

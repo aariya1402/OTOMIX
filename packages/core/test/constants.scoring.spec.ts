@@ -3,13 +3,14 @@ import { SCORING_CONSTANTS , MIXABILITY_WEIGHTS } from '../src/constants/scoring
 import { ACCESS_CONSTANTS } from '../../access/src/constants';
 
 describe('Scoring Constants', () => {
-  it('should have all 7 core scoring values correctly defined', () => {
+  it('should have all 6 core scoring values correctly defined (UNMIXABLE_BELOW removed per Rule 25)', () => {
     expect(SCORING_CONSTANTS.ENERGY_WEIGHTS).toEqual([0.4, 0.3, 0.2, 0.1]);
     expect(SCORING_CONSTANTS.MIX_WEIGHTS).toEqual([0.4, 0.3, 0.2, 0.1]);
-    expect(SCORING_CONSTANTS.UNMIXABLE_BELOW).toBe(0.4);
+    // UNMIXABLE_BELOW REMOVED per Rule 25: Mixability is PREFERENCE, not GATE
+    expect('UNMIXABLE_BELOW' in SCORING_CONSTANTS).toBe(false);
     expect(SCORING_CONSTANTS.VOCAL_THRESHOLD).toBe(0.65);
     expect(SCORING_CONSTANTS.VOCAL_MEDIAN_BEATS).toBe(2);
-    expect(SCORING_CONSTANTS.RECO_WEIGHTS).toEqual([0.4, 0.3, 0.2, 0.1]);
+    expect(SCORING_CONSTANTS.RECO_WEIGHTS).toEqual([0.40, 0.30, 0.20, 0.10]); // Updated defaults
     expect(SCORING_CONSTANTS.TEMPO_DELTA_LIMIT).toBe(0.01);
   });
 

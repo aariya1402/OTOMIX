@@ -1,7 +1,15 @@
-// OTOMIX §5.2 · Mother §1 · GAP-014
-// Shared pure normalization. Down-mix to mono and resample to 44.1 kHz.
+// OTOMIX §5.2 · Mother §1 · GAP-014 · GATE0-DEC-M03
+// Shared pure normalization. Resample to 44.1 kHz.
+// Stereo preserved for storage; mono downmix for Essentia analysis.
 // No platform-specific imports. Used by decode.ts in workers.
 export const TARGET_SAMPLE_RATE = 44100;
+
+export interface NormalizeResult {
+  /** Stereo/multi-channel audio at target sample rate (for storage) */
+  stereo: Float32Array[];
+  /** Mono downmix at target sample rate (for Essentia analysis) */
+  mono: Float32Array;
+}
 
 function downmixToMono(channelData: Float32Array[]): Float32Array {
   if (channelData.length === 0) return new Float32Array(0);
@@ -33,7 +41,30 @@ function resampleLinear(input: Float32Array, fromRate: number, toRate: number): 
   return out;
 }
 
+function resampleChannels(channels: Float32Array[], fromRate: number, toRate: number): Float32Array[] {
+  return channels.map(ch => resampleLinear(ch, fromRate, toRate));
+}
+
+/**
+ * Normalize audio channels to target sample rate.
+ * Returns BOTH stereo (for storage) and mono (for Essentia analysis).
+ * @param channelData - Input channels (stereo = 2, mono = 1)
+ * @param sampleRate - Source sample rate
+ * @returns { stereo: resampled channels[], mono: downmixed & resampled }
+ */
 export function normalizeChannels(
+  channelData: Float32Array[],
+  sampleRate: number,
+): NormalizeResult {
+  // Resample all channels to target rate (preserve stereo for storage)
+  const stereo = resampleChannels(channelData, sampleRate, TARGET_SAMPLE_RATE);
+  // Downmix to mono for Essentia analysis
+  const mono = resampleLinear(downmixToMono(channelData), sampleRate, TARGET_SAMPLE_RATE);
+  return { stereo, mono };
+}
+
+/** Legacy: returns mono only (for backward compatibility) */
+export function normalizeChannelsMono(
   channelData: Float32Array[],
   sampleRate: number,
   forceMono: boolean = true,

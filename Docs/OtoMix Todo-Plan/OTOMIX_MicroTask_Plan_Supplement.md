@@ -412,7 +412,7 @@ See `CONFLICT-009`. Always `git -c core.quotePath=false`.
 | Field | Value |
 |---|---|
 | Decision | `bpmDynamicThresholdBpm = 2.0` BPM spread (max - min of bpm_histogram). |
-| Expected Outcome | `packages/core/src/features/bpm-seed.ts` - `isBpmDynamic` reads `analysis.tempo.bpmDynamicThresholdBpm` (currently via `|| 2.0` fallback; D9 follow-up: promote to analysis-config.json). |
+| Expected Outcome | `packages/core/src/config/analysis-config.json` defines `tempo.bpmDynamicThresholdBpm = 2.0`; `isBpmDynamic` reads the typed config and uses a nullish fallback so a configured zero is respected. |
 | Independent Test(s) | **unit** - Vitest - `packages/core/test/features.bpm-dynamic.spec.ts` |
 
 ###### P05-T02-S02-M03 - decision (near-zero dynamic range)

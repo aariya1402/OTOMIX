@@ -1,12 +1,12 @@
 import { describe, it, expect, vi } from 'vitest';
 import { makeCacheInvalidator, purgeOlderMajorVersions } from '../src/features/cache-invalidate';
-import type { GlobalFeaturesRepository } from '../src/repository/global-features';
+import type { GlobalFeaturesStore } from '../src/features/cache-invalidate';
 
 describe('Cache Invalidation (P05-T02-S03-M02)', () => {
   it('T1: purge on major version bump', async () => {
     const mockRepo = {
       deleteVersionsOlderThanMajor: vi.fn().mockResolvedValue(['hash1', 'hash2'])
-    } as unknown as GlobalFeaturesRepository;
+    } as unknown as GlobalFeaturesStore;
     const invalidator = makeCacheInvalidator(mockRepo);
 
     const hashes = await purgeOlderMajorVersions(invalidator, '2.0.0');
@@ -18,7 +18,7 @@ describe('Cache Invalidation (P05-T02-S03-M02)', () => {
   it('T2: minor/patch bump passes the correct major', async () => {
     const mockRepo = {
       deleteVersionsOlderThanMajor: vi.fn().mockResolvedValue([])
-    } as unknown as GlobalFeaturesRepository;
+    } as unknown as GlobalFeaturesStore;
     const invalidator = makeCacheInvalidator(mockRepo);
 
     await purgeOlderMajorVersions(invalidator, '1.2.1');
@@ -27,7 +27,7 @@ describe('Cache Invalidation (P05-T02-S03-M02)', () => {
   });
 
   it('T3: invalid version string throws', async () => {
-    const mockRepo = { deleteVersionsOlderThanMajor: vi.fn() } as unknown as GlobalFeaturesRepository;
+    const mockRepo = { deleteVersionsOlderThanMajor: vi.fn() } as unknown as GlobalFeaturesStore;
     const invalidator = makeCacheInvalidator(mockRepo);
 
     await expect(purgeOlderMajorVersions(invalidator, 'invalid')).rejects.toThrow();

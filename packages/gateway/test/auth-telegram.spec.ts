@@ -6,6 +6,12 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createHmac } from 'node:crypto';
 
+vi.mock('@otomix/access', () => ({
+  issueAccessToken: async (claims: { sub: string }) => ({
+    token: 'mock-token-' + claims.sub,
+  }),
+}));
+
 const TEST_TIMEOUT = 300_000;
 
 function loadUp(rel: string): string {
@@ -109,7 +115,8 @@ describe('Telegram Auth (P07-REG-M03)', () => {
   });
 
   it('invalid hash -> 401', async () => {
-    const data = makeTelegramData({ hash: 'invalid-hash' });
+    const data = makeTelegramData();
+    data.hash = 'invalid-hash';
     const req = mockReq('POST', '/auth/telegram/verify', data);
     const res = mockRes();
     

@@ -19,15 +19,17 @@
 
 ### CF-01 — Placeholder features are indistinguishable from analyzed features
 
-**Evidence:** `packages/gateway/src/ingest/commit.ts` inserts fixed values (`bpm=120`, `camelot_key='1A'`, `energy_scalar=0.5`, `energy_stars=3`, `mixability=0.5`, `registry_json={}`). `packages/gateway/src/repository/features-repository.ts` selects feature rows without an analysis-status predicate. No `analysis_status` column was found in the current migrations/source search.
+**Evidence:** Initially confirmed in `commit.ts` and Catalog queries. Remediation now adds `analysis_status`, marks ingest-created feature rows `placeholder`, filters both Catalog reads to `complete`, and upserts validated extraction results in `FeaturesExtractionRepository`. Migration 009 conservatively keeps all pre-existing rows as `placeholder` because non-empty JSON alone does not prove provenance.
 
 **Work:** Add a reversible migration using the next free migration number; model `placeholder`, `pending`, and `complete` explicitly; ensure catalog/recommendation reads exclude non-complete rows by default; wire the actual enrichment outcome so a row becomes `complete` only after validated extracted features are persisted. Define safe backfill behavior for existing rows and preserve RLS.
 
 **Acceptance:** A database integration test proves placeholder/pending rows are absent from default catalog results, complete rows are visible, state transitions are correct, migration up/down works, and RLS still isolates tenants. An ingest integration test proves real extracted values replace placeholders and duplicate uploads reuse the existing result without duplicate worker execution.
 
+**Remaining blocker:** `engine-isolated.ts` still returns static mock features and ingest only constructs an `s3://` key; no real EngineRunner/worker consumer or storage upload is wired. Do not mark rows complete from the current mock engine.
+
 ### CF-02 — Ingest buffers the request before validating its contents
 
-**Evidence:** `packages/gateway/src/routes/ingest-local.ts` consumes the request stream into `chunks` and calls `Buffer.concat` before calling `sniffForGateway`; the route then decodes before tag extraction. The full request path and middleware order must be inspected before changing assumptions about upstream authentication/rate limiting.
+**Evidence:** `ingest-local.ts` previously buffered without a cap and did not invoke the existing limiter. It now applies per-user rate limiting before stream collection, stores chunks only up to the configured byte cap, then sniffs before decoding. The route-level test proves an oversized chunked request is rejected without decoder invocation.
 
 **Work:** Enforce a bounded request-body size while streaming; verify the mounted route order for authentication/permission and rate limiting; then apply sniff, declared limits, path/storage confinement, sandboxed decode, tag extraction, deduplication, and commit in the agreed order. Avoid buffering an unbounded body or invoking the decoder for rejected input.
 
@@ -59,13 +61,15 @@
 
 **Blocker:** Do not change the default policy until the owner records the decision.
 
-### CF-06 — Legacy users role/tier constraints remain in the schema chain
+### CF-06 — Legacy users role/tier contract needs an owner decision
 
-**Evidence:** `001_core.sql` constrains `users.role` to four fixed roles and `users.tier` to `(1,2)`. `004_rbac.sql` creates dynamic RBAC tables but does not drop those constraints. No later migration dropping the checks was found in the current migration search.
+**Evidence:** `001_core.sql` constrains `users.role` to four fixed roles and `users.tier` to `(1,2)`. `004_rbac.sql` creates dynamic RBAC tables but does not drop those constraints. Current `UserRepository` still writes both columns, and `packages/access/src/token/types.ts` defines `Tier = 1 | 2`; therefore, the audit's claim that dropping only the database checks enables dynamic roles/tiers is not confirmed.
 
-**Work:** Add a reversible migration, after confirming the complete migration ledger and all runtime consumers, to remove only the superseded role/tier checks. Preserve RLS and the identity fields; do not replace authorization with client-supplied role/tier values.
+**Work:** Owner/architecture decision first: declare whether `users.role/tier` are legacy identity metadata or part of the active authorization contract. Only if they are retired, update all consumers and then add a reversible migration to remove the checks. Preserve RLS and do not replace authorization with client-supplied role/tier values.
 
-**Acceptance:** PostgreSQL integration tests show a dynamically created role and a supported `tier_N` value are accepted, rollback restores the old constraints, and RLS policies are unchanged.
+**Acceptance:** The recorded contract, repository/token types, migration behavior, and integration tests agree. If the owner retains the current contract, close this finding as not a defect without removing the checks.
+
+**Status:** BLOCKED on owner/architecture decision; do not add the migration yet.
 
 ### CF-07 — Core imports database implementation details
 
@@ -118,13 +122,13 @@ The full suite is not green until Testcontainers-backed tests execute in an envi
 
 | Work package | Status | Evidence / run link |
 | --- | --- | --- |
-| CF-01 | TODO | |
-| CF-02 | TODO | |
-| CF-03 | TODO | |
-| CF-04 | TODO | |
+| CF-01 | IN PROGRESS | Migration 009, complete-only catalog, placeholder marking, and extraction upsert implemented. Focused checks: 8/8; catalog: 3/3; migration: 14/14. Enrichment consumer/storage upload remain blocked: `engine-isolated.ts` returns static mock features and ingest only constructs an `s3://` key. |
+| CF-02 | IN PROGRESS | `ingest-local.spec.ts` 5/5 and `ratelimit.spec.ts` 3/3 pass. Body cap and pre-read limiter are implemented. Still verify the mounted server route order and declared-duration handling; no duration-in-seconds audio parameter was added. |
+| CF-03 | DONE | `pnpm vitest run packages/core/test/features.bpm-dynamic.spec.ts --no-color` — 5/5 pass; regression observed red first (2 failures). |
+| CF-04 | DONE | `pnpm -F @otomix/workers build` and `pool-bulkhead.spec.ts` — 4/4 pass; `@ts-nocheck` and unused `Worker`/tenant field removed. |
 | CF-05 | BLOCKED: owner decision | |
-| CF-06 | TODO | |
-| CF-07 | TODO | |
+| CF-06 | BLOCKED: owner/architecture decision | Existing runtime and token types still use `role` and `Tier = 1 | 2`; dropping DB checks alone would not enable dynamic tiers. |
+| CF-07 | DONE | Core no longer imports `pg`, `@otomix/db`, or the DB repository. Extraction persistence and global-feature repository now live in `packages/db`; focused tests 11/11 and Core/DB/Gateway builds passed. |
 | CF-08 | TODO | |
 
 **Parent task may be closed only when:** all unblocked work packages pass their acceptance criteria, CF-05's owner decision is recorded and implemented, the plan audit has zero confirmed structural failures, and required Testcontainers tests have run successfully or are explicitly accepted as a release blocker by the owner.

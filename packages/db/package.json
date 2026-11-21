@@ -5,6 +5,72 @@
   "description": "db package for OTOMIX platform",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": ["dist/*"],
+      "./global-features-repository": ["./dist/global-features-repository.d.ts"],
+      "./features-extraction-repository": ["./dist/features-extraction-repository.d.ts"],
+      "./global-features-repository": ["./dist/global-features-repository.d.ts"],
+      "./features-extraction-repository": ["./dist/features-extraction-repository.d.ts"]
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./with-tenant": {
+      "types": "./dist/with-tenant.d.ts",
+      "import": "./dist/with-tenant.js",
+      "require": "./dist/with-tenant.js"
+    },
+    "./receiver-dedup": {
+      "types": "./dist/receiver-dedup.d.ts",
+      "import": "./dist/receiver-dedup.js",
+      "require": "./dist/receiver-dedup.js"
+    },
+    "./namespaced-clients": {
+      "types": "./dist/namespaced-clients.d.ts",
+      "import": "./dist/namespaced-clients.js",
+      "require": "./dist/namespaced-clients.js"
+    },
+    "./dsp-parameters-repository": {
+      "types": "./dist/dsp-parameters-repository.d.ts",
+      "import": "./dist/dsp-parameters-repository.js",
+      "require": "./dist/dsp-parameters-repository.js"
+    },
+    "./global-features-repository": {
+      "types": "./dist/global-features-repository.d.ts",
+      "import": "./dist/global-features-repository.js",
+      "require": "./dist/global-features-repository.js"
+    },
+    "./features-extraction-repository": {
+      "types": "./dist/features-extraction-repository.d.ts",
+      "import": "./dist/features-extraction-repository.js",
+      "require": "./dist/features-extraction-repository.js"
+    },
+    "./repository/features-repository": {
+      "types": "./dist/repository/features-repository.d.ts",
+      "import": "./dist/repository/features-repository.js",
+      "require": "./dist/repository/features-repository.js"
+    },
+    "./repository/base-repository": {
+      "types": "./dist/repository/base-repository.d.ts",
+      "import": "./dist/repository/base-repository.js",
+      "require": "./dist/repository/base-repository.js"
+    },
+    "./repository/user-repository": {
+      "types": "./dist/repository/user-repository.d.ts",
+      "import": "./dist/repository/user-repository.js",
+      "require": "./dist/repository/user-repository.js"
+    },
+    "./repository/features-repository": {
+      "types": "./dist/repository/features-repository.d.ts",
+      "import": "./dist/repository/features-repository.js",
+      "require": "./dist/repository/features-repository.js"
+    }
+  },
   "scripts": {
     "build": "tsc",
     "test": "vitest run --passWithNoTests",

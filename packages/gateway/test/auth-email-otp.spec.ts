@@ -1,9 +1,15 @@
-﻿import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
 import { Pool } from 'pg';
 import { createAuthEmailOtpRoutes, FakeEmailProvider } from '../src/routes/auth-email-otp.js';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+
+vi.mock('@otomix/access', () => ({
+  issueAccessToken: async (claims: { sub: string }) => ({
+    token: 'mock-token-' + claims.sub,
+  }),
+}));
 
 const TEST_TIMEOUT = 300_000;
 

@@ -2,7 +2,7 @@
 // Library-agnostic analysis engine contract.
 // Defines the JSON payloads for the castle-and-moat isolation boundary.
 
-import Ajv from 'ajv';
+import { Ajv } from 'ajv';
 import schema from '../schemas/analysis-engine-api.json' with { type: 'json' };
 
 export interface AnalysisEngineRequest {

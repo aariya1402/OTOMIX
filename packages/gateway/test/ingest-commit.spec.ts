@@ -60,6 +60,7 @@ describe('commitIngestTransaction (P07-T03-S02-M03)', () => {
     );
 
     await client.query(loadUp('007_tracks_source_declarations.sql'));
+    await client.query(loadUp('009_features_analysis_status.sql'));
   }, TEST_TIMEOUT);
 
   afterAll(async () => {
@@ -119,13 +120,14 @@ describe('commitIngestTransaction (P07-T03-S02-M03)', () => {
     expect(c.outbox).toBe(1);
 
     const feat = await client.query(
-      'SELECT bpm, camelot_key, energy_scalar, energy_stars, mixability, groove_mode, schema_version FROM features LIMIT 1',
+      'SELECT bpm, camelot_key, energy_scalar, energy_stars, mixability, groove_mode, schema_version, analysis_status FROM features LIMIT 1',
     );
     expect(feat.rows.length).toBe(1);
     expect(Number(feat.rows[0].bpm)).toBe(120);
     expect(feat.rows[0].camelot_key).toBe('1A');
     expect(feat.rows[0].groove_mode).toBe('straight');
     expect(feat.rows[0].schema_version).toBe('1.2.0');
+    expect(feat.rows[0].analysis_status).toBe('placeholder');
 
     const ob = await client.query('SELECT topic, payload FROM outbox LIMIT 1');
     expect(ob.rows[0].topic).toBe('otomix.track.ingested');

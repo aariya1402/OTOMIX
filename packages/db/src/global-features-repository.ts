@@ -1,10 +1,3 @@
-// OTOMIX §4.1 · Global Track Metadata Repository (AI Agent.MD §6)
-//
-// Cross-tenant feature cache. Does not use withTenant because it is
-// intentionally global (keyed by audio content SHA-256).
-//
-// Rule 26: No time-based musical identifiers.
-
 import { Pool } from 'pg';
 
 export interface GlobalFeatureRecord {
@@ -60,5 +53,6 @@ export class GlobalFeaturesRepository {
       RETURNING content_sha256
     `;
     const result = await this.pool.query(query, [major]);
-    return result.rows.map((r: any) => r.content_sha256);
-  }}
+    return result.rows.map((row: { content_sha256: string }) => row.content_sha256);
+  }
+}

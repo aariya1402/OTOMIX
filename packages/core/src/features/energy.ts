@@ -47,8 +47,15 @@ export function computeEnergy(features: EnergyFeaturesInput): EnergyResult {
     ? normCap(features.rms_energy, max.rms_energy)
     : (features.average_loudness !== undefined ? clamp01(features.average_loudness) : 0);
   const dc = features.dynamic_complexity;
-  const dynamic_inverse = (typeof dc === 'number' && Number.isFinite(dc) && max.dynamic_complexity > 0)
-    ? clamp01((max.dynamic_complexity - dc) / max.dynamic_complexity) : 0;
+  // Clamp dynamic_complexity to valid range [0, max] before computing inverse
+  // If not provided, default to max (inverse = 0 = no inverse contribution)
+  // Negative complexity is invalid; dc > max means no inverse contribution
+  const clampedDc = typeof dc === 'number' && Number.isFinite(dc)
+    ? Math.max(0, Math.min(dc, max.dynamic_complexity))
+    : max.dynamic_complexity;
+  const dynamic_inverse = max.dynamic_complexity > 0
+    ? clamp01((max.dynamic_complexity - clampedDc) / max.dynamic_complexity)
+    : 0;
   const spectral_centroid = normCap(features.spectral_centroid, max.spectral_centroid);
   const bbr = features.beats_loudness_band_ratio;
   const beat_bass_ratio = (Array.isArray(bbr) && bbr.length >= 2)

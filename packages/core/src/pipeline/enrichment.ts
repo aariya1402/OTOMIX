@@ -36,6 +36,7 @@ export interface TenantFeatureStore {
 
 export interface EnrichmentInput {
   readonly contentSha256: string;
+  readonly trackId?: string;
   readonly analysisVersion: string;
   readonly workerId: string;
   readonly tenantId: string;
@@ -105,7 +106,7 @@ export async function runEnrichment(
   // 5. Persist to global first, then tenant (DQ3-a)
   try {
     await deps.cache.upsert(input.contentSha256, features, input.analysisVersion);
-    await deps.tenantStore.write(input.tenantId, input.contentSha256, features, input.analysisVersion);
+    await deps.tenantStore.write(input.tenantId, input.trackId ?? input.contentSha256, features, input.analysisVersion);
   } catch (e: any) {
     return { ok: false, error: 'PERSIST_ERROR', message: e.message || 'Unknown DB error' };
   }

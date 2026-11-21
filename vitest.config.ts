@@ -10,7 +10,7 @@ export default defineConfig({
     },
     benchmark: { include: ['bench/**/*.bench.ts'] },
     include: [
-      'bench/**/*.spec.ts','tools/test/**/*.spec.ts', 'packages/**/test/**/*.spec.ts', 'scripts/test/**/*.spec.ts', 'tools/rt-audit/**/*.spec.ts', 'tools/eslint-rules/**/*.spec.ts'],
+      'bench/**/*.spec.ts','tools/test/**/*.spec.ts', 'packages/**/test/**/*.spec.{ts,tsx}', 'scripts/test/**/*.spec.ts', 'tools/rt-audit/**/*.spec.ts', 'tools/eslint-rules/**/*.spec.ts'],
     environment: 'node',
     hookTimeout: 300000,
     coverage: {

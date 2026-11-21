@@ -5,7 +5,7 @@ export default defineWorkspace([
     extends: './vitest.config.ts',
     test: {
       name: 'default',
-      include: ['packages/**/test/**/*.spec.ts', 'tools/test/**/*.spec.ts', 'scripts/test/**/*.spec.ts', 'tools/rt-audit/**/*.spec.ts', 'tools/eslint-rules/**/*.spec.ts'],
+      include: ['packages/**/test/**/*.spec.{ts,tsx}', 'tools/test/**/*.spec.ts', 'scripts/test/**/*.spec.ts', 'tools/rt-audit/**/*.spec.ts', 'tools/eslint-rules/**/*.spec.ts'],
       exclude: [
         '**/node_modules/**',
         '**/dist/**',

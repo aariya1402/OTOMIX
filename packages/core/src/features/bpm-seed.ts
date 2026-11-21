@@ -135,5 +135,5 @@ export function isBpmDynamic(histogram: readonly TempoEntry[]): boolean {
   const min = Math.min(...bpmValues);
   const max = Math.max(...bpmValues);
   const cfg = getAnalysisConfig().tempo;
-  return (max - min) > ((cfg as any).bpmDynamicThresholdBpm || 2.0);
+  return (max - min) > (cfg.bpmDynamicThresholdBpm ?? 2.0);
 }

@@ -1,4 +1,4 @@
-import { WASM_HEAP_MB, WASM_PAGE_BYTES, MAX_WASM_PAGES } from './constants';
+import { WASM_HEAP_MB, WASM_PAGE_BYTES, MAX_WASM_PAGES } from './constants.js';
 
 export class WasmConfigError extends Error {
   readonly code = 'INVALID_WASM_CONFIG' as const;

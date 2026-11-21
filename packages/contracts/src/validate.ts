@@ -1,5 +1,5 @@
 // OTOMIX §9.6; §4.2 · Mother Add. §1–§2; §3.2
-import Ajv from 'ajv';
+import { Ajv } from 'ajv';
 import schema from '../schemas/feature-registry-1.2.json' with { type: 'json' };
 import type { FeatureRegistryV1_2, RegistryValidationResult } from './types.js';
 
@@ -23,6 +23,6 @@ export function validateRegistry(input: unknown): RegistryValidationResult {
     return { ok: true, value: input as FeatureRegistryV1_2 };
   }
   const errors = validate.errors ?? [];
-  const msg = errors.map(e => `${e.instancePath} ${e.message}`).join('; ');
+  const msg = errors.map((e: any) => `${e.instancePath} ${e.message}`).join('; ');
   return { ok: false, error: 'INVALID_ARGUMENT', message: msg };
 }

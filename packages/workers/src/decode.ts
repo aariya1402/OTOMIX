@@ -1,10 +1,13 @@
-// OTOMIX §5.2 · Mother §1 · GAP-014 · GAP-017
+// OTOMIX §5.2 · Mother §1 · GAP-014 · GAP-017 · GATE0-DEC-M03
 import { normalizeChannels, TARGET_SAMPLE_RATE } from '@otomix/core';
 
 export type DecodeFormat = 'mp3' | 'wav' | 'flac' | 'unknown';
 
 export interface DecodeValue {
+  /** Mono PCM at 44.1 kHz (for SHA256 + Essentia analysis) */
   pcm: Float32Array;
+  /** Stereo PCM at 44.1 kHz (for storage) — if available */
+  stereo: Float32Array[] | undefined;
   sampleRate: number;
   sha256: string;
 }
@@ -217,8 +220,18 @@ export async function decodeAll(
   }
   if (!raw) return { ok: false, error: 'DECODE_FAILED', message: `could not decode ${format}` };
 
-  const pcm = normalizeChannels(raw.channelData, raw.sampleRate, true);
-  const view = new Uint8Array(pcm.buffer, pcm.byteOffset, pcm.byteLength);
-  const sha256 = await sha256Hex(view);
-  return { ok: true, value: { pcm, sampleRate: TARGET_SAMPLE_RATE, sha256 } };
+  const normalized = normalizeChannels(raw.channelData, raw.sampleRate);
+  // Use mono for SHA256 (consistent deduplication) and Essentia analysis
+  const monoView = new Uint8Array(normalized.mono.buffer, normalized.mono.byteOffset, normalized.mono.byteLength);
+  const sha256 = await sha256Hex(monoView);
+  // Return mono for analysis + stereo for storage (if multi-channel)
+  return {
+    ok: true,
+    value: {
+      pcm: normalized.mono,
+      stereo: normalized.stereo.length > 1 ? normalized.stereo : undefined,
+      sampleRate: TARGET_SAMPLE_RATE,
+      sha256,
+    },
+  };
 }

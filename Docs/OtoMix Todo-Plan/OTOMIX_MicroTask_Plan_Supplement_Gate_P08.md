@@ -520,6 +520,28 @@
 
 ---
 
+### D.1. GAP-014 دوگانه‌سازی (Sibling Task Register)
+
+Every open P05/P07 task gets a **cloud** and **local** sibling so no single-target PR can close a phase.  
+A template row is included for future P10/P11 tasks.
+
+| Original Task ID | Cloud Sibling ID | Local Sibling ID | Status | Notes |
+|---|---|---|---|---|
+| `GATE0-P05-M06` | `GATE0-P05-M06-CLOUD` | `GATE0-P05-M06-LOCAL` | TODO | Migration with `analysis_status` |
+| `GATE0-P05-M07` | `GATE0-P05-M07-CLOUD` | `GATE0-P05-M07-LOCAL` | TODO | Wire `runEnrichment()` into ingest |
+| `GATE0-VER-M01` | `GATE0-VER-M01-CLOUD` | `GATE0-VER-M01-LOCAL` | TODO | Verification Pack baseline |
+| `P07-T05-S01-M01` | `P07-T05-S01-M01-CLOUD` | `P07-T05-S01-M01-LOCAL` | TODO | Fuzz harness in worker_threads |
+| `P07-REG-M02` | `P07-REG-M02-CLOUD` | `P07-REG-M02-LOCAL` | TODO | Registration heading/status sync |
+
+**P10/P11 Template (apply when new tasks are created):**
+
+| Original Task ID | Cloud Sibling ID | Local Sibling ID | Status | Notes |
+|---|---|---|---|---|
+| `P10-TXX-SXX-MXX` | `P10-TXX-SXX-MXX-CLOUD` | `P10-TXX-SXX-MXX-LOCAL` | TEMPLATE | Cloud vs local deployment |
+| `P11-TXX-SXX-MXX` | `P11-TXX-SXX-MXX-CLOUD` | `P11-TXX-SXX-MXX-LOCAL` | TEMPLATE | Cloud vs local deployment |
+
+---
+
 ## E. چک‌لیست خروج Gate-0
 - [ ] ۱۶ تسک CRITICAL = DONE
 - [ ] `GATE0-CHK-M01` سبز

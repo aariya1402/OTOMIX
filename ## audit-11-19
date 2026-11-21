@@ -1,0 +1,59 @@
+warning: in the working copy of 'Docs/Audit/20261119-Claude Audit/OTOMIX_Confirmed_Findings_Remediation_MicroTask_2026-11-19.md', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan_Supplement.md', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'packages/contracts/src/engine-api.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'packages/contracts/src/validate.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'packages/core/src/config/analysis-config.json', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'packages/core/src/config/analysis.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'packages/core/src/constants/scoring.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'packages/core/test/constants.scoring.spec.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'packages/core/test/features.cache.spec.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'packages/core/test/features.compatibility.spec.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'packages/db/src/index.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'packages/db/test/global-features.spec.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'packages/ui/package.json', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'packages/workers/src/index.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'packages/workers/src/wasm-memory.ts', CRLF will be replaced by LF the next time Git touches it
+ ...ed_Findings_Remediation_MicroTask_2026-11-19.md |   28 [32m+[m[31m-[m
+ Docs/OtoMix Todo-Plan/OTOMIX_Audit_Report.md       |   73 [32m+[m[31m-[m
+ Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan.md     |   54 [32m+[m[31m-[m
+ .../OTOMIX_MicroTask_Plan.tasks.json               | 6647 [32m++++++++++[m[31m----------[m
+ .../OTOMIX_MicroTask_Plan_Supplement.md            |    2 [32m+[m[31m-[m
+ .../OTOMIX_MicroTask_Plan_Supplement_Gate_P08.md   |   22 [32m+[m
+ packages/contracts/src/engine-api.ts               |    2 [32m+[m[31m-[m
+ packages/contracts/src/validate.ts                 |    4 [32m+[m[31m-[m
+ packages/core/package.json                         |   24 [32m+[m[31m-[m
+ packages/core/src/audio/normalize.ts               |   35 [32m+[m[31m-[m
+ packages/core/src/config/analysis-config.json      |   17 [32m+[m[31m-[m
+ packages/core/src/config/analysis.ts               |    3 [32m+[m[31m-[m
+ packages/core/src/constants/scoring.ts             |   12 [32m+[m[31m-[m
+ packages/core/src/features/bpm-seed.ts             |    2 [32m+[m[31m-[m
+ packages/core/src/features/cache-invalidate.ts     |    8 [32m+[m[31m-[m
+ packages/core/src/features/energy.ts               |   11 [32m+[m[31m-[m
+ packages/core/src/pipeline/extract.ts              |   62 [32m+[m[31m-[m
+ packages/core/src/repository/global-features.ts    |   64 [31m-[m
+ packages/core/test/constants.scoring.spec.ts       |    7 [32m+[m[31m-[m
+ packages/core/test/features.bpm-dynamic.spec.ts    |   29 [32m+[m
+ packages/core/test/features.cache.spec.ts          |    8 [32m+[m[31m-[m
+ packages/core/test/features.compatibility.spec.ts  |   37 [32m+[m[31m-[m
+ packages/core/test/pipeline.extract.spec.ts        |   83 [32m+[m[31m-[m
+ packages/db/package.json                           |   66 [32m+[m
+ packages/db/src/index.ts                           |    4 [32m+[m
+ packages/db/test/global-features.spec.ts           |    2 [32m+[m[31m-[m
+ packages/gateway/src/index.ts                      |    4 [32m+[m[31m-[m
+ packages/gateway/src/ingest/commit.ts              |   34 [32m+[m[31m-[m
+ .../gateway/src/repository/features-repository.ts  |    5 [32m+[m[31m-[m
+ packages/gateway/src/routes/ingest-local.ts        |  291 [32m+[m[31m-[m
+ packages/gateway/test/catalog-features.spec.ts     |   10 [32m+[m[31m-[m
+ packages/gateway/test/ingest-commit.spec.ts        |    4 [32m+[m[31m-[m
+ packages/gateway/test/ingest-local.spec.ts         |   19 [32m+[m
+ packages/ui/package.json                           |    4 [32m+[m[31m-[m
+ packages/ui/src/mixplan/client.ts                  |   77 [32m+[m[31m-[m
+ packages/ui/test/mixplan.client.spec.ts            |  111 [32m+[m[31m-[m
+ packages/workers/src/decode.ts                     |   23 [32m+[m[31m-[m
+ packages/workers/src/index.ts                      |    8 [32m+[m[31m-[m
+ packages/workers/src/pool.ts                       |   14 [32m+[m[31m-[m
+ packages/workers/src/wasm-memory.ts                |    2 [32m+[m[31m-[m
+ pnpm-lock.yaml                                     |   17 [32m+[m[31m-[m
+ tools/test/plan-audit.spec.ts                      |    2 [32m+[m[31m-[m
+ tsconfig.json                                      |    3 [32m+[m[31m-[m
+ 43 files changed, 4253 insertions(+), 3681 deletions(-)

@@ -1,6 +1,7 @@
-// OTOMIX 5.1; 9.5; 9.9 - Mother 1; Add. 1-2 - GAP-014; GAP-017
-// M03: single-transaction commit of track + features + outbox.
-// Placeholder feature values per [GAP-023]; real extraction is P05-T04-S01-M01.
+// OTOMIX 5.1; 9.5; 9.9 - Mother 1; Add. 1-2 - GAP-014; GAP-017; GAP-023; GAP-030
+// M03: single-transaction commit of track + outbox.
+// Feature insertion moved to async enrichment (GATE0-P05-M07 / GAP-023 / GAP-030).
+// This function only commits track + declarations + track.ingested outbox event.
 
 import { randomUUID } from 'node:crypto';
 import type { PoolClient } from 'pg';
@@ -18,8 +19,6 @@ export interface CommitIngestData {
 export interface CommitIngestDeps {
   failAfterTrackInsert?: boolean;
 }
-
-const PLACEHOLDER_SCHEMA_VERSION = '1.2.0';
 
 export async function commitIngestTransaction(
   client: PoolClient,
@@ -41,33 +40,22 @@ export async function commitIngestTransaction(
   }
 
   if (isNew) {
-    const featureId = randomUUID();
     await client.query(
       `INSERT INTO features (
-         feature_id, tenant_id, track_id, schema_version,
-         bpm, camelot_key, energy_scalar, energy_stars,
-         mixability, groove_mode, registry_json
-       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-      [
-        featureId,
-        data.tenantId,
-        trackId,
-        PLACEHOLDER_SCHEMA_VERSION,
-        120,
-        '1A',
-        0.5,
-        3,
-        0.5,
-        'straight',
-        JSON.stringify({}),
-      ],
+         feature_id, tenant_id, track_id, schema_version, bpm, camelot_key,
+         energy_scalar, energy_stars, mixability, groove_mode, registry_json,
+         analysis_status
+       ) VALUES (
+         gen_random_uuid(), $1, $2, '1.2.0', 120, '1A',
+         0, 0, 0, 'straight', '{}'::jsonb, 'placeholder'
+       )`,
+      [data.tenantId, trackId],
     );
   }
 
   const messageId = randomUUID();
   const payload = JSON.stringify({
     track_id: trackId,
-    schema_version: PLACEHOLDER_SCHEMA_VERSION,
     is_new: isNew,
   });
   await client.query(

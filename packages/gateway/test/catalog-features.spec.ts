@@ -31,7 +31,7 @@ describe('GET /api/v1/catalog/features (P08-T01-S01-M01)', () => {
     const appUri = baseUri.replace(/postgres:\/\/([^:]+):([^@]+)@/, 'postgres://app_user:app_user_password@');
     appPool = new Pool({ connectionString: appUri });
 
-    for (const f of ['001_core.sql', '002_rls.sql']) {
+    for (const f of ['001_core.sql', '002_rls.sql', '009_features_analysis_status.sql']) {
       await adminPool.query(loadUp(f));
     }
 
@@ -43,8 +43,8 @@ describe('GET /api/v1/catalog/features (P08-T01-S01-M01)', () => {
       for (let i = 1; i <= 250; i++) {
         const id = `00000000-0000-0000-0000-${i.toString().padStart(12, '0')}`;
         await client.query(
-          `INSERT INTO features (feature_id, tenant_id, track_id, schema_version, bpm, camelot_key, energy_scalar, energy_stars, mixability, groove_mode, registry_json, analyzed_at)
-           VALUES ($1, 'otomix', $2, '1.0', 120, '8A', 0.5, 3, 0.5, 'straight', '{}', now() + ($3 || ' seconds')::interval)`,
+          `INSERT INTO features (feature_id, tenant_id, track_id, schema_version, bpm, camelot_key, energy_scalar, energy_stars, mixability, groove_mode, registry_json, analysis_status, analyzed_at)
+           VALUES ($1, 'otomix', $2, '1.0', 120, '8A', 0.5, 3, 0.5, 'straight', '{"fixture":true}', 'complete', now() + ($3 || ' seconds')::interval)`,
           [id, id, i]
         );
       }
@@ -55,8 +55,8 @@ describe('GET /api/v1/catalog/features (P08-T01-S01-M01)', () => {
       for (let i = 1; i <= 5; i++) {
         const id = `11111111-0000-0000-0000-${i.toString().padStart(12, '0')}`;
         await client.query(
-          `INSERT INTO features (feature_id, tenant_id, track_id, schema_version, bpm, camelot_key, energy_scalar, energy_stars, mixability, groove_mode, registry_json)
-           VALUES ($1, 'otodj', $2, '1.0', 120, '8A', 0.5, 3, 0.5, 'straight', '{}')`,
+          `INSERT INTO features (feature_id, tenant_id, track_id, schema_version, bpm, camelot_key, energy_scalar, energy_stars, mixability, groove_mode, registry_json, analysis_status)
+           VALUES ($1, 'otodj', $2, '1.0', 120, '8A', 0.5, 3, 0.5, 'straight', '{"fixture":true}', 'complete')`,
           [id, id]
         );
       }

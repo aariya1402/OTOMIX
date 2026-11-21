@@ -86,7 +86,7 @@ export async function upsertEmailUser(pool: Pool, data: EmailUserData): Promise<
     const newId = randomUUID();
     await client.query(
       `INSERT INTO users (user_id, tenant_id, role, tier, email)
-         VALUES ($1, 'otomix', 'end_user', 1, $1)`,
+         VALUES ($1, 'otomix', 'end_user', 1, $2)`,
       [newId, data.email]
     );
     return newId;

@@ -4,7 +4,7 @@ import { Pool } from 'pg';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { GlobalFeaturesRepository } from '../../core/src/repository/global-features';
+import { GlobalFeaturesRepository } from '../src/global-features-repository.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const migrationPath = path.resolve(__dirname, '..', 'migrations', '003_global_features_jsonb.sql');

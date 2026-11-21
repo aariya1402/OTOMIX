@@ -1,4 +1,4 @@
-﻿# OTOMIX Micro-Task Plan
+# OTOMIX Micro-Task Plan
 
 **Document:** `OTOMIX_MicroTask_Plan.md`  
 **Baseline:** `OTOMIX_Architecture_Spec.md` (OTOMIX-specific) and the Mother Document `Software_Arch_Spec__Main_.md` including its Engineering Delivery Addendum  
@@ -1904,18 +1904,18 @@ flowchart LR
 | Spec Reference | OTOMIX §3.1; §4.2 · Mother §2.1; §3.2 |
 | Review Checkpoint | Confirm the validation step can reject a cluster that contradicts the energy peak. |
 
-###### P05-T02-S01-M02 — [BLOCKED: OWNER DECISION OQ-20]
+###### P05-T02-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
 | ID | `P05-T02-S01-M02` |
-| Description | Determine static versus dynamic BPM from `bpm_histogram`. |
-| Expected Outcome | Blocked until the criterion is defined. |
+| Description | Determine static versus dynamic BPM from `bpm_histogram` using the recorded 2.0 BPM spread threshold (`max - min`). |
+| Expected Outcome | `packages/core/src/config/analysis-config.json` defines `tempo.bpmDynamicThresholdBpm`; `isBpmDynamic` reads the typed config and respects a configured zero threshold. |
 | Prerequisites | `P05-T02-S01-M01` |
-| Independent Test(s) | **[BLOCKED]** Decision needed: numeric rule separating static from dynamic BPM (for example histogram spread or segment count). |
+| Independent Test(s) | **unit** · Vitest · `packages/core/test/features.bpm-dynamic.spec.ts`<br>Input: static, dynamic, empty histograms; configured threshold 2.0; configured threshold 0. Expected: static=false, dynamic=true, empty=false, threshold loaded=2.0, zero threshold respected. Pass: 5/5. |
 | Spec Reference | OTOMIX §4.2 · Mother §3.2 |
-| Review Checkpoint | Re-read the Rhythm & Timing row of the §4.2 table. |
-| Notes | Blocked by: OQ-20 |
+| Review Checkpoint | Keep the decision in BPM-spread units; do not introduce seconds into BPM classification. |
+| Notes | OQ-20 resolved by the recorded decision in `OTOMIX_MicroTask_Plan_Supplement.md`: threshold = 2.0 BPM spread. |
 
 ##### P05-T02-S02 Energy and mixability
 
@@ -2871,7 +2871,7 @@ flowchart LR
 
 ##### P08-T01-S01 Library data
 
-###### P08-T01-S01-M01 — TODO
+###### P08-T01-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2885,7 +2885,7 @@ flowchart LR
 | Notes | **`[GAP-020]`** before this task, author `Docs/FEATURES/OTOMIX_UI_Bindings.md` (UI element -> Redux slice -> catalog field -> Feature Registry field). The catalog endpoint response shape defined here becomes the `catalog field` column for every P08 UI component. See supplement GAP-020. |
 | Notes | Acceptance criterion tag: AC4 (implements) |
 
-###### P08-T01-S01-M02 — TODO
+###### P08-T01-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2899,7 +2899,7 @@ flowchart LR
 
 ##### P08-T01-S02 Queue and timeline
 
-###### P08-T01-S02-M01 — TODO
+###### P08-T01-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2911,7 +2911,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.9 · Mother §6; Add. §11 |
 | Review Checkpoint | Confirm the queue stores ids only. |
 
-###### P08-T01-S02-M02 — TODO
+###### P08-T01-S02-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2929,7 +2929,7 @@ flowchart LR
 
 ##### P08-T02-S01 Columns
 
-###### P08-T02-S01-M01 — TODO
+###### P08-T02-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2959,7 +2959,7 @@ flowchart LR
 
 ##### P08-T03-S01 Warning rule
 
-###### P08-T03-S01-M01 — TODO
+###### P08-T03-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -3054,7 +3054,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.9; §3.9 · Mother §6; Add. §11; §2.9 |
 | Review Checkpoint | Confirm no exception path blocks the queue. |
 
-###### P08-T04-S02-M04 — TODO
+###### P08-T04-S02-M04 — [x]
 
 | Field | Value |
 |---|---|
@@ -3072,7 +3072,7 @@ flowchart LR
 
 ##### P08-T05-S01 Overlays
 
-###### P08-T05-S01-M01 — TODO
+###### P08-T05-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -3084,7 +3084,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.4; §4.9 · Mother §3.4; §6; Add. §11 |
 | Review Checkpoint | Confirm the pattern id is unique per canvas instance. |
 
-###### P08-T05-S01-M02 — TODO
+###### P08-T05-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -3102,7 +3102,7 @@ flowchart LR
 
 ##### P08-T06-S01 Preview controller
 
-###### P08-T06-S01-M01 — TODO
+###### P08-T06-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -3114,7 +3114,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.8 · Mother §7 |
 | Review Checkpoint | Confirm preview uses the same executor as production playback. |
 
-###### P08-T06-S01-M02 — TODO
+###### P08-T06-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -4515,7 +4515,7 @@ Every gap or contradiction found while decomposing the specification. **Blocking
 | OQ-17 | — | Numeric criterion for 'devoid of a strong kick body' (Attack-Grid-only default). | Blocking | `P03-T02-S01-M02` | — |
 | OQ-18 | — | Numeric rule for detecting half-time/double-time structural differences before the tempo glide. | Blocking | `P04-T01-S01-M03` | — |
 | OQ-19 | — | Numeric phase-coherence criterion that triggers the WSOLA legacy fallback. | Non-blocking | — | `P04-T02-S02-M04` |
-| OQ-20 | — | Numeric rule separating static from dynamic BPM from `bpm_histogram`. | Blocking | `P05-T02-S01-M02` | — |
+| OQ-20 | — | Numeric rule separating static from dynamic BPM from `bpm_histogram`. | Resolved (2026-11-19) | — | 2.0 BPM spread (`max - min`); see Supplement decision. |
 | OQ-21 | — | Threshold and function for the compression penalty on the Dynamics component. | Blocking | `P05-T02-S02-M03` | — |
 | OQ-22 | — | Scaling of `E_kick`, `C_bass`, `S_tempo`, `V_tune` to [0,1] for the Mixability Score. | Blocking | `P05-T02-S02-M06` | — |
 | OQ-23 | — | Provenance of the 'global dataset' used for genre-median interpolation and percentile bands. | Non-blocking | — | `P05-T02-S03-M01` |
@@ -4528,6 +4528,44 @@ Every gap or contradiction found while decomposing the specification. **Blocking
 | OQ-26 | — | Should a missing CVSS report file (`reports/snyk.json`) be fail-secure (exit 2) or fail-open (exit 0)? §7.9 is silent. | Blocking for future CVSS-report integration | — | `P01-T01-S02-M02` |
 | OQ-27 | — | Is `groove_delta` required only for `groove_mode: "swing"`, forbidden for other modes, or optional everywhere? §3.5/§9.6 are silent. | Non-blocking | — | `P01-T03-S02-M01` |
 
+
+## Gate-0 and Cross-Cutting Remediation Tasks
+
+Detailed task fields are maintained in `OTOMIX_MicroTask_Plan.tasks.json`; execution criteria are in `OTOMIX_MicroTask_Plan_Supplement_Gate_P08.md`.
+
+###### GATE0-DEC-M01 — [ ]
+###### GATE0-DEC-M02 — [ ]
+###### GATE0-DEC-M03 — [ ]
+###### GATE0-DOC-M01 — [ ]
+###### GATE0-DOC-M02 — [ ]
+###### GATE0-DOC-M03 — [ ]
+###### GATE0-VER-M01 — [ ]
+###### GATE0-VER-M02 — [ ]
+###### GATE0-VER-M03 — [ ]
+###### GATE0-P05-M01 — [ ]
+###### GATE0-P05-M02 — [ ]
+###### GATE0-P05-M03 — [ ]
+###### GATE0-P05-M04 — [ ]
+###### GATE0-P05-M05 — [ ]
+###### GATE0-P05-M06 — [ ]
+###### GATE0-P05-M07 — [ ]
+###### GATE0-SEC-M01 — [ ]
+###### GATE0-SEC-M02 — [ ]
+###### GATE0-SEC-M03 — [ ]
+###### GATE0-SEC-M04 — [ ]
+###### GATE0-CHK-M01 — [ ]
+###### X-ARC-M01 — [ ]
+###### X-ARC-M02 — [ ]
+###### X-ARC-M03 — [ ]
+###### X-ARC-M04 — [ ]
+###### X-ARC-M05 — [ ]
+###### X-TST-M01 — [ ]
+###### X-TST-M02 — [ ]
+###### X-TST-M03 — [ ]
+###### X-SEC-M01 — [ ]
+###### X-OPS-M01 — [ ]
+###### X-DR-M01 — [ ]
+###### P08-PRE-M01 — [ ]
 
 ## Missing Headings (Auto-generated)
 

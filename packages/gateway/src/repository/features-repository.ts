@@ -14,6 +14,7 @@ export interface FeatureRow {
   mixability: number;
   groove_mode: string;
   registry_json: object;
+  analysis_status: 'placeholder' | 'pending' | 'complete';
 }
 
 export class FeaturesRepository extends BaseRepository {
@@ -21,10 +22,25 @@ export class FeaturesRepository extends BaseRepository {
     super(pool);
   }
 
+  async findByTrackId(
+    tenantId: TenantId,
+    trackId: string,
+  ): Promise<FeatureRow | null> {
+    return this.withTenant(tenantId, async (client) => {
+      const result = await client.query<FeatureRow>(
+        `SELECT * FROM features
+         WHERE tenant_id = $1 AND track_id = $2
+         LIMIT 1`,
+        [tenantId, trackId],
+      );
+      return result.rows[0] ?? null;
+    });
+  }
+
   async findAll(tenantId: TenantId): Promise<FeatureRow[]> {
     return this.withTenant(tenantId as TenantId, async (client) => {
       const result = await client.query<FeatureRow>(
-        'SELECT * FROM features ORDER BY feature_id DESC'
+        "SELECT * FROM features WHERE analysis_status = 'complete' ORDER BY feature_id DESC"
       );
       return result.rows;
     });
@@ -42,7 +58,8 @@ export class FeaturesRepository extends BaseRepository {
                energy_scalar, energy_stars, mixability, groove_mode, registry_json,
                analyzed_at::text AS analyzed_at
         FROM features
-        WHERE ($1::timestamptz IS NULL
+         WHERE analysis_status = 'complete'
+           AND ($1::timestamptz IS NULL
                OR analyzed_at > $1::timestamptz
                OR (analyzed_at = $1::timestamptz AND feature_id > $2))
         ORDER BY analyzed_at ASC, feature_id ASC

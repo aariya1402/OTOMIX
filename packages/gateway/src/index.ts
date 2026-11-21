@@ -24,3 +24,5 @@ export type { RejectDeps, RejectFormat, RejectReason, RejectResult } from './ing
 export { extractTagsForGateway } from './ingest/tags.js';
 export type { TagsDeps, TagsResult } from './ingest/tags.js';
 export { createCatalogFeaturesHandler } from './routes/catalog-features.js';
+export { createMixPlanHandler } from './routes/mixplan.js';
+export type { MixPlanRequest, MixPlanResponse, MixPlanDeps } from './routes/mixplan.js';

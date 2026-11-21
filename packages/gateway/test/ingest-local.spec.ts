@@ -5,6 +5,7 @@ import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers
 import { Client } from 'pg';
 import * as http from 'node:http';
 import { createIngestLocalRoute } from '../src/routes/ingest-local';
+import { runDecodeWorker } from '../src/ingest/decode-worker';
 import { verifyRequest } from '../src/interceptor';
 import type { InterceptorDeps } from '../src/interceptor';
 import { validateIdempotencyKey } from '../src/idempotency/validate';
@@ -112,6 +113,7 @@ describe('POST /api/v1/ingest/local (P07-T03-S02-M02)', () => {
       '  mixability      numeric(5,4) NOT NULL CHECK (mixability BETWEEN 0 AND 1),' +
       "  groove_mode     text NOT NULL CHECK (groove_mode IN ('straight','triplet','swing'))," +
       '  registry_json   jsonb NOT NULL,' +
+      "  analysis_status text NOT NULL DEFAULT 'placeholder' CHECK (analysis_status IN ('placeholder','pending','complete'))," +
       '  analyzed_at     timestamptz NOT NULL DEFAULT now(),' +
       '  UNIQUE (tenant_id, track_id, schema_version)' +
       ');' +
@@ -144,6 +146,7 @@ describe('POST /api/v1/ingest/local (P07-T03-S02-M02)', () => {
 
     handler = createIngestLocalRoute({
       logger,
+      maxBodyBytes: 1024,
       pool: {
         connect: async () =>
           ({
@@ -263,7 +266,7 @@ describe('POST /api/v1/ingest/local (P07-T03-S02-M02)', () => {
     expect(res.body.error).toBe('INVALID_ARGUMENT');
   }, TEST_TIMEOUT);
 
-  it('valid request -> 201 with track_id', async () => {
+  it('valid request -> 202 with track_id', async () => {
     currentPerms = new Set(['local:process']);
     const res = await post(mp3Fixture(), {
       authorization: 'Bearer valid-token',
@@ -271,7 +274,7 @@ describe('POST /api/v1/ingest/local (P07-T03-S02-M02)', () => {
       'x-filename': 'test.mp3',
       'content-type': 'application/octet-stream',
     });
-    expect(res.status).toBe(201);
+    expect(res.status).toBe(202);
     expect(typeof res.body.track_id).toBe('string');
     expect(res.body.track_id.length).toBeGreaterThan(0);
     expect(res.body.sha256).toBe(
@@ -280,7 +283,26 @@ describe('POST /api/v1/ingest/local (P07-T03-S02-M02)', () => {
     expect(res.body.format).toBe('mp3');
   }, TEST_TIMEOUT);
 
+  it('rejects a chunked body over the byte limit before decoding', async () => {
+    currentPerms = new Set(['local:process']);
+    vi.mocked(runDecodeWorker).mockClear();
+    const mp3 = mp3Fixture();
+    const oversizedBody = Buffer.concat([mp3, Buffer.alloc(1025 - mp3.length)]);
+    const res = await post(oversizedBody, {
+      authorization: 'Bearer valid-token',
+      'idempotency-key': uuid(),
+      'x-filename': 'test.mp3',
+      'content-type': 'application/octet-stream',
+    });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('INVALID_ARGUMENT');
+    expect(runDecodeWorker).not.toHaveBeenCalled();
+  }, TEST_TIMEOUT);
+
   it('replay with same Idempotency-Key -> 200 with stored body', async () => {
+    await client.query('DELETE FROM outbox');
+    await client.query('DELETE FROM features');
+    await client.query('DELETE FROM tracks');
     currentPerms = new Set(['local:process']);
     const key = uuid();
     const headers = {
@@ -290,7 +312,7 @@ describe('POST /api/v1/ingest/local (P07-T03-S02-M02)', () => {
       'content-type': 'application/octet-stream',
     };
     const first = await post(mp3Fixture(), headers);
-    expect(first.status).toBe(201);
+    expect(first.status).toBe(202);
     const second = await post(mp3Fixture(), headers);
     expect(second.status).toBe(200);
     expect(second.body).toEqual(first.body);

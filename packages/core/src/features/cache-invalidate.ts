@@ -2,13 +2,15 @@
 // Rule 25: Cache is for performance, not gating.
 // D9: No hardcoded tunables; currentVersion is a parameter.
 
-import { GlobalFeaturesRepository } from '../repository/global-features.js';
-
-export interface CacheInvalidator {
-  repository: GlobalFeaturesRepository;
+export interface GlobalFeaturesStore {
+  deleteVersionsOlderThanMajor(major: number): Promise<string[]>;
 }
 
-export function makeCacheInvalidator(repository: GlobalFeaturesRepository): CacheInvalidator {
+export interface CacheInvalidator {
+  repository: GlobalFeaturesStore;
+}
+
+export function makeCacheInvalidator(repository: GlobalFeaturesStore): CacheInvalidator {
   return { repository };
 }
 

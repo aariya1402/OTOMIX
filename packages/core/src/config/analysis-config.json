@@ -70,13 +70,13 @@
              },
     "compatibility":  {
                           "weights":  {
-                                          "mixability":  0.30,
-                                          "camelot_proximity":  0.20,
-                                          "tempo_delta_score":  0.15,
-                                          "energy_smoothness":  0.15,
-                                          "structural_match":  0.10,
-                                          "window_cleanliness":  0.05,
-                                          "grid_type_match":  0.05
+                                          "mixability":  0.40,
+                                          "camelot_proximity":  0.30,
+                                          "tempo_delta_score":  0.20,
+                                          "energy_smoothness":  0.10,
+                                          "structural_match":  0.0,
+                                          "window_cleanliness":  0.0,
+                                          "grid_type_match":  0.0
                                       }
                       },
     "transition":  {
@@ -90,6 +90,7 @@
                   "maxIterations":  100,
                   "epsilon":  0.0001,
                   "peakStrengthThreshold":  0.5,
-                  "peakToleranceBpm":  10
+                  "peakToleranceBpm":  10,
+                  "bpmDynamicThresholdBpm":  2.0
               }
 }
