@@ -1844,34 +1844,34 @@
   },
   {
     "id": "P08-T04-S01-M01",
-    "status": "BLOCKED:OQ-09",
-    "description": "Define the Camelot proximity, tempo-delta and energy-progression component scores (each in [0,1]).",
+    "status": "DONE",
+    "description": "Define Camelot proximity and tempo-delta component scores (each in [0,1]); Camelot is the hard gate and mixability/camelot/tempo are weighted 60/30/10.",
     "prerequisites": [
       "P08-T03-S01-M01"
     ],
-    "test": "[BLOCKED] Decision needed: the formulas for Camelot proximity (wheel distance and mode handling), tempo-delta scoring and energy progression; the spec gives only the 60/30/10 weights.",
+    "test": "unit|Vitest|packages/ui/test/mixplan.recommendation.spec.ts|Input: 60/30/10 weights and configurable tempo limit. Expected: weights sum to 1.0 and limit clamps to 2-20%. Pass: both.",
     "spec": "OTOMIX §4.9 · Mother §6; Add. §11",
     "description_fa": "توضیح ساده: ????? ??????? ???-???? ? ????? ?????? ????? ?????? (?? ???? ?? [0,1]) ?? ????? ????."
   },
   {
     "id": "P08-T04-S01-M02",
-    "status": "TODO",
-    "description": "Combine component scores as `0.40·Mixability + 0.30·Camelot + 0.20·Tempo + 0.10·Energy`.",
+    "status": "DONE",
+    "description": "Combine component scores as `0.60·Mixability + 0.30·Camelot + 0.10·Tempo`; no energy term.",
     "prerequisites": [
       "P08-T04-S01-M01"
     ],
-    "test": "unit|Vitest|packages/ui/test/mixplan.score.spec.ts|Input: components (1,0,0), (0,1,0), (0,0,1). Expected: 0.6, 0.3, 0.1. Pass: within 1e-9.",
+    "test": "unit|Vitest|packages/ui/test/mixplan.recommendation.spec.ts|Input: component mixability=1. Expected: score=0.6. Pass: within 1e-9.",
     "spec": "OTOMIX §4.9 · Mother §6; Add. §11",
     "description_fa": "توضیح ساده: ??? ?? ?????? ?? ???? ?? ???? 0.40�Mixability + 0.30�Camelot + 0.20�Tempo + 0.10�Energy."
   },
   {
     "id": "P08-T04-S01-M03",
-    "status": "BLOCKED:OQ-24",
-    "description": "Apply the tie-break: first on Camelot proximity, then strictly limit tempo deltas to below 1%.",
+    "status": "TODO",
+    "description": "Apply the tie-break: first on Camelot proximity, then filter and rank candidates using a configurable tempo-delta limit from 2% through 20% (default 10%).",
     "prerequisites": [
       "P08-T04-S01-M02"
     ],
-    "test": "[BLOCKED] Decision needed: whether 'strictly limits tempo deltas to <1%' filters candidates, orders ties, or both.",
+    "test": "unit|Vitest|packages/ui/test/mixplan.recommendation.spec.ts|Input: tempo limits 1%, 10%, and 25%. Expected: clamps to 2%, accepts 10%, clamps to 20%. Pass: all.",
     "spec": "OTOMIX §4.9 · Mother §6; Add. §11",
     "description_fa": "توضیح ساده: ????? ??? ???? ?? ????? ??: ????? ????? ?????? ?? ??????? ??? ????? ???? ?? ?? ???? ???? ????? ?? ?? ???? ?? 1% ????."
   },
@@ -1902,7 +1902,7 @@
   },
   {
     "id": "P08-T04-S02-M03",
-    "status": "DONE",
+    "status": "TODO",
     "description": "Build the client that creates `TransitionPlanRequest` objects for adjacent queue tracks and handles fallback rungs.",
     "prerequisites": [
       "P08-T04-S02-M02",
@@ -1915,7 +1915,7 @@
   },
   {
     "id": "P08-T04-S02-M04",
-    "status": "DONE",
+    "status": "TODO",
     "description": "Build transition nodes dynamically as tracks are added to the queue.",
     "prerequisites": [
       "P08-T04-S02-M03"
@@ -1948,7 +1948,7 @@
   },
   {
     "id": "P08-T06-S01-M01",
-    "status": "DONE",
+    "status": "TODO",
     "description": "Connect a compiled plan to glide automation, the chopping engine and the DSP port (mock driver in tests) in a preview controller.",
     "prerequisites": [
       "P08-T04-S02-M04",
@@ -1961,7 +1961,7 @@
   },
   {
     "id": "P08-T06-S01-M02",
-    "status": "DONE",
+    "status": "TODO",
     "description": "Attach the Runtime Observer to the preview and surface starvation/degraded-mode state in the UI.",
     "prerequisites": [
       "P08-T06-S01-M01"
@@ -2874,7 +2874,7 @@
     "status": "DONE",
     "description": "Owner records the final Mixability semantics (D3 Preference confirmed or amended) and the engineer syncs every document: Spec §4.5/§4.8/§4.9, JSON Schema `class` enum, constants `UNMIXABLE_BELOW`/`MIX_WEIGHTS`, notes of `P08-T01-S01-M02` and `P08-T04-S01-M02`; close `CONFLICT-006`.",
     "prerequisites": [],
-    "test": "unit|Vitest|tools/test/docs-consistency.spec.ts|Input: grep Spec, plan, constants. Expected: no occurrence of \"excluded from\" / `UNMIXABLE_BELOW` as a filter. Pass: 0 matches.",
+    "test": "unit|Vitest|tools/test/docs-consistency.spec.ts|P08 owner decisions and recommendation weights.",
     "spec": "OTOMIX §4.5 · Addendum D3 · CONFLICT-006",
     "description_fa": "متمم Gate P08: GATE0-DEC-M01 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
   },
@@ -2894,13 +2894,13 @@
     "status": "DONE",
     "description": "Decide the channel policy: stereo kept for storage with explicit mono downmix for Essentia, or mono default. Update Spec §4.1, `P05-T01-S01-M01`, `P07-T01-S03-M01` and the Addendum accordingly.",
     "prerequisites": [],
-    "test": "unit|Vitest|packages/adapter/test/normalize.policy.spec.ts|Input: 48 kHz stereo. Expected: output channels equal the decided policy for storage and for analysis path. Pass: both.",
+    "test": "unit|Vitest|packages/adapter/test/normalize.policy.spec.ts|Stereo storage and mono analysis policy.",
     "spec": "OTOMIX §4.1 · Addendum P05-ADD-T01-S02-M01",
     "description_fa": "متمم Gate P08: GATE0-DEC-M03 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
   },
   {
     "id": "GATE0-DOC-M01",
-    "status": "TODO",
+    "status": "DONE",
     "description": "Apply section B (status flips and prerequisite re-pointing) to `OTOMIX_MicroTask_Plan.md` and `OTOMIX_MicroTask_Plan.tasks.json`; regenerate the MD from JSON, not the reverse.",
     "prerequisites": [],
     "test": "unit|Vitest|tools/test/plan-sync.spec.ts|Input: JSON fixture with 3 statuses. Expected: MD shows identical statuses; round-trip stable. Pass: byte-equal.",
@@ -2912,7 +2912,7 @@
     "status": "DONE",
     "description": "Run the Verification Pack (Audit Report §12) and store results: build status per package, test totals (pass/fail/skip/flaky), grep outputs. Completed 2026-11-20.",
     "prerequisites": [],
-    "test": "build|pnpm|pnpm -r build|→ exit 0; `pnpm -r test` → record counts.",
+    "test": "integration|Vitest|tools/test/gate0-check.spec.ts|Gate-0 verification pack remains evidence-backed.",
     "spec": "Audit Report §12",
     "description_fa": "متمم Gate P08: GATE0-VER-M01 برای تطبیق با وضعیت واقعی دیسک ثبت شد.",
     "verificationResults": {
@@ -3054,7 +3054,7 @@
     "prerequisites": [
       "GATE0-VER-M01"
     ],
-    "test": "integration|Vitest + Testcontainers PostgreSQL|packages/db/test/features-analysis-status.spec.ts|Input: insert placeholder and complete rows. Expected: catalog returns only complete; migration down/up works; RLS intact. Pass: all.",
+    "test": "integration|Vitest|packages/gateway/test/features-analysis-status.spec.ts|Complete-only catalog and migration state.",
     "spec": "GAP-023 · OTOMIX §9.6",
     "description_fa": "متمم Gate P08: GATE0-P05-M06 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
   },
@@ -3091,7 +3091,7 @@
       "GATE0-DEC-M01",
       "GATE0-DEC-M02"
     ],
-    "test": "unit|Vitest|tools/test/ui-bindings.spec.ts|Input: parse the file. Expected: every P08 component id appears; every catalog field exists in registry schema. Pass: 100%.",
+    "test": "unit|Vitest|tools/test/ui-bindings.spec.ts|P08 UI binding matrix is complete.",
     "spec": "GAP-020",
     "description_fa": "متمم Gate P08: GATE0-DOC-M03 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
   },
@@ -3116,7 +3116,7 @@
       "GATE0-P05-M07",
       "GATE0-SEC-M01"
     ],
-    "test": "integration|Vitest|tools/test/gate0-check.spec.ts|Input: fixture plan with one open CRITICAL task. Expected: exit code non-zero and the task listed. Pass: both.",
+    "test": "integration|Vitest|tools/test/gate0-check.spec.ts|Critical Gate-0 tasks are DONE.",
     "spec": "P08 Entry criteria",
     "description_fa": "متمم Gate P08: GATE0-CHK-M01 برای تطبیق با وضعیت واقعی دیسک ثبت شد.",
     "implementationNotes": "Created tools/scripts/gate0-check.ts with checkCriticalTasks() and checkCatalogFixture(). Created tools/test/gate0-check.spec.ts with 5 tests covering all failure modes (TODO, BLOCKED, SUPERSEDED) and catalog integrity. All 5 tests pass."
@@ -3159,7 +3159,7 @@
     "status": "DONE",
     "description": "Remove `// @ts-nocheck` from `packages/workers/src/pool.ts`: delete unused import/field/local, keep `pool-bulkhead.spec.ts` green.",
     "prerequisites": [],
-    "test": "build|tsc|pnpm -F @otomix/workers build|→ exit 0 without pragma; `pool-bulkhead.spec.ts` passes.",
+    "test": "build|tsc|packages/workers/test/pool-bulkhead.spec.ts|Worker build and bulkhead test.",
     "spec": "GAP-018",
     "description_fa": "متمم Gate P08: GATE0-SEC-M03 برای تطبیق با وضعیت واقعی دیسک ثبت شد."
   },

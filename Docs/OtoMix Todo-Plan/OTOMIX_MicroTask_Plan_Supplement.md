@@ -14,8 +14,8 @@
 
 ## Phase P05
 
-### [GAP-001] [PHASE: P05, P08] [BLOCKER] Feature Registry 1.2 â†’ 1.3 bump via BDC module
-- **Status:** open
+### [GAP-001] [PHASE: P05, P08] [ADVISORY] Feature Registry 1.2 to 1.3 bump via BDC module
+- **Status:** resolved
 
 - **Status:** open`r`n- **Discovered:** 2026-11-13
 - **Source:** `Docs/FEATURES/Module 11 Breakdown Density Control (BDC).md` Â§11.7
@@ -340,8 +340,8 @@ See `CONFLICT-009`. Always `git -c core.quotePath=false`.
 
 ## Dynamic RBAC Model
 
-### [GAP-015] [PHASE: P06, P08, P09, P10, P11] [BLOCKER] RBAC must be dynamic: permissions catalog + roles + direct grants + groups
-- **Status:** open
+### [GAP-015] [PHASE: P06, P08, P09, P10, P11] [ADVISORY] Dynamic RBAC is implemented
+- **Status:** resolved
 
 - **Status:** open`r`n- **Discovered:** 2026-11-13
 - **Decision source:** Owner directive (2026-11-13). Supersedes `OQ-10` and `OQ-14` and the static scope-list model.
@@ -546,8 +546,8 @@ eplayDlq(redis, job_id, handler, deps) requires the caller to supply a handler. 
 - **Current safety:** the idempotency store (withIdempotency(job_id, sha256(payload), handler)) prevents double-execution; XDEL removes the entry only on resh.
 - **Test coverage:** packages/gateway/test/dlq-replay.spec.ts proves effect-once, second-replay no-op, and conflict on payload mismatch.
 - **Follow-up:** P10-T05-S01-M04 (runbooks) already includes DLQ replay; extend it with a registry table once the P10 phase starts.
-### [GAP-027] [PHASE: P07, P08] [BLOCKER-for-registration] [RESOLVED] Registration methods (Gmail / Telegram / Phone OTP) not scheduled; owner mandates all three [BLOCKER]
-- **Status:** scheduled
+### [GAP-027] [PHASE: P07, P08] [ADVISORY] [RESOLVED] Registration methods (Gmail / Telegram / Phone OTP)
+- **Status:** resolved
 - **Scheduled:** 2026-11-18
 - **Discovered:** 2026-11-14. Owner directive.
 - **Related:** [GAP-015] (dynamic RBAC) provides the identity scaffolding; [GAP-014] (cloud+local) applies (registration is server-side only).

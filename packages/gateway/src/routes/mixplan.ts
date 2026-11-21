@@ -53,6 +53,10 @@ export function createMixPlanHandler(
       res.status(400).json({ error: 'INVALID_ARGUMENT', message: 'fromTrackId and toTrackId are required' });
       return;
     }
+    if (body.fallbackRung !== undefined && (!Number.isInteger(body.fallbackRung) || body.fallbackRung < 0)) {
+      res.status(400).json({ error: 'INVALID_ARGUMENT', message: 'fallbackRung must be a non-negative integer' });
+      return;
+    }
 
     const tenantId = (req as Request & { claims?: { tenant_id?: string } }).claims?.tenant_id;
     if (!tenantId) {

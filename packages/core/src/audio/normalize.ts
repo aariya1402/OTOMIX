@@ -67,7 +67,7 @@ export function normalizeChannels(
 export function normalizeChannelsMono(
   channelData: Float32Array[],
   sampleRate: number,
-  forceMono: boolean = true,
+  forceMono: boolean = false,
 ): Float32Array {
   const mono = forceMono ? downmixToMono(channelData) : channelData[0];
   return resampleLinear(mono, sampleRate, TARGET_SAMPLE_RATE);

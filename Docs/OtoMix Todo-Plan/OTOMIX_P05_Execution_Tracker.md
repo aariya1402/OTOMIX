@@ -11,7 +11,7 @@
 | Working branch | `audit-11-19` |
 | Base branch (task list) | `P05` |
 | Architecture commits (on feature branch) | `15fe180` |
-| HEAD | `18d55ba` |
+| HEAD | `c9835f7` |
 | Dist state | source-controlled build verification required |
 | Blocked tests (aggregate) | Testcontainers-backed tests are run only when Docker is available |
 

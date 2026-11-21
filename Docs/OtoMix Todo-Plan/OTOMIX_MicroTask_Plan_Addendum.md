@@ -191,21 +191,6 @@
 
 ---
 
-### P05-ADD-T01-S03 TypeScript Build Debt
-
-###### P05-ADD-T01-S03-M01 — [x]
-
-| Field | Value |
-|---|---|
-| ID | `P05-ADD-T01-S03-M01` |
-| Description | Fix ~100 TS errors in `packages/core` so `tsc --build` succeeds (noUncheckedIndexedAccess, resolveJsonModule, missing realign-strategy.ts, missing windowBeats in TransitionPlan, unused imports). |
-| Expected Outcome | `packages/core/package.json` |
-| Prerequisites | None |
-| Independent Test(s) | **build** · tsc · `npx tsc -p packages/core/tsconfig.json` → exit 0. |
-| Spec Reference | Debt discovered 2026-11-12 |
-| Review Checkpoint | `dist/index.js` re-exports `config/analysis`. |
-
-**End of Addendum.**
 ---
 
 ## P05-ADD-T06 Extensible Background Enrichment (The Castle & Moat Pattern)

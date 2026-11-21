@@ -13,6 +13,8 @@
 |------------------|------------|-------------|-------------|
 | `P08-T01-S01-M01` | Library Track List | `library` | `TrackListState` |
 | `P08-T01-S01-M02` | Track Detail Panel | `library` | `TrackDetailState` |
+| `P08-T02-S01-M01` | Library Column | `library` | `LibraryColumnState` |
+| `P08-T02-S01-M02` | Queue Column | `queue` | `QueueColumnState` |
 | `P08-T03-S01-M01` | Starter Track Selector | `mixplan` | `MixplanState` |
 | `P08-T03-S01-M02` | Compatibility Score Display | `mixplan` | `MixplanState` |
 | `P08-T03-S01-M03` | Force Insert Button | `mixplan` | `MixplanState` |

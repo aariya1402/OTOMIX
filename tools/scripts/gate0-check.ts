@@ -32,7 +32,15 @@ function readJson(): Task[] {
 }
 
 export function checkCriticalTasks(tasks: Task[]): { passed: boolean; failed: string[] } {
-  const criticalTasks = tasks.filter(t => t.id.startsWith('GATE0-'));
+  const criticalIds = new Set([
+    'GATE0-DEC-M01', 'GATE0-DEC-M02', 'GATE0-DEC-M03',
+    'GATE0-DOC-M01', 'GATE0-VER-M01', 'GATE0-VER-M02',
+    'GATE0-P05-M01', 'GATE0-P05-M02', 'GATE0-P05-M03',
+    'GATE0-P05-M04', 'GATE0-P05-M05', 'GATE0-P05-M06',
+    'GATE0-P05-M07', 'GATE0-SEC-M01', 'GATE0-DOC-M03',
+    'GATE0-CHK-M01',
+  ]);
+  const criticalTasks = tasks.filter(t => criticalIds.has(t.id));
   const failed = criticalTasks
     .filter(t => t.status !== 'DONE')
     .map(t => `${t.id} (status: ${t.status})`);

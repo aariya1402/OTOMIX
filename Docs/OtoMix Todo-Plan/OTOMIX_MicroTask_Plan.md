@@ -945,7 +945,7 @@ flowchart LR
 | Review Checkpoint | Confirm Beat 0 is never produced. |
 | Notes | Related open question (non-blocking): OQ-07 |
 
-###### P02-T05-S01-M02 — [RESOLVED — Pre-kick numbering]
+###### P02-T05-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -1056,7 +1056,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.2 · Mother §2.2 |
 | Review Checkpoint | Confirm sign convention matches the formula in §3.2. |
 
-###### P03-T02-S01-M02 — [RESOLVED: Attack vs Body Power]
+###### P03-T02-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -1112,7 +1112,7 @@ flowchart LR
 | Review Checkpoint | Re-read §3.2 item 3; confirm duration is exactly 4 bars. |
 | Notes | Related open question (non-blocking): OQ-01 |
 
-###### P03-T03-S01-M03 — [CANCELLED: 16-bar Default]
+###### P03-T03-S01-M03 — [ ]
 
 | Field | Value |
 |---|---|
@@ -1196,7 +1196,7 @@ flowchart LR
 
 ##### P03-T04-S02 Pitch-bound conflict
 
-###### P03-T04-S02-M01 — [RESOLVED: Chopping, No Pitch Shift]
+###### P03-T04-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1406,7 +1406,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.7 · Mother §2.7 |
 | Review Checkpoint | Confirm override hooks do not change the default. |
 
-###### P04-T01-S01-M02 — [CANCELLED: Legacy Arch]
+###### P04-T01-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -1418,7 +1418,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.7 · Mother §2.7 |
 | Review Checkpoint | Verify the flag, not a heuristic, drives the mapping in this task. |
 
-###### P04-T01-S01-M03 — [CANCELLED: Legacy Arch]
+###### P04-T01-S01-M03 — [ ]
 
 | Field | Value |
 |---|---|
@@ -1433,7 +1433,7 @@ flowchart LR
 
 ##### P04-T01-S02 Automation schedule
 
-###### P04-T01-S02-M01 — TODO
+###### P04-T01-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1445,7 +1445,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.7; §3.11 · Mother §2.7; §3.6, Add. §12 |
 | Review Checkpoint | Confirm start/end are explicit values, never implicit. |
 
-###### P04-T01-S02-M02 — [CANCELLED: Legacy Arch]
+###### P04-T01-S02-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -1457,7 +1457,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.7 · Mother §2.7 |
 | Review Checkpoint | Check clamp uses `GLIDE_MAX`. |
 
-###### P04-T01-S02-M03 — [CANCELLED: Legacy Arch]
+###### P04-T01-S02-M03 — [ ]
 
 | Field | Value |
 |---|---|
@@ -1476,7 +1476,7 @@ flowchart LR
 
 ##### P04-T02-S01 Slicing
 
-###### P04-T02-S01-M01 — DONE
+###### P04-T02-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1489,7 +1489,7 @@ flowchart LR
 | Review Checkpoint | Confirm slicing never touches data outside the window. |
 | Notes | Acceptance criterion tag: AC1 (implements) |
 
-###### P04-T02-S01-M02 — DONE
+###### P04-T02-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -1501,7 +1501,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.8 · Mother §2.8 |
 | Review Checkpoint | Check there is no `.slice()`/`.map()` on the pass-through path. |
 
-###### P04-T02-S01-M03 — DONE
+###### P04-T02-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -1515,7 +1515,7 @@ flowchart LR
 
 ##### P04-T02-S02 Crossfade and load shedding
 
-###### P04-T02-S02-M01 — DONE
+###### P04-T02-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1527,7 +1527,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.8 · Mother §2.8 |
 | Review Checkpoint | Compare the code with the formula in §3.8; confirm domain clamp for t outside [0, crossfadeBeats]. |
 
-###### P04-T02-S02-M02 — [RESOLVED — crossfadeBeats]
+###### P04-T02-S02-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -1540,7 +1540,7 @@ flowchart LR
 | Review Checkpoint | Re-read Appendix A item A7. |
 | Notes | OQ-06 resolved 2026-11-11 — crossfadeBeats, no conversion needed |
 
-###### P04-T02-S02-M03 — DONE
+###### P04-T02-S02-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -1552,7 +1552,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.8 · Mother §2.8 |
 | Review Checkpoint | Confirm the shed trigger reuses the starvation signal from P03. |
 
-###### P04-T02-S02-M04 — [CANCELLED: Legacy Arch]
+###### P04-T02-S02-M04 — [ ]
 
 | Field | Value |
 |---|---|
@@ -1571,7 +1571,7 @@ flowchart LR
 
 ##### P04-T03-S01 Callback infrastructure
 
-###### P04-T03-S01-M01 — DONE
+###### P04-T03-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1583,7 +1583,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.12 · Mother Add. §4 |
 | Review Checkpoint | Read the processor and confirm all buffers are created in the constructor/prepare method only. |
 
-###### P04-T03-S01-M02 — DONE
+###### P04-T03-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -1595,7 +1595,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.12 · Mother Add. §4 |
 | Review Checkpoint | Check there are no `Atomics.wait` calls on the audio side. |
 
-###### P04-T03-S01-M03 — DONE
+###### P04-T03-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -1607,7 +1607,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.12 · Mother Add. §4 |
 | Review Checkpoint | Confirm the time constant is a parameter, not a literal. |
 
-###### P04-T03-S01-M04 — [CANCELLED: Session Refresh]
+###### P04-T03-S01-M04 — [ ]
 
 | Field | Value |
 |---|---|
@@ -1619,7 +1619,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.12; §7.2 · Mother Add. §4; §5.2 |
 | Review Checkpoint | Confirm no code reads the ring buffer inside the sample loop. |
 
-###### P04-T03-S01-M05 — DONE
+###### P04-T03-S01-M05 — [x]
 
 | Field | Value |
 |---|---|
@@ -1633,7 +1633,7 @@ flowchart LR
 
 ##### P04-T03-S02 Verification tooling
 
-###### P04-T03-S02-M01 — DONE
+###### P04-T03-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1645,7 +1645,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.12; §10.3 · Mother Add. §4; §8.2 |
 | Review Checkpoint | Confirm the audit fails the build for the allocating fixture. |
 
-###### P04-T03-S02-M02 — DONE
+###### P04-T03-S02-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -1663,7 +1663,7 @@ flowchart LR
 
 ##### P04-T04-S01 Port interface and mocks
 
-###### P04-T04-S01-M01 — DONE
+###### P04-T04-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1675,7 +1675,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.11 · Mother §3.6, Add. §12 |
 | Review Checkpoint | Confirm the interface exposes only raw `AudioBuffer` and automation. |
 
-###### P04-T04-S01-M02 — DONE
+###### P04-T04-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -1689,7 +1689,7 @@ flowchart LR
 
 ##### P04-T04-S02 Processing stages
 
-###### P04-T04-S02-M01 — DONE
+###### P04-T04-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1701,7 +1701,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.11 · Mother §3.6, Add. §12 |
 | Review Checkpoint | Grep for hard-coded 44100 in the file; expect 0. |
 
-###### P04-T04-S02-M02 — DONE
+###### P04-T04-S02-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -1713,7 +1713,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.11 · Mother §3.6, Add. §12 |
 | Review Checkpoint | Confirm attack/release smoothing is per-sample. |
 
-###### P04-T04-S02-M03 — DONE
+###### P04-T04-S02-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -1725,7 +1725,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.11; §3.13 · Mother §3.6, Add. §12; Add. §4 |
 | Review Checkpoint | Confirm oversampling filters are included in the reported latency. |
 
-###### P04-T04-S02-M04 — DONE
+###### P04-T04-S02-M04 — [x]
 
 | Field | Value |
 |---|---|
@@ -1737,7 +1737,7 @@ flowchart LR
 | Spec Reference | OTOMIX §3.11; §4.2 · Mother §3.6, Add. §12; §3.2 |
 | Review Checkpoint | Confirm the stage is first in the chain order. |
 
-###### P04-T04-S02-M05 — DONE
+###### P04-T04-S02-M05 — [x]
 
 | Field | Value |
 |---|---|
@@ -1751,7 +1751,7 @@ flowchart LR
 
 ##### P04-T04-S03 Latency budget and degraded mode
 
-###### P04-T04-S03-M01 — DONE
+###### P04-T04-S03-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1764,7 +1764,7 @@ flowchart LR
 | Review Checkpoint | Re-read Appendix A item A5. |
 | Notes | OQ-05 resolved: <10ms refers to Algorithmic Latency, not CPU time. |
 
-###### P04-T04-S03-M02 — DONE
+###### P04-T04-S03-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -1919,7 +1919,7 @@ flowchart LR
 
 ##### P05-T02-S02 Energy and mixability
 
-###### P05-T02-S02-M01 — TODO
+###### P05-T02-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -1944,7 +1944,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.3 · Mother §3.3 |
 | Review Checkpoint | Confirm silence is detected before normalization. |
 
-###### P05-T02-S02-M03 — [BLOCKED: OWNER DECISION OQ-21]
+###### P05-T02-S02-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -1970,7 +1970,7 @@ flowchart LR
 | Review Checkpoint | Confirm only the 80th/5-star band is spec-derived; other bands are configuration. |
 | Notes | Related open question (non-blocking): OQ-08 |
 
-###### P05-T02-S02-M05 — TODO
+###### P05-T02-S02-M05 — [ ]
 
 | Field | Value |
 |---|---|
@@ -2056,7 +2056,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.4 · Mother §3.4 |
 | Review Checkpoint | Confirm the window is 1 s of frames, not 1 frame. |
 
-###### P05-T03-S01-M03 — DEFERRED (TensorFlow)
+###### P05-T03-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -2086,7 +2086,7 @@ flowchart LR
 
 ##### P05-T04-S01 Orchestration
 
-###### P05-T04-S01-M01 — TODO
+###### P05-T04-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2111,7 +2111,7 @@ flowchart LR
 | Spec Reference | OTOMIX §8.1; §8.3 · Mother §9.1; Add. §7 |
 | Review Checkpoint | Confirm the metric name matches the registry. |
 
-###### P05-T04-S01-M03 — TODO
+###### P05-T04-S01-M03 — [ ]
 
 | Field | Value |
 |---|---|
@@ -2252,7 +2252,7 @@ flowchart LR
 | Review Checkpoint | Compare with the §7.11 table. |
 | Notes | Acceptance criterion tag: AC4 (implements) |
 
-###### P06-T02-S01-M03 - [ ]
+###### P06-T02-S01-M03 - [x]
 
 | Field | Value |
 |---|---|
@@ -2279,7 +2279,7 @@ flowchart LR
 | Spec Reference | OTOMIX §7.1 · Mother §5.1 |
 | Review Checkpoint | Confirm retries follow the 3-retry maximum. |
 
-###### P06-T02-S02-M02 - [ ]
+###### P06-T02-S02-M02 - [x]
 
 | Field | Value |
 |---|---|
@@ -2294,7 +2294,7 @@ flowchart LR
 
 ##### P06-T02-S03 Publisher and buyer scopes
 
-###### P06-T02-S03-M01 — [BLOCKED: OWNER DECISION OQ-10]
+###### P06-T02-S03-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -2313,7 +2313,7 @@ flowchart LR
 
 ##### P06-T03-S01 Grant evaluation
 
-###### P06-T03-S01-M01 — TODO
+###### P06-T03-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -2325,7 +2325,7 @@ flowchart LR
 | Spec Reference | OTOMIX §7.3 · Mother §5.3 |
 | Review Checkpoint | Confirm the comparison is strict (`>` revokes). |
 
-###### P06-T03-S01-M02 — TODO
+###### P06-T03-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -2343,7 +2343,7 @@ flowchart LR
 
 ##### P06-T04-S01 Route non-exposure
 
-###### P06-T04-S01-M01 — TODO
+###### P06-T04-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2358,7 +2358,7 @@ flowchart LR
 
 ##### P06-T04-S02 Pools, keys and namespaces
 
-###### P06-T04-S02-M01 — TODO
+###### P06-T04-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2370,7 +2370,7 @@ flowchart LR
 | Spec Reference | OTOMIX §2.2; §2.5 · Mother §1; Add. §3 |
 | Review Checkpoint | Confirm pool sizes are config, per tenant. |
 
-###### P06-T04-S02-M02 — TODO
+###### P06-T04-S02-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2383,7 +2383,7 @@ flowchart LR
 | Review Checkpoint | Confirm nonces are unique per encryption. |
 | Notes | Acceptance criterion tag: AC4 (implements) |
 
-###### P06-T04-S02-M03 — TODO
+###### P06-T04-S02-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -2395,7 +2395,7 @@ flowchart LR
 | Spec Reference | OTOMIX §7.5 · Mother §8.3; Add. §6 |
 | Review Checkpoint | Confirm rotation interval is `KEY_ROTATION_DAYS`. |
 
-###### P06-T04-S02-M04 — TODO
+###### P06-T04-S02-M04 — [x]
 
 | Field | Value |
 |---|---|
@@ -2414,7 +2414,7 @@ flowchart LR
 
 ##### P06-T05-S01 Headers and sandbox
 
-###### P06-T05-S01-M01 — TODO
+###### P06-T05-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2426,7 +2426,7 @@ flowchart LR
 | Spec Reference | OTOMIX §7.7 · Mother §8.3; Add. §6 |
 | Review Checkpoint | Evaluate the header with a CSP parser and confirm no wildcard sources. |
 
-###### P06-T05-S01-M02 — TODO
+###### P06-T05-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2438,7 +2438,7 @@ flowchart LR
 | Spec Reference | OTOMIX §7.7; §2.2 · Mother §8.3; Add. §6; §1; Add. §3 |
 | Review Checkpoint | Confirm `maximum` is set at creation. |
 
-###### P06-T05-S01-M03 — TODO
+###### P06-T05-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -2457,7 +2457,7 @@ flowchart LR
 
 ##### P06-T06-S01 Secrets and pipeline controls
 
-###### P06-T06-S01-M01 — TODO
+###### P06-T06-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2469,7 +2469,7 @@ flowchart LR
 | Spec Reference | OTOMIX §7.5 · Mother §8.3; Add. §6 |
 | Review Checkpoint | Run `conftest test deploy/` and confirm 0 failures. |
 
-###### P06-T06-S01-M02 — TODO
+###### P06-T06-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2481,7 +2481,7 @@ flowchart LR
 | Spec Reference | OTOMIX §7.8; §7.9 · Mother §8.3; Add. §6 |
 | Review Checkpoint | Read the workflow diff. |
 
-###### P06-T06-S01-M03 — TODO
+###### P06-T06-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -2499,7 +2499,7 @@ flowchart LR
 
 ##### P06-T07-S01 Endpoint and propagation
 
-###### P06-T07-S01-M01 — TODO
+###### P06-T07-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2512,7 +2512,7 @@ flowchart LR
 | Review Checkpoint | The crossfadeBeats upper bound is a pure beat comparison; confirm the bound hook is a parameter. |
 | Notes | OQ-06 resolved 2026-11-11 |
 
-###### P06-T07-S01-M02 — TODO
+###### P06-T07-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2524,7 +2524,7 @@ flowchart LR
 | Spec Reference | OTOMIX §7.2; §8.4 · Mother §5.2; §9.1; Add. §7 |
 | Review Checkpoint | Check the partition retention setting in the migration. |
 
-###### P06-T07-S01-M03 — TODO
+###### P06-T07-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -2583,7 +2583,7 @@ flowchart LR
 
 ##### P07-T01-S01 Content-based detection
 
-###### P07-T01-S01-M01 — TODO
+###### P07-T01-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2598,7 +2598,7 @@ flowchart LR
 
 ##### P07-T01-S02 Limits and path safety
 
-###### P07-T01-S02-M01 — TODO
+###### P07-T01-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2612,7 +2612,7 @@ flowchart LR
 | Notes | **[GAP-014]** dual deployment (cloud + local) per supplement GAP-014. Cloud wrapper createSizeLimitMiddleware in packages/gateway/src/ingest/limits.ts; local wrapper checkLimitsForLocal in packages/adapter/src/ingest/limits.ts; shared pure checkLimits + DEFAULT_LIMITS in packages/core/src/ingest/limits.ts. **[GAP-017]** logging via logger.log({level:'warn',...}) (not warn()). Duration source is client-supplied X-Audio-Duration-Seconds header; container-declared duration parse deferred to P07-T01-S03-M01. |
 | Notes | **[GAP-014]** dual deployment (cloud + local) per supplement GAP-014. Cloud wrapper createSizeLimitMiddleware in packages/gateway/src/ingest/limits.ts; local wrapper checkLimitsForLocal in packages/adapter/src/ingest/limits.ts; shared pure checkLimits + DEFAULT_LIMITS in packages/core/src/ingest/limits.ts. **[GAP-017]** logging via logger.log({level:'warn',...}) (not warn()). Duration source is client-supplied X-Audio-Duration-Seconds header; container-declared duration parse deferred to P07-T01-S03-M01. |
 
-###### P07-T01-S02-M02 — TODO
+###### P07-T01-S02-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2627,7 +2627,7 @@ flowchart LR
 
 ##### P07-T01-S03 Decoding
 
-###### P07-T01-S03-M01 — TODO
+###### P07-T01-S03-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2646,7 +2646,7 @@ flowchart LR
 
 ##### P07-T02-S01 Isolation and rejection
 
-###### P07-T02-S01-M01 — TODO
+###### P07-T02-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2659,7 +2659,7 @@ flowchart LR
 | Review Checkpoint | Run `depcruise` and read the report. |
 | Notes | [GAP-014] enforced by dependency-cruiser rule no-decoder-on-main in .dependency-cruiser.cjs. Blocks packages/(gateway|ui)/src from importing packages/workers/src/decode*, mpg123-decoder, @wasm-audio-decoders/*. Runtime wrappers decode-worker.ts (gateway + adapter) use require.resolve/Worker URL, not statically visible. Test invokes depcruise via process.execPath (Windows .cmd EINVAL); violation counter walks modules[].dependencies[] FIRST (deps with valid===false && rules.length>0) and only falls back to summary.violations because depcruise v16 can emit an all-zero summary object even when individual dependencies carry rule matches; real graph -> 0 violations; synthetic writes temp __no_decoder_violator.ts inside packages/gateway/src with extensionless import so tsPreCompilationDeps resolves the real .ts target, expects >=1 violation, cleans up in finally. pnpm-workspace.yaml onlyBuiltDependencies: added dependency-cruiser + @swc/core. GAP-017 n/a. GAP-018 untouched. |
 
-###### P07-T02-S01-M02 — TODO
+###### P07-T02-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2672,7 +2672,7 @@ flowchart LR
 | Review Checkpoint | Confirm the retry wrapper marks parse errors non-retryable. |
 | Notes | [GAP-014] cloud-only (gateway/src/ingest/reject.ts). [GAP-017] logger.log with event=ingest.rejected, level=warn, outcome=failure, retryable=false. Pure classifier classifyDecodeFailure(format, bytes, errorMessage?) in core/src/ingest/reject.ts; WAV checks data chunk, MP3 walks up to 4KB for frame sync, FLAC validates STREAMINFO blockLen=34 + total_samples!=0. Extended core/src/resilience/retry.ts with optional isRetryable predicate (default undefined preserves existing idempotent-only behavior; retry.spec.ts stays green, new test proves 1-attempt on isRetryable=false). DLQ (P07-T04) will consume RejectReason. No adapter equivalent (UI classifies locally without retry queue). |
 
-###### P07-T02-S01-M03 — TODO
+###### P07-T02-S01-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -2691,7 +2691,7 @@ flowchart LR
 
 > **[REMINDER: New task P07-T02-S01-M04 must execute here.** Details: `OTOMIX_MicroTask_Plan_Supplement.md#phase-p07` - Metadata enrichment via consent-gated tags + external API/library (GAP-007 resolution).]
 
-###### P07-T02-S02-M01 — TODO
+###### P07-T02-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2711,7 +2711,7 @@ flowchart LR
 
 ##### P07-T03-S01 Schema
 
-###### P07-T03-S01-M01 — TODO
+###### P07-T03-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2725,7 +2725,7 @@ flowchart LR
 
 ##### P07-T03-S02 Ingest behaviour
 
-###### P07-T03-S02-M01 — TODO
+###### P07-T03-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2737,7 +2737,7 @@ flowchart LR
 | Spec Reference | OTOMIX §5.4 · Mother §1 |
 | Review Checkpoint | Document in the test that lossy re-encodes are distinct content. |
 
-###### P07-T03-S02-M02 — TODO
+###### P07-T03-S02-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2749,7 +2749,7 @@ flowchart LR
 | Spec Reference | OTOMIX §5.1; §9.10 · Mother §1; Add. §1–§2 |
 | Review Checkpoint | Confirm the handler returns the same `track_id` on replay. |
 
-###### P07-T03-S02-M03 — TODO
+###### P07-T03-S02-M03 — [x]
 
 | Field | Value |
 |---|---|
@@ -2761,7 +2761,7 @@ flowchart LR
 | Spec Reference | OTOMIX §5.1; §9.5 · Mother §1; Add. §1–§2 |
 | Review Checkpoint | Confirm there is no autocommit between inserts. |
 
-###### P07-T03-S02-M04 — TODO
+###### P07-T03-S02-M04 — [x]
 
 | Field | Value |
 |---|---|
@@ -2779,7 +2779,7 @@ flowchart LR
 
 ##### P07-T04-S01 Dead-letter queue
 
-###### P07-T04-S01-M01 — TODO
+###### P07-T04-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2791,7 +2791,7 @@ flowchart LR
 | Spec Reference | OTOMIX §5.8; §2.5 · Mother §1; Add. §3 |
 | Review Checkpoint | Confirm the DLQ topic uses the `otomix.` prefix. |
 
-###### P07-T04-S01-M02 — TODO
+###### P07-T04-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -2809,7 +2809,7 @@ flowchart LR
 
 ##### P07-T05-S01 Declaration records
 
-###### P07-T05-S01-M01 — [BLOCKED: OWNER DECISION OQ-11]
+###### P07-T05-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2941,7 +2941,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.9 · Mother §6; Add. §11 |
 | Review Checkpoint | Review the component for accessible labels on each attribute. |
 
-###### P08-T02-S01-M02 — TODO
+###### P08-T02-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -2977,7 +2977,7 @@ flowchart LR
 
 ##### P08-T04-S01 Recommendation scoring
 
-###### P08-T04-S01-M01 — [BLOCKED: OWNER DECISION OQ-09]
+###### P08-T04-S01-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -2990,7 +2990,7 @@ flowchart LR
 | Review Checkpoint | Re-read the §4.9 recommendation algorithm. |
 | Notes | Blocked by: OQ-09 |
 
-###### P08-T04-S01-M02 — TODO
+###### P08-T04-S01-M02 — [x]
 
 | Field | Value |
 |---|---|
@@ -3003,7 +3003,7 @@ flowchart LR
 | Review Checkpoint | Confirm weights come from `RECO_WEIGHTS`. |
 | Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T02-S04-M01`: Must use `compatibility_score` and `camelot` as a hard gate, not a weighted score. |
 
-###### P08-T04-S01-M03 — [BLOCKED: OWNER DECISION OQ-24]
+###### P08-T04-S01-M03 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3018,7 +3018,7 @@ flowchart LR
 
 ##### P08-T04-S02 Transition nodes
 
-###### P08-T04-S02-M01 — TODO
+###### P08-T04-S02-M01 — [x]
 
 | Field | Value |
 |---|---|
@@ -3030,7 +3030,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.4 · Mother §3.4 |
 | Review Checkpoint | Confirm an all-instrumental window is not moved. |
 
-###### P08-T04-S02-M02 — TODO
+###### P08-T04-S02-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3042,7 +3042,7 @@ flowchart LR
 | Spec Reference | OTOMIX §9.2; §9.4 · Mother Add. §1–§2 |
 | Review Checkpoint | Confirm the gRPC deadline and retry policy are applied. |
 
-###### P08-T04-S02-M03 — TODO
+###### P08-T04-S02-M03 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3054,7 +3054,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.9; §3.9 · Mother §6; Add. §11; §2.9 |
 | Review Checkpoint | Confirm no exception path blocks the queue. |
 
-###### P08-T04-S02-M04 — [x]
+###### P08-T04-S02-M04 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3102,7 +3102,7 @@ flowchart LR
 
 ##### P08-T06-S01 Preview controller
 
-###### P08-T06-S01-M01 — [x]
+###### P08-T06-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3114,7 +3114,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.8 · Mother §7 |
 | Review Checkpoint | Confirm preview uses the same executor as production playback. |
 
-###### P08-T06-S01-M02 — [x]
+###### P08-T06-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3168,7 +3168,7 @@ flowchart LR
 
 ##### P09-T01-S01 Sets and export jobs
 
-###### P09-T01-S01-M01 — TODO
+###### P09-T01-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3180,7 +3180,7 @@ flowchart LR
 | Spec Reference | OTOMIX §9.11 · Mother Add. §1–§2 |
 | Review Checkpoint | Compare DDL with §9.11. |
 
-###### P09-T01-S01-M02 — TODO
+###### P09-T01-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3192,7 +3192,7 @@ flowchart LR
 | Spec Reference | OTOMIX §9.10; §4.5 · Mother Add. §1–§2; §3.5 |
 | Review Checkpoint | Confirm RLS scoping by running as another tenant. |
 
-###### P09-T01-S01-M03 — TODO
+###### P09-T01-S01-M03 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3204,7 +3204,7 @@ flowchart LR
 | Spec Reference | OTOMIX §5.5; §3.1 · Mother §1; §2.1 |
 | Review Checkpoint | Confirm the Attack Grid, not the Body Grid, is the exported grid. |
 
-###### P09-T01-S01-M04 — TODO
+###### P09-T01-S01-M04 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3218,7 +3218,7 @@ flowchart LR
 
 ##### P09-T01-S02 Exporters
 
-###### P09-T01-S02-M01 — TODO
+###### P09-T01-S02-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3230,7 +3230,7 @@ flowchart LR
 | Spec Reference | OTOMIX §5.5 · Mother §1 |
 | Review Checkpoint | Open each source URL and confirm it describes the mapped field. |
 
-###### P09-T01-S02-M02 — TODO
+###### P09-T01-S02-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3242,7 +3242,7 @@ flowchart LR
 | Spec Reference | OTOMIX §5.5; §10.9 · Mother §1; Add. §5 |
 | Review Checkpoint | Add the vendor-import manual certification to the release checklist. |
 
-###### P09-T01-S02-M03 — TODO
+###### P09-T01-S02-M03 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3254,7 +3254,7 @@ flowchart LR
 | Spec Reference | OTOMIX §5.5; §10.9 · Mother §1; Add. §5 |
 | Review Checkpoint | Confirm the exporter shares only `positions.ts` with the others. |
 
-###### P09-T01-S02-M04 — TODO
+###### P09-T01-S02-M04 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3266,7 +3266,7 @@ flowchart LR
 | Spec Reference | OTOMIX §5.5; §10.9 · Mother §1; Add. §5 |
 | Review Checkpoint | Confirm escaping of file paths and titles. |
 
-###### P09-T01-S02-M05 — [BLOCKED: OWNER DECISION OQ-12]
+###### P09-T01-S02-M05 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3285,7 +3285,7 @@ flowchart LR
 
 ##### P09-T02-S01 Provider port and schema
 
-###### P09-T02-S01-M01 — TODO
+###### P09-T02-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3297,7 +3297,7 @@ flowchart LR
 | Spec Reference | OTOMIX §5.7 · Mother §1 |
 | Review Checkpoint | Confirm no provider-specific type leaks past the port. |
 
-###### P09-T02-S01-M02 — TODO
+###### P09-T02-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3311,7 +3311,7 @@ flowchart LR
 
 ##### P09-T02-S02 Handler behaviour
 
-###### P09-T02-S02-M01 — TODO
+###### P09-T02-S02-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3323,7 +3323,7 @@ flowchart LR
 | Spec Reference | OTOMIX §5.7; §7.12 · Mother §1; §8.3; Add. §6 |
 | Review Checkpoint | Confirm no JWT is required on this route and the signature is the only gate. |
 
-###### P09-T02-S02-M02 — TODO
+###### P09-T02-S02-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3335,7 +3335,7 @@ flowchart LR
 | Spec Reference | OTOMIX §5.7 · Mother §1 |
 | Review Checkpoint | Confirm the unique key is enforced at storage level. |
 
-###### P09-T02-S02-M03 — TODO
+###### P09-T02-S02-M03 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3347,7 +3347,7 @@ flowchart LR
 | Spec Reference | OTOMIX §5.7; §7.12 · Mother §1; §8.3; Add. §6 |
 | Review Checkpoint | Confirm the expiry is configuration and the link binds purchase and user. |
 
-###### P09-T02-S02-M04 — TODO
+###### P09-T02-S02-M04 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3361,7 +3361,7 @@ flowchart LR
 
 ##### P09-T02-S03 Concrete provider
 
-###### P09-T02-S03-M01 — [BLOCKED: OWNER DECISION OQ-13]
+###### P09-T02-S03-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3380,7 +3380,7 @@ flowchart LR
 
 ##### P09-T03-S01 Publisher APIs and rendering
 
-###### P09-T03-S01-M01 — [BLOCKED: OWNER DECISION OQ-10]
+###### P09-T03-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3393,7 +3393,7 @@ flowchart LR
 | Review Checkpoint | Re-read Appendix B item B2. |
 | Notes | Blocked by: OQ-10 |
 
-###### P09-T03-S01-M02 — TODO
+###### P09-T03-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3412,7 +3412,7 @@ flowchart LR
 
 ##### P09-T04-S01 Two-tier approval and execution
 
-###### P09-T04-S01-M01 — TODO
+###### P09-T04-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3425,7 +3425,7 @@ flowchart LR
 | Review Checkpoint | Check the distinct-principal rule exists at both application and database levels. |
 | Notes | Related open question (non-blocking): OQ-11 |
 
-###### P09-T04-S01-M02 — TODO
+###### P09-T04-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3481,7 +3481,7 @@ flowchart LR
 
 ##### P10-T01-S01 Emission
 
-###### P10-T01-S01-M01 — TODO
+###### P10-T01-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3493,7 +3493,7 @@ flowchart LR
 | Spec Reference | OTOMIX §8.1 · Mother §9.1; Add. §7 |
 | Review Checkpoint | Cross-check metric names against OTOMIX §8.1 table; confirm no high-cardinality tags. |
 
-###### P10-T01-S01-M02 — TODO
+###### P10-T01-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3507,7 +3507,7 @@ flowchart LR
 
 ##### P10-T01-S02 Monitors as code
 
-###### P10-T01-S02-M01 — TODO
+###### P10-T01-S02-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3519,7 +3519,7 @@ flowchart LR
 | Spec Reference | OTOMIX §8.1; §8.3 · Mother §9.1; Add. §7 |
 | Review Checkpoint | Run `terraform validate` and read the plan diff. |
 
-###### P10-T01-S02-M02 — TODO
+###### P10-T01-S02-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3537,7 +3537,7 @@ flowchart LR
 
 ##### P10-T02-S01 Span chain and sampling
 
-###### P10-T02-S01-M01 — TODO
+###### P10-T02-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3549,7 +3549,7 @@ flowchart LR
 | Spec Reference | OTOMIX §8.2 · Mother §9.1; Add. §7 |
 | Review Checkpoint | Inspect one trace in the Datadog test org. |
 
-###### P10-T02-S01-M02 — TODO
+###### P10-T02-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3567,7 +3567,7 @@ flowchart LR
 
 ##### P10-T03-S01 Retention and cache
 
-###### P10-T03-S01-M01 — TODO
+###### P10-T03-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3579,7 +3579,7 @@ flowchart LR
 | Spec Reference | OTOMIX §8.4; §9.7 · Mother §9.1; Add. §7; Add. §1–§2 |
 | Review Checkpoint | Confirm audit logs are not subject to the 90-day policy. |
 
-###### P10-T03-S01-M02 — TODO
+###### P10-T03-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3597,7 +3597,7 @@ flowchart LR
 
 ##### P10-T04-S01 Kubernetes
 
-###### P10-T04-S01-M01 — TODO
+###### P10-T04-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3609,7 +3609,7 @@ flowchart LR
 | Spec Reference | OTOMIX §8.5 · Mother §9.2; Add. §8 |
 | Review Checkpoint | Confirm blue stays up until the rollback window closes. |
 
-###### P10-T04-S01-M02 — TODO
+###### P10-T04-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3623,7 +3623,7 @@ flowchart LR
 
 ##### P10-T04-S02 Rollback and flags
 
-###### P10-T04-S02-M01 — TODO
+###### P10-T04-S02-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3635,7 +3635,7 @@ flowchart LR
 | Spec Reference | OTOMIX §8.7 · Mother §9.2; Add. §8 |
 | Review Checkpoint | Read the pipeline hook and confirm it calls the previous stable release deployment. |
 
-###### P10-T04-S02-M02 — TODO
+###### P10-T04-S02-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3647,7 +3647,7 @@ flowchart LR
 | Spec Reference | OTOMIX §8.6; §3.12 · Mother §9.2; Add. §8; Add. §4 |
 | Review Checkpoint | Confirm flag context contains tenant, tier, region and version only (no PII). |
 
-###### P10-T04-S02-M03 — TODO
+###### P10-T04-S02-M03 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3659,7 +3659,7 @@ flowchart LR
 | Spec Reference | OTOMIX §8.6 · Mother §9.2; Add. §8 |
 | Review Checkpoint | Compare the config against OTOMIX §8.6 table. |
 
-###### P10-T04-S02-M04 — TODO
+###### P10-T04-S02-M04 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3677,7 +3677,7 @@ flowchart LR
 
 ##### P10-T05-S01 Data durability and drills
 
-###### P10-T05-S01-M01 — TODO
+###### P10-T05-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3689,7 +3689,7 @@ flowchart LR
 | Spec Reference | OTOMIX §8.9 · Mother §9.3; Add. §8 |
 | Review Checkpoint | Confirm replication is asynchronous and the replica is passive. |
 
-###### P10-T05-S01-M02 — TODO
+###### P10-T05-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3701,7 +3701,7 @@ flowchart LR
 | Spec Reference | OTOMIX §8.9 · Mother §9.3; Add. §8 |
 | Review Checkpoint | Confirm the lock mode cannot be shortened by the application role. |
 
-###### P10-T05-S01-M03 — TODO
+###### P10-T05-S01-M03 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3713,7 +3713,7 @@ flowchart LR
 | Spec Reference | OTOMIX §8.10 · Mother §9.3; Add. §8 |
 | Review Checkpoint | Review the hypotheses against §8.10. |
 
-###### P10-T05-S01-M04 — TODO
+###### P10-T05-S01-M04 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3725,7 +3725,7 @@ flowchart LR
 | Spec Reference | OTOMIX §8.8 · Mother §9.3; Add. §8 |
 | Review Checkpoint | Have an engineer outside the team execute one runbook dry-run. |
 
-###### P10-T05-S01-M05 — TODO
+###### P10-T05-S01-M05 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3743,7 +3743,7 @@ flowchart LR
 
 ##### P10-T06-S01 SLO
 
-###### P10-T06-S01-M01 — TODO
+###### P10-T06-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3796,7 +3796,7 @@ flowchart LR
 
 ##### P11-T01-S01 Corpus
 
-###### P11-T01-S01-M01 — TODO
+###### P11-T01-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3811,7 +3811,7 @@ flowchart LR
 
 ##### P11-T01-S02 Runner and criteria
 
-###### P11-T01-S02-M01 — TODO
+###### P11-T01-S02-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3824,7 +3824,7 @@ flowchart LR
 | Review Checkpoint | Confirm no real AudioContext is created. |
 | Notes | Acceptance criterion tag: AC1 (tests) |
 
-###### P11-T01-S02-M02 — TODO
+###### P11-T01-S02-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3837,7 +3837,7 @@ flowchart LR
 | Review Checkpoint | Confirm any single violation fails the run. |
 | Notes | Acceptance criterion tag: AC1 (tests) |
 
-###### P11-T01-S02-M03 — TODO
+###### P11-T01-S02-M03 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3856,7 +3856,7 @@ flowchart LR
 
 ##### P11-T02-S01 Heap and CPU evidence
 
-###### P11-T02-S01-M01 — TODO
+###### P11-T02-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3869,7 +3869,7 @@ flowchart LR
 | Review Checkpoint | Open one heap snapshot and search for arrays under `core/timing`; expect none. |
 | Notes | Acceptance criterion tag: AC2 (tests) |
 
-###### P11-T02-S01-M02 — TODO
+###### P11-T02-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3888,7 +3888,7 @@ flowchart LR
 
 ##### P11-T03-S01 Null and pitch tests
 
-###### P11-T03-S01-M01 — TODO
+###### P11-T03-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3901,7 +3901,7 @@ flowchart LR
 | Review Checkpoint | The 0.5 dB tolerance is a test default; record the final value in the harness README. |
 | Notes | Acceptance criterion tag: AC3 (tests) |
 
-###### P11-T03-S01-M02 — TODO
+###### P11-T03-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3914,7 +3914,7 @@ flowchart LR
 | Review Checkpoint | Verify the pitch estimator on a known 1 000.0 Hz sine first. |
 | Notes | Acceptance criterion tag: AC3 (tests) |
 
-###### P11-T03-S01-M03 — [BLOCKED: OWNER DECISION OQ-04]
+###### P11-T03-S01-M03 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3927,7 +3927,7 @@ flowchart LR
 | Review Checkpoint | Re-read §3.6 and §10.7 item 3. |
 | Notes | Acceptance criterion tag: AC3 (tests); Blocked by: OQ-04 |
 
-###### P11-T03-S01-M04 — TODO
+###### P11-T03-S01-M04 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3940,7 +3940,7 @@ flowchart LR
 | Review Checkpoint | The gate is a no-op until an optimized build exists; confirm it is wired. |
 | Notes | Acceptance criterion tag: AC3 (tests) |
 
-###### P11-T03-S01-M05 — TODO
+###### P11-T03-S01-M05 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3958,7 +3958,7 @@ flowchart LR
 
 ##### P11-T04-S01 Scale and soak
 
-###### P11-T04-S01-M01 — TODO
+###### P11-T04-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3970,7 +3970,7 @@ flowchart LR
 | Spec Reference | OTOMIX §10.4; §8.11 · Mother §8.2; Add. §4 |
 | Review Checkpoint | Check HPA scaled pods during the run (kubectl events). |
 
-###### P11-T04-S01-M02 — TODO
+###### P11-T04-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -3982,7 +3982,7 @@ flowchart LR
 | Spec Reference | OTOMIX §10.4 · Mother §8.2 |
 | Review Checkpoint | Record the deck count as a parameter; the spec says 'multi-deck' without a number. |
 
-###### P11-T04-S01-M03 — TODO
+###### P11-T04-S01-M03 — [ ]
 
 | Field | Value |
 |---|---|
@@ -4000,7 +4000,7 @@ flowchart LR
 
 ##### P11-T05-S01 Isolation
 
-###### P11-T05-S01-M01 — TODO
+###### P11-T05-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -4013,7 +4013,7 @@ flowchart LR
 | Review Checkpoint | Read each scenario against OTOMIX §10.5 text. |
 | Notes | Acceptance criterion tag: AC4 (tests) |
 
-###### P11-T05-S01-M02 — TODO
+###### P11-T05-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -4026,7 +4026,7 @@ flowchart LR
 | Review Checkpoint | Have security review the scope before booking the test. |
 | Notes | Acceptance criterion tag: AC4 (tests) |
 
-###### P11-T05-S01-M03 — TODO
+###### P11-T05-S01-M03 — [ ]
 
 | Field | Value |
 |---|---|
@@ -4039,7 +4039,7 @@ flowchart LR
 | Review Checkpoint | Review the nightly artifact for the seed used. |
 | Notes | Acceptance criterion tag: AC4 (tests) |
 
-###### P11-T05-S01-M04 — TODO
+###### P11-T05-S01-M04 — [ ]
 
 | Field | Value |
 |---|---|
@@ -4057,7 +4057,7 @@ flowchart LR
 
 ##### P11-T06-S01 Enforcement
 
-###### P11-T06-S01-M01 — TODO
+###### P11-T06-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -4075,7 +4075,7 @@ flowchart LR
 
 ##### P11-T07-S01 Evidence and sign-off
 
-###### P11-T07-S01-M01 — TODO
+###### P11-T07-S01-M01 — [ ]
 
 | Field | Value |
 |---|---|
@@ -4087,7 +4087,7 @@ flowchart LR
 | Spec Reference | OTOMIX §10.9 · Mother Add. §5 |
 | Review Checkpoint | Compare mapped paths to the §10.9 table by hand once. |
 
-###### P11-T07-S01-M02 — TODO
+###### P11-T07-S01-M02 — [ ]
 
 | Field | Value |
 |---|---|
@@ -4099,7 +4099,7 @@ flowchart LR
 | Spec Reference | OTOMIX §10.7 · Mother §10 |
 | Review Checkpoint | Open the generated JSON and follow each artifact link. |
 
-###### P11-T07-S01-M03 — TODO
+###### P11-T07-S01-M03 — [ ]
 
 | Field | Value |
 |---|---|
@@ -4504,7 +4504,7 @@ Every gap or contradiction found while decomposing the specification. **Blocking
 | OQ-06 | A7 | RESOLVED 2026-11-11: `crossfadeBeats ≤ chopGrid_fraction / 4` — all units in beats, no seconds conversion. | Resolved | `P04-T02-S02-M02` (unblocked) | `P06-T07-S01-M01` (verify separately) |
 | OQ-07 | A8 | Negative-index convention (index zero skipped) and the exact numbering of the shifted anchor for pre-kick gaps ≥ 1 bar (Beat −5/−9 vs Beat 5/9). | Blocking | `P02-T05-S01-M02` | `P02-T01-S01-M01`<br>`P02-T05-S01-M01` |
 | OQ-08 | — | Percentile bands for 1–4 stars; the spec gives only E above the 80th percentile = 5 stars. | Non-blocking | — | `P05-T02-S02-M04` |
-| OQ-09 | — | Formulas for Camelot proximity, tempo-delta score and energy-progression score used by the 60/30/10 recommendation. | Blocking | `P08-T04-S01-M01` | — |
+| OQ-09 | — | Mixability/Camelot/Tempo weights resolved to 60/30/10; Camelot is the hard gate and no energy term is used. | Resolved | `P08-T04-S01-M01` | User decision 2026-11-21 |
 | OQ-10 | B2 | Authorization model for publishers and buyers (new scopes under End User or a new role). | Blocking | `P06-T02-S03-M01`<br>`P09-T03-S01-M01` | — |
 | OQ-11 | B1 | Adequacy of the proposed local-copyright controls (source declarations, notice-and-takedown, two-tier takedown) for the target market. | Blocking | `P07-T05-S01-M01` | `P09-T04-S01-M01`<br>`P09-T04-S01-M02` |
 | OQ-12 | B3 | Supported interchange mechanism for Serato metadata (not natively XML). | Blocking | `P09-T01-S02-M05` | — |
@@ -4519,7 +4519,7 @@ Every gap or contradiction found while decomposing the specification. **Blocking
 | OQ-21 | — | Threshold and function for the compression penalty on the Dynamics component. | Blocking | `P05-T02-S02-M03` | — |
 | OQ-22 | — | Scaling of `E_kick`, `C_bass`, `S_tempo`, `V_tune` to [0,1] for the Mixability Score. | Blocking | `P05-T02-S02-M06` | — |
 | OQ-23 | — | Provenance of the 'global dataset' used for genre-median interpolation and percentile bands. | Non-blocking | — | `P05-T02-S03-M01` |
-| OQ-24 | — | Meaning of 'strictly limits tempo deltas to <1%' in the MixPlan tie-break (filter, order, or both). | Blocking | `P08-T04-S01-M03` | — |
+| OQ-24 | — | Tempo delta is configurable from 2% to 20% (default 10%) and is applied as both a filter and tie-break. | Resolved | `P08-T04-S01-M03` | User decision 2026-11-21 |
 ### Additional Open Questions (P01 Quality Gate Hotfix)
 
 | ID | Spec item | Question / decision needed | Type | Blocked tasks | Related (non-blocking) tasks |
@@ -4533,27 +4533,27 @@ Every gap or contradiction found while decomposing the specification. **Blocking
 
 Detailed task fields are maintained in `OTOMIX_MicroTask_Plan.tasks.json`; execution criteria are in `OTOMIX_MicroTask_Plan_Supplement_Gate_P08.md`.
 
-###### GATE0-DEC-M01 — [ ]
-###### GATE0-DEC-M02 — [ ]
-###### GATE0-DEC-M03 — [ ]
-###### GATE0-DOC-M01 — [ ]
+###### GATE0-DEC-M01 — [x]
+###### GATE0-DEC-M02 — [x]
+###### GATE0-DEC-M03 — [x]
+###### GATE0-DOC-M01 — [x]
 ###### GATE0-DOC-M02 — [ ]
-###### GATE0-DOC-M03 — [ ]
-###### GATE0-VER-M01 — [ ]
-###### GATE0-VER-M02 — [ ]
+###### GATE0-DOC-M03 — [x]
+###### GATE0-VER-M01 — [x]
+###### GATE0-VER-M02 — [x]
 ###### GATE0-VER-M03 — [ ]
-###### GATE0-P05-M01 — [ ]
-###### GATE0-P05-M02 — [ ]
-###### GATE0-P05-M03 — [ ]
-###### GATE0-P05-M04 — [ ]
-###### GATE0-P05-M05 — [ ]
-###### GATE0-P05-M06 — [ ]
-###### GATE0-P05-M07 — [ ]
-###### GATE0-SEC-M01 — [ ]
+###### GATE0-P05-M01 — [x]
+###### GATE0-P05-M02 — [x]
+###### GATE0-P05-M03 — [x]
+###### GATE0-P05-M04 — [x]
+###### GATE0-P05-M05 — [x]
+###### GATE0-P05-M06 — [x]
+###### GATE0-P05-M07 — [x]
+###### GATE0-SEC-M01 — [x]
 ###### GATE0-SEC-M02 — [ ]
-###### GATE0-SEC-M03 — [ ]
+###### GATE0-SEC-M03 — [x]
 ###### GATE0-SEC-M04 — [ ]
-###### GATE0-CHK-M01 — [ ]
+###### GATE0-CHK-M01 — [x]
 ###### X-ARC-M01 — [ ]
 ###### X-ARC-M02 — [ ]
 ###### X-ARC-M03 — [ ]
@@ -4563,8 +4563,8 @@ Detailed task fields are maintained in `OTOMIX_MicroTask_Plan.tasks.json`; execu
 ###### X-TST-M02 — [ ]
 ###### X-TST-M03 — [ ]
 ###### X-SEC-M01 — [ ]
-###### X-OPS-M01 — [ ]
-###### X-DR-M01 — [ ]
+###### X-OPS-M01 — [x]
+###### X-DR-M01 — [x]
 ###### P08-PRE-M01 — [ ]
 
 ## Missing Headings (Auto-generated)
@@ -4653,7 +4653,7 @@ Detailed task fields are maintained in `OTOMIX_MicroTask_Plan.tasks.json`; execu
 | ID | `P06-RBAC-M12` |
 | Status | DONE |
 
-###### P07-REG-M01 - [ ]
+###### P07-REG-M01 - [x]
 
 | Field | Value |
 |---|---|
@@ -4667,14 +4667,14 @@ Detailed task fields are maintained in `OTOMIX_MicroTask_Plan.tasks.json`; execu
 | ID | `P07-REG-M02` |
 | Status | TODO |
 
-###### P07-REG-M03 - [ ]
+###### P07-REG-M03 - [x]
 
 | Field | Value |
 |---|---|
 | ID | `P07-REG-M03` |
 | Status | TODO |
 
-###### P07-REG-M04 - [ ]
+###### P07-REG-M04 - [x]
 
 | Field | Value |
 |---|---|
