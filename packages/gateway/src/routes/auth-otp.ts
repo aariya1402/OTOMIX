@@ -1,12 +1,20 @@
-﻿import { IncomingMessage, ServerResponse } from 'node:http';
+﻿import type { IncomingMessage, ServerResponse } from 'node:http';
 import { randomBytes } from 'node:crypto';
-import Redis from 'ioredis';
-import { Pool } from 'pg';
+import type { Pool } from 'pg';
 import { issueAccessToken, type VaultClient } from '@otomix/access';
 import { upsertPhoneUser } from '../repository/user-repository.js';
+import { sendInvalidArgument } from './auth-response.js';
 
 export interface SmsProvider {
   send(phoneE164: string, code: string): Promise<void>;
+}
+
+export interface OtpRedis {
+  get(key: string): Promise<string | null>;
+  setex(key: string, seconds: number, value: string): Promise<unknown>;
+  getdel(key: string): Promise<string | null>;
+  incr(key: string): Promise<number>;
+  ttl(key: string): Promise<number>;
 }
 
 export class FakeSmsProvider implements SmsProvider {
@@ -18,7 +26,7 @@ export class FakeSmsProvider implements SmsProvider {
 
 export interface AuthOtpDeps {
   pool: Pool;
-  redis: Redis;
+  redis: OtpRedis;
   sms: SmsProvider;
   vault: VaultClient;
   rateLimitMax: number;
@@ -52,8 +60,9 @@ export function createAuthOtpRoutes(deps: AuthOtpDeps) {
         res.writeHead(400); res.end('Invalid phone_e164 format (E.164 required)'); return true;
       }
       
-      if (!data.terms_version) {
-        res.writeHead(400); res.end('terms_version required'); return true;
+      const termsVersion = data.terms_version?.trim();
+      if (!termsVersion) {
+        sendInvalidArgument(res, 'terms_version required'); return true;
       }
       
       const rlKey = `otomix:otp:ratelimit:${phoneE164}`;
@@ -66,7 +75,11 @@ export function createAuthOtpRoutes(deps: AuthOtpDeps) {
       }
       
       const code = generateOtp();
-      await deps.redis.setex(`otomix:otp:code:${phoneE164}`, OTP_TTL_SEC, code);
+      await deps.redis.setex(
+        `otomix:otp:code:${phoneE164}`,
+        OTP_TTL_SEC,
+        JSON.stringify({ code, termsVersion }),
+      );
       
       if (count === 0) {
         await deps.redis.setex(rlKey, deps.rateLimitWindowSec, '1');
@@ -107,22 +120,29 @@ export function createAuthOtpRoutes(deps: AuthOtpDeps) {
       if (!code || code.length !== OTP_CODE_LENGTH) {
         res.writeHead(400); res.end('Invalid code'); return true;
       }
-      if (!data.terms_version) {
-        res.writeHead(400); res.end('terms_version required'); return true;
+      const termsVersion = data.terms_version?.trim();
+      if (!termsVersion) {
+        sendInvalidArgument(res, 'terms_version required'); return true;
       }
       
       const stored = await deps.redis.getdel(`otomix:otp:code:${phoneE164}`);
-      if (!stored || stored !== code.toUpperCase()) {
+      let challenge: { code: string; termsVersion: string } | undefined;
+      try {
+        challenge = stored ? JSON.parse(stored) as { code: string; termsVersion: string } : undefined;
+      } catch {
+        challenge = undefined;
+      }
+      if (!challenge || challenge.code !== code.toUpperCase() || challenge.termsVersion !== termsVersion) {
         res.writeHead(401); res.end('Invalid or expired code'); return true;
       }
       
       try {
-        const userId = await upsertPhoneUser(deps.pool, { phoneE164 });
+        const user = await upsertPhoneUser(deps.pool, { phoneE164, termsVersion });
         
-        const token = await issueAccessToken({ sub: userId, tenantId: 'otomix' }, deps.vault);
+        const token = await issueAccessToken({ sub: user.userId, tenantId: 'otomix' }, deps.vault);
         
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ user_id: userId, access_token: token.token }));
+        res.writeHead(user.created ? 201 : 200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ user_id: user.userId, access_token: token.token }));
         return true;
       } catch (err: any) {
         res.writeHead(500); res.end(err.message); return true;

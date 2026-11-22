@@ -8,15 +8,19 @@
 
 | Item | Value |
 |---|---|
-| Working branch | `audit-11-19` |
+| Working branch | `PRE-P08` |
 | Base branch (task list) | `P05` |
 | Architecture commits (on feature branch) | `15fe180` |
-| HEAD | `c9835f7` |
-| Dist state | source-controlled build verification required |
-| Blocked tests (aggregate) | Testcontainers-backed tests are run only when Docker is available |
+| HEAD | `b202847` |
+| Dist state | Gateway and UI package builds passed |
+| Testcontainers state | Docker runtime restored; focused P05, P07, and MixPlan integration suites executed without skips |
 
 ## 2. Verification Status
 
 | ID | Status |
 |---|---|
+| P05 enrichment integration | PASS — 4/4 |
+| P07 auth/terms/declaration integration | PASS — 25/25 |
+| P08 MixPlan endpoint integration | PASS — 8/8 |
+| P08 transition client and node tests | PASS — 14/14 |
 

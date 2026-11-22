@@ -1,12 +1,12 @@
 // OTOMIX 6.2 - Mother 1 - GAP-017
-// Records a source declaration row (ingest/publish/export).
+// Records a source declaration row (register/ingest/publish/export).
 // Cloud-only; adapter has no DB (see GAP-014).
 
 import { createLogger } from '@otomix/core';
 import type { Logger } from '@otomix/core';
 import type { PoolClient } from 'pg';
 
-export type DeclarationScope = 'ingest' | 'publish' | 'export';
+export type DeclarationScope = 'register' | 'ingest' | 'publish' | 'export';
 
 export interface DeclarationInput {
   tenantId: string;
@@ -27,7 +27,7 @@ export async function recordDeclaration(
 ): Promise<string> {
   const logger = deps.logger ?? createLogger({ service: 'gateway-declarations' });
 
-  const result = await client.query(
+  const result = await client.query<{ declaration_id: string }>(
     `INSERT INTO source_declarations
        (declaration_id, tenant_id, user_id, scope, terms_version, declared_at)
      VALUES (gen_random_uuid(), $1, $2, $3, $4, $5)
@@ -41,7 +41,8 @@ export async function recordDeclaration(
     ],
   );
 
-  const declarationId = result.rows[0].declaration_id as string;
+  const declarationId = result.rows[0]?.declaration_id;
+  if (!declarationId) throw new Error('Source declaration insert returned no declaration_id');
 
   logger.log({
     level: 'info',

@@ -1,9 +1,10 @@
-import { IncomingMessage, ServerResponse } from 'node:http';
-import { OAuth2Client } from 'google-auth-library';
-import Redis from 'ioredis';
-import { Pool } from 'pg';
+import type { IncomingMessage, ServerResponse } from 'node:http';
+import type { OAuth2Client } from 'google-auth-library';
+import type Redis from 'ioredis';
+import type { Pool } from 'pg';
 import { issueAccessToken, type VaultClient } from '@otomix/access';
 import { upsertGoogleUser } from '../repository/user-repository.js';
+import { sendInvalidArgument } from './auth-response.js';
 
 export interface AuthGoogleDeps {
   pool: Pool;
@@ -19,8 +20,14 @@ export function createAuthGoogleRoutes(deps: AuthGoogleDeps) {
   return {
     '/auth/google/start': async (req: IncomingMessage, res: ServerResponse) => {
       if (req.method !== 'GET') return false;
+      const requestUrl = new URL(req.url || '', `http://${req.headers.host}`);
+      const termsVersion = requestUrl.searchParams.get('terms_version')?.trim();
+      if (!termsVersion) {
+        sendInvalidArgument(res, 'terms_version required'); return true;
+      }
+
       const state = crypto.randomUUID();
-      await deps.redis.setex(`otomix:oauth:state:${state}`, 300, '1');
+      await deps.redis.setex(`otomix:oauth:state:${state}`, 300, termsVersion);
       
       const url = new URL('https://accounts.google.com/o/oauth2/v2/auth');
       url.searchParams.set('client_id', deps.clientId);
@@ -45,8 +52,8 @@ export function createAuthGoogleRoutes(deps: AuthGoogleDeps) {
         res.writeHead(400); res.end('Missing code or state'); return true;
       }
       
-      const stateValid = await deps.redis.getdel(`otomix:oauth:state:${state}`);
-      if (!stateValid) {
+      const termsVersion = await deps.redis.getdel(`otomix:oauth:state:${state}`);
+      if (!termsVersion) {
         res.writeHead(400); res.end('Invalid or expired state'); return true;
       }
 
@@ -73,16 +80,17 @@ export function createAuthGoogleRoutes(deps: AuthGoogleDeps) {
         const payload = ticket.getPayload();
         if (!payload || !payload.sub) throw new Error('Invalid payload');
 
-        const userId = await upsertGoogleUser(deps.pool, {
+        const user = await upsertGoogleUser(deps.pool, {
           googleId: payload.sub,
           email: payload.email || '',
           displayName: payload.name,
+          termsVersion,
         });
 
-        const token = await issueAccessToken({ sub: userId, tenantId: 'otomix' }, deps.vault);
+        const token = await issueAccessToken({ sub: user.userId, tenantId: 'otomix' }, deps.vault);
         
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ user_id: userId, access_token: token.token }));
+        res.writeHead(user.created ? 201 : 200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ user_id: user.userId, access_token: token.token }));
         return true;
       } catch (err: any) {
         res.writeHead(500); res.end(err.message); return true;

@@ -37,7 +37,9 @@ beforeAll(async () => {
   await admin.connect();
   await admin.query(loadUp('001_core.sql'));
   await admin.query(loadUp('002_rls.sql'));
+  await admin.query(loadUp('007_tracks_source_declarations.sql'));
   await admin.query(loadUp('008_registration.sql'));
+  await admin.query(loadUp('010_source_declaration_registration_scope.sql'));
   await admin.end();
 
   redisContainer = await new RedisContainer('redis:7-alpine').start();
@@ -52,6 +54,7 @@ beforeAll(async () => {
   const testVault: VaultClient = {
     getCurrentKid: async () => 'test-kid',
     getSigningKey: async () => testPrivateKey,
+    getJwks: async () => ({ keys: [] }),
   };
   
   const routes = createAuthGoogleRoutes({
@@ -99,23 +102,49 @@ describe('Google OAuth (P07-REG-M02)', () => {
     }));
 
     // 1. First call (create)
-    const start1 = await request(server).get('/auth/google/start');
+    const start1 = await request(server).get('/auth/google/start?terms_version=v1.0');
     expect(start1.status).toBe(302);
     const state1 = new URL(start1.headers.location).searchParams.get('state')!;
     
     const res1 = await request(server).get(`/auth/google/callback?code=123&state=${state1}`);
-    expect(res1.status).toBe(200);
+    expect(res1.status).toBe(201);
     const body1 = JSON.parse(res1.text);
     expect(body1.user_id).toBeDefined();
     expect(body1.access_token).toBeDefined();
+    const user = await pool.query(
+      'SELECT terms_version, terms_accepted_at FROM users WHERE user_id = $1',
+      [body1.user_id],
+    );
+    expect(user.rows).toHaveLength(1);
+    expect(user.rows[0].terms_version).toBe('v1.0');
+    expect(user.rows[0].terms_accepted_at).toBeInstanceOf(Date);
+    const declarations = await pool.query(
+      'SELECT scope, terms_version FROM source_declarations WHERE user_id = $1',
+      [body1.user_id],
+    );
+    expect(declarations.rows).toEqual([{ scope: 'register', terms_version: 'v1.0' }]);
 
     // 2. Second call (replay)
-    const start2 = await request(server).get('/auth/google/start');
+    const start2 = await request(server).get('/auth/google/start?terms_version=v1.0');
     const state2 = new URL(start2.headers.location).searchParams.get('state')!;
     
     const res2 = await request(server).get(`/auth/google/callback?code=123&state=${state2}`);
     expect(res2.status).toBe(200);
     const body2 = JSON.parse(res2.text);
     expect(body2.user_id).toBe(body1.user_id); // Same user_id
+    const declarationCount = await pool.query(
+      'SELECT count(*)::int AS count FROM source_declarations WHERE user_id = $1',
+      [body1.user_id],
+    );
+    expect(declarationCount.rows[0].count).toBe(1);
+  });
+
+  it('start: missing terms_version -> 400', async () => {
+    const response = await request(server).get('/auth/google/start');
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      error: 'INVALID_ARGUMENT',
+      message: 'terms_version required',
+    });
   });
 });

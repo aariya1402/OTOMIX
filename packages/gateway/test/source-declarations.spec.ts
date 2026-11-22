@@ -1,7 +1,7 @@
 // OTOMIX 6.2 - Mother 1 - GAP-017; GAP-022
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
-import { Client } from 'pg';
+import { Pool, PoolClient } from 'pg';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { recordDeclaration } from '../src/declarations/record';
@@ -20,7 +20,8 @@ function loadUp(rel: string): string {
 
 describe('recordDeclaration (P07-T05-S01-M01)', () => {
   let container: StartedPostgreSqlContainer;
-  let client: Client;
+  let pool: Pool;
+  let client: PoolClient;
 
   beforeAll(async () => {
     container = await new PostgreSqlContainer('postgres:16-alpine')
@@ -29,14 +30,8 @@ describe('recordDeclaration (P07-T05-S01-M01)', () => {
       .withPassword('test')
       .start();
 
-    client = new Client({
-      host: container.getHost(),
-      port: container.getMappedPort(5432),
-      user: container.getUsername(),
-      password: container.getPassword(),
-      database: container.getDatabase(),
-    });
-    await client.connect();
+    pool = new Pool({ connectionString: container.getConnectionUri() });
+    client = await pool.connect();
 
     await client.query('CREATE EXTENSION IF NOT EXISTS pgcrypto');
     await client.query(loadUp('001_core.sql'));
@@ -46,10 +41,12 @@ describe('recordDeclaration (P07-T05-S01-M01)', () => {
       [OWNER_ID, TENANT_ID, 'end_user', 1],
     );
     await client.query(loadUp('007_tracks_source_declarations.sql'));
+    await client.query(loadUp('010_source_declaration_registration_scope.sql'));
   }, TEST_TIMEOUT);
 
   afterAll(async () => {
-    if (client) await client.end();
+    if (client) client.release();
+    if (pool) await pool.end();
     if (container) await container.stop();
   }, TEST_TIMEOUT);
 
@@ -91,6 +88,27 @@ describe('recordDeclaration (P07-T05-S01-M01)', () => {
       await client.query('ROLLBACK');
       throw e;
     }
+  }, TEST_TIMEOUT);
+
+  it('records registration declaration using the existing scope column', async () => {
+    const declaredAt = new Date('2026-11-22T00:00:00.000Z');
+    await client.query('BEGIN');
+    await setTenantId(client, TENANT_ID);
+    await recordDeclaration(client, {
+      tenantId: TENANT_ID,
+      userId: OWNER_ID,
+      scope: 'register',
+      termsVersion: 'v1.0',
+      declaredAt,
+    });
+
+    const result = await client.query(
+      'SELECT scope, terms_version, declared_at FROM source_declarations',
+    );
+    expect(result.rows).toHaveLength(1);
+    expect(result.rows[0]).toMatchObject({ scope: 'register', terms_version: 'v1.0' });
+    expect((result.rows[0].declared_at as Date).toISOString()).toBe(declaredAt.toISOString());
+    await client.query('ROLLBACK');
   }, TEST_TIMEOUT);
 
   it('rejects invalid scope via CHECK constraint', async () => {

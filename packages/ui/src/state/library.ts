@@ -28,15 +28,14 @@ export function createLibraryState(
   for (const row of rows) {
     byId[row.track_id] = row;
     allIds.push(row.track_id);
+    selectableIds.push(row.track_id);
     if (row.wildcard) {
       wildcardIds.push(row.track_id);
       continue;
     }
     if (row.mixability === null) {
       wildcardIds.push(row.track_id);
-    } else if (row.mixability >= threshold) {
-      selectableIds.push(row.track_id);
-    } else {
+    } else if (row.mixability < threshold) {
       unmixableIds.push(row.track_id);
     }
   }

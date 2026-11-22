@@ -6,7 +6,7 @@ import { describe, it, expect } from 'vitest';
 import { createTransitionNodeBuilder } from '../src/mixplan/nodes';
 import { TransitionPlanResponse } from '../src/mixplan/client';
 
-describe('P08-T04-S02-M04: Enrichment flow (ingest + async worker + cache)', () => {
+describe('P08-T04-S02-M04: Dynamic transition nodes', () => {
   describe('createTransitionNodeBuilder', () => {
     it('creates no nodes for a single track', () => {
       const builder = createTransitionNodeBuilder({
@@ -110,6 +110,44 @@ describe('P08-T04-S02-M04: Enrichment flow (ingest + async worker + cache)', () 
       expect(nodes[1].toTrackId).toBe('track-c');
       expect(nodes[2].fromTrackId).toBe('track-c');
       expect(nodes[2].toTrackId).toBe('track-d');
+    });
+
+    it('reorders tracks and rebuilds only affected adjacent nodes', async () => {
+      const builder = createTransitionNodeBuilder({
+        getTrackFeatures: () => null,
+        submitPlan: async () => ({
+          rung: 'RUNG_NONE',
+          reason: '',
+          tInSeconds: 100,
+          tOutSeconds: 200,
+          inBeatIndex: 1,
+          outBeatIndex: 1,
+          alignToSeconds: 200,
+          mappedBpm: 120,
+          windowBeats: 64,
+        }),
+      });
+      builder.addTrack('track-a');
+      builder.addTrack('track-b');
+      builder.addTrack('track-c');
+      builder.addTrack('track-d');
+      await builder.processAllNodes();
+
+      const oldNodes = builder.getAllNodes();
+      builder.setTracks(['track-b', 'track-a', 'track-c', 'track-d']);
+
+      const nodes = builder.getAllNodes();
+      expect(nodes.map(({ fromTrackId, toTrackId }) => [fromTrackId, toTrackId])).toEqual([
+        ['track-b', 'track-a'],
+        ['track-a', 'track-c'],
+        ['track-c', 'track-d'],
+      ]);
+      expect(nodes[0]).not.toBe(oldNodes[0]);
+      expect(nodes[1]).not.toBe(oldNodes[1]);
+      expect(nodes[2]).toBe(oldNodes[2]);
+      expect(nodes[0].status).toBe('pending');
+      expect(nodes[1].status).toBe('pending');
+      expect(nodes[2].status).toBe('complete');
     });
   });
 });

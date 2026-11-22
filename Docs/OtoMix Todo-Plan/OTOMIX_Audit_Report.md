@@ -1,6 +1,6 @@
 # OTOMIX Plan Audit Report
 
-Generated: 2026-11-21T19:32:48.443Z
+Generated: 2026-11-22T03:42:29.577Z
 Source: `tools/test/plan-audit.spec.ts` (run with `npx vitest run tools/test/plan-audit.spec.ts`)
 
 ## Summary

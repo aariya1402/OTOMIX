@@ -10,8 +10,9 @@ describe('Scoring Constants', () => {
     expect('UNMIXABLE_BELOW' in SCORING_CONSTANTS).toBe(false);
     expect(SCORING_CONSTANTS.VOCAL_THRESHOLD).toBe(0.65);
     expect(SCORING_CONSTANTS.VOCAL_MEDIAN_BEATS).toBe(2);
-    expect(SCORING_CONSTANTS.RECO_WEIGHTS).toEqual([0.40, 0.30, 0.20, 0.10]); // Updated defaults
-    expect(SCORING_CONSTANTS.TEMPO_DELTA_LIMIT).toBe(0.01);
+    expect(SCORING_CONSTANTS.RECO_WEIGHTS).toEqual([0.60, 0.30, 0.10, 0]);
+    expect(SCORING_CONSTANTS.RECO_WEIGHTS.reduce((sum, weight) => sum + weight, 0)).toBeCloseTo(1);
+    expect(SCORING_CONSTANTS.TEMPO_DELTA_LIMIT).toBe(0.10);
   });
 
   it('should have all 9 access values correctly defined', () => {

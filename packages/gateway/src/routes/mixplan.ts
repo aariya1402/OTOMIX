@@ -26,6 +26,7 @@ export interface MixPlanResponse {
   outBeatIndex: number;
   alignToSeconds: number;
   mappedBpm: number;
+  windowBeats: number;
   paddingBeats?: number;
 }
 
@@ -116,6 +117,7 @@ export function createMixPlanHandler(
               outBeatIndex: plan.outBeatIndex,
               alignToSeconds: plan.alignToSeconds,
               mappedBpm: plan.mappedBpm,
+              windowBeats: plan.windowBeats,
               ...(plan.paddingBeats !== undefined ? { paddingBeats: plan.paddingBeats } : {}),
             };
             return { statusCode: 200, body: response };

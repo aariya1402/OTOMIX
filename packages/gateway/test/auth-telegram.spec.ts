@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
 import { Pool } from 'pg';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 import { createAuthTelegramRoutes } from '../src/routes/auth-telegram.js';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -29,10 +30,13 @@ function makeTelegramData(overrides: Record<string, string> = {}, botToken = 'te
     username: 'testuser',
     photo_url: 'https://example.com/photo.jpg',
     auth_date: Math.floor(Date.now() / 1000).toString(),
+    terms_version: 'v1.0',
   };
   const data = { ...base, ...overrides };
   
-  const { hash: _, ...checkData } = data;
+  const checkData = Object.fromEntries(
+    Object.entries(data).filter(([key]) => key !== 'hash' && key !== 'terms_version'),
+  );
   const dataCheckString = Object.keys(checkData)
     .sort()
     .map(k => `${k}=${checkData[k]}`)
@@ -56,7 +60,9 @@ describe('Telegram Auth (P07-REG-M03)', () => {
     pool = new Pool({ connectionString: container.getConnectionUri() });
     await pool.query(loadUp('001_core.sql'));
     await pool.query(loadUp('002_rls.sql'));
+    await pool.query(loadUp('007_tracks_source_declarations.sql'));
     await pool.query(loadUp('008_registration.sql'));
+    await pool.query(loadUp('010_source_declaration_registration_scope.sql'));
 
     redisMock = new Map();
     const redis = {
@@ -80,25 +86,24 @@ describe('Telegram Auth (P07-REG-M03)', () => {
     await container.stop();
   });
 
-  const mockReq = (method: string, url: string, body?: any) => ({
+  const mockReq = (method: string, url: string, body?: any): IncomingMessage => ({
     method,
     url,
     headers: { host: 'localhost', 'content-type': 'application/json' },
     [Symbol.asyncIterator]: async function* () {
       if (body) yield JSON.stringify(body);
     },
-  });
+  }) as IncomingMessage;
 
-  const mockRes = () => {
+  const mockRes = (): ServerResponse & { readonly status: number; readonly body: string } => {
     let status = 200;
     let body = '';
-    const res: any = {
+    return {
       writeHead: (s: number) => { status = s; },
       end: (b: string) => { body = b; },
       get status() { return status; },
       get body() { return body; },
-    };
-    return res;
+    } as ServerResponse & { readonly status: number; readonly body: string };
   };
 
   it('valid telegram data -> creates user and returns token', async () => {
@@ -108,10 +113,22 @@ describe('Telegram Auth (P07-REG-M03)', () => {
     
     await routes['/auth/telegram/verify'](req, res);
     
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(201);
     const parsed = JSON.parse(res.body);
     expect(parsed.user_id).toBeDefined();
     expect(parsed.access_token).toBe('mock-token-' + parsed.user_id);
+    const user = await pool.query(
+      'SELECT terms_version, terms_accepted_at FROM users WHERE user_id = $1',
+      [parsed.user_id],
+    );
+    expect(user.rows).toHaveLength(1);
+    expect(user.rows[0].terms_version).toBe('v1.0');
+    expect(user.rows[0].terms_accepted_at).toBeInstanceOf(Date);
+    const declarations = await pool.query(
+      'SELECT scope, terms_version FROM source_declarations WHERE user_id = $1',
+      [parsed.user_id],
+    );
+    expect(declarations.rows).toEqual([{ scope: 'register', terms_version: 'v1.0' }]);
   });
 
   it('invalid hash -> 401', async () => {
@@ -142,6 +159,19 @@ describe('Telegram Auth (P07-REG-M03)', () => {
     expect(res.status).toBe(400);
   });
 
+  it('missing terms_version -> 400', async () => {
+    const data = makeTelegramData({ terms_version: '' });
+    const req = mockReq('POST', '/auth/telegram/verify', data);
+    const res = mockRes();
+
+    await routes['/auth/telegram/verify'](req, res);
+    expect(res.status).toBe(400);
+    expect(JSON.parse(res.body)).toEqual({
+      error: 'INVALID_ARGUMENT',
+      message: 'terms_version required',
+    });
+  });
+
   it('duplicate telegram_id returns same user', async () => {
     const data = makeTelegramData({ id: '999999999' });
     const req1 = mockReq('POST', '/auth/telegram/verify', data);
@@ -152,8 +182,15 @@ describe('Telegram Auth (P07-REG-M03)', () => {
     const res2 = mockRes();
     await routes['/auth/telegram/verify'](req2, res2);
     
+    expect(res1.status).toBe(201);
+    expect(res2.status).toBe(200);
     const u1 = JSON.parse(res1.body).user_id;
     const u2 = JSON.parse(res2.body).user_id;
     expect(u1).toBe(u2);
+    const declarationCount = await pool.query(
+      'SELECT count(*)::int AS count FROM source_declarations WHERE user_id = $1',
+      [u1],
+    );
+    expect(declarationCount.rows[0].count).toBe(1);
   });
 });

@@ -3,8 +3,9 @@
 
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
-import { Client } from 'pg';
-import * as http from 'node:http';
+import { Pool } from 'pg';
+import express from 'express';
+import request from 'supertest';
 import { createMixPlanHandler } from '../src/routes/mixplan';
 import { verifyRequest } from '../src/interceptor';
 import type { InterceptorDeps } from '../src/interceptor';
@@ -221,11 +222,10 @@ const FEATURE_DATA_PLACEHOLDER = (trackId: string) => [
 
 describe('POST /api/v1/mixplan (P08-T04-S02-M02)', () => {
   let container: StartedPostgreSqlContainer;
-  let client: Client;
-  let server: http.Server;
-  let baseUrl: string;
+  let pool: Pool;
+  let app: express.Express;
   let logger: Logger;
-  let handler: (req: http.IncomingMessage, res: http.ServerResponse, claims: any) => Promise<void>;
+  let handler: ReturnType<typeof createMixPlanHandler>;
   let currentPerms: Set<string>;
 
   beforeAll(async () => {
@@ -237,16 +237,8 @@ describe('POST /api/v1/mixplan (P08-T04-S02-M02)', () => {
       .withPassword('test')
       .start();
 
-    client = new Client({
-      host: container.getHost(),
-      port: container.getMappedPort(5432),
-      user: container.getUsername(),
-      password: container.getPassword(),
-      database: container.getDatabase(),
-    });
-    await client.connect();
-
-    await client.query(ALL_TABLES_SQL);
+    pool = new Pool({ connectionString: container.getConnectionUri() });
+    await pool.query(ALL_TABLES_SQL);
 
     const idempotencyStore = makeInMemoryIdempotencyStore();
 
@@ -271,17 +263,14 @@ describe('POST /api/v1/mixplan (P08-T04-S02-M02)', () => {
     };
 
     handler = createMixPlanHandler({
-      pool: {
-        connect: async () => ({
-          query: client.query.bind(client),
-          release: () => {},
-        }) as any,
-      },
+      pool,
       idempotencyStore,
       logger,
     });
 
-    server = http.createServer(async (req, res) => {
+    app = express();
+    app.use(express.json());
+    app.post('/api/v1/mixplan', async (req, res, next) => {
       let claims;
       try {
         claims = await verifyRequest(req, interceptorDeps);
@@ -300,55 +289,22 @@ describe('POST /api/v1/mixplan (P08-T04-S02-M02)', () => {
         return;
       }
 
-      if (req.method === 'POST' && req.url === '/api/v1/mixplan') {
-        await handler(req, res, claims.claims);
-      } else {
-        res.statusCode = 404;
-        res.end();
-      }
+      Object.assign(req, { claims: claims.claims });
+      await handler(req, res, next);
     });
-
-    await new Promise<void>((resolve) => {
-      server.listen(0, resolve);
-    });
-    const address = server.address() as { port: number };
-    baseUrl = `http://localhost:${address.port}`;
   }, TEST_TIMEOUT);
 
   afterAll(async () => {
-    if (server) await server.close();
-    if (client) await client.end();
+    if (pool) await pool.end();
     if (container) await container.stop();
   }, TEST_TIMEOUT);
 
-  function post(body: any, headers: Record<string, string>): Promise<{ status: number; body: any }> {
-    return new Promise((resolve, reject) => {
-      const req = http.request(
-        `${baseUrl}/api/v1/mixplan`,
-        {
-          method: 'POST',
-          headers: {
-            'content-type': 'application/json',
-            ...headers,
-            'content-length': Buffer.byteLength(JSON.stringify(body)).toString(),
-          },
-        },
-        (res) => {
-          let data = '';
-          res.on('data', (chunk) => (data += chunk));
-          res.on('end', () => {
-            try {
-              resolve({ status: res.statusCode ?? 0, body: JSON.parse(data) });
-            } catch {
-              resolve({ status: res.statusCode ?? 0, body: data });
-            }
-          });
-        },
-      );
-      req.on('error', reject);
-      req.write(JSON.stringify(body));
-      req.end();
-    });
+  function post(body: Record<string, unknown>, headers: Record<string, string>): Promise<{ status: number; body: Record<string, unknown> }> {
+    return request(app)
+      .post('/api/v1/mixplan')
+      .set(headers)
+      .send(body)
+      .then(({ status, body: responseBody }) => ({ status, body: responseBody }));
   }
 
   function uuid(): string {
@@ -403,11 +359,13 @@ describe('POST /api/v1/mixplan (P08-T04-S02-M02)', () => {
     currentPerms = new Set(['local:process']);
 
     // Insert a track with placeholder analysis
-    const trackId = uuid();
-    await client.query(INSERT_PLACEHOLDER_FEATURE, FEATURE_DATA_PLACEHOLDER(trackId));
+    const fromTrackId = uuid();
+    const toTrackId = uuid();
+    await pool.query(INSERT_PLACEHOLDER_FEATURE, FEATURE_DATA_PLACEHOLDER(fromTrackId));
+    await pool.query(INSERT_COMPLETE_FEATURES, FEATURE_DATA_COMPLETE_128(toTrackId));
 
     const res = await post(
-      { fromTrackId: trackId, toTrackId: uuid() },
+      { fromTrackId, toTrackId },
       { authorization: 'Bearer valid-token', 'idempotency-key': uuid() }
     );
     expect(res.status).toBe(400);
@@ -421,8 +379,8 @@ describe('POST /api/v1/mixplan (P08-T04-S02-M02)', () => {
     const toTrackId = uuid();
 
     // Insert complete features for both tracks
-    await client.query(INSERT_COMPLETE_FEATURES, FEATURE_DATA_COMPLETE_128(fromTrackId));
-    await client.query(INSERT_COMPLETE_FEATURES, FEATURE_DATA_COMPLETE_120(toTrackId));
+    await pool.query(INSERT_COMPLETE_FEATURES, FEATURE_DATA_COMPLETE_128(fromTrackId));
+    await pool.query(INSERT_COMPLETE_FEATURES, FEATURE_DATA_COMPLETE_120(toTrackId));
 
     const key = uuid();
     const res = await post(
@@ -447,8 +405,8 @@ describe('POST /api/v1/mixplan (P08-T04-S02-M02)', () => {
     const fromTrackId = uuid();
     const toTrackId = uuid();
 
-    await client.query(INSERT_COMPLETE_FEATURES, FEATURE_DATA_COMPLETE_128(fromTrackId));
-    await client.query(INSERT_COMPLETE_FEATURES, FEATURE_DATA_COMPLETE_120(toTrackId));
+    await pool.query(INSERT_COMPLETE_FEATURES, FEATURE_DATA_COMPLETE_128(fromTrackId));
+    await pool.query(INSERT_COMPLETE_FEATURES, FEATURE_DATA_COMPLETE_120(toTrackId));
 
     const key = uuid();
     const first = await post(
@@ -471,8 +429,8 @@ describe('POST /api/v1/mixplan (P08-T04-S02-M02)', () => {
     const fromTrackId = uuid();
     const toTrackId = uuid();
 
-    await client.query(INSERT_COMPLETE_FEATURES, FEATURE_DATA_COMPLETE_128(fromTrackId));
-    await client.query(INSERT_COMPLETE_FEATURES, FEATURE_DATA_COMPLETE_120(toTrackId));
+    await pool.query(INSERT_COMPLETE_FEATURES, FEATURE_DATA_COMPLETE_128(fromTrackId));
+    await pool.query(INSERT_COMPLETE_FEATURES, FEATURE_DATA_COMPLETE_120(toTrackId));
 
     const res = await post(
       { fromTrackId, toTrackId, fallbackRung: -1 },

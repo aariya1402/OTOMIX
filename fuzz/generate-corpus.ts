@@ -35,9 +35,9 @@ function minimalWav(): number[] {
   const s = (str: string) => { for (let i = 0; i < str.length; i++) p.push(str.charCodeAt(i)); };
   const u32 = (v: number) => p.push(v & 0xff, (v >>> 8) & 0xff, (v >>> 16) & 0xff, (v >>> 24) & 0xff);
   const u16 = (v: number) => p.push(v & 0xff, (v >>> 8) & 0xff);
-  s('RIFF'); u32(36 + 16); s('WAVE');
+  s('RIFF'); u32(36 + 32); s('WAVE');
   s('fmt '); u32(16); u16(1); u16(1); u32(8000); u32(16000); u16(2); u16(16);
-  s('data'); u32(16);
+  s('data'); u32(32);
   for (let i = 0; i < 16; i++) p.push(0, 0);
   return p;
 }
@@ -103,6 +103,29 @@ function mutateRecursive(b: number[], fmt: Format, rng: () => number): number[] 
   } else {
     extra.push(0x04, 0x00, 0x00, 0x0c); // Vorbis comment block, len 12
     pushU32LE(0); pushU32LE(1000); pushU32LE(0); // count=1000 far exceeds actual
+  }
+  if (fmt === 'wav') {
+    let dataHeaderOffset = -1;
+    for (let pos = 12; pos + 8 <= b.length;) {
+      const chunkId = String.fromCharCode(...b.slice(pos, pos + 4));
+      const chunkSize = (
+        (b[pos + 4] ?? 0) |
+        ((b[pos + 5] ?? 0) << 8) |
+        ((b[pos + 6] ?? 0) << 16) |
+        ((b[pos + 7] ?? 0) << 24)
+      ) >>> 0;
+      if (chunkId === 'data') {
+        dataHeaderOffset = pos;
+        break;
+      }
+      pos += 8 + chunkSize + (chunkSize & 1);
+    }
+    if (dataHeaderOffset >= 0) {
+      const out = b.slice(0, dataHeaderOffset).concat(extra, b.slice(dataHeaderOffset));
+      const riffSize = out.length - 8;
+      for (let i = 0; i < 4; i++) out[4 + i] = (riffSize >>> (i * 8)) & 0xff;
+      return out;
+    }
   }
   return b.concat(extra);
 }

@@ -58,14 +58,14 @@
 - **Impact:** `P06-T01-S01-M01` uses an injected `VaultClient` interface (`getCurrentKid()`, `getSigningKey(kid)`). Unit tests stub it. The real wrapper is deferred.
 - **Resolution:** When a real Vault wrapper is implemented, add a contract test proving the stub and the real wrapper return the same `VaultClient` shape.
 
-### [CONFLICT-006] [PHASE: P06] [BLOCKER] Rule 25 tension: gate vs preference
-- **Status:** open
+### [CONFLICT-006] [PHASE: P06] [ADVISORY] [RESOLVED] Rule 25 tension: gate vs preference
+- **Status:** resolved
 
 - **Status:** open`r`n- **Discovered:** 2026-11-13
 - **Source:** `AI Agent.MD` Rule 25 (as written) treats `mixability_score` as a hard gate; `OTOMIX_Admin_Interaction_Skill.md` and the P05â†’P06 handoff treat it as a preference; `ADDENDUM OVERRIDE` notes in the plan also say preference.
 - **Winning position:** **Preference.** Only `Camelot` is a hard gate. `Energy` and `Mixability` are `Preference` scores that affect ranking, never rejection.
 - **Impact:** `P05-T02-S02-M05` and `P08-T04-S01-M02` notes still say "gate". Any code gating on mixability violates the winning position.
-- **Resolution:** Update `AI Agent.MD` Rule 25 to match the preference semantics, OR mark the old Rule 25 as superseded by `OTOMIX_Admin_Interaction_Skill.md` Â§5. Do this in a dedicated docs commit.
+- **Resolution:** The owner-approved position is Preference: only Camelot is a hard gate; Mixability and Energy affect ranking and warnings, never rejection. `AI Agent.MD` Rule 25, the architecture spec, the library slice, and the P08 UI binding matrix now match this decision.
 
 ---
 
@@ -552,7 +552,7 @@ eplayDlq(redis, job_id, handler, deps) requires the caller to supply a handler. 
 - **Discovered:** 2026-11-14. Owner directive.
 - **Related:** [GAP-015] (dynamic RBAC) provides the identity scaffolding; [GAP-014] (cloud+local) applies (registration is server-side only).
 - **OQ-11 resolved:** owner confirmed on 2026-11-14 that source declarations are mandatory; site carries no copyright liability; terms_version v1.0 effective 2026-11-14.
-- **Scope:** Three registration methods required: Google OAuth 2.0, Telegram Login Widget, Phone OTP. Plus terms acceptance + source declaration at registration.
+- **Scope:** Three registration methods required: Google OAuth 2.0, Telegram Login Widget, Phone OTP. Plus terms acceptance + source declaration (`scope='register'`) at registration.
 
 **Required DB changes (P07-REG-M01):**
 - Add to users: google_id text UNIQUE, 	elegram_id text UNIQUE, phone_e164 text UNIQUE, email text UNIQUE, display_name text, 	erms_version text, 	erms_accepted_at timestamptz. All nullable (so existing seeded users remain valid). RLS unchanged.
@@ -585,10 +585,11 @@ eplayDlq(redis, job_id, handler, deps) requires the caller to supply a handler. 
 - SMS provider wrapped in an injectable port so tests use a fake provider.
 
 **Terms + declaration (P07-REG-M05):**
+- The accepted version is `v1.0`. Google keeps its existing GET start route and carries `terms_version` as a query parameter bound to the one-time Redis state; Telegram excludes `terms_version` from its provider-signed fields; Phone OTP binds the version to the OTP challenge.
 - All three methods require 	erms_version in the request body.
 - On first registration: write users.terms_version, users.terms_accepted_at, and one row in source_declarations with ction='register', 	erms_version, declared_at.
 - Reuses 
-ecordDeclaration function from P07-T05-S01-M01.
+ec ordDeclaration function from P07-T05-S01-M01.
 
 **UI (P07-REG-M06):**
 - packages/ui/src/auth/ with three tabs (Google / Telegram / Phone OTP), consent checkbox, error states.
@@ -611,13 +612,13 @@ ecordDeclaration function from P07-T05-S01-M01.
 - Rate-limit exact numbers (proposed 3/10min; owner can override).
 - Account linking when a user registers with two methods (e.g. Google then Phone) â€” proposal: match on email or phone_e164 and merge, else prompt to link. Defer to M02..M04 implementation details.
 - Terms text: v1.0 effective 2026-11-14; owner must supply the legal text (mocked in tests).
-- **Resolution:** Scheduling completed 2026-11-18. Six tasks (`P07-REG-M01..M06`) are registered in `OTOMIX_MicroTask_Plan.tasks.json` as `TODO`, and the `Reminder` is in place in `OTOMIX_MicroTask_Plan.md`. The GAP was about scheduling, not about the implementation itself; the implementation now proceeds task-by-task under the standard 9-step loop. `SMS provider` fixed to `Kavenegar` (owner decision 2026-11-18). UI task `P07-REG-M06` is scheduled after the backend tasks per `Execution placement`.
+- **Resolution:** Scheduling completed 2026-11-18. `P07-REG-M05` is verified DONE by the focused provider/terms/declaration integration suite, and `P07-REG-M06` is now verified DONE by focused RTL and Playwright coverage. `SMS provider` is fixed to `Kavenegar` (owner decision 2026-11-18). Login/upload remain seeded preconditions in the P08 Playwright harness, not claimed as tested UI flows.
 ### [GAP-028] [PHASE: P07] [ADVISORY] [RESOLVED] Plan says 'action', DDL uses 'scope'
 - **Status:** resolved
 - **Resolved:** 2026-11-17
 - **Discovered:** 2026-11-14 during P07-T05-S01-M01.
 - **Context:** OTOMIX_MicroTask_Plan.md for M07 describes the field as ction; migration 07_tracks_source_declarations.sql uses scope.
-- **Resolution:** Code and tests use scope (the actual DB column). No schema change. Future references should use scope.
+- **Resolution:** Code and tests use `scope` (the actual DB column); no `action` column is introduced. On 2026-11-22, the owner confirmed that registration must be recorded with `scope='register'`; migration `010_source_declaration_registration_scope.sql` adds that allowed value while preserving the existing scopes.
 ### [GOTCHA-HIST-001] [PHASE: ALL] [LOW] Duplicate commit messages from script re-execution
 
 - **Discovered:** 2026-11-17
@@ -645,15 +646,16 @@ ecordDeclaration function from P07-T05-S01-M01.
 - **Rationale:** GAP-021 - core ESM with extensionless imports blocks worker_threads eval. Keeping the orchestrator in workers would force eval-time coupling and risk circular deps.
 - **Decision:** Keep runEnrichment() in core with structural ports (dependency inversion). EnrichmentPipeline is recorded as a plan-text token in overrides.json.
 - **Resolution:** Decision recorded 2026-11-17. `runEnrichment()` canonically lives in `packages/core/src/pipeline/enrichment.ts`. `EnrichmentPipeline` is registered as a plan-text token in `overrides.json` (ignoreSymbols). The queue integration + instant API response Review Checkpoint is tracked separately as `P05-ADD-T06-S03-M01`; a Reminder has been inserted in `OTOMIX_MicroTask_Plan.md` at the P05/P06 boundary.
-- **Deferred:** Queue integration + instant API response (Review Checkpoint) not in dce1d1f. Open follow-up P05-ADD-T06-S03-M01 for next session.<a id="p05-add-t06-s03-m01"></a>
-### [P05-ADD-T06-S03-M01] [PHASE: P05] [TODO] Enrichment queue integration + instant API response
+- **Follow-up:** Queue integration + instant API response were not in dce1d1f; they were tracked and verified under P05-ADD-T06-S03-M01 below.<a id="p05-add-t06-s03-m01"></a>
+### [P05-ADD-T06-S03-M01] [PHASE: P05] [DONE] Enrichment queue integration + instant API response
 
+- **Status:** DONE; verified on `PRE-P08` at `b202847`.
 - **Source:** Follow-up from [GAP-030] decision; Review Checkpoint portion not covered in `dce1d1f`.
 - **Rationale:** `runEnrichment()` in `packages/core/src/pipeline/enrichment.ts` has all deps injected via structural ports (`FeatureCache`, `TenantFeatureStore`, `EngineRunner`, worker registry). To be useful end-to-end, the ingestion flow must call `runEnrichment()` and the API must respond before/independently of analysis completion.
 - **Expected Outcome:** `POST /api/v1/ingest/local` (or its queue consumer) invokes `runEnrichment()` with real deps; features written to global cache + tenant store match worker analysis; client receives 202/200 with resource id before completion.
 - **Review Checkpoint:** (1) API responds before worker completes; (2) worker completion results in matching features row; (3) second identical request hits cache (no worker re-invocation).
-- **Files (expected):** `packages/gateway/src/ingest/ingest-local.ts`, `packages/gateway/test/ingest-local.spec.ts` (or a new test).
-- **Tests:** To be finalized when the task is scheduled (per Reminder in `OTOMIX_MicroTask_Plan.md`).
+- **Verification:** `packages/gateway/test/ingest-enrichment.spec.ts` — 4/4 focused Testcontainers integration cases passed, including pending response, completed feature persistence, and cached repeat upload.
+- **Test execution:** All four cases executed against PostgreSQL Testcontainers; none were skipped.
 - **GAPs:** Closes the open portion of [GAP-030].
 - **Plan reference:** Reminder inserted before `## Phase P06` in `OTOMIX_MicroTask_Plan.md`.
 

@@ -79,6 +79,10 @@
 
 ### 3.2 Compatibility Score Display (`P08-T03-S01-M02`)
 
+This analysis compatibility score is distinct from the P08 recommendation
+ranking, which uses Mixability/Camelot/Tempo weights of 60/30/10 and no
+Energy term.
+
 | UI Element | Redux Path | Computation | Feature Registry Fields |
 |------------|------------|-------------|------------------------|
 | Mixability Weight | `mixplan.scores.mixability` | `weights.mixability` | `mixability.score` |
@@ -101,8 +105,8 @@
 |------------|------------|-----------|------------------------|
 | Drag-Drop Reorder | `mixplan.reorderOnDragDrop()` | Drag-drop | Recomputes adjacent pair scores |
 | Pair Scores | `mixplan.pairScores[trackA:trackB]` | `getCompatibility()` | All compatibility fields |
-| Removal Warning | `mixplan.warnings[]` | Auto-filter | `mixabilityScore < minMixability` |
-| Valid Plan | `mixplan.validPlan[]` | Post-filter | Only tracks above gate |
+| Low-Mixability Warning | `mixplan.warnings[]` | Keep candidate; show warning | `mixabilityScore < minMixability` |
+| Valid Plan | `mixplan.validPlan[]` | Apply Camelot hard gate and configured tempo limit | Camelot key and BPM |
 
 ---
 
@@ -132,7 +136,7 @@
 
 | UI Element | Redux Path | Condition | Display |
 |------------|------------|-----------|---------|
-| Mixability Badge | `library.tracks[].mixabilityWarning` | `mixability < minMixability` | Yellow ⚠️ "Low Mixability" |
+| Mixability Badge | `library.tracks[].mixabilityWarning` | `mixability < minMixability`; never excludes | Yellow ⚠️ "Low Mixability" |
 | Severity | `mixplan.warnings[]` | `mixability < threshold` | Toast + Badge |
 
 ### 5.2 Camelot Gate Badge (`P08-T06-S01-M02`)
@@ -228,9 +232,9 @@ interface FeatureRow {
 | No orphaned UI elements without data source | ✅ |
 | All Feature Registry fields traced to UI | ✅ |
 | Camelot hard gate correctly mapped to badges | ✅ |
-| Mixability preference (not gate) correctly implemented | ✅ |
+| Mixability is a preference and never filters selection | ✅ |
 | Force Insert fault attribution (USER vs SYSTEM) | ✅ |
-| Reorder filters below minMixability | ✅ |
+| Reorder preserves low-mixability candidates and warns | ✅ |
 | Transition plan rungs 0-3 mapped | ✅ |
 
 ---

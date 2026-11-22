@@ -663,39 +663,29 @@ simply REJECTS the transition because the user-configurable BPM delta
 filter (e.g., max 10%) prevents them from being placed next to each other.
 
 If a track's BPM is 85, it is recognized as 85. We do NOT double it to 170
-to force a mix. The track is either compatible within the user's tolerance,
-or it is excluded from the set. This is a direct consequence of Rule 25:
-we filter out bad matches; we do not fix them with DSP trickery.
-### The Mixability Gate (Red Line)
+to force a mix. Candidate transitions outside the user's configured tempo
+tolerance are filtered; the system does not fix them with DSP trickery.
 
-**If `mixability_score` is below the acceptance threshold, the track MUST
-NOT enter the set.** The system does not attempt to "fix" a low-mixability
-track to force it into a set. There is no drift compensation, no tempo
-warping, no kick realignment, no quality repair for a track that failed
-the gate.
+### Mixability Is a Preference; Camelot Is the Hard Gate
 
-The acceptance threshold is a tunable admin constant (stored in
-`constants/scoring.ts`, value set at P08 implementation time).
+`mixability_score` is a ranking preference, not a gate. A low score may
+produce a warning and a lower recommendation rank, but it does not remove a
+track from the library or prevent selection. Camelot compatibility is the
+only hard gate. Energy is not part of the current recommendation score.
 
-**The owner's stated priority:**
-> "It is better to reject 270 tracks from a 300-track library than to
->  compromise the architecture for 1 broken track."
+### Recommendation Scoring
 
-### Recommendation Scoring (Post-Gate)
-
-After a track passes the mixability gate, it is ranked within the set via
-a recommendation score. Mixability remains a first-class term:
+The owner-approved recommendation formula is:
 
 | Component | Weight |
 |---|---|
-| `mixability_score` | 0.40 |
+| `mixability_score` | 0.60 |
 | `camelot_proximity` | 0.30 |
-| `tempo_delta` | 0.20 |
-| `energy_progression` | 0.10 |
+| `tempo_delta` | 0.10 |
 
-`0.40 >= 0.30, 0.20, 0.10` — mixability has the highest single weight, in
-accordance with the rule that its weight be no lower than each of
-energy / tempo / camelot.
+The tempo-delta limit is configurable from 2% through 20%, defaults to 10%,
+and is applied as both a candidate filter and a tie-break. Candidate ranking
+breaks ties first by Camelot proximity and then by tempo delta.
 
 ### Consequence for the Pipeline
 
@@ -709,27 +699,28 @@ energy / tempo / camelot.
   - `grid_type` (ATTACK_DOMINANT / BODY_DOMINANT, per §6 of AI Agent.MD)
 
 - **P08 (Set Builder / MixPlan)** is the CORE mission, not a UI phase.
-  It applies the mixability gate (reject below threshold) BEFORE any
-  transition is planned, then ranks survivors by the recommendation score.
+  It ranks candidates using the recommendation score and applies the
+  Camelot hard gate and configured tempo limit; low Mixability is a warning,
+  not a rejection.
 
 - **P04 (DSP Port)** assumes every incoming track has ALREADY been vetted
   by the Set Builder. P04 does NOT attempt to repair a broken grid — if
   a broken track somehow reaches P04, the correct behavior is
   `RUNG_STANDARD_CROSSFADE` + warning, not compensation.
 
-### If the User Manually Forces a Low-Mixability Track Into the Set
+### When a Low-Mixability Track Is Selected
 
-The system MUST:
-1. Show a prominent warning with the specific mixability factors that failed.
-2. For the affected transition, fall back to `RUNG_STANDARD_CROSSFADE`.
-3. NOT engage micro-chopping, drift compensation, or any repair on that
-   track.
+The system MUST show a warning with the available Mixability information.
+Low Mixability alone does not force a transition fallback or reject the
+track. If a separate transition constraint requires a fallback, use the
+fallback rung selected by the transition planner and do not attempt to
+repair the track through drift compensation or tempo warping.
 
 ### Enforcement
 
 1. This rule cannot be relaxed without explicit written owner approval.
-2. Any code, test, or plan that assumes "we will fix a broken track" is
-   a RED LINE VIOLATION and must be corrected.
+2. Any code, test, or plan that treats low Mixability as a hard rejection
+   is a RED LINE VIOLATION and must be corrected.
 3. Every Cline prompt that touches P05 or P08 MUST include this rule in
    its CONTEXT block.
 

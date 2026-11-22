@@ -1,9 +1,10 @@
-import { IncomingMessage, ServerResponse } from 'node:http';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 import { createHmac } from 'node:crypto';
-import Redis from 'ioredis';
-import { Pool } from 'pg';
+import type Redis from 'ioredis';
+import type { Pool } from 'pg';
 import { issueAccessToken, type VaultClient } from '@otomix/access';
 import { upsertTelegramUser } from '../repository/user-repository.js';
+import { sendInvalidArgument } from './auth-response.js';
 
 export interface AuthTelegramDeps {
   pool: Pool;
@@ -13,7 +14,10 @@ export interface AuthTelegramDeps {
 }
 
 function verifyTelegramAuth(data: Record<string, string>, botToken: string): boolean {
-  const { hash, ...checkData } = data;
+  const hash = data.hash;
+  const checkData = Object.fromEntries(
+    Object.entries(data).filter(([key]) => key !== 'hash' && key !== 'terms_version'),
+  );
   const dataCheckString = Object.keys(checkData)
     .sort()
     .map(k => `${k}=${checkData[k]}`)
@@ -47,6 +51,11 @@ export function createAuthTelegramRoutes(deps: AuthTelegramDeps) {
       } catch {
         res.writeHead(400); res.end('Invalid JSON'); return true;
       }
+
+      const termsVersion = data.terms_version?.trim();
+      if (!termsVersion) {
+        sendInvalidArgument(res, 'terms_version required'); return true;
+      }
       
       if (!verifyTelegramAuth(data, deps.botToken)) {
         res.writeHead(401); res.end('Invalid Telegram auth'); return true;
@@ -58,18 +67,19 @@ export function createAuthTelegramRoutes(deps: AuthTelegramDeps) {
       }
       
       try {
-        const userData: Record<string, string> = { telegramId };
-        if (data.first_name) userData.firstName = data.first_name;
-        if (data.last_name) userData.lastName = data.last_name;
-        if (data.username) userData.username = data.username;
-        if (data.photo_url) userData.photoUrl = data.photo_url;
+        const user = await upsertTelegramUser(deps.pool, {
+          telegramId,
+          firstName: data.first_name,
+          lastName: data.last_name,
+          username: data.username,
+          photoUrl: data.photo_url,
+          termsVersion,
+        });
         
-        const userId = await upsertTelegramUser(deps.pool, userData as any);
+        const token = await issueAccessToken({ sub: user.userId, tenantId: 'otomix' }, deps.vault);
         
-        const token = await issueAccessToken({ sub: userId, tenantId: 'otomix' }, deps.vault);
-        
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ user_id: userId, access_token: token.token }));
+        res.writeHead(user.created ? 201 : 200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ user_id: user.userId, access_token: token.token }));
         return true;
       } catch (err: any) {
         res.writeHead(500); res.end(err.message); return true;

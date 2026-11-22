@@ -185,6 +185,9 @@ describe('Task registry: per-task audit (tasks.json)', () => {
 
 describe('Master plan (.md) vs tasks.json', () => {
   const heads = [...planMd.matchAll(/^#{3,6} ((?:P\d{2}|GATE0|X)-[A-Z0-9-]+).*?\[(.)\]/gm)].map((m) => ({ id: m[1], mark: m[2] }));
+  const taskRows = [...planMd.matchAll(/^\|\s*((?:P\d{2}|GATE0|X)-[A-Z0-9-]+)\s*\|\s*([^|]+)\|/gm)]
+    .map((match) => ({ id: match[1], status: match[2].trim() }))
+    .filter((row) => /^(?:\[[x ]\]|DONE|TODO|BLOCKED:|CANCELLED:|SUPERSEDED:|DEFERRED:)/.test(row.status));
 
   it('[x] markers in the master plan agree with tasks.json DONE status', () => {
     const v: string[] = [];
@@ -193,12 +196,20 @@ describe('Master plan (.md) vs tasks.json', () => {
       if (!t) v.push(`${h.id}: heading exists but id missing from tasks.json`);
       else if ((h.mark === 'x') !== (t.status === 'DONE')) v.push(`${h.id}: md [${h.mark}] vs json ${t.status}`);
     }
+    for (const row of taskRows) {
+      const task = taskById.get(row.id);
+      if (!task) v.push(`${row.id}: table row exists but id missing from tasks.json`);
+      else {
+        const expected = task.status === 'DONE' ? '[x]' : task.status === 'TODO' ? '[ ]' : task.status;
+        if (row.status !== expected) v.push(`${row.id}: table ${row.status} vs json ${task.status}`);
+      }
+    }
     record('Master plan', 'OTOMIX_MicroTask_Plan.md', '[x] vs DONE', v);
     expect(v).toEqual([]);
   });
 
-  it('every tasks.json task has a heading in the master plan', () => {
-    const mdIds = new Set(heads.map((h) => h.id));
+  it('every tasks.json task has a task table row or status heading in the master plan', () => {
+    const mdIds = new Set([...heads.map((h) => h.id), ...taskRows.map((row) => row.id)]);
     const missing = tasks
       .filter((t) => !mdIds.has(t.id))
       .filter((t) => /^P0[1-8]-(T|ADD|RBAC|REG)/.test(t.id) || /^GATE0-|^X-/.test(t.id))

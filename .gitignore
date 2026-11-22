@@ -6,6 +6,7 @@ Dump/
 
 coverage/
 .vitest/
+test-results/
 *.tsbuildinfo
 heap-proof.heapsnapshot
 heap-proof.json

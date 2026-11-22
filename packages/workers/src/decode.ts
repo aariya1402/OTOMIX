@@ -16,6 +16,8 @@ export type DecodeResult =
   | { ok: true; value: DecodeValue }
   | { ok: false; error: 'INVALID_ARGUMENT' | 'DECODE_FAILED' | 'TIMEOUT' | 'OOM'; message: string };
 
+const MAX_FLAC_BLOCK_SIZE = 0xffff;
+
 interface RawDecoded {
   channelData: Float32Array[];
   sampleRate: number;
@@ -53,6 +55,7 @@ function parseWav(bytes: Uint8Array): RawDecoded | null {
   const riff = asciiFromBytes(bytes, 0, 4);
   const wave = asciiFromBytes(bytes, 8, 4);
   if (riff !== 'RIFF' || wave !== 'WAVE') return null;
+  if (dv.getUint32(4, true) > bytes.length - 8) return null;
 
   let pos = 12;
   let audioFormat = 0, numChannels = 0, sampleRate = 0, bitsPerSample = 0;
@@ -61,7 +64,9 @@ function parseWav(bytes: Uint8Array): RawDecoded | null {
     const chunkId = asciiFromBytes(bytes, pos, 4);
     const chunkSize = dv.getUint32(pos + 4, true);
     const body = pos + 8;
+    if (chunkSize > bytes.length - body) return null;
     if (chunkId === 'fmt ') {
+      if (chunkSize < 16) return null;
       audioFormat = dv.getUint16(body, true);
       numChannels = dv.getUint16(body + 2, true);
       sampleRate = dv.getUint32(body + 4, true);
@@ -74,10 +79,15 @@ function parseWav(bytes: Uint8Array): RawDecoded | null {
     pos = body + chunkSize + (chunkSize & 1);
   }
   if (dataOffset < 0 || numChannels === 0 || sampleRate === 0) return null;
-  if (dataOffset + dataLen > bytes.length) dataLen = bytes.length - dataOffset;
+  if (dataOffset + dataLen > bytes.length) return null;
 
   const bytesPerSample = bitsPerSample / 8;
-  const frames = Math.floor(dataLen / (bytesPerSample * numChannels));
+  if (!((audioFormat === 1 && bitsPerSample === 16) || (audioFormat === 3 && bitsPerSample === 32))) {
+    return null;
+  }
+  const frameBytes = bytesPerSample * numChannels;
+  if (!Number.isInteger(frameBytes) || frameBytes <= 0 || dataLen % frameBytes !== 0) return null;
+  const frames = dataLen / frameBytes;
   const channelData: Float32Array[] = [];
   for (let c = 0; c < numChannels; c++) channelData.push(new Float32Array(frames));
 
@@ -97,8 +107,6 @@ function parseWav(bytes: Uint8Array): RawDecoded | null {
         if (ch) ch[f] = dv.getFloat32(off, true);
       }
     }
-  } else {
-    return null;
   }
   return { channelData, sampleRate };
 }
@@ -115,7 +123,7 @@ async function decodeMp3(bytes: Uint8Array): Promise<RawDecoded | null> {
     let res = fn.call(dec, bytes);
     if (res && typeof res.then === 'function') res = await res;
     if (dec.free) dec.free();
-    if (!res || !res.channelData) return null;
+    if (!res || !res.channelData || (Array.isArray(res.errors) && res.errors.length > 0)) return null;
     return { channelData: res.channelData as Float32Array[], sampleRate: res.sampleRate as number };
   } catch { return null; }
 }
@@ -171,7 +179,11 @@ async function decodeFlac(bytes: Uint8Array): Promise<RawDecoded | null> {
     if (declaredTotal > 0) {
       // STREAMINFO.total_samples is authoritative. The WASM decoder may
       // return more (last-block padding) or fewer (dropped partial block)
-      // samples. Adjust to exactly declaredTotal.
+      // samples. Only pad a deficit small enough to fit one FLAC block.
+      if (channelData.some(
+        (channel) => declaredTotal > channel.length
+          && declaredTotal - channel.length > MAX_FLAC_BLOCK_SIZE,
+      )) return null;
       channelData = channelData.map((ch) => {
         if (ch.length === declaredTotal) return ch;
         if (ch.length > declaredTotal) return ch.subarray(0, declaredTotal);
@@ -218,7 +230,15 @@ export async function decodeAll(
   } catch (err) {
     return { ok: false, error: 'DECODE_FAILED', message: (err as Error)?.message ?? 'unknown' };
   }
-  if (!raw) return { ok: false, error: 'DECODE_FAILED', message: `could not decode ${format}` };
+  if (
+    !raw ||
+    !Number.isFinite(raw.sampleRate) ||
+    raw.sampleRate <= 0 ||
+    raw.channelData.length === 0 ||
+    !raw.channelData.some((channel) => channel.length > 0)
+  ) {
+    return { ok: false, error: 'INVALID_ARGUMENT', message: `invalid ${format} data` };
+  }
 
   const normalized = normalizeChannels(raw.channelData, raw.sampleRate);
   // Use mono for SHA256 (consistent deduplication) and Essentia analysis

@@ -291,10 +291,14 @@ describe('GATE0-P05-M07: Enrichment flow (ingest + async worker + cache)', () =>
   }, TEST_TIMEOUT);
 
   afterAll(async () => {
-    await server.close();
-    await appPool.end();
-    await adminPool.end();
-    await container.stop();
+    if (server) {
+      await new Promise<void>((resolve, reject) => {
+        server.close((error) => error ? reject(error) : resolve());
+      });
+    }
+    if (appPool) await appPool.end();
+    if (adminPool) await adminPool.end();
+    if (container) await container.stop();
   }, TEST_TIMEOUT);
 
   function post(body: Buffer, headers: Record<string, string>): Promise<{ status: number; body: any }> {
@@ -358,10 +362,13 @@ describe('GATE0-P05-M07: Enrichment flow (ingest + async worker + cache)', () =>
 
     // Verify feature row is now 'complete'
     const featureCheck = await appPool.query(
-      `SELECT analysis_status FROM features WHERE track_id = $1 AND tenant_id = 'otomix'`,
+      `SELECT analysis_status, bpm, camelot_key
+       FROM features WHERE track_id = $1 AND tenant_id = 'otomix'`,
       [res.body.track_id]
     );
     expect(featureCheck.rows[0].analysis_status).toBe('complete');
+    expect(Number(featureCheck.rows[0].bpm)).toBe(128);
+    expect(featureCheck.rows[0].camelot_key).toBe('8A');
   }, TEST_TIMEOUT);
 
   it('second upload with same content returns 200 with enrichment_status: complete and cache hit', async () => {

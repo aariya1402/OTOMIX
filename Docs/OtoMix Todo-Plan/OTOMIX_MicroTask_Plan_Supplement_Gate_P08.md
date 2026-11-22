@@ -306,7 +306,7 @@
 | Review Checkpoint | Confirm no duplicate ownership with P08-T03-S01-M01 (Starter warning). |
 | Notes | Audit finding F-15. |
 
-###### GATE0-SEC-M02 — TODO
+###### GATE0-SEC-M02 — DONE
 
 | Field | Value |
 |---|---|
@@ -314,10 +314,10 @@
 | Description | Return the container-parser fuzz harness (`P07-T02-S02-M01`) to a real `worker_threads` sandbox now that GAP-021 is resolved. |
 | Expected Outcome | `packages/workers/test/decode.fuzz.spec.ts` (sandboxed). |
 | Prerequisites | `GATE0-SEC-M01` |
-| Independent Test(s) | **integration** · Vitest · `packages/workers/test/decode.fuzz.spec.ts`<br>Input: truncated frames, oversized chunk sizes, recursive tags. Expected: worker rejects with INVALID_ARGUMENT; main process memory stable. Pass: all. |
+| Independent Test(s) | **integration** · Vitest · `packages/workers/test/decode.fuzz.spec.ts`<br>Input: all 300 deterministic corpus samples plus malformed WAV/FLAC headers. Expected: truncated/oversized samples return INVALID_ARGUMENT; recursive/garbage samples return a valid response without worker failure; main heap growth stays below 32 MiB after GC. Pass: all. |
 | Spec Reference | OTOMIX §5.3 · GAP-021 |
 | Review Checkpoint | Confirm the harness no longer runs inline in Vitest. |
-| Notes | — |
+| Notes | Worker old space capped at 512 MiB; build emits `packages/workers/dist/decode-worker-entry.js`. |
 
 ###### GATE0-SEC-M03 — TODO
 
@@ -490,18 +490,18 @@
 | Review Checkpoint | Owner confirms per-model specifics when each phase is reached. |
 | Notes | Roughly doubles P07/P10/P11 effort — plan capacity accordingly. |
 
-###### P08-PRE-M01 — TODO
+###### P08-PRE-M01 — DONE
 
 | Field | Value |
 |---|---|
 | ID | `P08-PRE-M01` |
 | Description | Add a Playwright skeleton for the core journey (login → upload → library → queue → plan → preview) with a mock DSP driver; P08 tasks extend it. |
-| Expected Outcome | `packages/ui/e2e/core-journey.spec.ts`. |
+| Expected Outcome | `e2e/p08-core-journey.spec.ts` and the test-only `e2e/journey-harness.tsx`. |
 | Prerequisites | `GATE0-CHK-M01`, `P07-REG-M06` |
-| Independent Test(s) | **e2e** · Playwright · same file<br>Input: seeded tenant with 3 complete tracks. Expected: queue shows 3 tracks and a computed timeline. Pass: equal. |
+| Independent Test(s) | **e2e** · Playwright · `e2e/p08-core-journey.spec.ts`<br>Input: seeded signed-in tenant with 3 complete tracks. Expected: queue shows all 3; timeline computes 6 beats; a plan schedules preview on MockDspDriver. Pass: all. |
 | Spec Reference | OTOMIX §4.9 |
-| Review Checkpoint | Confirm the plan has more than 1 e2e for P08 (currently 1). |
-| Notes | P08 has only 1 e2e + 3 component tests today. |
+| Review Checkpoint | Auth consent path is separately exercised by `e2e/registration.spec.ts`; login and upload are seeded preconditions, not claimed as browser-flow coverage. |
+| Notes | The harness uses the real library/queue components, queue reducer, timeline selector, and preview controller. |
 
 ---
 

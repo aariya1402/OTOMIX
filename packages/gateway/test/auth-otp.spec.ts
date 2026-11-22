@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
 import { Pool } from 'pg';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 import { createAuthOtpRoutes, FakeSmsProvider } from '../src/routes/auth-otp.js';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -45,7 +46,9 @@ describe('Phone OTP Auth (P07-REG-M04)', () => {
     pool = new Pool({ connectionString: container.getConnectionUri() });
     await pool.query(loadUp('001_core.sql'));
     await pool.query(loadUp('002_rls.sql'));
+    await pool.query(loadUp('007_tracks_source_declarations.sql'));
     await pool.query(loadUp('008_registration.sql'));
+    await pool.query(loadUp('010_source_declaration_registration_scope.sql'));
 
     sms = new FakeSmsProvider();
     redisMock = new Map();
@@ -97,23 +100,22 @@ describe('Phone OTP Auth (P07-REG-M04)', () => {
     await container.stop();
   }, TEST_TIMEOUT);
 
-  const mockReq = (method: string, body: any) => ({
+  const mockReq = (method: string, body: any): IncomingMessage => ({
     method,
     url: '',
     headers: { host: 'localhost', 'content-type': 'application/json' },
     [Symbol.asyncIterator]: async function* () { yield JSON.stringify(body); },
-  });
+  }) as IncomingMessage;
 
-  const mockRes = () => {
+  const mockRes = (): ServerResponse & { readonly status: number; readonly body: string } => {
     let status = 200;
     let body = '';
-    const res: any = {
+    return {
       writeHead: (s: number, h?: any) => { status = s; },
       end: (b: string) => { body = b; },
       get status() { return status; },
       get body() { return body; },
-    };
-    return res;
+    } as ServerResponse & { readonly status: number; readonly body: string };
   };
 
   it('send: valid phone + terms -> sends OTP, returns ttl', async () => {
@@ -141,6 +143,10 @@ describe('Phone OTP Auth (P07-REG-M04)', () => {
     const res = mockRes();
     await routes['/auth/otp/send'](req, res);
     expect(res.status).toBe(400);
+    expect(JSON.parse(res.body)).toEqual({
+      error: 'INVALID_ARGUMENT',
+      message: 'terms_version required',
+    });
   });
 
   it('send: rate limit (4th request) -> 429 with Retry-After', async () => {
@@ -168,7 +174,7 @@ describe('Phone OTP Auth (P07-REG-M04)', () => {
     const verifyReq = mockReq('POST', { phone_e164: phone, code: sentCode, terms_version: 'v1.0' });
     const verifyRes = mockRes();
     await routes['/auth/otp/verify'](verifyReq, verifyRes);
-    expect(verifyRes.status).toBe(200);
+    expect(verifyRes.status).toBe(201);
     const parsed = JSON.parse(verifyRes.body);
     expect(parsed.user_id).toBeDefined();
     expect(parsed.access_token).toBe('mock-token-' + parsed.user_id);
@@ -197,7 +203,7 @@ describe('Phone OTP Auth (P07-REG-M04)', () => {
     const verifyReq1 = mockReq('POST', { phone_e164: phone, code: sentCode, terms_version: 'v1.0' });
     const verifyRes1 = mockRes();
     await routes['/auth/otp/verify'](verifyReq1, verifyRes1);
-    expect(verifyRes1.status).toBe(200);
+    expect(verifyRes1.status).toBe(201);
 
     // Second verify with same code should fail
     const verifyReq2 = mockReq('POST', { phone_e164: phone, code: sentCode, terms_version: 'v1.0' });
@@ -216,6 +222,7 @@ describe('Phone OTP Auth (P07-REG-M04)', () => {
     const v1 = mockReq('POST', { phone_e164: phone, code, terms_version: 'v1.0' });
     const r1 = mockRes();
     await routes['/auth/otp/verify'](v1, r1);
+    expect(r1.status).toBe(201);
     const u1 = JSON.parse(r1.body).user_id;
 
     const sendReq2 = mockReq('POST', { phone_e164: phone, terms_version: 'v1.0' });
@@ -226,6 +233,7 @@ describe('Phone OTP Auth (P07-REG-M04)', () => {
     const v2 = mockReq('POST', { phone_e164: phone, code: code2, terms_version: 'v1.0' });
     const r2 = mockRes();
     await routes['/auth/otp/verify'](v2, r2);
+    expect(r2.status).toBe(200);
     const u2 = JSON.parse(r2.body).user_id;
     expect(u1).toBe(u2);
   });

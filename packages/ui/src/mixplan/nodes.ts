@@ -29,26 +29,36 @@ export interface TransitionNodeOptions {
 }
 
 export function createTransitionNodeBuilder(opts: TransitionNodeOptions) {
-  const nodes: Map<string, TransitionNode> = new Map();
-  const orderedTrackIds: string[] = [];
+  let nodes: Map<string, TransitionNode> = new Map();
+  let orderedTrackIds: string[] = [];
 
   function addTrack(trackId: string): void {
     if (orderedTrackIds.includes(trackId)) return;
+    setTracks([...orderedTrackIds, trackId]);
+  }
 
-    const index = orderedTrackIds.length;
-    orderedTrackIds.push(trackId);
+  function setTracks(trackIds: readonly string[]): void {
+    const nextTrackIds = Array.from(new Set(trackIds));
+    const nextNodes = new Map<string, TransitionNode>();
+    for (let index = 1; index < nextTrackIds.length; index++) {
+      const fromTrackId = nextTrackIds[index - 1];
+      const toTrackId = nextTrackIds[index];
+      if (fromTrackId === undefined || toTrackId === undefined) continue;
 
-    if (index === 0) return;
-
-    const prevId = orderedTrackIds[index - 1];
-    if (!prevId) return;
-    const key = `${prevId}-${trackId}`;
-    nodes.set(key, {
-      fromTrackId: prevId,
-      toTrackId: trackId,
-      plan: null,
-      status: 'pending',
-    });
+      const key = JSON.stringify([fromTrackId, toTrackId]);
+      const existingNode = nodes.get(key);
+      nextNodes.set(
+        key,
+        existingNode ?? {
+          fromTrackId,
+          toTrackId,
+          plan: null,
+          status: 'pending',
+        }
+      );
+    }
+    orderedTrackIds = nextTrackIds;
+    nodes = nextNodes;
   }
 
   async function processAllNodes(): Promise<void> {
@@ -88,6 +98,7 @@ export function createTransitionNodeBuilder(opts: TransitionNodeOptions) {
 
   return {
     addTrack,
+    setTracks,
     processAllNodes,
     getNode(trackId: string): TransitionNode[] {
       return Array.from(nodes.values()).filter(

@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { createLibraryState } from '../src/state/library';
 
 describe('P08-T01-S01-M02 library slice', () => {
-  it('keeps all rows but excludes unmixable and wildcard rows from selectable ids', () => {
+  it('keeps low-mixability and wildcard rows selectable while classifying them for warnings', () => {
     const state = createLibraryState([
       { track_id: 'a', bpm: 120, camelot_key: '1A', energy_stars: 3, mixability: 0.39 },
       { track_id: 'b', bpm: 120, camelot_key: '1A', energy_stars: 3, mixability: 0.40 },
@@ -10,7 +10,7 @@ describe('P08-T01-S01-M02 library slice', () => {
     ]);
 
     expect(state.allIds).toEqual(['a', 'b', 'c']);
-    expect(state.selectableIds).toEqual(['b']);
+    expect(state.selectableIds).toEqual(['a', 'b', 'c']);
     expect(state.wildcardIds).toEqual(['c']);
     expect(state.unmixableIds).toEqual(['a']);
   });

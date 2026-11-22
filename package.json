@@ -8,6 +8,7 @@
         "cucumber:authz": "tsx tools/scripts/generate-authz-feature.ts && cucumber-js --import tsx --require features/support/*.ts --require features/step_definitions/*.ts --tags @authz",
         "build": "pnpm -r build",
         "test": "vitest run",
+        "test:e2e": "playwright test --config tools/playwright.config.ts",
         "lint": "pnpm -r lint",
         "format": "pnpm -r format",
         "conftest:test": "node tools/scripts/conftest-check.js",

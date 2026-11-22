@@ -580,7 +580,7 @@ To prevent acoustic collisions caused by overlapping vocal passages, the analysi
 
 ### 4.5 Mixability Scoring Engine
 
-Before tracks are admitted into set compilation queues, they undergo automated mixability validation. The Mixability Score `M` is:
+Before set compilation, each track receives a Mixability Score `M` used as a preference signal and warning. The score does not by itself admit or reject a track:
 
 ```
 M = 0.4 (E_kick) + 0.3 (C_bass) + 0.2 (S_tempo) + 0.1 (V_tune)
@@ -593,7 +593,7 @@ M = 0.4 (E_kick) + 0.3 (C_bass) + 0.2 (S_tempo) + 0.1 (V_tune)
 | `S_tempo` | Variance in the beat histogram (tempo stability) |
 | `V_tune` | Microtonal tuning relative to A = 440 Hz |
 
-- Tracks scoring **below the unmixable threshold (`M < 0.4`)** are flagged **unmixable** and excluded from automated compilation queues. Tracks with `M ≥ 0.4` become available in the two-column selector.
+- Tracks scoring **below the unmixable threshold (`M < 0.4`)** are flagged **unmixable** and shown with a warning; they remain available for selection. Mixability and Energy affect ranking, never rejection. Camelot compatibility is the only hard gate.
 - Tracks harboring fundamentally unknown tempos or key signatures (such as white-noise sweeps) automatically score **`M = 0`** and are re-classified as **Non-Rhythmic Wildcards**.
 
 ### 4.6 Analysis Engine Details
@@ -621,7 +621,7 @@ The complete lifecycle of audio processing follows a strict data pipeline built 
 
 1. **Ingestion.** Source audio enters the ingestion layer (platform-specific, Section 5).
 2. **Analysis.** Decoded audio buffers pass through the Abstract API Adapter to worker threads executing Essentia WebAssembly analysis routines at **<1.5x real-time**. The pipeline computes base seed BPM, Attack/Body grids, multi-dimensional energy vectors, Camelot key assignments, TensorFlow vocal maps, and Mixability Scores, committing these attributes to the shared Feature Registry.
-3. **Selection.** Tracks meeting the mixability threshold (**M ≥ 0.4**) become available within the two-column track selector. Once the user defines the sequence and validates the Starter Track, the MixPlan Generator builds the Absolute Locked Grid, applies pre-kick offset rules, validates downbeat anchors, flags vocal exclusion zones, and locks transition boundaries strictly to **16-beat windows**.
+3. **Selection.** All analyzed tracks remain available within the two-column track selector; tracks below the mixability threshold (**M < 0.4**) carry a warning and may rank lower. Camelot compatibility is the only hard gate. Once the user defines the sequence and validates the Starter Track, the MixPlan Generator builds the Absolute Locked Grid, applies pre-kick offset rules, validates downbeat anchors, flags vocal exclusion zones, and locks transition boundaries strictly to **16-beat windows**.
 4. **Execution.** Raw `Float32Array` buffers pass **unmodified outside transition zones** to preserve performance. Inside transition windows, the Transition Window Chopping Engine slices buffer data, applies parametric micro-crossfades (`F_fade ≤ crossfadeMs`), quantizes slices to sub-beat resolution (`chopGrid`), and executes Web Audio `playbackRate` automated tempo glides. Real-time phase monitoring and post-transition body-to-attack realignments are managed asynchronously by the Runtime Observer.
 5. **Mastering.** Processed audio streams pass through the EQ-Mastering-Exports port (equalization, multi-band compression, dynamic limiting).
 6. **Output.** Platform-specific output (Section 5 and Section 6).
@@ -643,10 +643,12 @@ The complete lifecycle of audio processing follows a strict data pipeline built 
 **MixPlan recommendation algorithm**
 
 ```
-score = 0.60 × (Camelot Proximity) + 0.30 × (Tempo Delta) + 0.10 × (Energy Progression)
+score = 0.60 × (Mixability) + 0.30 × (Camelot Proximity) + 0.10 × (Tempo Delta)
 ```
 
-- **Tie-breaking:** the 60/30/10 weighting tie-breaks **first on Camelot proximity**, then **strictly limits tempo deltas to <1%**.
+- **Gate:** Camelot compatibility is a hard gate; Mixability is a preference. Energy is not part of this recommendation score.
+- **Tempo limit:** the configurable tempo-delta limit is clamped to 2–20%, defaults to 10%, and is applied as both a candidate filter and tie-break.
+- **Tie-breaking:** rank first by Camelot proximity, then by tempo delta within the configured limit.
 - **Overlays:** identified vocal exclusion zones and computed pre-kick offsets are rendered as **striped overlay warning segments** on the canvas waveforms; vocal zones (`V_map > 0.65`) render as **striped red SVG overlays**.
 
 ---
@@ -763,7 +765,7 @@ Because OTOMIX itself does not clear rights, compliance controls focus on making
 
 | Control | Specification |
 |---|---|
-| Source declaration | At first ingestion and again at each Set Shop publication and export, the user acknowledges a terms-based declaration that they hold the rights or permissions required for the use. Stored in `source_declarations` with `tenant_id`, `user_id`, `scope` (`ingest` / `publish` / `export`), `terms_version`, `declared_at` (UTC). |
+| Source declaration | At first registration, ingestion, and again at each Set Shop publication and export, the user acknowledges a terms-based declaration that they hold the rights or permissions required for the use. Stored in `source_declarations` with `tenant_id`, `user_id`, `scope` (`register` / `ingest` / `publish` / `export`), `terms_version`, `declared_at` (UTC). |
 | Publisher accountability | Publishers are the accountable party for content they list in the Set Shop and on landing pages. |
 | Notice-and-takedown | A takedown request against a Set Shop listing or landing page removes public availability. Manual takedown and any manual override require the **two-tier administrative approval workflow**; execution is logged in the 7-year admin audit trail. |
 | Commercial restriction | Set Shop listing requires an active tier grant (Section 7.3) and a current `publish` declaration. |
@@ -1399,7 +1401,7 @@ CREATE TABLE source_declarations (
   declaration_id uuid PRIMARY KEY,
   tenant_id      text NOT NULL CHECK (tenant_id = 'otomix'),
   user_id        uuid NOT NULL REFERENCES users(user_id),
-  scope          text NOT NULL CHECK (scope IN ('ingest','publish','export')),
+  scope          text NOT NULL CHECK (scope IN ('ingest','publish','export','register')),
   terms_version  text NOT NULL,
   declared_at    timestamptz NOT NULL
 );
