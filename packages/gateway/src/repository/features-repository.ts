@@ -1,6 +1,10 @@
 import type { Pool } from 'pg';
+import { types } from 'pg';
 import { BaseRepository } from './base-repository.js';
 import type { TenantId } from '@otomix/db';
+
+// Configure pg to return timestamptz (oid 1184) as strings with full precision
+types.setTypeParser(1184, (val: string) => val);
 
 export interface FeatureRow {
   feature_id: string;
@@ -14,6 +18,7 @@ export interface FeatureRow {
   mixability: number;
   groove_mode: string;
   registry_json: object;
+  analyzed_at: string;
 }
 
 export class FeaturesRepository extends BaseRepository {
@@ -42,7 +47,7 @@ export class FeaturesRepository extends BaseRepository {
                energy_scalar, energy_stars, mixability, groove_mode, registry_json, analyzed_at
         FROM features
         WHERE tenant_id = current_setting('app.tenant_id', true)
-          AND ($1::timestamptz IS NULL OR analyzed_at > $1 OR (analyzed_at = $1 AND feature_id > $2))
+          AND ($1::timestamptz IS NULL OR (analyzed_at, feature_id) > ($1, $2))
         ORDER BY analyzed_at ASC, feature_id ASC
         LIMIT $3
         `,
@@ -55,7 +60,7 @@ export class FeaturesRepository extends BaseRepository {
       if (hasMore && items.length > 0) {
         const last = items[items.length - 1];
         nextCursor = {
-          analyzed_at: last.analyzed_at.toISOString(),
+          analyzed_at: last.analyzed_at,
           feature_id: last.feature_id,
         };
       }

@@ -8,7 +8,7 @@ export interface CatalogFeaturesDeps {
   maxLimit?: number;
 }
 
-function encodeCursor(analyzed_at: Date | string, feature_id: string): string {
+function encodeCursor(analyzed_at: string, feature_id: string): string {
   return Buffer.from(JSON.stringify({ a: analyzed_at, i: feature_id })).toString('base64url');
 }
 
