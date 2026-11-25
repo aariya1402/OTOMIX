@@ -24,7 +24,7 @@ const PLACEHOLDER_SCHEMA_VERSION = '1.2.0';
 export async function commitIngestTransaction(
   client: PoolClient,
   data: CommitIngestData,
-  deps: CommitIngestDeps = {},
+  deps: CommitIngestDeps = {}
 ): Promise<string> {
   const { trackId, isNew } = await upsertTrackDedup(
     client,
@@ -33,7 +33,7 @@ export async function commitIngestTransaction(
     data.contentSha256,
     data.format,
     data.durationMs,
-    data.storageKey,
+    data.storageKey
   );
 
   if (deps.failAfterTrackInsert) {
@@ -60,7 +60,7 @@ export async function commitIngestTransaction(
         0.5,
         'straight',
         JSON.stringify({}),
-      ],
+      ]
     );
   }
 
@@ -73,7 +73,7 @@ export async function commitIngestTransaction(
   await client.query(
     `INSERT INTO outbox (message_id, tenant_id, topic, payload)
      VALUES ($1, $2, $3, $4)`,
-    [messageId, data.tenantId, 'otomix.track.ingested', payload],
+    [messageId, data.tenantId, 'otomix.track.ingested', payload]
   );
 
   return trackId;

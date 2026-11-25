@@ -14,9 +14,7 @@ interface AudioWorkletProcessorInstance {
   readonly port: WorkletPort;
 }
 
-type AudioWorkletProcessorCtor = new (
-  ...args: never[]
-) => AudioWorkletProcessorInstance;
+type AudioWorkletProcessorCtor = new (...args: never[]) => AudioWorkletProcessorInstance;
 
 const globalRef = globalThis as unknown as {
   AudioWorkletProcessor?: AudioWorkletProcessorCtor;

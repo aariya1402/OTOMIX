@@ -8,15 +8,15 @@ export interface ComponentScores {
 }
 
 export const DEFAULT_WEIGHTS: Record<ComponentKey, number> = {
-  mixability: 0.40,
-  camelot: 0.30,
-  tempo: 0.20,
-  energy: 0.10,
+  mixability: 0.4,
+  camelot: 0.3,
+  tempo: 0.2,
+  energy: 0.1,
 };
 
 export function combineScores(
   scores: ComponentScores,
-  weights: Record<ComponentKey, number> = DEFAULT_WEIGHTS,
+  weights: Record<ComponentKey, number> = DEFAULT_WEIGHTS
 ): number {
   return (
     scores.mixability * weights.mixability +

@@ -1,10 +1,10 @@
-import { GrooveMode } from '../groove/types.js';
+import type { GrooveMode } from '../groove/types.js';
 
 /**
  * Applies the swing offset to every second slice boundary in place.
  * Only 'Swing' mode mutates the buffer. Odd indices (off-beats) are advanced by
  * `swingBeats`; even indices (on-beats) remain untouched.
- * 
+ *
  * Rule 23: Mutates the caller-supplied Float32Array in place (zero allocation).
  * Rule 26: All units are beats. No seconds, no BPM inside.
  */

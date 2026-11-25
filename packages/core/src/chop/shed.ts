@@ -9,7 +9,7 @@
  * Rule 26: Pure logic, no seconds.
  */
 
-import { ChopGridDenominator } from './slice.js';
+import type { ChopGridDenominator } from './slice.js';
 import { widenChopGridIfNeeded } from './widen-grid.js';
 
 /**

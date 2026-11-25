@@ -4,7 +4,7 @@
 // This bypass is scoped to this file only and must be removed once GAP-018 is resolved.
 import { Worker } from 'node:worker_threads';
 import { createDegradedModeController, DegradedModeController } from '@otomix/core';
-import { DEFAULT_POOL_SIZE_PER_TENANT, DEFAULT_SATURATION_THRESHOLD } from './constants';
+import { DEFAULT_POOL_SIZE_PER_TENANT, DEFAULT_SATURATION_THRESHOLD } from './constants.js';
 
 export interface WorkerPoolConfig {
   sizePerTenant?: number;
@@ -52,9 +52,15 @@ class TenantPoolImpl implements TenantPool {
     this.initialized = true;
   }
 
-  size(): number { return this.sizePerTenant; }
-  pending(): number { return this.queue.length; }
-  isDegraded(): boolean { return this.degraded.isActive(); }
+  size(): number {
+    return this.sizePerTenant;
+  }
+  pending(): number {
+    return this.queue.length;
+  }
+  isDegraded(): boolean {
+    return this.degraded.isActive();
+  }
 
   private maybeDegrade(): void {
     const utilization = (this.active + this.queue.length) / this.sizePerTenant;

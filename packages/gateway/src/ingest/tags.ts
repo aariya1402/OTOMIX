@@ -19,7 +19,7 @@ function buildDefaultLogger(): Logger {
 export function extractTagsForGateway(
   bytes: Uint8Array,
   format: DetectedFormat,
-  deps: TagsDeps = {},
+  deps: TagsDeps = {}
 ): TagsResult {
   const result = extractTags(bytes, format);
   if (result.hasPii) {

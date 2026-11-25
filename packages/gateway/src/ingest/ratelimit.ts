@@ -62,7 +62,7 @@ export function createRateLimitMiddleware(deps: RateLimitDeps = {}) {
   return function rateLimitMiddleware(
     req: IncomingMessage,
     res: ServerResponse,
-    next: (err?: Error) => void,
+    next: (err?: Error) => void
   ): void {
     const key = keyOf(req);
     if (key === null) {

@@ -1,11 +1,7 @@
 // OTOMIX §3.2 · Mother §2.2
 import { hammingWindow, WINDOW_SIZE } from './hamming.js';
 import { fft } from './fft.js';
-import {
-  ATTACK_HOP_SIZE,
-  ATTACK_CUTOFF_HZ,
-  SAMPLE_RATE,
-} from '../constants/grid.js';
+import { ATTACK_HOP_SIZE, ATTACK_CUTOFF_HZ, SAMPLE_RATE } from '../constants/grid.js';
 
 const HOP_SIZE = ATTACK_HOP_SIZE;
 const CUTOFF_HZ = ATTACK_CUTOFF_HZ;

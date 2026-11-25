@@ -98,6 +98,137 @@
 ---
 ## Phase P08
 
+### [CONSTRAINT-001] [PHASE: P04, P08] [BLOCKER] Architecture Constraint: No Time-Stretch or Pitch-Shift
+- **Status:** resolved (2026-11-25)
+- **Decision:** OTOMIX uses **Transition Window Chopping Engine** (P04-T02) and slice-based BPM matching exclusively. **No Time-Stretch, no Pitch-Shift, no elastique, no Rubber Band, no SoundTouch.**
+- **Impact:** 
+  - `P04-T01-S02-M02` — `[CANCELLED: Legacy Arch]` (pitch node at ±1 semitone)
+  - `P04-T01-S02-M03` — `[CANCELLED: Legacy Arch]` (pitch node at ±8% cap)
+  - `OQ-03` — **CLOSED**: "Rejected. OTOMIX uses Chopping/Slicing for BPM matching, no Time-Stretch or Pitch-Shift."
+  - `OQ-05` — Already resolved: '<10 ms' refers to Algorithmic Latency, not CPU time.
+- **Enforcement:** Any future task proposing Time-Stretch or Pitch-Shift must be rejected at planning. This constraint supersedes any legacy architecture references in P04.
+
+### [CONSTRAINT-002] [PHASE: P04] [BLOCKER] Architecture Constraint: No Half-Time/Double-Time Mapping
+- **Status:** resolved (2026-11-25)
+- **Decision:** OTOMIX **filters incompatible BPMs** rather than mapping half-time/double-time. Tracks with BPM outside the compatible window are excluded from transition candidates. No BPM halving/doubling logic is required.
+- **Impact:**
+  - `P04-T01-S01-M02` — `[CANCELLED: Legacy Arch]` (half-time detection)
+  - `P04-T01-S01-M03` — `[CANCELLED: Legacy Arch]` (double-time detection)
+  - `OQ-18` — **CLOSED**: "Cancelled/Rejected. The architecture filters incompatible BPMs; no half/double-time mapping is required."
+- **Enforcement:** Any future task proposing half-time/double-time BPM mapping must be rejected at planning.
+
+### [RESOLUTION-001] [PHASE: P05] [BLOCKER] OQ-20: Static vs Dynamic BPM Classification
+- **Status:** resolved (2026-11-25)
+- **Decision:** **Scenario 3 — Second-Peak with Tempo-Relation Filter.** A track is flagged `bpm_dynamic = true` only if a second histogram peak is musically related (ratio ∈ {0.5, 2.0, 1.5, 0.667, 1.333} ±5%) AND its strength ≥ 40% of the primary peak. Otherwise `bpm_dynamic = false`.
+- **Configuration (analysis-config.json):**
+  ```json
+  "bpmDynamic": {
+    "tempoRelationTolerance": 0.05,
+    "secondPeakStrengthRatio": 0.40,
+    "tempoRatios": [0.5, 2.0, 1.5, 0.6667, 1.3333]
+  }
+  ```
+- **Impact:** Replaces spread-based `isBpmDynamic()` in `packages/core/src/features/bpm-seed.ts`. Adds `bpm_dynamic` field to Feature Registry v1.2 schema.
+- **Architecture Compliance:** Beat-index aligned (uses BPM ratios, not seconds). No hardcoded values. Config-driven.
+
+### [RESOLUTION-002] [PHASE: P08] [BLOCKER] OQ-09: MixPlan Scoring Formulas (60/30/10)
+- **Status:** resolved (2026-11-25)
+- **Decision:** Three-component scoring with beat-index alignment:
+  1. **Camelot Proximity (60%):** Circular wheel distance `d = min(|k1-k2|, 24-|k1-k2|)`. Base score = `1 - d/12`. Relative major/minor bonus = +0.1 (e.g., 8A↔8B). Clamped to [0,1].
+  2. **Tempo Delta (30%):** Gaussian decay `exp(-0.5 * (Δbpm/bpm / σ)²)` with `σ = 0.02` (2%). At 1% delta → ~0.88, 3% → ~0.61, 6% → ~0.14. Beat-index: uses BPM ratio, not seconds.
+  3. **Energy Progression (10%):** Directional build preference. `ΔE = E_B - E_A` (energy stars 1-5). If `ΔE ≥ 0`: `0.5 + ΔE × 0.125`. If `ΔE < 0`: `0.5 + ΔE × 0.0625` (gentler penalty for drops).
+- **Configuration (analysis-config.json):**
+  ```json
+  "mixplanScoring": {
+    "weights": { "camelot": 0.60, "tempo": 0.30, "energy": 0.10 },
+    "camelot": { "modeBonus": 0.10 },
+    "tempo": { "gaussianSigma": 0.02 },
+    "energy": { "buildGain": 0.125, "dropPenalty": 0.0625 }
+  }
+  ```
+- **Impact:** Unblocks `P08-T04-S01-M01` and `P08-T04-S01-M02`. Unit test precision 1e-9.
+- **Architecture Compliance:** All ratios (BPM, Camelot wheel distance). No seconds. Config-driven.
+
+### [RESOLUTION-003] [PHASE: P06, P09] [BLOCKER] OQ-10: Publisher/Buyer Authorization Model
+- **Status:** resolved (2026-11-25)
+- **Decision:** **Dynamic RBAC (GAP-015) supersedes this OQ.** The RBAC migration (RBAC-M01..M12) is COMPLETE per supplement. Publishers and buyers are modeled as **roles** in the dynamic permissions catalog, not as new scopes under End User.
+  - **Publisher role:** `publisher` — permissions: `catalog:read`, `setshop:publish`, `setshop:manage_own`, `rights:declare`
+  - **Buyer role:** `buyer` — permissions: `catalog:read`, `setshop:purchase`, `setshop:download_own`
+  - **Scopes remain minimal:** `end_user:read`, `end_user:write`, `dsp:admin`, `admin:*`
+  - **Direct grants + groups** handle per-publisher/buyer namespace isolation (RLS + namespace grants).
+- **Impact:** Unblocks `P06-T02-S03-M01` (SUPERSEDED by RBAC-M11) and `P09-T03-S01-M01`. Publisher namespace data model uses dynamic RBAC groups.
+- **Architecture Compliance:** Dynamic RBAC is the single source of truth. No static scope lists.
+
+### [RESOLUTION-004] [PHASE: P07, P09] [BLOCKER] OQ-11: Local-Copyright Controls Adequacy
+- **Status:** resolved (2026-11-25)
+- **Decision:** **Owner confirmed (2026-11-14):** Source declarations are mandatory; site carries no copyright liability; `terms_version v1.0` effective 2026-11-14. The two-tier takedown workflow (P09-T04) is adequate for target market.
+- **Implementation Requirements:**
+  1. **Mandatory source declaration** on every ingest (`P07-T02-S01-M03`): user must declare `source_type ∈ {original, licensed, remix, bootleg, other}` + `rights_holder` + `license_ref` (nullable).
+  2. **Notice-and-takedown endpoint** (`P09-T04-S01-M01`): `POST /api/v1/takedown` with signed attestation.
+  3. **Two-tier workflow:** Tier 1 = soft removal (hide from catalog, preserve data). Tier 2 = hard deletion (GDPR-style purge) after 30 days or court order.
+  4. **Terms acceptance gate:** Users must accept `terms_version` before first ingest/upload.
+- **Impact:** Unblocks `P07-T05-S01-M01` and `P09-T04-S01-M01/M02`.
+- **Architecture Compliance:** Server-side validation. No client trust. Audit trail on all declarations.
+
+### [RESOLUTION-005] [PHASE: P05] [BLOCKER] OQ-21: Compression Penalty on Dynamics Component
+- **Status:** resolved (2026-11-25)
+- **Decision:** **Dynamic Range (DR) based penalty with configurable threshold.** The Dynamics component of Mixability Score penalizes over-compressed tracks.
+  - **Metric:** `DR = peak_level - RMS_level` (in dB, measured on full track). Higher DR = more dynamic.
+  - **Penalty function:** `penalty = max(0, (DR_threshold - DR) / DR_threshold) ^ penalty_exponent`
+  - **Configuration (analysis-config.json):**
+    ```json
+    "dynamicsCompressionPenalty": {
+      "drThresholdDb": 8.0,
+      "penaltyExponent": 1.5,
+      "maxPenalty": 0.5
+    }
+    ```
+  - **Interpretation:** Tracks with DR ≥ 8 dB get 0 penalty. DR = 6 dB → penalty ≈ 0.18. DR = 4 dB → penalty ≈ 0.42. Capped at 0.5.
+  - **Dynamics score:** `dynamics_score = (1 - penalty) * base_dynamics` where `base_dynamics` comes from spectral flux / crest factor analysis.
+- **Impact:** Unblocks `P05-T02-S02-M03`. Feeds into Mixability Score (P05-T02-S02-M06).
+- **Architecture Compliance:** DR measured in dB (ratio, beat-index agnostic but time-domain). Config-driven. No hardcoded thresholds.
+
+### [RESOLUTION-006] [PHASE: P05] [BLOCKER] OQ-22: Scaling Mixability Sub-Components to [0,1]
+- **Status:** resolved (2026-11-25)
+- **Decision:** **Min-max normalization with configurable reference ranges per component.** Each sub-component is scaled independently to [0,1] using domain-appropriate reference ranges.
+  - **E_kick (Kick Energy):** `min(1, kick_energy_db / ref_kick_db)` where `ref_kick_db = 6.0` (strong kick reference). From Attack Grid kick prominence.
+  - **C_bass (Bass Coherence):** `1 - min(1, bass_phase_incoherence / ref_incoherence)` where `ref_incoherence = 0.3`. From Body Grid bass phase alignment.
+  - **S_tempo (Tempo Stability):** `1 - bpm_dynamic_penalty` where `bpm_dynamic_penalty = 0.3 if bpm_dynamic else 0.0`. Static tempo = 1.0, dynamic = 0.7.
+  - **V_tune (Tuning Quality):** `1 - min(1, tuning_deviation_cents / ref_deviation)` where `ref_deviation = 50` cents (quarter-tone). From Essentia `TuningFrequency` vs nearest semitone.
+  - **Configuration (analysis-config.json):**
+    ```json
+    "mixabilityScaling": {
+      "kick": { "refEnergyDb": 6.0 },
+      "bass": { "refIncoherence": 0.3 },
+      "tempo": { "dynamicPenalty": 0.3 },
+      "tune": { "refDeviationCents": 50 }
+    }
+    ```
+  - **Final Mixability Score:** `0.35*E_kick + 0.25*C_bass + 0.25*S_tempo + 0.15*V_tune` (weights from spec).
+- **Impact:** Unblocks `P05-T02-S02-M06`. Feeds into MixPlan generator (P08).
+- **Architecture Compliance:** All reference values in config. Ratios/cents (not seconds). Component independence.
+
+### [RESOLUTION-007] [PHASE: P08] [BLOCKER] OQ-24: MixPlan Tie-Break "<1% Tempo Delta" Meaning
+- **Status:** resolved (2026-11-25)
+- **Decision:** **BOTH filter AND order.** The tie-break rule "strictly limits tempo deltas to <1%" operates in two stages:
+  1. **FILTER:** Candidates with `tempo_delta_pct ≥ 1%` are **excluded** from the recommendation pool entirely (hard gate).
+  2. **ORDER:** Among remaining candidates (<1% delta), sort by `tempo_delta_pct` ascending (closest tempo first) as the final tie-breaker after Camelot + Energy scores.
+- **Rationale:** 
+  - "Strictly limits" → hard exclusion (filter).
+  - "Tie-break" → ordering within allowed set.
+  - Both together ensure DJ-friendly transitions: no >1% tempo jumps, and prefer closest tempo.
+- **Configuration (analysis-config.json):**
+  ```json
+  "mixplanTieBreak": {
+    "maxTempoDeltaPct": 0.01,
+    "orderByTempoDeltaAsc": true
+  }
+  ```
+- **Impact:** Unblocks `P08-T04-S01-M03`. Implemented in MixPlan generator candidate filtering + sorting pipeline.
+- **Architecture Compliance:** Beat-index (BPM ratio). Config-driven. Clear two-stage semantics.
+
+## Phase P08
+
 ### [CONFLICT-007] [PHASE: P08] [HIGH] BDC schema uses `t_start`/`t_end` in seconds â€” Rule 26 tension- **Status:** open
 
 - **Status:** open`r`n- **Discovered:** 2026-11-13

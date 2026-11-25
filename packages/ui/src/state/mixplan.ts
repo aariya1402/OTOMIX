@@ -27,8 +27,7 @@ export interface StarterCandidate {
   readonly camelotValid: boolean;
 }
 
-const SYSTEM_HARD_GATE_WARNING =
-  'SYSTEM_HARD_GATE: candidate fails the Camelot hard gate';
+const SYSTEM_HARD_GATE_WARNING = 'SYSTEM_HARD_GATE: candidate fails the Camelot hard gate';
 const USER_FORCE_INSERT_WARNING =
   'USER_FORCE_INSERT: user forced a sub-threshold track into the plan';
 
@@ -39,7 +38,7 @@ export function emptyMixplanState(): MixplanState {
     forced: false,
     forceInsertedTracks: [],
     fault: null,
-    warnings: []
+    warnings: [],
   };
 }
 
@@ -53,7 +52,7 @@ export function selectStarter(candidate: StarterCandidate): MixplanState {
       forced: false,
       forceInsertedTracks: [],
       fault: 'SYSTEM',
-      warnings: [SYSTEM_HARD_GATE_WARNING]
+      warnings: [SYSTEM_HARD_GATE_WARNING],
     };
   }
   return {
@@ -62,7 +61,7 @@ export function selectStarter(candidate: StarterCandidate): MixplanState {
     forced: false,
     forceInsertedTracks: [],
     fault: null,
-    warnings: []
+    warnings: [],
   };
 }
 
@@ -84,6 +83,6 @@ export function forceInsert(
     forced: true,
     forceInsertedTracks: [...current.forceInsertedTracks, candidate.trackId],
     fault,
-    warnings
+    warnings,
   };
 }

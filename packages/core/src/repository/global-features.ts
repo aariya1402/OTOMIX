@@ -5,7 +5,7 @@
 //
 // Rule 26: No time-based musical identifiers.
 
-import { Pool } from 'pg';
+import type { Pool } from 'pg';
 
 export interface GlobalFeatureRecord {
   readonly contentSha256: string;
@@ -21,7 +21,7 @@ export class GlobalFeaturesRepository {
   public async upsertFeature(
     contentSha256: string,
     data: Record<string, unknown>,
-    version: string,
+    version: string
   ): Promise<void> {
     const query = `
       INSERT INTO global_track_metadata (content_sha256, raw_analysis_data, analysis_version)
@@ -59,6 +59,7 @@ export class GlobalFeaturesRepository {
       WHERE CAST(split_part(analysis_version, '.', 1) AS INTEGER) < $1
       RETURNING content_sha256
     `;
-    const result = await this.pool.query(query, [major]);
-    return result.rows.map((r: any) => r.content_sha256);
-  }}
+    const result = await this.pool.query<{ content_sha256: string }>(query, [major]);
+    return result.rows.map((r) => r.content_sha256);
+  }
+}

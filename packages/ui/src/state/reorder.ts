@@ -30,11 +30,19 @@ export function recomputeOnReorder(
   for (const trackId of newOrder) {
     const candidate = getCandidate(trackId);
     if (!candidate) {
-      warnings.push("Track not found: " + trackId);
+      warnings.push('Track not found: ' + trackId);
       continue;
     }
     if (candidate.mixabilityScore < minMix) {
-      warnings.push("Track " + trackId + " removed: mixability (" + candidate.mixabilityScore + ") fell below gate (" + minMix + ").");
+      warnings.push(
+        'Track ' +
+          trackId +
+          ' removed: mixability (' +
+          candidate.mixabilityScore +
+          ') fell below gate (' +
+          minMix +
+          ').'
+      );
       continue;
     }
     validPlan.push(trackId);

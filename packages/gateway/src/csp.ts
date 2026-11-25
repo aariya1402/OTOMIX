@@ -13,7 +13,10 @@ export interface CspConfig {
 
 export class CspConfigError extends Error {
   readonly code = 'INVALID_CSP_CONFIG' as const;
-  constructor(message: string) { super(message); this.name = 'CspConfigError'; }
+  constructor(message: string) {
+    super(message);
+    this.name = 'CspConfigError';
+  }
 }
 
 const FORBIDDEN_SOURCES = ['*', "'unsafe-inline'"];
@@ -60,7 +63,11 @@ export function buildCspHeader(config: CspConfig = {}): string {
 
 export function createCspMiddleware(config: CspConfig = {}) {
   const header = buildCspHeader(config);
-  return function cspMiddleware(_req: IncomingMessage, res: ServerResponse, next: (err?: Error) => void): void {
+  return function cspMiddleware(
+    _req: IncomingMessage,
+    res: ServerResponse,
+    next: (err?: Error) => void
+  ): void {
     res.setHeader('Content-Security-Policy', header);
     next();
   };

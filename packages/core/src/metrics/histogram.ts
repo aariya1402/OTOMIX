@@ -15,7 +15,7 @@ export class Histogram {
     this.records.push({ value, timestamp: Date.now() });
   }
 
-  getRecords(): ReadonlyArray<MetricRecord> {
+  getRecords(): readonly MetricRecord[] {
     return this.records;
   }
 

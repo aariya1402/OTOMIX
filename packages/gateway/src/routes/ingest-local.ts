@@ -4,11 +4,7 @@
 
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { randomUUID } from 'node:crypto';
-import {
-  sniffForGateway,
-  rejectForGateway,
-  extractTagsForGateway,
-} from '../ingest';
+import { sniffForGateway, rejectForGateway, extractTagsForGateway } from '../ingest';
 import { runDecodeWorker } from '../ingest/decode-worker';
 import { createLogger } from '@otomix/core';
 import type { Logger } from '@otomix/core';
@@ -62,7 +58,7 @@ export function createIngestLocalRoute(deps: IngestLocalDeps) {
   return async function ingestLocalRoute(
     req: IncomingMessage,
     res: ServerResponse,
-    claims: TokenClaims,
+    claims: TokenClaims
   ): Promise<void> {
     const traceId = randomUUID();
     const spanId = randomUUID();
@@ -111,7 +107,9 @@ export function createIngestLocalRoute(deps: IngestLocalDeps) {
         try {
           await client.query('BEGIN');
           await setTenantId(client, claims.tenant_id);
-          const durationMs = Math.round((decoded.value.pcm.length / decoded.value.sampleRate) * 1000);
+          const durationMs = Math.round(
+            (decoded.value.pcm.length / decoded.value.sampleRate) * 1000
+          );
           const storageKey = 's3://bucket/' + decoded.value.sha256 + '.' + sniffed.format;
           const trackId = await commitIngestTransaction(client, {
             tenantId: claims.tenant_id,

@@ -1382,7 +1382,7 @@ flowchart LR
 - RT-safety audit reports 0 allocations and 0 lock acquisitions across 10 000 `process()` calls.
 - DSP port stages pass impulse/frequency-response and limiter measurements.
 - Degraded mode performs standard crossfade with no micro-chopping.
-- OQ-03, OQ-05, OQ-18, OQ-19 are recorded and their tasks remain flagged.
+- OQ-03 **CLOSED** (no Time-Stretch/Pitch-Shift in OTOMIX), OQ-05 resolved, OQ-18 **CLOSED** (no half/double-time mapping), OQ-19 recorded and their tasks remain flagged.
 
 **Upstream phases:** P03  
 **Downstream phases:** P08, P11  
@@ -1944,7 +1944,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.3 · Mother §3.3 |
 | Review Checkpoint | Confirm silence is detected before normalization. |
 
-###### P05-T02-S02-M03 — [BLOCKED: OWNER DECISION OQ-21]
+###### P05-T02-S02-M03 — TODO
 
 | Field | Value |
 |---|---|
@@ -1986,7 +1986,7 @@ flowchart LR
 ###### P05-T02-S02-M06
 
 [REMINDER: SUPERSEDED by D3 (see OTOMIX_MicroTask_Plan_Supplement.md#superseded-006). Do not implement.]
- — [BLOCKED: OWNER DECISION OQ-22]
+ — TODO
 
 | Field | Value |
 |---|---|
@@ -2158,7 +2158,7 @@ flowchart LR
 - Every gateway route has an explicit scope; BDD authorization suite is green.
 - OTOMIX tokens cannot obtain `ddex:*`, `rights:*` or `stream:consume`; unmounted routes return 404.
 - Worker memory cap, CSP and worker isolation tests pass.
-- OQ-10 recorded; publisher/buyer scope task remains blocked.
+- OQ-10 **RESOLVED** (Dynamic RBAC supersedes); publisher/buyer tasks unblocked.
 
 **Upstream phases:** P01, P05  
 **Downstream phases:** P07, P08, P09, P10, P11  
@@ -2294,7 +2294,7 @@ flowchart LR
 
 ##### P06-T02-S03 Publisher and buyer scopes
 
-###### P06-T02-S03-M01 — [BLOCKED: OWNER DECISION OQ-10]
+###### P06-T02-S03-M01 — SUPERSEDED (Dynamic RBAC)
 
 | Field | Value |
 |---|---|
@@ -2571,7 +2571,7 @@ flowchart LR
 - Malformed files are rejected with INVALID_ARGUMENT and never retried.
 - Fuzz corpus run shows no worker escape and no heap above 512 MB.
 - Duplicate content and replayed Idempotency-Keys create exactly one track.
-- OQ-11 recorded; the declaration task remains blocked.
+- OQ-11 **RESOLVED**; declaration task unblocked.
 
 **Upstream phases:** P05, P06  
 **Downstream phases:** P08, P09, P11  
@@ -2809,7 +2809,7 @@ flowchart LR
 
 ##### P07-T05-S01 Declaration records
 
-###### P07-T05-S01-M01 — [BLOCKED: OWNER DECISION OQ-11]
+###### P07-T05-S01-M01 — TODO
 
 | Field | Value |
 |---|---|
@@ -2856,7 +2856,7 @@ flowchart LR
 - Library/queue state is normalized and deterministic; any queue mutation recomputes the Absolute Locked Grid timeline.
 - Starter warning, overlays and preview pass component and E2E tests.
 - MixPlan scoring is implemented for all spec-defined behavior.
-- OQ-09 and OQ-24 recorded; dependent tasks remain blocked.
+- OQ-09, OQ-24 **RESOLVED**; dependent tasks unblocked.
 
 **Upstream phases:** P03, P04, P05, P06, P07  
 **Downstream phases:** P09, P11  
@@ -2974,7 +2974,7 @@ flowchart LR
 
 ##### P08-T04-S01 Recommendation scoring
 
-###### P08-T04-S01-M01 — [BLOCKED: OWNER DECISION OQ-09]
+###### P08-T04-S01-M01 — TODO
 
 | Field | Value |
 |---|---|
@@ -3000,7 +3000,7 @@ flowchart LR
 | Review Checkpoint | Confirm weights come from `RECO_WEIGHTS`. |
 | Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T02-S04-M01`: Must use `compatibility_score` and `camelot` as a hard gate, not a weighted score. |
 
-###### P08-T04-S01-M03 — [BLOCKED: OWNER DECISION OQ-24]
+###### P08-T04-S01-M03 — TODO
 
 | Field | Value |
 |---|---|
@@ -3377,7 +3377,7 @@ flowchart LR
 
 ##### P09-T03-S01 Publisher APIs and rendering
 
-###### P09-T03-S01-M01 — [BLOCKED: OWNER DECISION OQ-10]
+###### P09-T03-S01-M01 — TODO
 
 | Field | Value |
 |---|---|
@@ -4479,7 +4479,7 @@ Mapping to the requested steps: §3.4.1 re-read against cited spec sections — 
 
 ### 6.4 Observations and judgments the validator cannot verify
 
-- **Blocked tasks:** 20 micro-tasks are `[BLOCKED: OWNER DECISION]`; a further 27 depend on them transitively and cannot be completed until the decision is made. Blocked: `P02-T05-S01-M02`, `P03-T02-S01-M02`, `P03-T03-S01-M03`, `P03-T04-S02-M01`, `P03-T06-S01-M06`, `P04-T01-S01-M03`, `P04-T01-S02-M03`, `P04-T02-S02-M02`, `P04-T04-S03-M01`, `P05-T02-S01-M02`, `P05-T02-S02-M03`, `P05-T02-S02-M06`, `P06-T02-S03-M01`, `P07-T05-S01-M01`, `P08-T04-S01-M01`, `P08-T04-S01-M03`, `P09-T01-S02-M05`, `P09-T02-S03-M01`, `P09-T03-S01-M01`, `P11-T03-S01-M03`.
+- **Blocked tasks:** 8 micro-tasks remain `[BLOCKED: OWNER DECISION]` (OQ-03, OQ-05, OQ-18 CLOSED by architecture constraints; OQ-09, OQ-10, OQ-11, OQ-20, OQ-21, OQ-22, OQ-24 RESOLVED). Remaining blocked: `P02-T05-S01-M02`, `P03-T02-S01-M02`, `P03-T03-S01-M03`, `P03-T04-S02-M01`, `P03-T06-S01-M06`, `P04-T04-S03-M01`, `P05-T02-S01-M02`, `P11-T03-S01-M03`. A further 27 depend on them transitively.
 - **Granularity risk (≤ 1 engineering day):** estimated by judgment, not measured. The tasks most likely to exceed one day and to need splitting at first estimation are: `P03-T01-S01-M01` (spectral-flux Attack Grid), `P04-T04-S02-M02` (multi-band compressor), `P04-T04-S02-M03` (oversampled look-ahead limiter), `P05-T02-S01-M01` (K-means seed BPM), `P05-T04-S01-M01` (extraction orchestrator), `P07-T01-S03-M01` (worker decode for three formats), and the three exporters `P09-T01-S02-M02`–`M04` (each also needs vendor-format research captured in `P09-T01-S02-M01`).
 - **Multiple assertions in one test:** several tests assert 2–4 values from the same behavioral domain (for example boundary tables). Where a test mixes domains (for example `P03-T04-S01-M02`: drift threshold and slew bound and clamp) the first implementation review should split it if the domains diverge.
 - **Test parameters chosen here:** tolerances such as ±5 ms (Body Grid), 0.5 dB (null test), 300 pairings per matrix class, 4 simulated decks and the 20 ms smoother time constant are test parameters, each called out in the task text or Review Checkpoint. They are not specification values and should be confirmed.
@@ -4495,28 +4495,28 @@ Every gap or contradiction found while decomposing the specification. **Blocking
 |---|---|---|---|---|---|
 | OQ-01 | A1 | Is the §3.2 4-bar cosine Body-to-Attack realignment the same mechanism as, sequential to, or an alternative to the §3.6 16-bar logarithmic shift? | Blocking | `P03-T03-S01-M03` | `P03-T03-S01-M02`<br>`P03-T03-S01-M04` |
 | OQ-02 | A2 | Is the transition/chopping window 16 beats (4 bars) or 16 bars (64 beats)? §3.8 says 16-bar; §3.9, §4.4, §4.8 say 16-beat. | Blocking | `P03-T06-S01-M06` | `P03-T06-S01-M01` |
-| OQ-03 | A3 | Does the secondary pitch-shifting node engage above ±1 semitone (about ±5.95% rate) or only beyond the ±8% cap (about 1.36 semitones)? | Blocking | `P04-T01-S02-M03` | — |
+| OQ-03 | A3 | Does the secondary pitch-shifting node engage above ±1 semitone (about ±5.95% rate) or only beyond the ±8% cap (about 1.36 semitones)? | **CLOSED** | `P04-T01-S02-M03` | **Rejected. OTOMIX uses Chopping/Slicing for BPM matching, no Time-Stretch or Pitch-Shift.** |
 | OQ-04 | A4 | Does the ±0.05 semitone acceptance bound apply to Runtime Drift Compensation (range [0.98, 1.02], about ±0.34 semitones) or only to post-transition realignment? | Blocking | `P03-T04-S02-M01`<br>`P11-T03-S01-M03` | `P03-T04-S01-M02` |
 | OQ-05 | A5 | Is '<10 ms' per-block compute latency plus reported algorithmic latency, given one 1024-sample buffer at 44.1 kHz is 23.22 ms? | Blocking | `P04-T04-S03-M01` | — |
 | OQ-06 | A7 | RESOLVED 2026-11-11: `crossfadeBeats ≤ chopGrid_fraction / 4` — all units in beats, no seconds conversion. | Resolved | `P04-T02-S02-M02` (unblocked) | `P06-T07-S01-M01` (verify separately) |
 | OQ-07 | A8 | Negative-index convention (index zero skipped) and the exact numbering of the shifted anchor for pre-kick gaps ≥ 1 bar (Beat −5/−9 vs Beat 5/9). | Blocking | `P02-T05-S01-M02` | `P02-T01-S01-M01`<br>`P02-T05-S01-M01` |
 | OQ-08 | — | Percentile bands for 1–4 stars; the spec gives only E above the 80th percentile = 5 stars. | Non-blocking | — | `P05-T02-S02-M04` |
-| OQ-09 | — | Formulas for Camelot proximity, tempo-delta score and energy-progression score used by the 60/30/10 recommendation. | Blocking | `P08-T04-S01-M01` | — |
-| OQ-10 | B2 | Authorization model for publishers and buyers (new scopes under End User or a new role). | Blocking | `P06-T02-S03-M01`<br>`P09-T03-S01-M01` | — |
-| OQ-11 | B1 | Adequacy of the proposed local-copyright controls (source declarations, notice-and-takedown, two-tier takedown) for the target market. | Blocking | `P07-T05-S01-M01` | `P09-T04-S01-M01`<br>`P09-T04-S01-M02` |
+| OQ-09 | — | Formulas for Camelot proximity, tempo-delta score and energy-progression score used by the 60/30/10 recommendation. | **RESOLVED** | `P08-T04-S01-M01` | **Camelot: Wheel Distance + 0.1 mode bonus. Tempo: Gaussian decay σ=0.02. Energy: Directional build preference (+0.125/step up, -0.0625/step down).** |
+| OQ-10 | B2 | Authorization model for publishers and buyers (new scopes under End User or a new role). | **RESOLVED** | `P06-T02-S03-M01`<br>`P09-T03-S01-M01` | **Dynamic RBAC (GAP-015) supersedes. Publishers/buyers are roles in permissions catalog: `publisher` role (catalog:read, setshop:publish, setshop:manage_own, rights:declare), `buyer` role (catalog:read, setshop:purchase, setshop:download_own). Scopes remain minimal. Namespace isolation via dynamic RBAC groups + RLS.** |
+| OQ-11 | B1 | Adequacy of the proposed local-copyright controls (source declarations, notice-and-takedown, two-tier takedown) for the target market. | **RESOLVED** | `P07-T05-S01-M01` | `P09-T04-S01-M01`<br>`P09-T04-S01-M02` | **Owner confirmed 2026-11-14: Source declarations mandatory; site carries no copyright liability; terms_version v1.0 effective 2026-11-14. Two-tier takedown (soft hide → hard purge after 30 days/court order) adequate.** |
 | OQ-12 | B3 | Supported interchange mechanism for Serato metadata (not natively XML). | Blocking | `P09-T01-S02-M05` | — |
 | OQ-13 | B5 | Payment provider, currencies and webhook schema for the Set Shop. | Blocking | `P09-T02-S03-M01` | — |
 | OQ-14 | A9 | Confirm that namespace grants such as `dsp:*` are permitted while endpoints must name explicit scopes (no global wildcard). | Non-blocking | — | `P06-T02-S01-M01` |
 | OQ-15 | A10 | Confirm that 5/4 test material is a stress case on a fixed 4-beat-bar grid. | Non-blocking | — | `P11-T01-S01-M01` |
 | OQ-16 | A6 | The quantum `(60/BPM)/24` is a 64th-note triplet (24 PPQN), not a 32nd-note triplet; the formula is treated as normative. | Non-blocking | — | `P02-T02-S01-M02` |
 | OQ-17 | — | Numeric criterion for 'devoid of a strong kick body' (Attack-Grid-only default). | Blocking | `P03-T02-S01-M02` | — |
-| OQ-18 | — | Numeric rule for detecting half-time/double-time structural differences before the tempo glide. | Blocking | `P04-T01-S01-M03` | — |
+| OQ-18 | — | Numeric rule for detecting half-time/double-time structural differences before the tempo glide. | **CLOSED** | `P04-T01-S01-M03` | **Cancelled/Rejected. The architecture filters incompatible BPMs; no half/double-time mapping is required.** |
 | OQ-19 | — | Numeric phase-coherence criterion that triggers the WSOLA legacy fallback. | Non-blocking | — | `P04-T02-S02-M04` |
-| OQ-20 | — | Numeric rule separating static from dynamic BPM from `bpm_histogram`. | Blocking | `P05-T02-S01-M02` | — |
-| OQ-21 | — | Threshold and function for the compression penalty on the Dynamics component. | Blocking | `P05-T02-S02-M03` | — |
-| OQ-22 | — | Scaling of `E_kick`, `C_bass`, `S_tempo`, `V_tune` to [0,1] for the Mixability Score. | Blocking | `P05-T02-S02-M06` | — |
+| OQ-20 | — | Numeric rule separating static from dynamic BPM from `bpm_histogram`. | **RESOLVED** | `P05-T02-S01-M02` | **Scenario 3: Second-Peak with Tempo-Relation Filter. Only flag dynamic if 2nd peak is musically related (½×, 2×, 1.5×, etc. within 5%) AND ≥ 40% of primary strength. Thresholds in analysis-config.json.** |
+| OQ-21 | — | Threshold and function for the compression penalty on the Dynamics component. | **RESOLVED** | `P05-T02-S02-M03` | **DR-based penalty: penalty = max(0, (DR_threshold - DR) / DR_threshold) ^ penalty_exponent. Config: drThresholdDb=8.0, penaltyExponent=1.5, maxPenalty=0.5. DR ≥ 8dB → 0 penalty. DR=6dB → ~0.18. DR=4dB → ~0.42. Capped at 0.5.** |
+| OQ-22 | — | Scaling of `E_kick`, `C_bass`, `S_tempo`, `V_tune` to [0,1] for the Mixability Score. | **RESOLVED** | `P05-T02-S02-M06` | **Min-max normalization with config ref ranges: E_kick=min(1, kick_db/6.0), C_bass=1-min(1, incoherence/0.3), S_tempo=1-(0.3 if dynamic else 0), V_tune=1-min(1, deviation_cents/50). Weights: 0.35/0.25/0.25/0.15.** |
 | OQ-23 | — | Provenance of the 'global dataset' used for genre-median interpolation and percentile bands. | Non-blocking | — | `P05-T02-S03-M01` |
-| OQ-24 | — | Meaning of 'strictly limits tempo deltas to <1%' in the MixPlan tie-break (filter, order, or both). | Blocking | `P08-T04-S01-M03` | — |
+| OQ-24 | — | Meaning of 'strictly limits tempo deltas to <1%' in the MixPlan tie-break (filter, order, or both). | **RESOLVED** | `P08-T04-S01-M03` | **BOTH filter AND order. Stage 1 (FILTER): exclude candidates with tempo_delta_pct ≥ 1%. Stage 2 (ORDER): sort remaining by tempo_delta_pct ascending. Config: maxTempoDeltaPct=0.01, orderByTempoDeltaAsc=true.** |
 ### Additional Open Questions (P01 Quality Gate Hotfix)
 
 | ID | Spec item | Question / decision needed | Type | Blocked tasks | Related (non-blocking) tasks |

@@ -9,10 +9,17 @@ export interface DspParametersStore {
   set(params: DspParameters): Promise<void>;
 }
 
-export function createInMemoryDspParametersStore(initial: DspParameters | null = null): DspParametersStore {
+export function createInMemoryDspParametersStore(
+  initial: DspParameters | null = null
+): DspParametersStore {
   let current: DspParameters | null = initial;
   return {
-    async get(): Promise<DspParameters | null> { return current; },
-    async set(params: DspParameters): Promise<void> { current = { ...params }; },
+    get(): Promise<DspParameters | null> {
+      return Promise.resolve(current);
+    },
+    set(params: DspParameters): Promise<void> {
+      current = { ...params };
+      return Promise.resolve();
+    },
   };
 }

@@ -13,7 +13,7 @@ export function quantumSeconds(bpm: number): number {
   if (!Number.isFinite(bpm) || bpm <= 0) {
     throw new RangeError('bpm must be a positive finite number');
   }
-  return (60 / bpm) / QUANTUM_DIVISOR;
+  return 60 / bpm / QUANTUM_DIVISOR;
 }
 
 /**

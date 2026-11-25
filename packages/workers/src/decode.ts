@@ -40,7 +40,7 @@ function readFlacTotalSamples(bytes: Uint8Array): number {
   const b15 = bytes[si + 15] ?? 0;
   const b16 = bytes[si + 16] ?? 0;
   const b17 = bytes[si + 17] ?? 0;
-  const lo32 = (((b14 << 24) | (b15 << 16) | (b16 << 8) | b17) >>> 0);
+  const lo32 = ((b14 << 24) | (b15 << 16) | (b16 << 8) | b17) >>> 0;
   return hi4 * 0x100000000 + lo32;
 }
 
@@ -52,8 +52,12 @@ function parseWav(bytes: Uint8Array): RawDecoded | null {
   if (riff !== 'RIFF' || wave !== 'WAVE') return null;
 
   let pos = 12;
-  let audioFormat = 0, numChannels = 0, sampleRate = 0, bitsPerSample = 0;
-  let dataOffset = -1, dataLen = 0;
+  let audioFormat = 0,
+    numChannels = 0,
+    sampleRate = 0,
+    bitsPerSample = 0;
+  let dataOffset = -1,
+    dataLen = 0;
   while (pos + 8 <= bytes.length) {
     const chunkId = asciiFromBytes(bytes, pos, 4);
     const chunkSize = dv.getUint32(pos + 4, true);
@@ -114,7 +118,9 @@ async function decodeMp3(bytes: Uint8Array): Promise<RawDecoded | null> {
     if (dec.free) dec.free();
     if (!res || !res.channelData) return null;
     return { channelData: res.channelData as Float32Array[], sampleRate: res.sampleRate as number };
-  } catch { return null; }
+  } catch {
+    return null;
+  }
 }
 
 async function decodeFlac(bytes: Uint8Array): Promise<RawDecoded | null> {
@@ -135,7 +141,12 @@ async function decodeFlac(bytes: Uint8Array): Promise<RawDecoded | null> {
 
     if (DEBUG) {
       console.error('[FLAC] declaredTotal=', declaredTotal);
-      console.error('[FLAC] res.channelData type=', typeof res.channelData, 'isArray=', Array.isArray(res.channelData));
+      console.error(
+        '[FLAC] res.channelData type=',
+        typeof res.channelData,
+        'isArray=',
+        Array.isArray(res.channelData)
+      );
       console.error('[FLAC] res.channelData.length=', res.channelData?.length);
       console.error('[FLAC] res.channelData[0].length=', res.channelData?.[0]?.length);
       console.error('[FLAC] res.sampleRate=', res.sampleRate);
@@ -151,7 +162,7 @@ async function decodeFlac(bytes: Uint8Array): Promise<RawDecoded | null> {
       channelData = [raw];
     } else if (typeof raw === 'object' && typeof (raw as any).length === 'number') {
       const arr = raw as any;
-      const n = arr.length as number;
+      const n = arr.length;
       const out: Float32Array[] = [];
       for (let i = 0; i < n; i++) {
         const el = arr[i];
@@ -163,7 +174,13 @@ async function decodeFlac(bytes: Uint8Array): Promise<RawDecoded | null> {
       return null;
     }
 
-    if (DEBUG) console.error('[FLAC] normalized channels=', channelData.length, 'len0=', channelData[0]?.length);
+    if (DEBUG)
+      console.error(
+        '[FLAC] normalized channels=',
+        channelData.length,
+        'len0=',
+        channelData[0]?.length
+      );
 
     if (declaredTotal > 0) {
       // STREAMINFO.total_samples is authoritative. The WASM decoder may
@@ -177,7 +194,13 @@ async function decodeFlac(bytes: Uint8Array): Promise<RawDecoded | null> {
         padded.set(ch);
         return padded;
       });
-      if (DEBUG) console.error('[FLAC] after adjust len0=', channelData[0]?.length, ' declaredTotal=', declaredTotal);
+      if (DEBUG)
+        console.error(
+          '[FLAC] after adjust len0=',
+          channelData[0]?.length,
+          ' declaredTotal=',
+          declaredTotal
+        );
     }
 
     return { channelData, sampleRate: (res.sampleRate as number) ?? 48000 };
@@ -202,9 +225,10 @@ export async function decodeAll(
   bytes: Uint8Array,
   format: DecodeFormat,
   _trace_id: string,
-  _span_id: string,
+  _span_id: string
 ): Promise<DecodeResult> {
-  if (!bytes || bytes.length === 0) return { ok: false, error: 'INVALID_ARGUMENT', message: 'empty input' };
+  if (!bytes || bytes.length === 0)
+    return { ok: false, error: 'INVALID_ARGUMENT', message: 'empty input' };
 
   let raw: RawDecoded | null = null;
   try {

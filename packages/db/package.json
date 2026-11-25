@@ -21,7 +21,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    
+
     "@types/ioredis-mock": "^8.2.8",
     "ioredis": "^5.4.0",
     "pg": "^8.11.0"
@@ -30,8 +30,13 @@
     "@testcontainers/postgresql": "^10.0.0",
     "@types/node": "^20.0.0",
     "@types/pg": "^8.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
     "@vitest/ui": "^1.0.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.2",
     "ioredis-mock": "^8.9.0",
+    "prettier": "^3.9.10",
     "testcontainers": "^10.0.0",
     "tsx": "^4.0.0",
     "typescript": "^5.0.0",

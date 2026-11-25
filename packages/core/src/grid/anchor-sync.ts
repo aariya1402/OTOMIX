@@ -43,7 +43,11 @@ export function getSyncedDrift(beat: number, driftQuantaPerBeat: number, _bpm: n
 }
 
 /** Simulate drift over [1, totalBeats]. Returns array of quanta. */
-export function simulateSyncedDrift(totalBeats: number, driftQuantaPerBeat: number, bpm: number): number[] {
+export function simulateSyncedDrift(
+  totalBeats: number,
+  driftQuantaPerBeat: number,
+  bpm: number
+): number[] {
   const result: number[] = [];
   for (let beat = 1; beat <= totalBeats; beat++) {
     result.push(getSyncedDrift(beat, driftQuantaPerBeat, bpm));

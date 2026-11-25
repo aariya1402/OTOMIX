@@ -3,8 +3,15 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Message, proto3, protoInt64 } from "@bufbuild/protobuf";
+import type {
+  BinaryReadOptions,
+  FieldList,
+  JsonReadOptions,
+  JsonValue,
+  PartialMessage,
+  PlainMessage,
+} from '@bufbuild/protobuf';
+import { Message, proto3, protoInt64 } from '@bufbuild/protobuf';
 
 /**
  * @generated from enum otodsp.core.v1.Tenant
@@ -26,10 +33,10 @@ export enum Tenant {
   OTODJ = 2,
 }
 // Retrieve enum metadata with: proto3.getEnumType(Tenant)
-proto3.util.setEnumType(Tenant, "otodsp.core.v1.Tenant", [
-  { no: 0, name: "TENANT_UNSPECIFIED" },
-  { no: 1, name: "TENANT_OTOMIX" },
-  { no: 2, name: "TENANT_OTODJ" },
+proto3.util.setEnumType(Tenant, 'otodsp.core.v1.Tenant', [
+  { no: 0, name: 'TENANT_UNSPECIFIED' },
+  { no: 1, name: 'TENANT_OTOMIX' },
+  { no: 2, name: 'TENANT_OTODJ' },
 ]);
 
 /**
@@ -57,11 +64,11 @@ export enum ChopGrid {
   CHOP_GRID_1_32 = 3,
 }
 // Retrieve enum metadata with: proto3.getEnumType(ChopGrid)
-proto3.util.setEnumType(ChopGrid, "otodsp.core.v1.ChopGrid", [
-  { no: 0, name: "CHOP_GRID_UNSPECIFIED" },
-  { no: 1, name: "CHOP_GRID_1_8" },
-  { no: 2, name: "CHOP_GRID_1_16" },
-  { no: 3, name: "CHOP_GRID_1_32" },
+proto3.util.setEnumType(ChopGrid, 'otodsp.core.v1.ChopGrid', [
+  { no: 0, name: 'CHOP_GRID_UNSPECIFIED' },
+  { no: 1, name: 'CHOP_GRID_1_8' },
+  { no: 2, name: 'CHOP_GRID_1_16' },
+  { no: 3, name: 'CHOP_GRID_1_32' },
 ]);
 
 /**
@@ -71,12 +78,12 @@ export class AnalyzeAudioRequest extends Message<AnalyzeAudioRequest> {
   /**
    * @generated from field: string tenant_id = 1;
    */
-  tenantId = "";
+  tenantId = '';
 
   /**
    * @generated from field: string track_id = 2;
    */
-  trackId = "";
+  trackId = '';
 
   /**
    * @generated from field: bytes pcm_float32_mono = 3;
@@ -91,12 +98,12 @@ export class AnalyzeAudioRequest extends Message<AnalyzeAudioRequest> {
   /**
    * @generated from field: string schema_version = 5;
    */
-  schemaVersion = "";
+  schemaVersion = '';
 
   /**
    * @generated from field: string idempotency_key = 6;
    */
-  idempotencyKey = "";
+  idempotencyKey = '';
 
   /**
    * @generated from field: uint32 timeout_ms = 7;
@@ -109,15 +116,15 @@ export class AnalyzeAudioRequest extends Message<AnalyzeAudioRequest> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "otodsp.core.v1.AnalyzeAudioRequest";
+  static readonly typeName = 'otodsp.core.v1.AnalyzeAudioRequest';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "tenant_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "track_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "pcm_float32_mono", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 4, name: "sample_rate_hz", kind: "scalar", T: 13 /* ScalarType.UINT32 */ },
-    { no: 5, name: "schema_version", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 6, name: "idempotency_key", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 7, name: "timeout_ms", kind: "scalar", T: 13 /* ScalarType.UINT32 */ },
+    { no: 1, name: 'tenant_id', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: 'track_id', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: 'pcm_float32_mono', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 4, name: 'sample_rate_hz', kind: 'scalar', T: 13 /* ScalarType.UINT32 */ },
+    { no: 5, name: 'schema_version', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 6, name: 'idempotency_key', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 7, name: 'timeout_ms', kind: 'scalar', T: 13 /* ScalarType.UINT32 */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AnalyzeAudioRequest {
@@ -128,11 +135,17 @@ export class AnalyzeAudioRequest extends Message<AnalyzeAudioRequest> {
     return new AnalyzeAudioRequest().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): AnalyzeAudioRequest {
+  static fromJsonString(
+    jsonString: string,
+    options?: Partial<JsonReadOptions>
+  ): AnalyzeAudioRequest {
     return new AnalyzeAudioRequest().fromJsonString(jsonString, options);
   }
 
-  static equals(a: AnalyzeAudioRequest | PlainMessage<AnalyzeAudioRequest> | undefined, b: AnalyzeAudioRequest | PlainMessage<AnalyzeAudioRequest> | undefined): boolean {
+  static equals(
+    a: AnalyzeAudioRequest | PlainMessage<AnalyzeAudioRequest> | undefined,
+    b: AnalyzeAudioRequest | PlainMessage<AnalyzeAudioRequest> | undefined
+  ): boolean {
     return proto3.util.equals(AnalyzeAudioRequest, a, b);
   }
 }
@@ -144,12 +157,12 @@ export class AnalyzeAudioResponse extends Message<AnalyzeAudioResponse> {
   /**
    * @generated from field: string track_id = 1;
    */
-  trackId = "";
+  trackId = '';
 
   /**
    * @generated from field: string schema_version = 2;
    */
-  schemaVersion = "";
+  schemaVersion = '';
 
   /**
    * @generated from field: bytes feature_registry_json = 3;
@@ -177,14 +190,14 @@ export class AnalyzeAudioResponse extends Message<AnalyzeAudioResponse> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "otodsp.core.v1.AnalyzeAudioResponse";
+  static readonly typeName = 'otodsp.core.v1.AnalyzeAudioResponse';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "track_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "schema_version", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "feature_registry_json", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 4, name: "used_rms_fallback", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 5, name: "vocal_map_assumed_zero", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 6, name: "extraction_ms", kind: "scalar", T: 13 /* ScalarType.UINT32 */ },
+    { no: 1, name: 'track_id', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: 'schema_version', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: 'feature_registry_json', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 4, name: 'used_rms_fallback', kind: 'scalar', T: 8 /* ScalarType.BOOL */ },
+    { no: 5, name: 'vocal_map_assumed_zero', kind: 'scalar', T: 8 /* ScalarType.BOOL */ },
+    { no: 6, name: 'extraction_ms', kind: 'scalar', T: 13 /* ScalarType.UINT32 */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AnalyzeAudioResponse {
@@ -195,11 +208,17 @@ export class AnalyzeAudioResponse extends Message<AnalyzeAudioResponse> {
     return new AnalyzeAudioResponse().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): AnalyzeAudioResponse {
+  static fromJsonString(
+    jsonString: string,
+    options?: Partial<JsonReadOptions>
+  ): AnalyzeAudioResponse {
     return new AnalyzeAudioResponse().fromJsonString(jsonString, options);
   }
 
-  static equals(a: AnalyzeAudioResponse | PlainMessage<AnalyzeAudioResponse> | undefined, b: AnalyzeAudioResponse | PlainMessage<AnalyzeAudioResponse> | undefined): boolean {
+  static equals(
+    a: AnalyzeAudioResponse | PlainMessage<AnalyzeAudioResponse> | undefined,
+    b: AnalyzeAudioResponse | PlainMessage<AnalyzeAudioResponse> | undefined
+  ): boolean {
     return proto3.util.equals(AnalyzeAudioResponse, a, b);
   }
 }
@@ -211,17 +230,17 @@ export class TransitionPlanRequest extends Message<TransitionPlanRequest> {
   /**
    * @generated from field: string tenant_id = 1;
    */
-  tenantId = "";
+  tenantId = '';
 
   /**
    * @generated from field: string outgoing_track_id = 2;
    */
-  outgoingTrackId = "";
+  outgoingTrackId = '';
 
   /**
    * @generated from field: string incoming_track_id = 3;
    */
-  incomingTrackId = "";
+  incomingTrackId = '';
 
   /**
    * @generated from field: double bpm_out = 4;
@@ -256,7 +275,7 @@ export class TransitionPlanRequest extends Message<TransitionPlanRequest> {
   /**
    * @generated from field: string idempotency_key = 10;
    */
-  idempotencyKey = "";
+  idempotencyKey = '';
 
   constructor(data?: PartialMessage<TransitionPlanRequest>) {
     super();
@@ -264,21 +283,24 @@ export class TransitionPlanRequest extends Message<TransitionPlanRequest> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "otodsp.core.v1.TransitionPlanRequest";
+  static readonly typeName = 'otodsp.core.v1.TransitionPlanRequest';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "tenant_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "outgoing_track_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "incoming_track_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "bpm_out", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 5, name: "bpm_in", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 6, name: "bpm_target", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 7, name: "window_beats", kind: "scalar", T: 13 /* ScalarType.UINT32 */ },
-    { no: 8, name: "crossfade_ms", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 9, name: "chop_grid", kind: "enum", T: proto3.getEnumType(ChopGrid) },
-    { no: 10, name: "idempotency_key", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: 'tenant_id', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: 'outgoing_track_id', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: 'incoming_track_id', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: 'bpm_out', kind: 'scalar', T: 1 /* ScalarType.DOUBLE */ },
+    { no: 5, name: 'bpm_in', kind: 'scalar', T: 1 /* ScalarType.DOUBLE */ },
+    { no: 6, name: 'bpm_target', kind: 'scalar', T: 1 /* ScalarType.DOUBLE */ },
+    { no: 7, name: 'window_beats', kind: 'scalar', T: 13 /* ScalarType.UINT32 */ },
+    { no: 8, name: 'crossfade_ms', kind: 'scalar', T: 1 /* ScalarType.DOUBLE */ },
+    { no: 9, name: 'chop_grid', kind: 'enum', T: proto3.getEnumType(ChopGrid) },
+    { no: 10, name: 'idempotency_key', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): TransitionPlanRequest {
+  static fromBinary(
+    bytes: Uint8Array,
+    options?: Partial<BinaryReadOptions>
+  ): TransitionPlanRequest {
     return new TransitionPlanRequest().fromBinary(bytes, options);
   }
 
@@ -286,11 +308,17 @@ export class TransitionPlanRequest extends Message<TransitionPlanRequest> {
     return new TransitionPlanRequest().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): TransitionPlanRequest {
+  static fromJsonString(
+    jsonString: string,
+    options?: Partial<JsonReadOptions>
+  ): TransitionPlanRequest {
     return new TransitionPlanRequest().fromJsonString(jsonString, options);
   }
 
-  static equals(a: TransitionPlanRequest | PlainMessage<TransitionPlanRequest> | undefined, b: TransitionPlanRequest | PlainMessage<TransitionPlanRequest> | undefined): boolean {
+  static equals(
+    a: TransitionPlanRequest | PlainMessage<TransitionPlanRequest> | undefined,
+    b: TransitionPlanRequest | PlainMessage<TransitionPlanRequest> | undefined
+  ): boolean {
     return proto3.util.equals(TransitionPlanRequest, a, b);
   }
 }
@@ -315,25 +343,37 @@ export class TransitionPlanResponse extends Message<TransitionPlanResponse> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "otodsp.core.v1.TransitionPlanResponse";
+  static readonly typeName = 'otodsp.core.v1.TransitionPlanResponse';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "anchors", kind: "message", T: GridAnchor, repeated: true },
-    { no: 2, name: "fallback", kind: "message", T: ExecutionFallback },
+    { no: 1, name: 'anchors', kind: 'message', T: GridAnchor, repeated: true },
+    { no: 2, name: 'fallback', kind: 'message', T: ExecutionFallback },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): TransitionPlanResponse {
+  static fromBinary(
+    bytes: Uint8Array,
+    options?: Partial<BinaryReadOptions>
+  ): TransitionPlanResponse {
     return new TransitionPlanResponse().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): TransitionPlanResponse {
+  static fromJson(
+    jsonValue: JsonValue,
+    options?: Partial<JsonReadOptions>
+  ): TransitionPlanResponse {
     return new TransitionPlanResponse().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): TransitionPlanResponse {
+  static fromJsonString(
+    jsonString: string,
+    options?: Partial<JsonReadOptions>
+  ): TransitionPlanResponse {
     return new TransitionPlanResponse().fromJsonString(jsonString, options);
   }
 
-  static equals(a: TransitionPlanResponse | PlainMessage<TransitionPlanResponse> | undefined, b: TransitionPlanResponse | PlainMessage<TransitionPlanResponse> | undefined): boolean {
+  static equals(
+    a: TransitionPlanResponse | PlainMessage<TransitionPlanResponse> | undefined,
+    b: TransitionPlanResponse | PlainMessage<TransitionPlanResponse> | undefined
+  ): boolean {
     return proto3.util.equals(TransitionPlanResponse, a, b);
   }
 }
@@ -363,11 +403,11 @@ export class GridAnchor extends Message<GridAnchor> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "otodsp.core.v1.GridAnchor";
+  static readonly typeName = 'otodsp.core.v1.GridAnchor';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "beat_index", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
-    { no: 2, name: "t0_seconds", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 3, name: "drift_seconds", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 1, name: 'beat_index', kind: 'scalar', T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: 't0_seconds', kind: 'scalar', T: 1 /* ScalarType.DOUBLE */ },
+    { no: 3, name: 'drift_seconds', kind: 'scalar', T: 1 /* ScalarType.DOUBLE */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GridAnchor {
@@ -382,7 +422,10 @@ export class GridAnchor extends Message<GridAnchor> {
     return new GridAnchor().fromJsonString(jsonString, options);
   }
 
-  static equals(a: GridAnchor | PlainMessage<GridAnchor> | undefined, b: GridAnchor | PlainMessage<GridAnchor> | undefined): boolean {
+  static equals(
+    a: GridAnchor | PlainMessage<GridAnchor> | undefined,
+    b: GridAnchor | PlainMessage<GridAnchor> | undefined
+  ): boolean {
     return proto3.util.equals(GridAnchor, a, b);
   }
 }
@@ -399,7 +442,7 @@ export class ExecutionFallback extends Message<ExecutionFallback> {
   /**
    * @generated from field: string reason = 2;
    */
-  reason = "";
+  reason = '';
 
   constructor(data?: PartialMessage<ExecutionFallback>) {
     super();
@@ -407,10 +450,10 @@ export class ExecutionFallback extends Message<ExecutionFallback> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "otodsp.core.v1.ExecutionFallback";
+  static readonly typeName = 'otodsp.core.v1.ExecutionFallback';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "rung", kind: "enum", T: proto3.getEnumType(ExecutionFallback_Rung) },
-    { no: 2, name: "reason", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: 'rung', kind: 'enum', T: proto3.getEnumType(ExecutionFallback_Rung) },
+    { no: 2, name: 'reason', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ExecutionFallback {
@@ -425,7 +468,10 @@ export class ExecutionFallback extends Message<ExecutionFallback> {
     return new ExecutionFallback().fromJsonString(jsonString, options);
   }
 
-  static equals(a: ExecutionFallback | PlainMessage<ExecutionFallback> | undefined, b: ExecutionFallback | PlainMessage<ExecutionFallback> | undefined): boolean {
+  static equals(
+    a: ExecutionFallback | PlainMessage<ExecutionFallback> | undefined,
+    b: ExecutionFallback | PlainMessage<ExecutionFallback> | undefined
+  ): boolean {
     return proto3.util.equals(ExecutionFallback, a, b);
   }
 }
@@ -470,14 +516,14 @@ export enum ExecutionFallback_Rung {
   WSOLA_LEGACY = 6,
 }
 // Retrieve enum metadata with: proto3.getEnumType(ExecutionFallback_Rung)
-proto3.util.setEnumType(ExecutionFallback_Rung, "otodsp.core.v1.ExecutionFallback.Rung", [
-  { no: 0, name: "RUNG_NONE" },
-  { no: 1, name: "RUNG_GLOBAL_AVG_BPM" },
-  { no: 2, name: "RUNG_STATIC_120_GRID" },
-  { no: 3, name: "RUNG_FOUR_BAR_CROSSFADE" },
-  { no: 4, name: "RUNG_SILENT_LOOP" },
-  { no: 5, name: "RUNG_STANDARD_CROSSFADE" },
-  { no: 6, name: "RUNG_WSOLA_LEGACY" },
+proto3.util.setEnumType(ExecutionFallback_Rung, 'otodsp.core.v1.ExecutionFallback.Rung', [
+  { no: 0, name: 'RUNG_NONE' },
+  { no: 1, name: 'RUNG_GLOBAL_AVG_BPM' },
+  { no: 2, name: 'RUNG_STATIC_120_GRID' },
+  { no: 3, name: 'RUNG_FOUR_BAR_CROSSFADE' },
+  { no: 4, name: 'RUNG_SILENT_LOOP' },
+  { no: 5, name: 'RUNG_STANDARD_CROSSFADE' },
+  { no: 6, name: 'RUNG_WSOLA_LEGACY' },
 ]);
 
 /**
@@ -487,7 +533,7 @@ export class DspParameterUpdate extends Message<DspParameterUpdate> {
   /**
    * @generated from field: string tenant_id = 1;
    */
-  tenantId = "";
+  tenantId = '';
 
   /**
    * @generated from field: double crossfade_ms = 2;
@@ -502,7 +548,7 @@ export class DspParameterUpdate extends Message<DspParameterUpdate> {
   /**
    * @generated from field: string message_id = 4;
    */
-  messageId = "";
+  messageId = '';
 
   /**
    * @generated from field: bytes signature = 5;
@@ -520,14 +566,14 @@ export class DspParameterUpdate extends Message<DspParameterUpdate> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "otodsp.core.v1.DspParameterUpdate";
+  static readonly typeName = 'otodsp.core.v1.DspParameterUpdate';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "tenant_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "crossfade_ms", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 3, name: "chop_grid", kind: "enum", T: proto3.getEnumType(ChopGrid) },
-    { no: 4, name: "message_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 5, name: "signature", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 6, name: "sequence", kind: "scalar", T: 4 /* ScalarType.UINT64 */ },
+    { no: 1, name: 'tenant_id', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: 'crossfade_ms', kind: 'scalar', T: 1 /* ScalarType.DOUBLE */ },
+    { no: 3, name: 'chop_grid', kind: 'enum', T: proto3.getEnumType(ChopGrid) },
+    { no: 4, name: 'message_id', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: 'signature', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 6, name: 'sequence', kind: 'scalar', T: 4 /* ScalarType.UINT64 */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DspParameterUpdate {
@@ -538,11 +584,17 @@ export class DspParameterUpdate extends Message<DspParameterUpdate> {
     return new DspParameterUpdate().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DspParameterUpdate {
+  static fromJsonString(
+    jsonString: string,
+    options?: Partial<JsonReadOptions>
+  ): DspParameterUpdate {
     return new DspParameterUpdate().fromJsonString(jsonString, options);
   }
 
-  static equals(a: DspParameterUpdate | PlainMessage<DspParameterUpdate> | undefined, b: DspParameterUpdate | PlainMessage<DspParameterUpdate> | undefined): boolean {
+  static equals(
+    a: DspParameterUpdate | PlainMessage<DspParameterUpdate> | undefined,
+    b: DspParameterUpdate | PlainMessage<DspParameterUpdate> | undefined
+  ): boolean {
     return proto3.util.equals(DspParameterUpdate, a, b);
   }
 }
@@ -554,7 +606,7 @@ export class DspParameterAck extends Message<DspParameterAck> {
   /**
    * @generated from field: string message_id = 1;
    */
-  messageId = "";
+  messageId = '';
 
   /**
    * @generated from field: bool applied = 2;
@@ -567,10 +619,10 @@ export class DspParameterAck extends Message<DspParameterAck> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "otodsp.core.v1.DspParameterAck";
+  static readonly typeName = 'otodsp.core.v1.DspParameterAck';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "message_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "applied", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 1, name: 'message_id', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: 'applied', kind: 'scalar', T: 8 /* ScalarType.BOOL */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DspParameterAck {
@@ -585,8 +637,10 @@ export class DspParameterAck extends Message<DspParameterAck> {
     return new DspParameterAck().fromJsonString(jsonString, options);
   }
 
-  static equals(a: DspParameterAck | PlainMessage<DspParameterAck> | undefined, b: DspParameterAck | PlainMessage<DspParameterAck> | undefined): boolean {
+  static equals(
+    a: DspParameterAck | PlainMessage<DspParameterAck> | undefined,
+    b: DspParameterAck | PlainMessage<DspParameterAck> | undefined
+  ): boolean {
     return proto3.util.equals(DspParameterAck, a, b);
   }
 }
-

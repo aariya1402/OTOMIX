@@ -46,7 +46,13 @@ export function lockGridToKick(input: GridLockInput): GridLockResult {
   const { bpmSeed, T0, kickTimes } = input;
 
   // Defensive: invalid grid input → no-op
-  if (!Number.isFinite(bpmSeed) || bpmSeed <= 0 || !Number.isFinite(T0) || !Array.isArray(kickTimes) || kickTimes.length === 0) {
+  if (
+    !Number.isFinite(bpmSeed) ||
+    bpmSeed <= 0 ||
+    !Number.isFinite(T0) ||
+    !Array.isArray(kickTimes) ||
+    kickTimes.length === 0
+  ) {
     return { shiftBeats: 0, newT0: T0, withinTolerance: true };
   }
 

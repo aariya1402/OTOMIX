@@ -1,6 +1,6 @@
 // OTOMIX §8.4 · Mother §9.1; Add. §7
 // Structured JSON logger with PII masking at the edge.
-import { Writable } from 'node:stream';
+import type { Writable } from 'node:stream';
 
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 export type LogOutcome = 'success' | 'failure' | 'partial';
@@ -81,7 +81,7 @@ function validateRequired(record: LogRecord): void {
   // Fields that MUST be provided at call-time (or by factory merge).
   // `country`, `service`, `tenant_id` are excluded because they are optional
   // (country) or factory-provided (service, tenant_id).
-  const required: (keyof LogRecord)[] = [
+  const required: Array<keyof LogRecord> = [
     'level',
     'trace_id',
     'span_id',

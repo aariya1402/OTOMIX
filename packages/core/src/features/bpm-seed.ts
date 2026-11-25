@@ -6,7 +6,8 @@
 // Rule 26: BPM is dimensionless, no time units.
 
 import { getAnalysisConfig } from '../config/analysis.js';
-import { BPM, BPMResult } from '../types/bpm.js';
+import { BPM } from '../types/bpm.js';
+import type { BPMResult } from '../types/bpm.js';
 
 export interface TempoEntry {
   readonly bpm: number;
@@ -31,7 +32,11 @@ export function deriveBpmSeed(
   // 1. Validate inputs
   for (const entry of histogram) {
     if (!Number.isFinite(entry.bpm) || entry.bpm < 60 || entry.bpm > 200 || entry.weight < 0) {
-      return { ok: false, error: 'INVALID_ARGUMENT', message: 'Invalid BPM or weight in histogram' };
+      return {
+        ok: false,
+        error: 'INVALID_ARGUMENT',
+        message: 'Invalid BPM or weight in histogram',
+      };
     }
   }
 
@@ -39,7 +44,7 @@ export function deriveBpmSeed(
   const sorted = [...histogram].sort((a, b) => a.bpm - b.bpm);
 
   // 3. Initialize centroids using quantiles
-  let centroids: number[] = [];
+  const centroids: number[] = [];
   for (let i = 0; i < cfg.k; i++) {
     const qIndex = Math.floor((i + 0.5) * (sorted.length / cfg.k));
     centroids.push(sorted[qIndex].bpm);
@@ -129,11 +134,13 @@ export function deriveBpmSeed(
   // 7. Return validated BPM
   return BPM.parse(Math.round(bestCentroid));
 }
+
 export function isBpmDynamic(histogram: readonly TempoEntry[]): boolean {
   if (histogram.length === 0) return false;
-  const bpmValues = histogram.map(e => e.bpm);
+  const bpmValues = histogram.map((e) => e.bpm);
   const min = Math.min(...bpmValues);
   const max = Math.max(...bpmValues);
   const cfg = getAnalysisConfig().tempo;
-  return (max - min) > ((cfg as any).bpmDynamicThresholdBpm || 2.0);
+  const threshold = (cfg as { bpmDynamicThresholdBpm?: number }).bpmDynamicThresholdBpm ?? 2.0;
+  return max - min > threshold;
 }

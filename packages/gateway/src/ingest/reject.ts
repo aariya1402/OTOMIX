@@ -24,7 +24,7 @@ export function rejectForGateway(
   format: RejectFormat,
   bytes: Uint8Array,
   errorMessage?: string,
-  deps: RejectDeps = {},
+  deps: RejectDeps = {}
 ): RejectResult {
   const result = classifyDecodeFailure(format, bytes, errorMessage);
   if (!result.ok) {

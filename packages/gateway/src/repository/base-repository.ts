@@ -1,5 +1,6 @@
-import { Pool, PoolClient } from 'pg';
-import { withTenant, TenantId } from '@otomix/db';
+import type { Pool, PoolClient } from 'pg';
+import { withTenant } from '@otomix/db';
+import type { TenantId } from '@otomix/db';
 
 /**
  * Abstract base class that FORCES all repository methods to run inside withTenant.

@@ -26,7 +26,7 @@ export function shiftT0ToBarBoundary(T0: number, bpmSeed: number): PreKickShiftR
 export function getNegativeBeatTime(
   negativeIndex: number,
   barBoundarySeconds: number,
-  bpmSeed: number,
+  bpmSeed: number
 ): number {
   if (negativeIndex < -3 || negativeIndex >= 0) {
     throw new Error('negative index must be in [-3, -1]');

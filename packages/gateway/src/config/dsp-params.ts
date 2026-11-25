@@ -14,7 +14,10 @@ export interface DspParameters {
 }
 
 export function isChopGrid(s: unknown): s is ChopGrid {
-  return typeof s === 'string' && (DSP_PARAMS_CONFIG.allowedChopGrids as readonly string[]).indexOf(s) >= 0;
+  return (
+    typeof s === 'string' &&
+    (DSP_PARAMS_CONFIG.allowedChopGrids as readonly string[]).indexOf(s) >= 0
+  );
 }
 
 export function chopGridDenominator(g: ChopGrid): number {
@@ -24,7 +27,7 @@ export function chopGridDenominator(g: ChopGrid): number {
 // OQ-06: crossfadeBeats bound is a pure beat comparison.
 // max = (1 / chopGridFraction) / 4 = (1 / denominator) / 4
 export function maxCrossfadeBeats(g: ChopGrid): number {
-  return (1 / chopGridDenominator(g)) / 4;
+  return 1 / chopGridDenominator(g) / 4;
 }
 
 export function isValidCrossfadeBeats(g: ChopGrid, beats: unknown): boolean {

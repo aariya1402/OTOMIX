@@ -16,7 +16,7 @@ export type { TagsResult } from '@otomix/core';
 export function extractTagsForLocal(
   bytes: Uint8Array,
   format: DetectedFormat,
-  warn?: TagsWarnSink,
+  warn?: TagsWarnSink
 ): TagsResult {
   const result = extractTags(bytes, format);
   if (result.hasPii) {

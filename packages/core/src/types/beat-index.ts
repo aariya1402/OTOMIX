@@ -4,8 +4,7 @@ declare const __beatIndexBrand: unique symbol;
 export type BeatIndex = number & { readonly [__beatIndexBrand]: true };
 
 export type BeatIndexResult =
-  | { ok: true; value: BeatIndex }
-  | { ok: false; error: 'INVALID_ARGUMENT'; message: string };
+  { ok: true; value: BeatIndex } | { ok: false; error: 'INVALID_ARGUMENT'; message: string };
 
 export const BeatIndex = {
   parse(i: number): BeatIndexResult {

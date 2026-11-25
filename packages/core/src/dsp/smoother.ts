@@ -1,7 +1,7 @@
 /**
  * One-pole exponential smoother for audio parameters.
  * Prevents zipper noise and clicks when a parameter changes rapidly.
- * 
+ *
  * Rule 23: Zero allocation during process(). Pure primitive math.
  */
 export class OnePoleSmoother {
@@ -26,7 +26,7 @@ export class OnePoleSmoother {
   /**
    * Processes the next target value and returns the smoothed value.
    * y[n] = y[n-1] + alpha * (x[n] - y[n-1])
-   * 
+   *
    * @param target - the desired parameter value
    * @returns the smoothed parameter value
    */
@@ -38,7 +38,7 @@ export class OnePoleSmoother {
   public getCurrentValue(): number {
     return this.currentValue;
   }
-  
+
   /**
    * Instantly jumps to the target value (bypasses smoothing).
    * Useful for initialization or when switching tracks.

@@ -23,7 +23,7 @@ export interface RecordDeps {
 export async function recordDeclaration(
   client: PoolClient,
   input: DeclarationInput,
-  deps: RecordDeps = {},
+  deps: RecordDeps = {}
 ): Promise<string> {
   const logger = deps.logger ?? createLogger({ service: 'gateway-declarations' });
 
@@ -32,13 +32,7 @@ export async function recordDeclaration(
        (declaration_id, tenant_id, user_id, scope, terms_version, declared_at)
      VALUES (gen_random_uuid(), $1, $2, $3, $4, $5)
      RETURNING declaration_id`,
-    [
-      input.tenantId,
-      input.userId,
-      input.scope,
-      input.termsVersion,
-      input.declaredAt.toISOString(),
-    ],
+    [input.tenantId, input.userId, input.scope, input.termsVersion, input.declaredAt.toISOString()]
   );
 
   const declarationId = result.rows[0].declaration_id as string;

@@ -6,11 +6,11 @@ import type { DetectedFormat } from './sniff.js';
 
 export interface DisplayMetadata {
   title?: string;
-  bpm?: number;      // DISPLAY HINT ONLY — never used for analysis
-  key?: string;      // DISPLAY HINT ONLY — never used for analysis
-  artist?: string;   // PII
-  album?: string;    // PII
-  comment?: string;  // PII
+  bpm?: number; // DISPLAY HINT ONLY — never used for analysis
+  key?: string; // DISPLAY HINT ONLY — never used for analysis
+  artist?: string; // PII
+  album?: string; // PII
+  comment?: string; // PII
 }
 
 export interface TagsResult {
@@ -25,15 +25,32 @@ function asciiAt(bytes: Uint8Array, off: number, len: number): string {
 }
 
 function readU32BE(bytes: Uint8Array, off: number): number {
-  return (((bytes[off] ?? 0) << 24) | ((bytes[off + 1] ?? 0) << 16) | ((bytes[off + 2] ?? 0) << 8) | (bytes[off + 3] ?? 0)) >>> 0;
+  return (
+    (((bytes[off] ?? 0) << 24) |
+      ((bytes[off + 1] ?? 0) << 16) |
+      ((bytes[off + 2] ?? 0) << 8) |
+      (bytes[off + 3] ?? 0)) >>>
+    0
+  );
 }
 
 function readU32LE(bytes: Uint8Array, off: number): number {
-  return (((bytes[off + 3] ?? 0) << 24) | ((bytes[off + 2] ?? 0) << 16) | ((bytes[off + 1] ?? 0) << 8) | (bytes[off] ?? 0)) >>> 0;
+  return (
+    (((bytes[off + 3] ?? 0) << 24) |
+      ((bytes[off + 2] ?? 0) << 16) |
+      ((bytes[off + 1] ?? 0) << 8) |
+      (bytes[off] ?? 0)) >>>
+    0
+  );
 }
 
 function decodeSyncsafe(bytes: Uint8Array, off: number): number {
-  return (((bytes[off] ?? 0) & 0x7f) << 21) | (((bytes[off + 1] ?? 0) & 0x7f) << 14) | (((bytes[off + 2] ?? 0) & 0x7f) << 7) | ((bytes[off + 3] ?? 0) & 0x7f);
+  return (
+    (((bytes[off] ?? 0) & 0x7f) << 21) |
+    (((bytes[off + 1] ?? 0) & 0x7f) << 14) |
+    (((bytes[off + 2] ?? 0) & 0x7f) << 7) |
+    ((bytes[off + 3] ?? 0) & 0x7f)
+  );
 }
 
 function stripTrailingNul(s: string): string {
@@ -65,8 +82,10 @@ function parseWavListInfo(bytes: Uint8Array, display: DisplayMetadata): boolean 
           else if (sid === 'IART') display.artist = val;
           else if (sid === 'IPRD') display.album = val;
           else if (sid === 'ICMT') display.comment = val;
-          else if (sid === 'ICBP') { const n = Number(val); if (Number.isFinite(n)) display.bpm = n; }
-          else if (sid === 'IKEY') display.key = val;  // WAV chunk IDs are exactly 4 bytes
+          else if (sid === 'ICBP') {
+            const n = Number(val);
+            if (Number.isFinite(n)) display.bpm = n;
+          } else if (sid === 'IKEY') display.key = val; // WAV chunk IDs are exactly 4 bytes
         }
         p = sbody + ssize + (ssize & 1);
       }
@@ -89,7 +108,13 @@ function parseMp3Id3v2(bytes: Uint8Array, display: DisplayMetadata): boolean {
     const frameSize = readU32BE(bytes, pos + 4);
     const frameBody = pos + 10;
     if (frameBody + frameSize > end) break;
-    if (frameId === 'TIT2' || frameId === 'TPE1' || frameId === 'TALB' || frameId === 'TBPM' || frameId === 'TKEY') {
+    if (
+      frameId === 'TIT2' ||
+      frameId === 'TPE1' ||
+      frameId === 'TALB' ||
+      frameId === 'TBPM' ||
+      frameId === 'TKEY'
+    ) {
       let val = '';
       for (let i = frameBody + 1; i < frameBody + frameSize; i++) {
         const b = bytes[i] ?? 0;
@@ -101,8 +126,10 @@ function parseMp3Id3v2(bytes: Uint8Array, display: DisplayMetadata): boolean {
         if (frameId === 'TIT2') display.title = val;
         else if (frameId === 'TPE1') display.artist = val;
         else if (frameId === 'TALB') display.album = val;
-        else if (frameId === 'TBPM') { const n = Number(val); if (Number.isFinite(n)) display.bpm = n; }
-        else if (frameId === 'TKEY') display.key = val;
+        else if (frameId === 'TBPM') {
+          const n = Number(val);
+          if (Number.isFinite(n)) display.bpm = n;
+        } else if (frameId === 'TKEY') display.key = val;
       }
     }
     pos = frameBody + frameSize;
@@ -132,7 +159,8 @@ function parseFlacVorbis(bytes: Uint8Array, display: DisplayMetadata): boolean {
     const header = bytes[pos] ?? 0;
     const isLast = (header & 0x80) !== 0;
     const type = header & 0x7f;
-    const len = (((bytes[pos + 1] ?? 0) << 16) | ((bytes[pos + 2] ?? 0) << 8) | (bytes[pos + 3] ?? 0)) >>> 0;
+    const len =
+      (((bytes[pos + 1] ?? 0) << 16) | ((bytes[pos + 2] ?? 0) << 8) | (bytes[pos + 3] ?? 0)) >>> 0;
     const body = pos + 4;
     if (body + len > bytes.length) break;
     if (type === 4) {
@@ -155,8 +183,10 @@ function parseFlacVorbis(bytes: Uint8Array, display: DisplayMetadata): boolean {
             else if (k === 'ARTIST') display.artist = v;
             else if (k === 'ALBUM') display.album = v;
             else if (k === 'COMMENT') display.comment = v;
-            else if (k === 'BPM') { const n = Number(v); if (Number.isFinite(n)) display.bpm = n; }
-            else if (k === 'KEY') display.key = v;
+            else if (k === 'BPM') {
+              const n = Number(v);
+              if (Number.isFinite(n)) display.bpm = n;
+            } else if (k === 'KEY') display.key = v;
           }
         }
         p = ebody + elen;
@@ -183,9 +213,7 @@ export function extractTags(bytes: Uint8Array, format: DetectedFormat): TagsResu
   }
 
   const hasPii =
-    display.artist !== undefined ||
-    display.album !== undefined ||
-    display.comment !== undefined;
+    display.artist !== undefined || display.album !== undefined || display.comment !== undefined;
 
   return { displayMetadata: display, hasPii };
 }

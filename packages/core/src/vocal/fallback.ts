@@ -21,7 +21,7 @@ export function buildZeroVocalMap(frames: number, reason: string): VocalFallback
 
 export function tryBuildVocalMap(
   frames: number,
-  loader: () => Promise<Float32Array>,
+  loader: () => Promise<Float32Array>
 ): Promise<VocalFallbackResult> {
   return loader()
     .then((vMap) => ({

@@ -35,7 +35,7 @@ function jitteredBackoff(attempt: number, base: number, cap: number): number {
 
 export async function sendEscalationWebhook(
   payload: EscalationPayload,
-  config: EscalationWebhookConfig,
+  config: EscalationWebhookConfig
 ): Promise<void> {
   const fetchImpl = config.fetchImpl ?? fetch;
   const maxRetries = config.maxRetries ?? DEFAULT_CONFIG.maxRetries;
@@ -44,10 +44,14 @@ export async function sendEscalationWebhook(
 
   const body = JSON.stringify({
     text:
-      'Escalation: actor=' + payload.actor +
-      ' scope=' + payload.scope +
-      ' tenant=' + payload.tenant +
-      ' at ' + payload.timestamp,
+      'Escalation: actor=' +
+      payload.actor +
+      ' scope=' +
+      payload.scope +
+      ' tenant=' +
+      payload.tenant +
+      ' at ' +
+      payload.timestamp,
     actor: payload.actor,
     scope: payload.scope,
     tenant: payload.tenant,

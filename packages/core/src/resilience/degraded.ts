@@ -34,10 +34,7 @@ export interface CreateDegradedModeControllerOptions {
 }
 
 /** Pure reducer for testing and functional composition. */
-export function degradedReducer(
-  state: DegradedModeState,
-  event: DegradedEvent,
-): DegradedModeState {
+export function degradedReducer(state: DegradedModeState, event: DegradedEvent): DegradedModeState {
   switch (event) {
     case 'POOL_EXHAUSTED':
     case 'WORKER_FAILED': {
@@ -53,7 +50,7 @@ export function degradedReducer(
 
 /** Factory creating a DegradedModeController with encapsulated state. */
 export function createDegradedModeController(
-  options: CreateDegradedModeControllerOptions = {},
+  options: CreateDegradedModeControllerOptions = {}
 ): DegradedModeController {
   let state: DegradedModeState = { active: false, reason: null };
   const { onEnter, onExit } = options;

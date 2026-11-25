@@ -2,7 +2,7 @@
 // Receiver dedup store: message_id uniqueness + per-tenant monotonic sequence
 // + signature verification BEFORE any dedup write.
 import { createHmac, timingSafeEqual } from 'node:crypto';
-import Redis from 'ioredis';
+import type Redis from 'ioredis';
 
 const DEFAULT_PREFIX = 'otomix:dedup:';
 const DEFAULT_TTL = 86400; // 24 h
@@ -45,7 +45,7 @@ export function canonicalize(
   messageId: string,
   tenantId: string,
   sequence: bigint,
-  payload: Uint8Array,
+  payload: Uint8Array
 ): Buffer {
   const canonical = JSON.stringify({
     message_id: messageId,
@@ -61,26 +61,21 @@ export function sign(
   messageId: string,
   tenantId: string,
   sequence: bigint,
-  payload: Uint8Array,
+  payload: Uint8Array
 ): Buffer {
   return createHmac('sha256', secret)
     .update(canonicalize(messageId, tenantId, sequence, payload))
     .digest();
 }
 
-function verifySignature(
-  secret: Buffer | string,
-  msg: SignedMessage,
-): boolean {
+function verifySignature(secret: Buffer | string, msg: SignedMessage): boolean {
   const expected = sign(secret, msg.messageId, msg.tenantId, msg.sequence, msg.payload);
   const provided = Buffer.from(msg.signature);
   if (expected.length !== provided.length) return false;
   return timingSafeEqual(expected, provided);
 }
 
-export function createReceiverDedupStore(
-  config: ReceiverDedupConfig,
-): ReceiverDedupStore {
+export function createReceiverDedupStore(config: ReceiverDedupConfig): ReceiverDedupStore {
   const prefix = config.prefix ?? DEFAULT_PREFIX;
   const ttl = config.ttlSeconds ?? DEFAULT_TTL;
   const secret = config.hmacSecret;
@@ -99,8 +94,7 @@ export function createReceiverDedupStore(
 
       // 3. Claim dedup key atomically.
       const dedupKey = `${prefix}${msg.tenantId}:${msg.messageId}`;
-      const claimed = await config.redis.set(
-        dedupKey, msg.sequence.toString(), 'EX', ttl, 'NX');
+      const claimed = await config.redis.set(dedupKey, msg.sequence.toString(), 'EX', ttl, 'NX');
       if (claimed !== 'OK') {
         return { status: 'duplicate' };
       }

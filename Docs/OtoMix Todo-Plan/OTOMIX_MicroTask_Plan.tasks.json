@@ -1374,7 +1374,7 @@
         "status": "SUPERSEDED:GAP-015",
         "description": "Generate a Cucumber authorization matrix from the registry (role × endpoint) and assert the expected status for each pair.",
         "prerequisites": [
-            "P06-T02-S01-M03"
+            "P06-T02-S01-M01"
         ],
         "test": "integration|Cucumber.js|features/authz.feature|Input: 4 roles × all routes. Expected: allowed pairs 2xx/4xx-by-validation, denied pairs 403. Pass: 0 mismatches.",
         "spec": "OTOMIX §7.1; §10.4 · Mother §5.1; §8.2",
@@ -1418,7 +1418,7 @@
         "status": "DONE",
         "description": "Ensure `/ddex`, `/rights`, `/dsr` and stream-license routes are not mounted and return HTTP 404.",
         "prerequisites": [
-            "P06-T02-S01-M03"
+            "P06-T02-S01-M01"
         ],
         "test": "integration|Vitest + supertest|packages/gateway/test/unmounted.spec.ts|Input: requests to /api/v1/ingest/ddex, /api/v1/rights/overrides, /api/v1/dsr/reports, /api/v1/stream/license with valid tokens. Expected: 404 for all four. Pass: 4/4.",
         "spec": "OTOMIX §2.9; §9.10 · Mother §1; Add. §3; Add. §1–§2",

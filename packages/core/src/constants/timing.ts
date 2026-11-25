@@ -1,7 +1,7 @@
 // OTOMIX §3.3; §3.6; §3.11; §4.1; §8.3
 export const LOOKAHEAD_MS = 50;
 export const SCHED_ACCURACY_MS = 2;
-export const DRIFT_THRESHOLD_QUANTA = 0.192;  // 0.192 quanta = 4ms at 120 BPM
+export const DRIFT_THRESHOLD_QUANTA = 0.192; // 0.192 quanta = 4ms at 120 BPM
 export const STARVATION_FRAME_MS = 10;
 export const BUFFER_NORMAL = 2048;
 export const BUFFER_DEGRADED = 4096;

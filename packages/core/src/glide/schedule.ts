@@ -20,16 +20,14 @@ export function generateGlideAutomation(
   outRateStart: number,
   outRateEnd: number,
   inRateStart: number,
-  inRateEnd: number,
+  inRateEnd: number
 ): GlideAutomationResult {
   const endTime = startTime + windowSeconds;
-  
+
   return {
     outTrack: [
-      { startValue: outRateStart, target: outRateEnd, startTime, endTime, curve: 'linear' }
+      { startValue: outRateStart, target: outRateEnd, startTime, endTime, curve: 'linear' },
     ],
-    inTrack: [
-      { startValue: inRateStart, target: inRateEnd, startTime, endTime, curve: 'linear' }
-    ],
+    inTrack: [{ startValue: inRateStart, target: inRateEnd, startTime, endTime, curve: 'linear' }],
   };
 }

@@ -5,5 +5,9 @@ export type TenantId = 'otomix' | 'otodj';
  * to the provided tenantId. The setting is transaction-local (is_local=true),
  * so it automatically resets on COMMIT or ROLLBACK.
  */
-export declare function withTenant<T>(pool: Pool, tenantId: TenantId, fn: (client: PoolClient) => Promise<T>): Promise<T>;
+export declare function withTenant<T>(
+  pool: Pool,
+  tenantId: TenantId,
+  fn: (client: PoolClient) => Promise<T>
+): Promise<T>;
 //# sourceMappingURL=with-tenant.d.ts.map

@@ -27,7 +27,7 @@ export function selectStarterTrack(
   const wMix = options?.mixabilityWeight ?? 0.4;
   const wComp = options?.compatibilityWeight ?? 0.6;
 
-  const eligible = candidates.filter(c => c.mixabilityScore >= minMix);
+  const eligible = candidates.filter((c) => c.mixabilityScore >= minMix);
   if (eligible.length === 0) return null;
   if (eligible.length === 1) return eligible[0].trackId;
 
@@ -49,7 +49,7 @@ export function selectStarterTrack(
     }
 
     const avgComp = count > 0 ? totalComp / count : 0;
-    const combinedScore = (wMix * track.mixabilityScore) + (wComp * avgComp);
+    const combinedScore = wMix * track.mixabilityScore + wComp * avgComp;
 
     if (combinedScore > bestScore) {
       bestScore = combinedScore;

@@ -15,19 +15,23 @@ export const DEFAULT_LIMITS: Readonly<LimitsConfig> = Object.freeze({
 export type LimitReason = 'SIZE' | 'DURATION';
 
 export type LimitCheckResult =
-  | { ok: true }
-  | { ok: false; reason: LimitReason; limit: number; actual: number };
+  { ok: true } | { ok: false; reason: LimitReason; limit: number; actual: number };
 
 export function checkLimits(
   declaredSizeBytes: number,
   declaredDurationSec: number,
-  config: LimitsConfig = DEFAULT_LIMITS,
+  config: LimitsConfig = DEFAULT_LIMITS
 ): LimitCheckResult {
   if (!Number.isFinite(declaredSizeBytes) || declaredSizeBytes > config.maxBytes) {
     return { ok: false, reason: 'SIZE', limit: config.maxBytes, actual: declaredSizeBytes };
   }
   if (!Number.isFinite(declaredDurationSec) || declaredDurationSec > config.maxDurationSec) {
-    return { ok: false, reason: 'DURATION', limit: config.maxDurationSec, actual: declaredDurationSec };
+    return {
+      ok: false,
+      reason: 'DURATION',
+      limit: config.maxDurationSec,
+      actual: declaredDurationSec,
+    };
   }
   return { ok: true };
 }

@@ -4,12 +4,21 @@ export const OTOMIX_TOPIC_PREFIX = 'otomix.';
 
 export class NamespaceViolationError extends Error {
   readonly code = 'INVALID_ARGUMENT' as const;
-  constructor(message: string) { super(message); this.name = 'NamespaceViolationError'; }
+  constructor(message: string) {
+    super(message);
+    this.name = 'NamespaceViolationError';
+  }
 }
 
 export interface RedisLike {
   get(key: string): Promise<string | null>;
-  set(key: string, value: string, mode?: string, ttlSeconds?: number, nx?: boolean): Promise<'OK' | null>;
+  set(
+    key: string,
+    value: string,
+    mode?: string,
+    ttlSeconds?: number,
+    nx?: boolean
+  ): Promise<'OK' | null>;
   del(key: string): Promise<number>;
   exists(key: string): Promise<number>;
   ttl(key: string): Promise<number>;
@@ -54,7 +63,13 @@ function fullRedisKey(key: string): string {
     throw new NamespaceViolationError("redis key cannot start with 'otodj:' in OTOMIX wrapper");
   }
   if (key.startsWith('otomix')) {
-    throw new NamespaceViolationError("redis key '" + key + "' is not a valid otomix key (expected prefix '" + OTOMIX_REDIS_PREFIX + "')");
+    throw new NamespaceViolationError(
+      "redis key '" +
+        key +
+        "' is not a valid otomix key (expected prefix '" +
+        OTOMIX_REDIS_PREFIX +
+        "')"
+    );
   }
   return OTOMIX_REDIS_PREFIX + key;
 }
@@ -68,7 +83,13 @@ function fullStorageKey(key: string): string {
     throw new NamespaceViolationError("storage key cannot start with 'otodj/'");
   }
   if (key.startsWith('otomix')) {
-    throw new NamespaceViolationError("storage key '" + key + "' is not a valid otomix key (expected prefix '" + OTOMIX_STORAGE_PREFIX + "')");
+    throw new NamespaceViolationError(
+      "storage key '" +
+        key +
+        "' is not a valid otomix key (expected prefix '" +
+        OTOMIX_STORAGE_PREFIX +
+        "')"
+    );
   }
   return OTOMIX_STORAGE_PREFIX + key;
 }
@@ -82,14 +103,22 @@ function fullTopic(topic: string): string {
     throw new NamespaceViolationError("topic cannot start with 'otodj.'");
   }
   if (topic.startsWith('otomix')) {
-    throw new NamespaceViolationError("topic '" + topic + "' is not a valid otomix topic (expected prefix '" + OTOMIX_TOPIC_PREFIX + "')");
+    throw new NamespaceViolationError(
+      "topic '" +
+        topic +
+        "' is not a valid otomix topic (expected prefix '" +
+        OTOMIX_TOPIC_PREFIX +
+        "')"
+    );
   }
   return OTOMIX_TOPIC_PREFIX + topic;
 }
 
 export function createNamespacedRedis(redis: RedisLike): NamespacedRedis {
   return {
-    async get(key) { return redis.get(fullRedisKey(key)); },
+    async get(key) {
+      return redis.get(fullRedisKey(key));
+    },
     async set(key, value, ttlSeconds) {
       const full = fullRedisKey(key);
       if (typeof ttlSeconds === 'number' && ttlSeconds > 0) {
@@ -97,23 +126,39 @@ export function createNamespacedRedis(redis: RedisLike): NamespacedRedis {
       }
       return redis.set(full, value);
     },
-    async del(key) { return redis.del(fullRedisKey(key)); },
-    async exists(key) { return redis.exists(fullRedisKey(key)); },
-    async ttl(key) { return redis.ttl(fullRedisKey(key)); },
-    async quit() { return redis.quit(); },
+    async del(key) {
+      return redis.del(fullRedisKey(key));
+    },
+    async exists(key) {
+      return redis.exists(fullRedisKey(key));
+    },
+    async ttl(key) {
+      return redis.ttl(fullRedisKey(key));
+    },
+    async quit() {
+      return redis.quit();
+    },
   };
 }
 
 export function createNamespacedStorage(storage: StorageClient): NamespacedStorage {
   return {
-    async put(key, data) { return storage.putObject(fullStorageKey(key), data); },
-    async get(key) { return storage.getObject(fullStorageKey(key)); },
-    async delete(key) { return storage.deleteObject(fullStorageKey(key)); },
+    async put(key, data) {
+      return storage.putObject(fullStorageKey(key), data);
+    },
+    async get(key) {
+      return storage.getObject(fullStorageKey(key));
+    },
+    async delete(key) {
+      return storage.deleteObject(fullStorageKey(key));
+    },
   };
 }
 
 export function createNamespacedPublisher(publisher: PublisherClient): NamespacedPublisher {
   return {
-    async publish(topic, message) { return publisher.publish(fullTopic(topic), message); },
+    async publish(topic, message) {
+      return publisher.publish(fullTopic(topic), message);
+    },
   };
 }

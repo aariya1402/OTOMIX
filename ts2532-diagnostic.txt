@@ -1,0 +1,145 @@
+﻿TS2532 Diagnostic Report
+Generated:   2026-11-24 05:56:44
+Working dir: C:\Oto Dj - Oto Mix\Oto Mix
+PowerShell:  5.1.26100.9711
+
+========================================================================
+1) Locate bootstrap.ts
+========================================================================
+  C:\Oto Dj - Oto Mix\Oto Mix\packages\access\src\rbac\bootstrap.ts  [4149 bytes, mtime 2026-11-24 05:54]
+
+========================================================================
+2) bootstrap.ts around line 52
+========================================================================
+      37|     );
+      38|     const ruR = await client.query<{ role_id: string }>(
+      39|       'SELECT role_id FROM roles WHERE role_name=$1 AND tenant_id=$2',
+      40|       ['regular_user', input.tenantId]
+      41|     );
+      42|     if (saR.rows.length === 0 || ruR.rows.length === 0) throw new Error('base roles missing');
+      43| 
+      44|     const saId = saR.rows[0]!.role_id;
+      45|     const ruId = ruR.rows[0]!.role_id;
+      46| 
+      47|     const existing = await client.query<{ role_name: string }>(
+      48|       'SELECT r.role_name FROM user_roles ur JOIN roles r ON ur.role_id = r.role_id WHERE ur.user_id=$1 AND ur.tenant_id=$2 AND ur.revoked_at IS NULL LIMIT 1',
+      49|       [input.userId, input.tenantId]
+      50|     );
+      51|     if (existing.rows.length > 0) {
+ >>   52|       const name = String(existing.rows[0].role_name);
+      53|       const role: 'super_admin' | 'regular_user' =
+      54|         name === 'super_admin' ? 'super_admin' : 'regular_user';
+      55|       await client.query('COMMIT');
+      56|       return { assignedRole: role, isFirstUser: role === 'super_admin' };
+      57|     }
+      58| 
+      59|     const countR = await client.query<{ c: number }>(
+      60|       'SELECT COUNT(DISTINCT ur.user_id)::int AS c FROM user_roles ur WHERE ur.tenant_id=$1 AND ur.revoked_at IS NULL AND ur.user_id != $2',
+      61|       [input.tenantId, input.userId]
+      62|     );
+      63|     // COUNT query always returns exactly one row
+      64|     const rows = countR.rows as Array<{ c: number }>;
+      65|     const row = rows[0] as { c: number };
+      66|     const count = Number(row.c);
+      67|     const isFirstUser = count === 0;
+
+Total lines: 111
+
+========================================================================
+3) tsconfig*.json flags (relevant to TS2532)
+========================================================================
+
+--- C:\Oto Dj - Oto Mix\Oto Mix\tsconfig.json ---
+  strict                     = True
+  strictNullChecks           = (unset)
+  noUncheckedIndexedAccess   = True
+  exactOptionalPropertyTypes = True
+
+--- C:\Oto Dj - Oto Mix\Oto Mix\packages\access\tsconfig.json ---
+  strict                     = (unset)
+  strictNullChecks           = (unset)
+  noUncheckedIndexedAccess   = (unset)
+  exactOptionalPropertyTypes = (unset)
+
+--- C:\Oto Dj - Oto Mix\Oto Mix\packages\adapter\tsconfig.json ---
+  strict                     = (unset)
+  strictNullChecks           = (unset)
+  noUncheckedIndexedAccess   = (unset)
+  exactOptionalPropertyTypes = (unset)
+
+--- C:\Oto Dj - Oto Mix\Oto Mix\packages\contracts\tsconfig.json ---
+  strict                     = (unset)
+  strictNullChecks           = (unset)
+  noUncheckedIndexedAccess   = (unset)
+  exactOptionalPropertyTypes = (unset)
+
+--- C:\Oto Dj - Oto Mix\Oto Mix\packages\core\tsconfig.json ---
+  strict                     = (unset)
+  strictNullChecks           = (unset)
+  noUncheckedIndexedAccess   = False
+  exactOptionalPropertyTypes = (unset)
+
+--- C:\Oto Dj - Oto Mix\Oto Mix\packages\db\tsconfig.json ---
+  strict                     = (unset)
+  strictNullChecks           = (unset)
+  noUncheckedIndexedAccess   = (unset)
+  exactOptionalPropertyTypes = (unset)
+
+--- C:\Oto Dj - Oto Mix\Oto Mix\packages\gateway\tsconfig.json ---
+  strict                     = (unset)
+  strictNullChecks           = (unset)
+  noUncheckedIndexedAccess   = (unset)
+  exactOptionalPropertyTypes = (unset)
+
+--- C:\Oto Dj - Oto Mix\Oto Mix\packages\proto\tsconfig.json ---
+  strict                     = (unset)
+  strictNullChecks           = (unset)
+  noUncheckedIndexedAccess   = (unset)
+  exactOptionalPropertyTypes = (unset)
+
+--- C:\Oto Dj - Oto Mix\Oto Mix\packages\ui\tsconfig.json ---
+  strict                     = (unset)
+  strictNullChecks           = (unset)
+  noUncheckedIndexedAccess   = (unset)
+  exactOptionalPropertyTypes = (unset)
+
+--- C:\Oto Dj - Oto Mix\Oto Mix\packages\workers\tsconfig.json ---
+  strict                     = (unset)
+  strictNullChecks           = (unset)
+  noUncheckedIndexedAccess   = (unset)
+  exactOptionalPropertyTypes = (unset)
+
+========================================================================
+4) pnpm build output
+========================================================================
+$ pnpm -r build
+Scope: 9 of 10 workspace projects
+packages/access build$ tsc
+packages/proto build$ tsc
+packages/ui build$ tsc
+packages/db build$ tsc
+packages/ui build: Done
+packages/proto build: Done
+packages/db build: Done
+packages/access build: src/rbac/bootstrap.ts(52,27): error TS2532: Object is possibly 'undefined'.
+packages/access build: Failed
+C:\Oto Dj - Oto Mix\Oto Mix\packages\access:
+ΓÇëERR_PNPM_RECURSIVE_RUN_FIRST_FAILΓÇë @otomix/access@0.0.1 build: `tsc`
+Exit status 2
+[ELIFECYCLE] Command failed with exit code 2.
+
+--- TS2532 lines only ---
+packages/access build: src/rbac/bootstrap.ts(52,27): error TS2532: Object is possibly 'undefined'.
+
+========================================================================
+5) suspicious patterns near line 52 (lines 30-75)
+========================================================================
+  line 44  [non-null '!'] const saId = saR.rows[0]!.role_id;
+  line 45  [non-null '!'] const ruId = ruR.rows[0]!.role_id;
+  line 52  [index access]   const name = String(existing.rows[0].role_name);
+
+========================================================================
+6) Auto hints
+========================================================================
+  - line 52 uses index access without ?. -> cache it: const x = arr[i]; if (x) x.method();
+

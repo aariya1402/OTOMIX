@@ -1,8 +1,9 @@
 // OTOMIX §3.2 · Butterworth low-pass filter (cascaded biquads)
-import { Biquad, BiquadCoeffs } from './biquad.js';
+import { Biquad } from './biquad.js';
+import type { BiquadCoeffs } from './biquad.js';
 
 function biquadLowpass(fc: number, fs: number, q: number): BiquadCoeffs {
-  const wc = 2 * Math.PI * fc / fs;
+  const wc = (2 * Math.PI * fc) / fs;
   const cosw = Math.cos(wc);
   const sinw = Math.sin(wc);
   const alpha = sinw / (2 * q);
@@ -27,11 +28,15 @@ export class CascadedButterworth {
   private readonly sections: Biquad[];
   constructor(order: number, fc: number, fs: number) {
     // Standard Butterworth pole angles
-    const qs = order === 2 ? [Math.SQRT1_2] :
-               order === 4 ? [0.54119610, 1.30656296] :
-               order === 6 ? [0.51763809, 0.70710678, 1.93185165] :
-               [0.54119610, 1.30656296];
-    this.sections = qs.map(q => new Biquad(biquadLowpass(fc, fs, q)));
+    const qs =
+      order === 2
+        ? [Math.SQRT1_2]
+        : order === 4
+          ? [0.5411961, 1.30656296]
+          : order === 6
+            ? [0.51763809, 0.70710678, 1.93185165]
+            : [0.5411961, 1.30656296];
+    this.sections = qs.map((q) => new Biquad(biquadLowpass(fc, fs, q)));
   }
 
   process(x: number): number {
@@ -40,5 +45,7 @@ export class CascadedButterworth {
     return y;
   }
 
-  reset(): void { this.sections.forEach(s => s.reset()); }
+  reset(): void {
+    this.sections.forEach((s) => s.reset());
+  }
 }

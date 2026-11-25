@@ -1,6 +1,6 @@
 // OTOMIX §3.5 · Mother §2.5
 import { IRREGULAR_XFADE_EXTRA_QUANTA } from '../constants/grid.js';
-import { GrooveMode } from './types.js';
+import type { GrooveMode } from './types.js';
 
 /**
  * Resolves the effective groove mode for rendering.
@@ -21,10 +21,7 @@ export function resolveGrooveMode(mode: GrooveMode): GrooveMode {
  * @param mode - Classified groove mode (pre-resolution)
  * @returns Extended crossfade in quanta
  */
-export function extendCrossfadeForIrregular(
-  baseCrossfadeQuanta: number,
-  mode: GrooveMode
-): number {
+export function extendCrossfadeForIrregular(baseCrossfadeQuanta: number, mode: GrooveMode): number {
   return mode === 'Irregular'
     ? baseCrossfadeQuanta + IRREGULAR_XFADE_EXTRA_QUANTA
     : baseCrossfadeQuanta;

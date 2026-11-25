@@ -1,13 +1,10 @@
 import { randomBytes, randomUUID } from 'node:crypto';
 import type Redis from 'ioredis';
 import { REFRESH_TTL_DAYS } from '../constants';
-import {
+import type {
   IssuedRefreshToken,
   RefreshTokenClaims,
   RefreshTokenIssueInput,
-  RefreshTokenNotFoundError,
-  RefreshTokenReuseError,
-  RefreshTokenRevokedError,
 } from './types';
 
 const KEY_PREFIX = 'otomix:refresh:';
@@ -18,7 +15,7 @@ const TTL_SECONDS = REFRESH_TTL_DAYS * 86400;
 
 export async function issueRefreshToken(
   input: RefreshTokenIssueInput,
-  redis: Redis,
+  redis: Redis
 ): Promise<IssuedRefreshToken> {
   const familyId = randomUUID();
   const jti = randomBytes(32).toString('hex');
@@ -75,10 +72,7 @@ redis.call('SET', KEYS[2], cjson.encode(newData), 'EX', ARGV[4])
 return cjson.encode(newData)
 `;
 
-export async function rotateRefreshToken(
-  token: string,
-  redis: Redis,
-): Promise<IssuedRefreshToken> {
+export async function rotateRefreshToken(token: string, redis: Redis): Promise<IssuedRefreshToken> {
   const newJti = randomBytes(32).toString('hex');
   const newIat = Math.floor(Date.now() / 1000);
   const newExp = newIat + TTL_SECONDS;
@@ -86,33 +80,20 @@ export async function rotateRefreshToken(
   const oldKey = JTI_PREFIX + token;
   const newKey = JTI_PREFIX + newJti;
 
-  let resultRaw: unknown;
-  try {
-    resultRaw = await redis.eval(
-      ROTATE_SCRIPT,
-      2,
-      oldKey,
-      newKey,
-      newJti,
-      String(newIat),
-      String(newExp),
-      String(TTL_SECONDS),
-      REVOKED_PREFIX,
+  const resultRaw: string = String(
+      await redis.eval(
+        ROTATE_SCRIPT,
+        2,
+        oldKey,
+        newKey,
+        newJti,
+        String(newIat),
+        String(newExp),
+        String(TTL_SECONDS),
+        REVOKED_PREFIX
+      )
     );
-  } catch (err: unknown) {
-    const msg = String((err as Error)?.message ?? err);
-    if (msg.includes('REVOKED')) {
-      throw new RefreshTokenRevokedError('refresh token revoked: family is blocked');
-    }
-    if (msg.includes('NOT_FOUND')) {
-      throw new RefreshTokenNotFoundError('refresh token not found: ' + token);
-    }
-    if (msg.includes('REUSE')) {
-      throw new RefreshTokenReuseError('refresh token reuse detected: ' + token);
-    }
-    throw err;
-  }
 
-  const newClaims: RefreshTokenClaims = JSON.parse(String(resultRaw));
+  const newClaims: RefreshTokenClaims = JSON.parse(resultRaw);
   return { token: newJti, claims: newClaims };
 }

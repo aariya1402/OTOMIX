@@ -2,7 +2,7 @@
 // Library-agnostic analysis engine contract.
 // Defines the JSON payloads for the castle-and-moat isolation boundary.
 
-import Ajv from 'ajv';
+import { Ajv } from 'ajv';
 import schema from '../schemas/analysis-engine-api.json' with { type: 'json' };
 
 export interface AnalysisEngineRequest {
@@ -15,17 +15,16 @@ export interface AnalysisEngineRequest {
 }
 
 export type AnalysisEngineResponse =
-  | { status: 'success'; features: Record<string, unknown> }
-  | { status: 'error'; message: string };
+  { status: 'success'; features: Record<string, unknown> } | { status: 'error'; message: string };
 
 export type AnalysisEngineValidationResult =
-  | { ok: true; value: unknown }
-  | { ok: false; error: 'INVALID_ARGUMENT'; message: string };
+  { ok: true; value: unknown } | { ok: false; error: 'INVALID_ARGUMENT'; message: string };
 
 const ajv = new Ajv({ strict: false, allErrors: true, verbose: true });
 ajv.addFormat('uuid', {
   type: 'string',
-  validate: (v: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v),
+  validate: (v: string) =>
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v),
 });
 
 // Compile root (Request)
@@ -38,7 +37,7 @@ const validateResponse = ajv.compile(responseSchema);
 
 function formatErrors(errors: any[] | null | undefined): string {
   if (!errors || errors.length === 0) return 'Unknown validation error';
-  return errors.map(e => `${e.instancePath} ${e.message}`).join('; ');
+  return errors.map((e) => `${e.instancePath} ${e.message}`).join('; ');
 }
 
 export function validateAnalysisEngineRequest(input: unknown): AnalysisEngineValidationResult {

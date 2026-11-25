@@ -19,7 +19,7 @@ function downmixToMono(channelData: Float32Array[]): Float32Array {
 
 function resampleLinear(input: Float32Array, fromRate: number, toRate: number): Float32Array {
   if (fromRate === toRate || input.length === 0) return input;
-  const outLen = Math.round(input.length * toRate / fromRate);
+  const outLen = Math.round((input.length * toRate) / fromRate);
   const out = new Float32Array(outLen);
   const ratio = fromRate / toRate;
   const last = input.length - 1;
@@ -36,7 +36,7 @@ function resampleLinear(input: Float32Array, fromRate: number, toRate: number): 
 export function normalizeChannels(
   channelData: Float32Array[],
   sampleRate: number,
-  forceMono: boolean = true,
+  forceMono: boolean = true
 ): Float32Array {
   const mono = forceMono ? downmixToMono(channelData) : channelData[0];
   return resampleLinear(mono, sampleRate, TARGET_SAMPLE_RATE);

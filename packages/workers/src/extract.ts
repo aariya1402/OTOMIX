@@ -27,7 +27,7 @@ export interface Releasable {
 export function extractWithGuarantee<E extends Releasable, R>(
   engine: E,
   input: unknown,
-  run: (engine: E, input: unknown) => R,
+  run: (engine: E, input: unknown) => R
 ): R {
   try {
     return run(engine, input);

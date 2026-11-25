@@ -26,7 +26,10 @@ export interface VaultClient {
 
 export class TokenIssuanceError extends Error {
   readonly code = 'TOKEN_ISSUANCE_ERROR' as const;
-  constructor(message: string) { super(message); this.name = 'TokenIssuanceError'; }
+  constructor(message: string) {
+    super(message);
+    this.name = 'TokenIssuanceError';
+  }
 }
 
 export type RefreshTokenStatus = 'active' | 'consumed';
@@ -55,15 +58,24 @@ export interface IssuedRefreshToken {
 
 export class RefreshTokenReuseError extends Error {
   readonly code = 'REFRESH_TOKEN_REUSE' as const;
-  constructor(message: string) { super(message); this.name = 'RefreshTokenReuseError'; }
+  constructor(message: string) {
+    super(message);
+    this.name = 'RefreshTokenReuseError';
+  }
 }
 
 export class RefreshTokenRevokedError extends Error {
   readonly code = 'REFRESH_TOKEN_REVOKED' as const;
-  constructor(message: string) { super(message); this.name = 'RefreshTokenRevokedError'; }
+  constructor(message: string) {
+    super(message);
+    this.name = 'RefreshTokenRevokedError';
+  }
 }
 
 export class RefreshTokenNotFoundError extends Error {
   readonly code = 'REFRESH_TOKEN_NOT_FOUND' as const;
-  constructor(message: string) { super(message); this.name = 'RefreshTokenNotFoundError'; }
+  constructor(message: string) {
+    super(message);
+    this.name = 'RefreshTokenNotFoundError';
+  }
 }

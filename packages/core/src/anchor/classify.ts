@@ -1,6 +1,7 @@
 // OTOMIX §3.4 · Mother §2.4
 import { CORR_MIN, SHAPE_VAR_MAX } from '../constants/grid.js';
-import { pearsonCorrelation, PearsonResult } from './pearson.js';
+import { pearsonCorrelation } from './pearson.js';
+import type { PearsonResult } from './pearson.js';
 
 export type KickClassification = 'ON_BEAT' | 'OFF_BEAT';
 export type KickEnvelope = Float32Array;
@@ -13,12 +14,12 @@ export function computeShapeVariance(candidate: KickEnvelope, ref: KickEnvelope)
   let candidatePeak = 0;
   let refPeak = 0;
   const len = Math.min(candidate.length, ref.length);
-  
+
   for (let i = 0; i < len; i++) {
     if (candidate[i] > candidatePeak) candidatePeak = candidate[i];
     if (ref[i] > refPeak) refPeak = ref[i];
   }
-  
+
   if (refPeak === 0) return 1;
   return Math.abs(candidatePeak - refPeak) / refPeak;
 }
@@ -32,19 +33,19 @@ export function classifyKick(
   refs: readonly KickEnvelope[]
 ): KickClassification {
   if (refs.length === 0) return 'OFF_BEAT';
-  
+
   for (const ref of refs) {
     const { r, varianceZero }: PearsonResult = pearsonCorrelation(candidate, ref);
-    
+
     if (varianceZero) return 'OFF_BEAT';
-    
+
     const shapeVariance = computeShapeVariance(candidate, ref);
-    
+
     // Strict comparisons per spec: r < 0.85 OR variance > 0.15 -> OFF_BEAT
     if (r < CORR_MIN || shapeVariance > SHAPE_VAR_MAX) {
       return 'OFF_BEAT';
     }
   }
-  
+
   return 'ON_BEAT';
 }

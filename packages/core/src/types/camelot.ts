@@ -4,8 +4,7 @@ declare const __camelotBrand: unique symbol;
 export type CamelotKey = string & { readonly [__camelotBrand]: true };
 
 export type CamelotKeyResult =
-  | { ok: true; value: CamelotKey }
-  | { ok: false; error: 'INVALID_ARGUMENT'; message: string };
+  { ok: true; value: CamelotKey } | { ok: false; error: 'INVALID_ARGUMENT'; message: string };
 
 const CAMELOT_RE = /^(1[0-2]|[1-9])[AB]$/;
 

@@ -1,12 +1,13 @@
 // OTOMIX §3.1 · Mother §2.1
 import { tOfI } from './t-of-i.js';
 import { BPM } from '../types/bpm.js';
+import type { BeatIndex } from '../types/beat-index.js';
 
 export interface GridSegment {
   startBeat: number;
   bpmSeed: number;
   T0: number;
-  delta: number;  // drift in QUANTA (internal musical domain)
+  delta: number; // drift in QUANTA (internal musical domain)
 }
 
 export type GridState = 'LOCKED' | 'RECOVERY';
@@ -50,11 +51,17 @@ export class GridModel {
 
   t(i: number): number {
     const segment = this.findSegment(i);
-    return tOfI(i as unknown as import('../types/beat-index.js').BeatIndex, segment.T0, segment.bpmSeed as unknown as import('../types/bpm.js').BPM, segment.delta);
+    return tOfI(
+      i as unknown as BeatIndex,
+      segment.T0,
+      segment.bpmSeed as unknown as BPM,
+      segment.delta
+    );
   }
 
   private findSegment(i: number): GridSegment {
-    let lo = 0, hi = this.segments.length - 1;
+    let lo = 0,
+      hi = this.segments.length - 1;
     while (lo <= hi) {
       const mid = (lo + hi) >> 1;
       if (this.segments[mid].startBeat <= i) lo = mid + 1;

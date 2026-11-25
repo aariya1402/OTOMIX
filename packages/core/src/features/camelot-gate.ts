@@ -13,10 +13,7 @@
 
 import { CamelotKey } from '../types/camelot.js';
 
-export function isCamelotCompatible(
-  a: CamelotKey | string,
-  b: CamelotKey | string,
-): boolean {
+export function isCamelotCompatible(a: CamelotKey | string, b: CamelotKey | string): boolean {
   const pa = CamelotKey.parse(a);
   if (!pa.ok) return false;
   const pb = CamelotKey.parse(b);

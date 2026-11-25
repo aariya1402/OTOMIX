@@ -1,4 +1,5 @@
-import { Biquad, BiquadCoeffs } from './biquad.js';
+import { Biquad } from './biquad.js';
+import type { BiquadCoeffs } from './biquad.js';
 import { OnePoleSmoother } from './smoother.js';
 import { flushDenormal } from './denormal.js';
 import type { CompressorProfile } from '../config/transition-config.js';
@@ -8,18 +9,26 @@ function calcButterworthLPF(freq: number, sampleRate: number): BiquadCoeffs {
   const w0 = 2 * Math.PI * (freq / sampleRate);
   const cosw0 = Math.cos(w0);
   const alpha = Math.sin(w0) / (2 * 0.70710678);
-  const b0 = (1 - cosw0) / 2, b1 = 1 - cosw0, b2 = (1 - cosw0) / 2;
-  const a0 = 1 + alpha, a1 = -2 * cosw0, a2 = 1 - alpha;
-  return { b0: b0/a0, b1: b1/a0, b2: b2/a0, a1: a1/a0, a2: a2/a0 };
+  const b0 = (1 - cosw0) / 2,
+    b1 = 1 - cosw0,
+    b2 = (1 - cosw0) / 2;
+  const a0 = 1 + alpha,
+    a1 = -2 * cosw0,
+    a2 = 1 - alpha;
+  return { b0: b0 / a0, b1: b1 / a0, b2: b2 / a0, a1: a1 / a0, a2: a2 / a0 };
 }
 
 function calcButterworthHPF(freq: number, sampleRate: number): BiquadCoeffs {
   const w0 = 2 * Math.PI * (freq / sampleRate);
   const cosw0 = Math.cos(w0);
   const alpha = Math.sin(w0) / (2 * 0.70710678);
-  const b0 = (1 + cosw0) / 2, b1 = -(1 + cosw0), b2 = (1 + cosw0) / 2;
-  const a0 = 1 + alpha, a1 = -2 * cosw0, a2 = 1 - alpha;
-  return { b0: b0/a0, b1: b1/a0, b2: b2/a0, a1: a1/a0, a2: a2/a0 };
+  const b0 = (1 + cosw0) / 2,
+    b1 = -(1 + cosw0),
+    b2 = (1 + cosw0) / 2;
+  const a0 = 1 + alpha,
+    a1 = -2 * cosw0,
+    a2 = 1 - alpha;
+  return { b0: b0 / a0, b1: b1 / a0, b2: b2 / a0, a1: a1 / a0, a2: a2 / a0 };
 }
 
 class BandCompressor {
@@ -51,7 +60,7 @@ class BandCompressor {
     // 1. Detector (Peak)
     const absSample = Math.abs(sample);
     const env = this.envSmoother.process(absSample);
-    
+
     // 2. Gain Computer
     let gain = 1.0;
     if (env > this.thresholdLinear) {
@@ -61,10 +70,10 @@ class BandCompressor {
       const targetDb = thresholdDb + (inputDb - thresholdDb) / this.ratio;
       gain = Math.pow(10, (targetDb - inputDb) / 20);
     }
-    
+
     // 3. Smooth Gain
     const smoothedGain = this.gainSmoother.process(gain);
-    
+
     return sample * smoothedGain * this.makeupGainLinear;
   }
 
@@ -77,23 +86,23 @@ class BandCompressor {
 export class MultibandCompressor {
   private profile: CompressorProfile;
   private sampleRate: number;
-  
+
   private low1: Biquad;
   private low2: Biquad;
   private high1: Biquad;
   private high2: Biquad;
-  
+
   private lowComp: BandCompressor;
   private midComp: BandCompressor;
   private highComp: BandCompressor;
-  
+
   private lowBuffer: Float32Array;
   private highBuffer: Float32Array;
 
   constructor(profile: CompressorProfile, sampleRate: number, blockSize: number) {
     this.profile = profile;
     this.sampleRate = sampleRate;
-    
+
     this.lowBuffer = new Float32Array(blockSize);
     this.highBuffer = new Float32Array(blockSize);
 
@@ -113,11 +122,11 @@ export class MultibandCompressor {
   public prepare(sampleRate: number, bpm: number): void {
     this.sampleRate = sampleRate;
     this.updateProfile(this.profile); // Recalculate crossovers
-    
-    const samplesPerBeat = sampleRate * 60 / bpm;
+
+    const samplesPerBeat = (sampleRate * 60) / bpm;
     const attackSamples = this.profile.attackBeats * samplesPerBeat;
     const releaseSamples = this.profile.releaseBeats * samplesPerBeat;
-    
+
     this.lowComp.prepare(attackSamples, releaseSamples);
     this.midComp.prepare(attackSamples, releaseSamples);
     this.highComp.prepare(attackSamples, releaseSamples);
@@ -127,7 +136,7 @@ export class MultibandCompressor {
     this.profile = profile;
     const lpf = calcButterworthLPF(profile.lowCrossover.frequency, this.sampleRate);
     const hpf = calcButterworthHPF(profile.highCrossover.frequency, this.sampleRate);
-    
+
     this.low1.setCoeffs(lpf);
     this.low2.setCoeffs(lpf);
     this.high1.setCoeffs(hpf);
@@ -139,38 +148,40 @@ export class MultibandCompressor {
     if (this.lowBuffer.length < len) {
       // In a real RT-safe scenario, blockSize should be pre-calculated to max length.
       // This is a fallback, though it allocates. We'll assume blockSize >= len.
-      return; 
+      return;
     }
 
     for (let i = 0; i < len; i++) {
       const x = input[i];
-      
+
       // LR4 Low
       let low = this.low1.process(x);
       low = this.low2.process(low);
       this.lowBuffer[i] = low;
-      
+
       // LR4 High
       let high = this.high1.process(x);
       high = this.high2.process(high);
       this.highBuffer[i] = high;
-      
+
       // Mid (input - low - high)
       const mid = x - low - high;
-      
+
       // Compress each band
       const cLow = this.lowComp.process(low);
       const cMid = this.midComp.process(mid);
       const cHigh = this.highComp.process(high);
-      
+
       // Sum
       output[i] = flushDenormal(cLow + cMid + cHigh);
     }
   }
 
   public reset(): void {
-    this.low1.reset(); this.low2.reset();
-    this.high1.reset(); this.high2.reset();
+    this.low1.reset();
+    this.low2.reset();
+    this.high1.reset();
+    this.high2.reset();
     this.lowComp.reset();
     this.midComp.reset();
     this.highComp.reset();

@@ -35,11 +35,14 @@ export class EngineClient {
         if (isDone) return;
         isDone = true;
         worker.terminate(); // Ensure cleanup
-        
+
         // 3. Validate response boundary
         const resValidation = validateAnalysisEngineResponse(response);
         if (!resValidation.ok) {
-          resolve({ status: 'error', message: `Client post-validation failed: ${resValidation.message}` });
+          resolve({
+            status: 'error',
+            message: `Client post-validation failed: ${resValidation.message}`,
+          });
         } else {
           resolve(response);
         }

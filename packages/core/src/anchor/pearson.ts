@@ -1,7 +1,6 @@
 // OTOMIX §3.4 · Mother §2.4
 // Zero-RAM Pearson correlation over 100 ms low-frequency energy envelopes.
 
-
 export interface PearsonResult {
   r: number;
   varianceZero: boolean;
@@ -49,4 +48,3 @@ export function pearsonCorrelation(
 
   return { r: Math.max(-1, Math.min(1, r)), varianceZero: false };
 }
-

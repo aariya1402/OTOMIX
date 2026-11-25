@@ -1,4 +1,4 @@
-import defaultConfig from './analysis-config.json' with { type: 'json' };
+import defaultConfig from './analysis-config.json';
 
 export interface EnergyConfig {
   weights: Record<string, number>;
@@ -15,13 +15,13 @@ export interface CompatibilityConfig {
   weights: Record<string, number>;
 }
 
-
 export interface TempoConfig {
   k: number;
   maxIterations: number;
   epsilon: number;
   peakStrengthThreshold: number;
   peakToleranceBpm: number;
+  bpmDynamicThresholdBpm?: number;
 }
 
 export interface AnalysisConfig {

@@ -1,7 +1,10 @@
 // OTOMIX §3.2 · Generic biquad filter (Direct Form II)
 export interface BiquadCoeffs {
-  b0: number; b1: number; b2: number;
-  a1: number; a2: number;
+  b0: number;
+  b1: number;
+  b2: number;
+  a1: number;
+  a2: number;
 }
 
 export class Biquad {
@@ -24,5 +27,8 @@ export class Biquad {
     return y;
   }
 
-  reset(): void { this.z1 = 0; this.z2 = 0; }
+  reset(): void {
+    this.z1 = 0;
+    this.z2 = 0;
+  }
 }

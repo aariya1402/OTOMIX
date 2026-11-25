@@ -19,8 +19,7 @@ export type ConfineWarnSink = (record: {
 }) => void;
 
 export type LocalConfineResult =
-  | { ok: true }
-  | { ok: false; error: 'INVALID_ARGUMENT'; message: string };
+  { ok: true } | { ok: false; error: 'INVALID_ARGUMENT'; message: string };
 
 export function confineForLocal(handle: HandleLike, warn?: ConfineWarnSink): LocalConfineResult {
   if (!handle || handle.kind !== 'file') {
@@ -31,8 +30,11 @@ export function confineForLocal(handle: HandleLike, warn?: ConfineWarnSink): Loc
       reason: 'INVALID_HANDLE' as const,
       fileName: handle?.name ?? 'unknown',
     };
-    if (warn) { warn(record); }
-    else if (typeof console !== 'undefined' && console.warn) { console.warn(record); }
+    if (warn) {
+      warn(record);
+    } else if (typeof console !== 'undefined' && console.warn) {
+      console.warn(record);
+    }
     return { ok: false, error: 'INVALID_ARGUMENT', message: 'handle is not a file handle' };
   }
   // API guarantee: the handle came from the user-picked directory.

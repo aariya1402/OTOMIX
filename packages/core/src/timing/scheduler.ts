@@ -2,7 +2,7 @@
 // Zero-RAM: pre-allocated heap, no allocations in poll()
 
 import { LOOKAHEAD_MS, SCHED_ACCURACY_MS } from '../constants/timing.js';
-import { Clock } from './clock.js';
+import type { Clock } from './clock.js';
 
 export interface ScheduledEvent {
   beat: number;
@@ -29,7 +29,7 @@ export class LookaheadScheduler {
   constructor(clock: Clock, capacity = 1024) {
     this.clock = clock;
     this.capacity = capacity;
-    this.heap = new Array(capacity);
+    this.heap = new Array<HeapNode>(capacity);
     this.lookaheadS = LOOKAHEAD_MS / 1000;
     this.accuracyS = SCHED_ACCURACY_MS / 1000;
   }
@@ -80,7 +80,7 @@ export class LookaheadScheduler {
     while (this.size > 0 && this.heap[0]!.targetTime <= windowEnd) {
       const node = this.popMin();
       const delayMs = (node.targetTime - now) * 1000;
-      
+
       if (delayMs <= 0) {
         node.event.callback();
       } else {
@@ -92,10 +92,10 @@ export class LookaheadScheduler {
 
     if (this.size > 0) {
       const nextDelay = Math.max(0, (this.heap[0]!.targetTime - now - this.lookaheadS) * 1000);
-      const clampedDelay = Math.max(1, Math.min(nextDelay, this.lookaheadS * 1000 / 2));
+      const clampedDelay = Math.max(1, Math.min(nextDelay, (this.lookaheadS * 1000) / 2));
       this.pollTimer = setTimeout(() => this.tick(), clampedDelay);
     } else {
-      this.pollTimer = setTimeout(() => this.tick(), this.lookaheadS * 1000 / 2);
+      this.pollTimer = setTimeout(() => this.tick(), (this.lookaheadS * 1000) / 2);
     }
   }
 
@@ -132,19 +132,20 @@ export class LookaheadScheduler {
   }
 
   private siftDown(i: number): void {
-    while (true) {
-      const left = (i << 1) + 1;
+    let current = i;
+    while (current < this.size) {
+      const left = (current << 1) + 1;
       const right = left + 1;
-      let smallest = i;
+      let smallest = current;
       if (left < this.size && this.heap[left]!.targetTime < this.heap[smallest]!.targetTime) {
         smallest = left;
       }
       if (right < this.size && this.heap[right]!.targetTime < this.heap[smallest]!.targetTime) {
         smallest = right;
       }
-      if (smallest === i) break;
-      [this.heap[i], this.heap[smallest]] = [this.heap[smallest], this.heap[i]];
-      i = smallest;
+      if (smallest === current) break;
+      [this.heap[current], this.heap[smallest]] = [this.heap[smallest], this.heap[current]];
+      current = smallest;
     }
   }
 }

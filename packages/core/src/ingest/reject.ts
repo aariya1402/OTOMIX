@@ -6,10 +6,7 @@
 export type RejectFormat = 'mp3' | 'wav' | 'flac';
 
 export type RejectReason =
-  | 'TRUNCATED_HEADER'
-  | 'INVALID_FRAME_SYNC'
-  | 'BAD_STREAMINFO'
-  | 'UNKNOWN_PARSE_FAILURE';
+  'TRUNCATED_HEADER' | 'INVALID_FRAME_SYNC' | 'BAD_STREAMINFO' | 'UNKNOWN_PARSE_FAILURE';
 
 export type RejectResult =
   | { ok: true }
@@ -38,7 +35,8 @@ function classifyWav(bytes: Uint8Array): RejectReason {
   while (pos + 8 <= bytes.length) {
     const id = asciiAt(bytes, pos, 4);
     const size = dv.getUint32(pos + 4, true);
-    if (id === 'data') return bytes.length - (pos + 8) < size ? 'TRUNCATED_HEADER' : 'UNKNOWN_PARSE_FAILURE';
+    if (id === 'data')
+      return bytes.length - (pos + 8) < size ? 'TRUNCATED_HEADER' : 'UNKNOWN_PARSE_FAILURE';
     pos += 8 + size + (size & 1);
   }
   return 'TRUNCATED_HEADER';
@@ -47,7 +45,8 @@ function classifyWav(bytes: Uint8Array): RejectReason {
 function classifyMp3(bytes: Uint8Array): RejectReason {
   if (bytes.length >= 3 && asciiAt(bytes, 0, 3) === 'ID3') {
     // Skip the ID3 tag header (10 bytes) and look for a frame sync afterwards.
-    const tagSize = ((bytes[6] ?? 0) << 21) | ((bytes[7] ?? 0) << 14) | ((bytes[8] ?? 0) << 7) | (bytes[9] ?? 0);
+    const tagSize =
+      ((bytes[6] ?? 0) << 21) | ((bytes[7] ?? 0) << 14) | ((bytes[8] ?? 0) << 7) | (bytes[9] ?? 0);
     const frameStart = 10 + tagSize;
     if (frameStart + 2 > bytes.length) return 'TRUNCATED_HEADER';
     return checkMpegSync(bytes, frameStart);
@@ -80,11 +79,11 @@ function classifyFlac(bytes: Uint8Array): RejectReason {
   if (blockType !== 0 || blockLen !== 34) return 'BAD_STREAMINFO';
   // total_samples = low nibble of byte 13 at offset 8 + bytes 14..17
   // If total_samples == 0, the stream is malformed (no audio frames declared).
-  const totalHigh = ((bytes[8 + 13] ?? 0) & 0x0f);
+  const totalHigh = (bytes[8 + 13] ?? 0) & 0x0f;
   const totalLow =
-    ((bytes[8 + 14] ?? 0) * 0x1000000) +
-    ((bytes[8 + 15] ?? 0) * 0x10000) +
-    ((bytes[8 + 16] ?? 0) * 0x100) +
+    (bytes[8 + 14] ?? 0) * 0x1000000 +
+    (bytes[8 + 15] ?? 0) * 0x10000 +
+    (bytes[8 + 16] ?? 0) * 0x100 +
     (bytes[8 + 17] ?? 0);
   if (totalHigh === 0 && totalLow === 0) return 'BAD_STREAMINFO';
   return 'UNKNOWN_PARSE_FAILURE';
@@ -93,7 +92,7 @@ function classifyFlac(bytes: Uint8Array): RejectReason {
 export function classifyDecodeFailure(
   format: RejectFormat,
   bytes: Uint8Array,
-  _errorMessage?: string,
+  _errorMessage?: string
 ): RejectResult {
   let reason: RejectReason = 'UNKNOWN_PARSE_FAILURE';
   if (format === 'wav') reason = classifyWav(bytes);

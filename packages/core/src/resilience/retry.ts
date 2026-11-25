@@ -30,10 +30,7 @@ function resolveMaxRetries(opts: RetryOptions): number {
   return Math.floor(candidate);
 }
 
-export async function retry<T>(
-  fn: () => Promise<T>,
-  opts: RetryOptions,
-): Promise<T> {
+export async function retry<T>(fn: () => Promise<T>, opts: RetryOptions): Promise<T> {
   if (!opts.idempotent) return fn();
 
   const rng = opts.rng ?? Math.random;
@@ -43,7 +40,7 @@ export async function retry<T>(
   const isRetryable = opts.isRetryable ?? (() => true);
 
   let attempt = 0;
-  while (true) {
+  while (attempt <= maxRetries && attempt < HARD_ITERATION_LIMIT) {
     try {
       return await fn();
     } catch (err) {
@@ -56,4 +53,6 @@ export async function retry<T>(
       attempt++;
     }
   }
+  // Should not reach here, but TypeScript needs a return
+  return fn();
 }

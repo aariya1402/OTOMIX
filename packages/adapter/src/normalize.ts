@@ -13,7 +13,10 @@ export type NormalizeResult =
 
 const TARGET_SAMPLE_RATE = 44100;
 
-export function normalizeInput(input: AudioBufferInput, forceMonoOverride?: boolean): NormalizeResult {
+export function normalizeInput(
+  input: AudioBufferInput,
+  forceMonoOverride?: boolean
+): NormalizeResult {
   if (input === null || input === undefined) {
     return { ok: false, error: 'INVALID_ARGUMENT', message: 'input is null or undefined' };
   }
@@ -23,13 +26,17 @@ export function normalizeInput(input: AudioBufferInput, forceMonoOverride?: bool
   }
   const channels = input.numberOfChannels;
   if (!Number.isInteger(channels) || channels <= 0) {
-    return { ok: false, error: 'INVALID_ARGUMENT', message: 'numberOfChannels must be a positive integer' };
+    return {
+      ok: false,
+      error: 'INVALID_ARGUMENT',
+      message: 'numberOfChannels must be a positive integer',
+    };
   }
   const inLen = input.length;
   if (!Number.isInteger(inLen) || inLen < 0) {
     return { ok: false, error: 'INVALID_ARGUMENT', message: 'length must be non-negative' };
   }
-  
+
   if (inLen === 0) {
     return { ok: true, value: [] };
   }
@@ -72,8 +79,10 @@ export function normalizeInput(input: AudioBufferInput, forceMonoOverride?: bool
     const outBuf = out[0];
     for (let n = 0; n < outLen; n++) {
       const pos = n * step;
-      let i0 = pos | 0; if (i0 > lastIdx) i0 = lastIdx;
-      const frac = pos - i0; const i1 = i0 < lastIdx ? i0 + 1 : i0;
+      let i0 = pos | 0;
+      if (i0 > lastIdx) i0 = lastIdx;
+      const frac = pos - i0;
+      const i1 = i0 < lastIdx ? i0 + 1 : i0;
       let sum = 0;
       for (let c = 0; c < channels; c++) {
         const ch = input.getChannelData(c);
@@ -87,8 +96,10 @@ export function normalizeInput(input: AudioBufferInput, forceMonoOverride?: bool
       const outBuf = out[c];
       for (let n = 0; n < outLen; n++) {
         const pos = n * step;
-        let i0 = pos | 0; if (i0 > lastIdx) i0 = lastIdx;
-        const frac = pos - i0; const i1 = i0 < lastIdx ? i0 + 1 : i0;
+        let i0 = pos | 0;
+        if (i0 > lastIdx) i0 = lastIdx;
+        const frac = pos - i0;
+        const i1 = i0 < lastIdx ? i0 + 1 : i0;
         outBuf![n] = ch[i0]! + (ch[i1]! - ch[i0]!) * frac;
       }
     }

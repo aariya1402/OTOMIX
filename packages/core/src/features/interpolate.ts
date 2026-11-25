@@ -27,7 +27,7 @@ export function interpolateMissingFeatures<T extends FeatureMap>(
   options: InterpolateOptions
 ): InterpolateResult<T> {
   const genreMedians = options.medians[options.genre];
-  
+
   // If the genre is not in the medians table, nothing to interpolate.
   if (!genreMedians) {
     return { features: { ...features }, interpolated_fields: [] };
@@ -38,11 +38,11 @@ export function interpolateMissingFeatures<T extends FeatureMap>(
 
   for (const [key, medianValue] of Object.entries(genreMedians)) {
     const current = features[key];
-    
+
     // Treat undefined or non-finite numbers as missing.
-    const isMissing = current === undefined ||
-      (typeof current === 'number' && !Number.isFinite(current));
-    
+    const isMissing =
+      current === undefined || (typeof current === 'number' && !Number.isFinite(current));
+
     if (isMissing) {
       filled[key] = medianValue;
       interpolated_fields.push(key);

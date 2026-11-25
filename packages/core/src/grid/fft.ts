@@ -8,10 +8,10 @@ export function fft(re: Float32Array, im: Float32Array): void {
     }
     j ^= bit;
     if (i < j) {
-      let tempRe = re[i];
+      const tempRe = re[i];
       re[i] = re[j];
       re[j] = tempRe;
-      let tempIm = im[i];
+      const tempIm = im[i];
       im[i] = im[j];
       im[j] = tempIm;
     }

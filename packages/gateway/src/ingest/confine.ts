@@ -32,7 +32,7 @@ function logReject(
   reason: ConfineReason,
   attemptedPath: string,
   grantedRoot: string,
-  extra: Record<string, unknown> = {},
+  extra: Record<string, unknown> = {}
 ): void {
   const logger = deps.logger ?? buildDefaultLogger();
   logger.log({
@@ -52,14 +52,24 @@ function logReject(
 export function confineForGateway(userPath: string, deps: ConfineDeps = {}): ConfineResult {
   const grantedRoot = deps.grantedRoot ?? process.env.INGEST_ROOT;
   if (!grantedRoot) {
-    return { ok: false, error: 'INVALID_ARGUMENT', message: 'INGEST_ROOT not configured', reason: 'NOT_FOUND' };
+    return {
+      ok: false,
+      error: 'INVALID_ARGUMENT',
+      message: 'INGEST_ROOT not configured',
+      reason: 'NOT_FOUND',
+    };
   }
 
   let realRoot: string;
   try {
     realRoot = fs.realpathSync(grantedRoot);
   } catch {
-    return { ok: false, error: 'INVALID_ARGUMENT', message: 'granted root does not exist', reason: 'NOT_FOUND' };
+    return {
+      ok: false,
+      error: 'INVALID_ARGUMENT',
+      message: 'granted root does not exist',
+      reason: 'NOT_FOUND',
+    };
   }
 
   const resolved = path.resolve(realRoot, userPath);
@@ -70,13 +80,23 @@ export function confineForGateway(userPath: string, deps: ConfineDeps = {}): Con
     realCandidate = fs.realpathSync(resolved);
   } catch {
     logReject(deps, 'NOT_FOUND', userPath, realRoot, { resolvedAttempt: resolved });
-    return { ok: false, error: 'INVALID_ARGUMENT', message: `Path does not exist or is not accessible: ${userPath}`, reason: 'NOT_FOUND' };
+    return {
+      ok: false,
+      error: 'INVALID_ARGUMENT',
+      message: `Path does not exist or is not accessible: ${userPath}`,
+      reason: 'NOT_FOUND',
+    };
   }
 
   if (!isWithinRoot(realCandidate, realRoot)) {
     const reason: ConfineReason = resolvedInsideRoot ? 'SYMLINK_ESCAPE' : 'TRAVERSAL';
     logReject(deps, reason, userPath, realRoot, { resolvedAttempt: resolved, realCandidate });
-    return { ok: false, error: 'INVALID_ARGUMENT', message: `Path escapes granted root: ${userPath}`, reason };
+    return {
+      ok: false,
+      error: 'INVALID_ARGUMENT',
+      message: `Path escapes granted root: ${userPath}`,
+      reason,
+    };
   }
 
   return { ok: true, realPath: realCandidate };

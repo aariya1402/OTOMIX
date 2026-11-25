@@ -4,8 +4,7 @@ declare const __bpmBrand: unique symbol;
 export type BPM = number & { readonly [__bpmBrand]: true };
 
 export type BPMResult =
-  | { ok: true; value: BPM }
-  | { ok: false; error: 'INVALID_ARGUMENT'; message: string };
+  { ok: true; value: BPM } | { ok: false; error: 'INVALID_ARGUMENT'; message: string };
 
 export const BPM = {
   parse(n: number): BPMResult {

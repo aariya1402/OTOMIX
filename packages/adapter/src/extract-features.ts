@@ -21,24 +21,44 @@ export const SUPPORTED_FEATURES = [
   'loudness_range',
   'kick_strength',
   // Rhythm (7)
-  'bpm', 'bpm_histogram', 'beats_position', 'onset_rate', 'danceability',
-  'beats_loudness', 'beats_loudness_band_ratio',
+  'bpm',
+  'bpm_histogram',
+  'beats_position',
+  'onset_rate',
+  'danceability',
+  'beats_loudness',
+  'beats_loudness_band_ratio',
   // Tonal (6 — chords is a composite bundle)
-  'key_temperley', 'key_krumhansl', 'key_edma', 'chords',
-  'tuning_frequency', 'hpcp',
+  'key_temperley',
+  'key_krumhansl',
+  'key_edma',
+  'chords',
+  'tuning_frequency',
+  'hpcp',
   // Low-level (9 — spectral_energyband is a composite bundle)
-  'spectral_centroid', 'spectral_spread', 'spectral_skewness', 'spectral_kurtosis',
-  'spectral_energyband', 'barkbands', 'melbands', 'erbbands',
-  'mfcc', 'spectral_flux', 'dissonance',
+  'spectral_centroid',
+  'spectral_spread',
+  'spectral_skewness',
+  'spectral_kurtosis',
+  'spectral_energyband',
+  'barkbands',
+  'melbands',
+  'erbbands',
+  'mfcc',
+  'spectral_flux',
+  'dissonance',
   // Loudness (4)
-  'loudness_ebu128', 'average_loudness', 'dynamic_complexity', 'silence_rate'
+  'loudness_ebu128',
+  'average_loudness',
+  'dynamic_complexity',
+  'silence_rate',
 ] as const;
 
 // Note: the array has 26 items because `spectral_energyband` is kept as
 // a composite and `barkbands`, `melbands`, `erbbands` are listed
 // individually (not as one row). The xlsx row count is 31; 5 are TF.
 
-export type SupportedFeature = typeof SUPPORTED_FEATURES[number];
+export type SupportedFeature = (typeof SUPPORTED_FEATURES)[number];
 
 export interface ExtractedFeatures {
   readonly spectral_density?: number;

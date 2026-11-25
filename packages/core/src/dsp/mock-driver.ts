@@ -12,12 +12,12 @@ export class MockDspDriver implements DspPort {
   protected config: DspEngineConfig | null = null;
   private started = false;
   private degradedMode = false;
-  public bypass = true; 
-  
+  public bypass = true;
+
   private readonly scheduled: ScheduledTransitionRecord[] = [];
   private readonly pendingAutomations: AudioParamAutomation[] = [];
   private readonly automationLog: AudioParamAutomation[] = [];
-  
+
   private degradedStartGain = 1.0;
   private degradedEndGain = 0.0;
 
@@ -25,11 +25,19 @@ export class MockDspDriver implements DspPort {
     this.config = config;
   }
 
-  start(): void { this.started = true; }
-  stop(): void { this.started = false; }
+  start(): void {
+    this.started = true;
+  }
+  stop(): void {
+    this.started = false;
+  }
 
-  setDegraded(degraded: boolean): void { this.degradedMode = degraded; }
-  isDegraded(): boolean { return this.degradedMode; }
+  setDegraded(degraded: boolean): void {
+    this.degradedMode = degraded;
+  }
+  isDegraded(): boolean {
+    return this.degradedMode;
+  }
 
   scheduleTransition(plan: TransitionPlan, automations: readonly AudioParamAutomation[]): void {
     this.scheduled.push({ plan, automations, scheduledAtBeat: plan.inBeatIndex });
@@ -65,8 +73,16 @@ export class MockDspDriver implements DspPort {
     return true;
   }
 
-  getScheduledTransitions(): readonly ScheduledTransitionRecord[] { return this.scheduled; }
-  getAutomationLog(): readonly AudioParamAutomation[] { return this.automationLog; }
-  getPendingAutomations(): readonly AudioParamAutomation[] { return this.pendingAutomations; }
-  isStarted(): boolean { return this.started; }
+  getScheduledTransitions(): readonly ScheduledTransitionRecord[] {
+    return this.scheduled;
+  }
+  getAutomationLog(): readonly AudioParamAutomation[] {
+    return this.automationLog;
+  }
+  getPendingAutomations(): readonly AudioParamAutomation[] {
+    return this.pendingAutomations;
+  }
+  isStarted(): boolean {
+    return this.started;
+  }
 }

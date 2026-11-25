@@ -28,7 +28,7 @@ export async function checkDedup(
   tenantId: string,
   ownerId: string,
   contentSha256: Uint8Array,
-  deps: DedupDeps = {},
+  deps: DedupDeps = {}
 ): Promise<DedupResult> {
   const logger = deps.logger ?? buildDefaultLogger();
   const traceId = deps.trace_id ?? randomUUID();
@@ -41,7 +41,7 @@ export async function checkDedup(
     `SELECT track_id FROM tracks
      WHERE tenant_id = $1 AND owner_id = $2 AND content_sha256 = decode($3, 'hex')
      LIMIT 1`,
-    [tenantId, ownerId, hashHex],
+    [tenantId, ownerId, hashHex]
   );
 
   if (result.rows.length > 0) {

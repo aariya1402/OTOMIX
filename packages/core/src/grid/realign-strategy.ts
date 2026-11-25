@@ -11,7 +11,7 @@ export interface RealignmentStrategyResult {
 
 export function resolveRealignmentStrategy(
   windowBarsOverride?: number,
-  _deltaQuanta?: number,
+  _deltaQuanta?: number
 ): RealignmentStrategyResult {
   const cfg = getAnalysisConfig();
   const windowBars = windowBarsOverride ?? cfg.transition.defaultWindowBars;

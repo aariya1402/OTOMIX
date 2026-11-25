@@ -20,7 +20,7 @@ function rms(arr: Float32Array): number {
 
 export function classifyBodyDominance(
   attackEnvelope: Float32Array,
-  bodyEnvelope: Float32Array,
+  bodyEnvelope: Float32Array
 ): BodyDominanceResult {
   const attackPower = rms(attackEnvelope);
   const bodyPower = rms(bodyEnvelope);

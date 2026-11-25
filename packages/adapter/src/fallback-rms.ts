@@ -17,8 +17,8 @@ import { type FeatureRegistryV1_2 } from '@otomix/contracts';
 
 const UNMIXABLE_CLASS = 'unmixable' as const;
 const FALLBACK_SCHEMA_VERSION = '1.2.0';
-const FALLBACK_BPM = 60.0;   // schema minimum — sentinel "unknown"
-const FALLBACK_KEY = '1A';   // valid Camelot placeholder — sentinel "unknown"
+const FALLBACK_BPM = 60.0; // schema minimum — sentinel "unknown"
+const FALLBACK_KEY = '1A'; // valid Camelot placeholder — sentinel "unknown"
 
 export interface RmsFallbackOptions {
   /** Track identifier supplied by the caller. */
@@ -101,7 +101,7 @@ const TIMEOUT_SENTINEL = Symbol('extract-timeout-sentinel');
 
 export async function runWithRmsFallback<T>(
   fn: () => Promise<T>,
-  options: RmsFallbackOptions,
+  options: RmsFallbackOptions
 ): Promise<T | FeatureRegistryV1_2> {
   const timeoutMs = options.timeoutMs ?? ANALYSIS_TIMEOUT_MS;
   let timer: ReturnType<typeof setTimeout> | undefined;

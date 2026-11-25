@@ -1,8 +1,12 @@
 // OTOMIX §3.6 · Mother §2.6
 import { DRIFT_THRESHOLD_QUANTA } from '../constants/timing.js';
 import {
-  RATE_MIN, RATE_MAX, RATE_SLEW_PER_QUANTA,
-  OBSERVER_GAIN_RANGE, OBSERVER_MAX_EXPECTED_DRIFT_QUANTA, QUANTUM_DIVISOR,
+  RATE_MIN,
+  RATE_MAX,
+  RATE_SLEW_PER_QUANTA,
+  OBSERVER_GAIN_RANGE,
+  OBSERVER_MAX_EXPECTED_DRIFT_QUANTA,
+  QUANTUM_DIVISOR,
 } from '../constants/grid.js';
 
 export function computeNextRate(
@@ -11,7 +15,8 @@ export function computeNextRate(
   dtSeconds: number,
   bpm: number
 ): number {
-  const GAIN_QUANTA = OBSERVER_GAIN_RANGE / (OBSERVER_MAX_EXPECTED_DRIFT_QUANTA - DRIFT_THRESHOLD_QUANTA);
+  const GAIN_QUANTA =
+    OBSERVER_GAIN_RANGE / (OBSERVER_MAX_EXPECTED_DRIFT_QUANTA - DRIFT_THRESHOLD_QUANTA);
   let desiredRate = 1.0;
   const absDrift = Math.abs(driftQuanta);
   if (absDrift >= DRIFT_THRESHOLD_QUANTA) {
@@ -22,7 +27,7 @@ export function computeNextRate(
     else if (desiredRate > RATE_MAX) desiredRate = RATE_MAX;
   }
   // Convert dtSeconds (Web Audio frame delta) to quanta at current BPM
-  const dtQuanta = dtSeconds * QUANTUM_DIVISOR * bpm / 60;
+  const dtQuanta = (dtSeconds * QUANTUM_DIVISOR * bpm) / 60;
   const maxSlew = RATE_SLEW_PER_QUANTA * dtQuanta;
   let delta = desiredRate - currentRate;
   if (delta > maxSlew) delta = maxSlew;

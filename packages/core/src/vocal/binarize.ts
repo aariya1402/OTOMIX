@@ -10,5 +10,5 @@ export function binarizeVocalMap(
   probabilities: readonly number[],
   threshold: number = 0.65
 ): number[] {
-  return probabilities.map(p => (p > threshold ? 1 : 0));
+  return probabilities.map((p) => (p > threshold ? 1 : 0));
 }

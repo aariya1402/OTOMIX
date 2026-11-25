@@ -1,13 +1,13 @@
 // @rt-safe
-import { AdminTuningConfig } from '../config/transition-config.js';
+import type { AdminTuningConfig } from '../config/transition-config.js';
 
 /**
  * AudioWorkletProcessor Skeleton (Mock for Unit Tests).
- * 
- * CRITICAL: It only accepts AdminTuningConfig for DSP internals. 
+ *
+ * CRITICAL: It only accepts AdminTuningConfig for DSP internals.
  * The transition length (user config) is passed per-track/per-transition,
  * but the DSP slicing logic (chopGrid, crossfade) is strictly admin-tuned.
- * 
+ *
  * Rule 23: Pre-allocates all state in the constructor. Zero allocation in process().
  * Rule 26: All time logic is in beats.
  */
@@ -35,16 +35,20 @@ export class OtomixWorkletProcessor {
     if (!output) return true;
 
     // The transition length is determined by the user config (e.g., 16 bars)
-    const transitionStartBeat = transitionEndBeat - (this.adminConfig.chopGrid * 0.25); // Placeholder logic
+    const transitionStartBeat = transitionEndBeat - this.adminConfig.chopGrid * 0.25; // Placeholder logic
     this.isInTransition = currentBeat >= transitionStartBeat && currentBeat <= transitionEndBeat;
 
     if (!this.isInTransition) {
       const input = inputs[0][0];
-      if (input) { output.set(input); }
+      if (input) {
+        output.set(input);
+      }
     } else {
       // Transition logic here, using this.adminConfig.crossfadeBeats and this.adminConfig.chopGrid
       const input = inputs[0][0];
-      if (input) { output.set(input); }
+      if (input) {
+        output.set(input);
+      }
     }
 
     return true;

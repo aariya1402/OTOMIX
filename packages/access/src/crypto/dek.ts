@@ -32,17 +32,26 @@ export interface EncryptedBlob {
 
 export class DecryptionFailedError extends Error {
   readonly code = 'DECRYPTION_FAILED' as const;
-  constructor(message: string) { super(message); this.name = 'DecryptionFailedError'; }
+  constructor(message: string) {
+    super(message);
+    this.name = 'DecryptionFailedError';
+  }
 }
 
 export class InvalidKeyError extends Error {
   readonly code = 'INVALID_KEY' as const;
-  constructor(message: string) { super(message); this.name = 'InvalidKeyError'; }
+  constructor(message: string) {
+    super(message);
+    this.name = 'InvalidKeyError';
+  }
 }
 
 export class TenantKeyNotFoundError extends Error {
   readonly code = 'TENANT_KEY_NOT_FOUND' as const;
-  constructor(message: string) { super(message); this.name = 'TenantKeyNotFoundError'; }
+  constructor(message: string) {
+    super(message);
+    this.name = 'TenantKeyNotFoundError';
+  }
 }
 
 export interface DekService {
@@ -102,13 +111,16 @@ export function createDekService(deps: CreateDekServiceDeps): DekService {
   async function decrypt(tenantId: string, encrypted: EncryptedBlob): Promise<Buffer> {
     const dek = await getTenantDek(tenantId);
     if (encrypted.iv.length !== GCM_IV_BYTES) throw new DecryptionFailedError('IV length mismatch');
-    if (encrypted.tag.length !== GCM_TAG_BYTES) throw new DecryptionFailedError('tag length mismatch');
+    if (encrypted.tag.length !== GCM_TAG_BYTES)
+      throw new DecryptionFailedError('tag length mismatch');
     try {
       const decipher = createDecipheriv(ALGORITHM, dek, encrypted.iv);
       decipher.setAuthTag(encrypted.tag);
       return Buffer.concat([decipher.update(encrypted.ciphertext), decipher.final()]);
     } catch (e) {
-      throw new DecryptionFailedError('authentication failed: ' + (e instanceof Error ? e.message : String(e)));
+      throw new DecryptionFailedError(
+        'authentication failed: ' + (e instanceof Error ? e.message : String(e))
+      );
     }
   }
 

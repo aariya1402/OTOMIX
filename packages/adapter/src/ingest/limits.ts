@@ -26,7 +26,7 @@ export function checkLimitsForLocal(
   blob: Blob,
   durationSec: number,
   config?: Partial<LimitsConfig>,
-  warn?: WarnSink,
+  warn?: WarnSink
 ): LocalLimitResult {
   const merged = mergeLimits(config);
   const r = checkLimits(blob.size, durationSec, merged);
@@ -39,8 +39,11 @@ export function checkLimitsForLocal(
       limit: r.limit,
       actual: r.actual,
     };
-    if (warn) { warn(record); }
-    else if (typeof console !== 'undefined' && console.warn) { console.warn(record); }
+    if (warn) {
+      warn(record);
+    } else if (typeof console !== 'undefined' && console.warn) {
+      console.warn(record);
+    }
     return { ok: false, reason: r.reason, limit: r.limit, actual: r.actual };
   }
   return { ok: true };

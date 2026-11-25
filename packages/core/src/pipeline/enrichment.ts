@@ -18,20 +18,30 @@ export interface EngineAnalysisRequest {
 }
 
 export type EngineAnalysisResponse =
-  | { status: 'success'; features: Record<string, unknown> }
-  | { status: 'error'; message: string };
+  { status: 'success'; features: Record<string, unknown> } | { status: 'error'; message: string };
 
 export interface EngineRunner {
   runAnalysis(request: EngineAnalysisRequest): Promise<EngineAnalysisResponse>;
 }
 
 export interface FeatureCache {
-  get(contentSha256: string): Promise<{ contentSha256: string; rawAnalysisData: Record<string, unknown>; analysisVersion: string } | null>;
+  get(
+    contentSha256: string
+  ): Promise<{
+    contentSha256: string;
+    rawAnalysisData: Record<string, unknown>;
+    analysisVersion: string;
+  } | null>;
   upsert(contentSha256: string, data: Record<string, unknown>, version: string): Promise<void>;
 }
 
 export interface TenantFeatureStore {
-  write(tenantId: string, trackId: string, features: Record<string, unknown>, schemaVersion: string): Promise<void>;
+  write(
+    tenantId: string,
+    trackId: string,
+    features: Record<string, unknown>,
+    schemaVersion: string
+  ): Promise<void>;
 }
 
 export interface EnrichmentInput {
@@ -68,7 +78,7 @@ export async function runEnrichment(
 ): Promise<EnrichmentOutcome> {
   // 1. Check Global Cache
   const cached = await deps.cache.get(input.contentSha256);
-  
+
   // 2. Cache HIT logic
   if (cached && cached.analysisVersion === input.analysisVersion) {
     return {
@@ -105,9 +115,15 @@ export async function runEnrichment(
   // 5. Persist to global first, then tenant (DQ3-a)
   try {
     await deps.cache.upsert(input.contentSha256, features, input.analysisVersion);
-    await deps.tenantStore.write(input.tenantId, input.contentSha256, features, input.analysisVersion);
-  } catch (e: any) {
-    return { ok: false, error: 'PERSIST_ERROR', message: e.message || 'Unknown DB error' };
+    await deps.tenantStore.write(
+      input.tenantId,
+      input.contentSha256,
+      features,
+      input.analysisVersion
+    );
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : 'Unknown DB error';
+    return { ok: false, error: 'PERSIST_ERROR', message: msg };
   }
 
   // 6. Return success

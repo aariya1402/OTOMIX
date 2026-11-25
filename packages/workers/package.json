@@ -1,36 +1,41 @@
 {
-    "private":  true,
-    "name":  "@otomix/workers",
-    "version":  "0.0.1",
-    "description":  "workers package for OTOMIX platform",
-    "main":  "dist/index.js",
-    "types":  "dist/index.d.ts",
-    "scripts":  {
-                    "build":  "tsc",
-                    "test":  "vitest run --passWithNoTests",
-                    "lint":  "eslint src --ext .ts",
-                    "format":  "prettier --write \"src/**/*.ts\""
-                },
-    "keywords":  [
-                     "otomix",
-                     "workers"
-                 ],
-    "author":  "",
-    "license":  "MIT",
-    "dependencies":  {
-                         "@otomix/core":  "workspace:*",
-                         "@otomix/contracts":  "workspace:*",
-                         "mpg123-decoder":  "^1.0.0",
-                         "@wasm-audio-decoders/flac":  "^0.2.0"
-                     },
-    "devDependencies":  {
-                            "typescript":  "^5.0.0",
-                            "@types/node":  "^20.0.0",
-                            "vitest":  "^1.0.0",
-                            "@vitest/ui":  "^1.0.0"
-                        },
-    "publishConfig":  {
-                          "access":  "public"
-                      },
-    "type":  "module"
+    "private": true,
+    "name": "@otomix/workers",
+    "version": "0.0.1",
+    "description": "workers package for OTOMIX platform",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "test": "vitest run --passWithNoTests",
+        "lint": "eslint src --ext .ts",
+        "format": "prettier --write \"src/**/*.ts\""
+    },
+    "keywords": [
+        "otomix",
+        "workers"
+    ],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "@otomix/contracts": "workspace:*",
+        "@otomix/core": "workspace:*",
+        "@wasm-audio-decoders/flac": "^0.2.0",
+        "mpg123-decoder": "^1.0.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20.0.0",
+        "@typescript-eslint/eslint-plugin": "^6.21.0",
+        "@typescript-eslint/parser": "^6.21.0",
+        "@vitest/ui": "^1.0.0",
+        "eslint": "^8.57.1",
+        "eslint-config-prettier": "^9.1.2",
+        "prettier": "^3.9.10",
+        "typescript": "^5.0.0",
+        "vitest": "^1.0.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "type": "module"
 }

@@ -20,7 +20,7 @@ export function createTransitionPlanClient(opts: ClientOptions = {}) {
   return {
     async planForAdjacentTracks(
       fromTrackId: string,
-      toTrackId: string,
+      toTrackId: string
     ): Promise<TransitionPlanResult> {
       try {
         for (let rung = 0; rung <= maxRungs; rung++) {

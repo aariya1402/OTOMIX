@@ -21,12 +21,12 @@ export interface LocalIngestDeps {
   sniff: (
     bytes: Uint8Array,
     filename: string,
-    ctx: { trace_id: string; span_id: string },
+    ctx: { trace_id: string; span_id: string }
   ) => { format: string };
   checkLimits: (input: { size: number; durationSeconds?: number }) => void;
   decode: (
     bytes: Uint8Array,
-    format: string,
+    format: string
   ) => Promise<
     | { ok: true; value: { pcm: Float32Array; sampleRate: number; sha256: string } }
     | { ok: false; message: string }
@@ -34,7 +34,7 @@ export interface LocalIngestDeps {
   extractTags: (
     bytes: Uint8Array,
     format: string,
-    ctx: { trace_id: string; span_id: string },
+    ctx: { trace_id: string; span_id: string }
   ) => { displayMetadata: Record<string, unknown> };
 }
 
@@ -58,7 +58,7 @@ function newId(): string {
 
 export async function ingestLocal(
   input: LocalIngestInput,
-  deps: LocalIngestDeps,
+  deps: LocalIngestDeps
 ): Promise<LocalIngestResult> {
   const traceId = newId();
   const spanId = newId();
@@ -71,7 +71,10 @@ export async function ingestLocal(
     throw new LocalIngestError('INVALID_ARGUMENT', 'Unsupported audio format');
   }
 
-  deps.checkLimits({ size: input.bytes.length, ...(input.durationSeconds !== undefined ? { durationSeconds: input.durationSeconds } : {}) });
+  deps.checkLimits({
+    size: input.bytes.length,
+    ...(input.durationSeconds !== undefined ? { durationSeconds: input.durationSeconds } : {}),
+  });
 
   const decoded = await deps.decode(input.bytes, sniffed.format);
   if (!decoded.ok) {

@@ -46,7 +46,10 @@ export interface ExtractBatchResult {
   results: ExtractResult[];
 }
 
-export async function extractOne(input: ExtractRawInput, deps: ExtractDeps): Promise<ExtractResult> {
+export async function extractOne(
+  input: ExtractRawInput,
+  deps: ExtractDeps
+): Promise<ExtractResult> {
   let features: ExtractedFeatures;
   try {
     features = await deps.adapter(input.rawAnalysis);
@@ -62,17 +65,22 @@ export async function extractOne(input: ExtractRawInput, deps: ExtractDeps): Pro
     return await withTenant(deps.pool, deps.tenantId, async (client) => {
       const fr = await client.query(
         'INSERT INTO features ' +
-        '(feature_id, tenant_id, track_id, schema_version, bpm, camelot_key, ' +
-        ' energy_scalar, energy_stars, mixability, groove_mode, registry_json) ' +
-        'VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10) ' +
-        'RETURNING feature_id',
+          '(feature_id, tenant_id, track_id, schema_version, bpm, camelot_key, ' +
+          ' energy_scalar, energy_stars, mixability, groove_mode, registry_json) ' +
+          'VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10) ' +
+          'RETURNING feature_id',
         [
-          deps.tenantId, input.trackId, input.schemaVersion,
-          features.bpm, features.camelotKey,
-          features.energyScalar, features.energyStars,
-          features.mixability, features.grooveMode,
+          deps.tenantId,
+          input.trackId,
+          input.schemaVersion,
+          features.bpm,
+          features.camelotKey,
+          features.energyScalar,
+          features.energyStars,
+          features.mixability,
+          features.grooveMode,
           JSON.stringify(features.registryJson),
-        ],
+        ]
       );
       const featureId = fr.rows[0].feature_id as string;
 
@@ -82,12 +90,16 @@ export async function extractOne(input: ExtractRawInput, deps: ExtractDeps): Pro
 
       const mr = await client.query(
         'INSERT INTO outbox (message_id, tenant_id, topic, payload) ' +
-        'VALUES (gen_random_uuid(), $1, $2, $3) RETURNING message_id',
+          'VALUES (gen_random_uuid(), $1, $2, $3) RETURNING message_id',
         [
           deps.tenantId,
           'otomix.feature.extracted',
-          JSON.stringify({ feature_id: featureId, track_id: input.trackId, content_sha256: input.contentSha256 }),
-        ],
+          JSON.stringify({
+            feature_id: featureId,
+            track_id: input.trackId,
+            content_sha256: input.contentSha256,
+          }),
+        ]
       );
       const messageId = mr.rows[0].message_id as string;
 
@@ -98,13 +110,18 @@ export async function extractOne(input: ExtractRawInput, deps: ExtractDeps): Pro
   }
 }
 
-export async function extract(inputs: ExtractRawInput[], deps: ExtractDeps): Promise<ExtractBatchResult> {
-  let succeeded = 0, failed = 0;
+export async function extract(
+  inputs: ExtractRawInput[],
+  deps: ExtractDeps
+): Promise<ExtractBatchResult> {
+  let succeeded = 0,
+    failed = 0;
   const results: ExtractResult[] = [];
   for (const input of inputs) {
     const r = await extractOne(input, deps);
     results.push(r);
-    if (r.ok) succeeded++; else failed++;
+    if (r.ok) succeeded++;
+    else failed++;
   }
   return { succeeded, failed, results };
 }

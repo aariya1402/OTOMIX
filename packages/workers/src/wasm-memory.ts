@@ -1,13 +1,20 @@
-import { WASM_HEAP_MB, WASM_PAGE_BYTES, MAX_WASM_PAGES } from './constants';
+import { WASM_HEAP_MB, WASM_PAGE_BYTES, MAX_WASM_PAGES } from './constants.js';
 
 export class WasmConfigError extends Error {
   readonly code = 'INVALID_WASM_CONFIG' as const;
-  constructor(message: string) { super(message); this.name = 'WasmConfigError'; }
+  constructor(message: string) {
+    super(message);
+    this.name = 'WasmConfigError';
+  }
 }
 
 if ((WASM_HEAP_MB * 1024 * 1024) % WASM_PAGE_BYTES !== 0) {
   throw new WasmConfigError(
-    'WASM_HEAP_MB (' + WASM_HEAP_MB + ') must be a multiple of page size (' + (WASM_PAGE_BYTES / 1024) + ' KiB)',
+    'WASM_HEAP_MB (' +
+      WASM_HEAP_MB +
+      ') must be a multiple of page size (' +
+      WASM_PAGE_BYTES / 1024 +
+      ' KiB)'
   );
 }
 

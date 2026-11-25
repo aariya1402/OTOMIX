@@ -1,7 +1,7 @@
 /**
  * A lock-free Single Producer Single Consumer (SPSC) Ring Buffer.
  * Uses SharedArrayBuffer and Atomics for safe cross-thread communication.
- * 
+ *
  * Rule 23: Zero allocation during push/pop. Pre-allocated in constructor.
  * Used as a safety layer for real-time parameter updates between UI and AudioWorklet.
  */
@@ -13,9 +13,9 @@ export class SpscRingBuffer {
   constructor(capacity: number) {
     if (capacity <= 1) throw new RangeError('Capacity must be > 1');
     this.capacity = capacity;
-    
+
     // Allocate SharedArrayBuffer: (capacity * 4 bytes) + (2 int32 * 4 bytes)
-    const sab = new SharedArrayBuffer((capacity * 4) + (2 * 4));
+    const sab = new SharedArrayBuffer(capacity * 4 + 2 * 4);
     this.data = new Float32Array(sab, 0, capacity);
     this.control = new Int32Array(sab, capacity * 4, 2);
   }
@@ -28,7 +28,7 @@ export class SpscRingBuffer {
   public push(value: number): boolean {
     const writeIndex = Atomics.load(this.control, 0);
     const readIndex = Atomics.load(this.control, 1);
-    
+
     const nextWrite = (writeIndex + 1) % this.capacity;
     if (nextWrite === readIndex) {
       return false; // Buffer is full

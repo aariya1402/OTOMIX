@@ -30,7 +30,7 @@ parentPort.on('message', (message: unknown) => {
 
   // Mock engine: convert base64 to bytes to prove we can handle the payload.
   const buffer = Buffer.from(req.pcm_buffer, 'base64');
-  
+
   // In a real implementation, we would pass `buffer` to Essentia/Librosa.
   // Here, we return a static feature set to prove the pipeline works.
   // (The contract covers the transport; the actual extraction is task P05-T02+).

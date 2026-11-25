@@ -21,10 +21,10 @@ export class GainNormalizer {
   constructor(config: AdminTuningConfig, params: GainNormalizerParams, currentLufs: number) {
     this.config = config;
     this.targetLufs = params.targetLufs;
-    
+
     const gainDb = this.targetLufs - currentLufs;
     this.gainLinear = Math.pow(10, gainDb / 20);
-    
+
     // Pre-allocate smoother (fast attack for quick startup)
     this.gainSmoother = new OnePoleSmoother(this.gainLinear, 0.01);
     this.gainSmoother.snapTo(this.gainLinear);

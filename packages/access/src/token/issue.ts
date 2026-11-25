@@ -1,19 +1,19 @@
 import { SignJWT } from 'jose';
 import { randomUUID } from 'node:crypto';
 import { ACCESS_TTL_MIN } from '../constants';
-import {
+import type {
   AccessTokenClaims,
   AccessTokenIssueInput,
   IssuedAccessToken,
   VaultClient,
-  TokenIssuanceError,
 } from './types';
+import { TokenIssuanceError } from './types';
 
 const ALGORITHM = 'RS256';
 
 export async function issueAccessToken(
   input: AccessTokenIssueInput,
-  vaultClient: VaultClient,
+  vaultClient: VaultClient
 ): Promise<IssuedAccessToken> {
   if (!input.sub || input.sub.trim().length === 0) {
     throw new TokenIssuanceError('sub must be a non-empty string');

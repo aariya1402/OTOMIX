@@ -1,6 +1,6 @@
-import { Pool } from 'pg';
+import type { Pool } from 'pg';
 import { BaseRepository } from './base-repository.js';
-import { TenantId } from '@otomix/db';
+import type { TenantId } from '@otomix/db';
 
 export interface FeatureRow {
   feature_id: string;

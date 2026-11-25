@@ -42,12 +42,12 @@ export function computeMixability(features: MixabilityFeaturesInput): Mixability
   const w = getAnalysisConfig().mixability.weights;
 
   const score =
-    w.kick_grid_lock            * clamp01(features.kick_grid_lock) +
-    w.drift_absence             * clamp01(features.drift_absence) +
-    w.kick_clarity              * clamp01(features.kick_clarity) +
-    w.grid_type_clarity         * clamp01(features.grid_type_clarity) +
+    w.kick_grid_lock * clamp01(features.kick_grid_lock) +
+    w.drift_absence * clamp01(features.drift_absence) +
+    w.kick_clarity * clamp01(features.kick_clarity) +
+    w.grid_type_clarity * clamp01(features.grid_type_clarity) +
     w.transition_window_present * clamp01(features.transition_window_present) +
-    w.vocal_absence             * clamp01(features.vocal_absence);
+    w.vocal_absence * clamp01(features.vocal_absence);
 
   return { score: clamp01(score) };
 }

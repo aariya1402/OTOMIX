@@ -37,7 +37,7 @@ function buildDefaultLogger(): Logger {
 export function sniffForGateway(
   bytes: Uint8Array,
   filename: string,
-  deps: SniffDeps = {},
+  deps: SniffDeps = {}
 ): SniffResult {
   const format = sniffContainer(bytes);
   const expectedExt = extractExtension(filename);

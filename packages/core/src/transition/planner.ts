@@ -1,6 +1,7 @@
 // OTOMIX §3.9 · Mother §2.9
-import { computeTransitionAnchors, TrackGridParams } from './anchors.js';
-import { TransitionPlan, TransitionRung } from './types.js';
+import { computeTransitionAnchors } from './anchors.js';
+import type { TrackGridParams } from './anchors.js';
+import type { TransitionPlan, TransitionRung } from './types.js';
 import { STATIC_GRID_BPM } from '../constants/grid.js';
 import { resolveTransitionWindow } from './window.js';
 
@@ -10,10 +11,7 @@ function isOutgoingShort(outgoing: TrackGridParams): boolean {
   return totalBeatsOut < resolveTransitionWindow();
 }
 
-function planSilentLoop(
-  incoming: TrackGridParams,
-  outgoing: TrackGridParams
-): TransitionPlan {
+function planSilentLoop(incoming: TrackGridParams, outgoing: TrackGridParams): TransitionPlan {
   const beatPeriod = 60 / outgoing.bpmSeed;
   const totalBeatsOut = Math.floor(outgoing.duration / beatPeriod);
   const paddingBeats = resolveTransitionWindow() - totalBeatsOut;

@@ -39,7 +39,7 @@ export async function replayDlq(
   redis: Redis,
   jobId: string,
   handler: ReplayHandler,
-  deps: ReplayDeps,
+  deps: ReplayDeps
 ): Promise<ReplayResult> {
   const logger = deps.logger ?? createLogger({ service: 'gateway-dlq' });
   const idem = deps.idempotencyStore;

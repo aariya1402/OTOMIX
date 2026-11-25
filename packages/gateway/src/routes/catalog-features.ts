@@ -29,12 +29,16 @@ export function createCatalogFeaturesHandler(deps: CatalogFeaturesDeps) {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       if (req.method !== 'GET') {
-        res.status(405).json({ error: 'METHOD_NOT_ALLOWED' }); return; return;
+        res.status(405).json({ error: 'METHOD_NOT_ALLOWED' });
+        return;
       }
 
       const limitRaw = req.query.limit ? parseInt(req.query.limit as string, 10) : 100;
       if (isNaN(limitRaw) || limitRaw < 1 || limitRaw > maxLimit) {
-        return res.status(400).json({ error: 'INVALID_ARGUMENT', message: `limit must be between 1 and ${maxLimit}` }); return;
+        res
+          .status(400)
+          .json({ error: 'INVALID_ARGUMENT', message: `limit must be between 1 and ${maxLimit}` });
+        return;
       }
 
       const cursorStr = req.query.cursor as string | undefined;
@@ -42,22 +46,27 @@ export function createCatalogFeaturesHandler(deps: CatalogFeaturesDeps) {
       if (cursorStr) {
         cursor = decodeCursor(cursorStr);
         if (!cursor) {
-          res.status(400).json({ error: 'INVALID_ARGUMENT', message: 'Invalid cursor' }); return; return;
+          res.status(400).json({ error: 'INVALID_ARGUMENT', message: 'Invalid cursor' });
+          return;
         }
       }
 
       const tenantId = (req as any).claims?.tenant_id as string;
       if (!tenantId) {
-        res.status(403).json({ error: 'PERMISSION_DENIED', message: 'No tenant context' }); return; return;
+        res.status(403).json({ error: 'PERMISSION_DENIED', message: 'No tenant context' });
+        return;
       }
 
       const { items, nextCursor } = await repo.findPaginated(tenantId as any, cursor, limitRaw);
 
-      const next_cursor = nextCursor ? encodeCursor(nextCursor.analyzed_at, nextCursor.feature_id) : null;
+      const next_cursor = nextCursor
+        ? encodeCursor(nextCursor.analyzed_at, nextCursor.feature_id)
+        : null;
 
-      res.status(200).json({ items, next_cursor }); return; return;
+      res.status(200).json({ items, next_cursor });
+      return;
     } catch (err) {
-      next(err);
+      return next(err);
     }
   };
 }

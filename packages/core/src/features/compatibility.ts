@@ -76,17 +76,18 @@ export function computeCompatibilityScore(input: CompatibilityInput): Compatibil
   const tempoDelta = clamp01(input.tempo_delta_score);
   const energySmooth = clamp01(input.energy_smoothness);
   const structural = clamp01(input.structural_match);
-  const windowClean = (clamp01(input.window_cleanliness_A) + clamp01(input.window_cleanliness_B)) / 2;
+  const windowClean =
+    (clamp01(input.window_cleanliness_A) + clamp01(input.window_cleanliness_B)) / 2;
   const gridMatch = clamp01(input.grid_type_match);
 
   const score =
-    w.mixability         * mixabilityAvg +
-    w.camelot_proximity  * proximity +
-    w.tempo_delta_score  * tempoDelta +
-    w.energy_smoothness  * energySmooth +
-    w.structural_match   * structural +
+    w.mixability * mixabilityAvg +
+    w.camelot_proximity * proximity +
+    w.tempo_delta_score * tempoDelta +
+    w.energy_smoothness * energySmooth +
+    w.structural_match * structural +
     w.window_cleanliness * windowClean +
-    w.grid_type_match    * gridMatch;
+    w.grid_type_match * gridMatch;
 
   return { score: clamp01(score) };
 }

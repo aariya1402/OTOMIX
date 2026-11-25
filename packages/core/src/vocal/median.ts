@@ -21,7 +21,7 @@ export function medianSmoothVocalMap(
 
   for (let i = 0; i < frames.length; i++) {
     const currentT = frames[i].t;
-    
+
     // Collect values within the centered window [t - halfWindow, t + halfWindow]
     const windowValues: number[] = [];
     for (let j = 0; j < frames.length; j++) {
@@ -34,7 +34,7 @@ export function medianSmoothVocalMap(
     windowValues.sort((a, b) => a - b);
     const mid = Math.floor(windowValues.length / 2);
     let median = 0;
-    
+
     if (windowValues.length % 2 === 1) {
       median = windowValues[mid];
     } else {

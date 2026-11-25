@@ -1,6 +1,6 @@
 // OTOMIX §9.3 · Mother Add. §1–§2
 // Redis-backed idempotency store with SET NX claim + 24h TTL + fingerprint replay.
-import Redis from 'ioredis';
+import type Redis from 'ioredis';
 
 const TTL_SECONDS = 86400;
 const PREFIX = 'otomix:idem:';
@@ -25,7 +25,7 @@ export interface IdempotencyStore {
   withIdempotency<T>(
     key: string,
     fingerprint: string,
-    handler: () => Promise<T>,
+    handler: () => Promise<T>
   ): Promise<IdempotencyResult<T>>;
   getResponse(key: string): Promise<StoredRecord | null>;
   getTTL(key: string): Promise<number>;
@@ -36,14 +36,10 @@ type ClaimResult = 'fresh' | StoredRecord | null;
 
 const redisKeyFor = (key: string): string => `${PREFIX}${key}`;
 
-async function attemptClaim(
-  redis: Redis,
-  key: string,
-  fingerprint: string,
-): Promise<ClaimResult> {
+async function attemptClaim(redis: Redis, key: string, fingerprint: string): Promise<ClaimResult> {
   const rk = redisKeyFor(key);
   const marker: StoredRecord = { fingerprint, status: 'in_progress' };
-  const claimed = await redis.set(rk, JSON.stringify(marker), 'EX', TTL_SECONDS,'NX');
+  const claimed = await redis.set(rk, JSON.stringify(marker), 'EX', TTL_SECONDS, 'NX');
   if (claimed === 'OK') return 'fresh';
   const raw = await redis.get(rk);
   if (!raw) return null;
@@ -55,7 +51,7 @@ export function createIdempotencyStore(redis: Redis): IdempotencyStore {
     async withIdempotency<T>(
       key: string,
       fingerprint: string,
-      handler: () => Promise<T>,
+      handler: () => Promise<T>
     ): Promise<IdempotencyResult<T>> {
       const rk = redisKeyFor(key);
 

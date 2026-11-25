@@ -10,12 +10,12 @@ import type { BPM } from '../types/bpm.js';
 
 export function isExtractionDurationCritical(durationMs: number, bpm: BPM): boolean {
   const cfg = getAnalysisConfig();
-  
+
   // Derive the beat period using the Phase 1 tOfI formula
   const beatPeriod = tOfI(2 as BeatIndex, 0, bpm, 0) - tOfI(1 as BeatIndex, 0, bpm, 0);
-  
-  const thresholdBeats = (cfg.timeouts.extractionAlertMs / 1000) / beatPeriod;
-  const durationBeats = (durationMs / 1000) / beatPeriod;
-  
+
+  const thresholdBeats = cfg.timeouts.extractionAlertMs / 1000 / beatPeriod;
+  const durationBeats = durationMs / 1000 / beatPeriod;
+
   return durationBeats > thresholdBeats;
 }

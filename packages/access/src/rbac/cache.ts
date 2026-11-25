@@ -1,8 +1,15 @@
 import type Redis from 'ioredis';
 import { RBAC_CACHE_TTL_SECONDS } from '../constants';
 
-export interface CacheCtx { userId: string; tenantId: string; }
-export interface RbacCacheDeps { redis: Redis; ttlSeconds?: number; channel?: string; }
+export interface CacheCtx {
+  userId: string;
+  tenantId: string;
+}
+export interface RbacCacheDeps {
+  redis: Redis;
+  ttlSeconds?: number;
+  channel?: string;
+}
 export interface RbacCache {
   get(ctx: CacheCtx): Promise<Set<string> | null>;
   set(ctx: CacheCtx, perms: Set<string>): Promise<void>;
@@ -19,7 +26,11 @@ function cacheKey(ctx: CacheCtx): string {
   return PREFIX + ctx.tenantId + ':' + ctx.userId;
 }
 
-export async function publishInvalidation(redis: Redis, ctx: CacheCtx, channel?: string): Promise<void> {
+export async function publishInvalidation(
+  redis: Redis,
+  ctx: CacheCtx,
+  channel?: string
+): Promise<void> {
   const ch = channel ?? DEFAULT_CHANNEL;
   await redis.publish(ch, JSON.stringify({ tenantId: ctx.tenantId, userId: ctx.userId }));
 }
@@ -40,7 +51,10 @@ export function createRbacCache(deps: RbacCacheDeps): RbacCache {
   async function del(ctx: CacheCtx): Promise<void> {
     await redis.del(cacheKey(ctx));
   }
-  async function getOrCompute(ctx: CacheCtx, computeFn: () => Promise<Set<string>>): Promise<Set<string>> {
+  async function getOrCompute(
+    ctx: CacheCtx,
+    computeFn: () => Promise<Set<string>>
+  ): Promise<Set<string>> {
     const cached = await get(ctx);
     if (cached !== null) return cached;
     const fresh = await computeFn();
@@ -48,21 +62,33 @@ export function createRbacCache(deps: RbacCacheDeps): RbacCache {
     return fresh;
   }
   async function subscribeInvalidation(onInvalidated: (ctx: CacheCtx) => void): Promise<void> {
-    if (sub === null) { sub = redis.duplicate(); }
-    sub.on('message', async (ch: string, msg: string) => {
+    if (sub === null) {
+      sub = redis.duplicate();
+    }
+    sub.on('message', (ch: string, msg: string) => {
       if (ch !== channel) return;
       try {
         const p = JSON.parse(msg) as { tenantId: string; userId: string };
         if (typeof p.tenantId === 'string' && typeof p.userId === 'string') {
-          await del({ userId: p.userId, tenantId: p.tenantId });
-          onInvalidated({ userId: p.userId, tenantId: p.tenantId });
+          void del({ userId: p.userId, tenantId: p.tenantId });
+          void onInvalidated({ userId: p.userId, tenantId: p.tenantId });
         }
-      } catch { /* ignore malformed */ }
+      } catch {
+        // ignore malformed
+      }
     });
     await sub.subscribe(channel);
   }
   async function shutdown(): Promise<void> {
-    if (sub !== null) { const s = sub; sub = null; try { await s.quit(); } catch { } }
+    if (sub !== null) {
+      const s = sub;
+      sub = null;
+      try {
+        await s.quit();
+      } catch {
+        // ignore
+      }
+    }
   }
   return { get, set, del, getOrCompute, subscribeInvalidation, shutdown };
 }

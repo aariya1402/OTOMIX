@@ -6,12 +6,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { Transform } from 'node:stream';
 import { randomUUID } from 'node:crypto';
-import {
-  checkLimits,
-  mergeLimits,
-  DEFAULT_LIMITS,
-  createLogger,
-} from '@otomix/core';
+import { checkLimits, mergeLimits, DEFAULT_LIMITS, createLogger } from '@otomix/core';
 import type { LimitsConfig, Logger } from '@otomix/core';
 
 export interface SizeLimitDeps {
@@ -35,7 +30,7 @@ function logRejection(
   deps: SizeLimitDeps,
   reason: 'SIZE' | 'DURATION',
   limit: number,
-  actual: number,
+  actual: number
 ): void {
   const logger = deps.logger ?? buildDefaultLogger();
   logger.log({
@@ -54,7 +49,11 @@ function logRejection(
 export function createSizeLimitMiddleware(deps: SizeLimitDeps = {}) {
   const config = mergeLimits(deps.config);
 
-  return function sizeLimit(req: IncomingMessage, res: ServerResponse, next: (err?: Error) => void): void {
+  return function sizeLimit(
+    req: IncomingMessage,
+    res: ServerResponse,
+    next: (err?: Error) => void
+  ): void {
     // Duration declared by client header (container-declared duration parse is
     // P07-T01-S03-M01 scope). Missing header -> skip duration check; decoded
     // duration is validated in the worker later.
@@ -63,7 +62,10 @@ export function createSizeLimitMiddleware(deps: SizeLimitDeps = {}) {
     if (typeof durHeader === 'string' && durHeader.length > 0) {
       const parsed = Number(durHeader);
       if (!Number.isFinite(parsed) || parsed < 0) {
-        sendJson(res, 400, { error: 'INVALID_ARGUMENT', message: 'X-Audio-Duration-Seconds must be a non-negative number' });
+        sendJson(res, 400, {
+          error: 'INVALID_ARGUMENT',
+          message: 'X-Audio-Duration-Seconds must be a non-negative number',
+        });
         logRejection(deps, 'DURATION', config.maxDurationSec, NaN);
         return;
       }
@@ -86,7 +88,10 @@ export function createSizeLimitMiddleware(deps: SizeLimitDeps = {}) {
     if (typeof cl === 'string' && cl.length > 0) {
       const parsed = Number(cl);
       if (!Number.isFinite(parsed) || parsed < 0) {
-        sendJson(res, 400, { error: 'INVALID_ARGUMENT', message: 'Content-Length must be a non-negative number' });
+        sendJson(res, 400, {
+          error: 'INVALID_ARGUMENT',
+          message: 'Content-Length must be a non-negative number',
+        });
         req.destroy();
         return;
       }
@@ -120,7 +125,9 @@ export function createSizeLimitMiddleware(deps: SizeLimitDeps = {}) {
         cb(null, chunk);
       },
     });
-    counter.on('error', () => { /* already responded */ });
+    counter.on('error', () => {
+      /* already responded */
+    });
     req.on('data', (chunk: Buffer) => {
       // If the counter transform rejected, stop consuming.
       if (bytesRead > config.maxBytes) return;
@@ -131,6 +138,8 @@ export function createSizeLimitMiddleware(deps: SizeLimitDeps = {}) {
       counter.end();
       next();
     });
-    req.on('error', (err) => { next(err); });
+    req.on('error', (err) => {
+      next(err);
+    });
   };
 }

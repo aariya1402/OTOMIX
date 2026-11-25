@@ -43,16 +43,21 @@ export function computeEnergy(features: EnergyFeaturesInput): EnergyResult {
 
   const danceability = normCap(features.danceability, max.danceability);
   const onset_rate = normCap(features.onset_rate, max.onset_rate);
-  const rms_energy = features.rms_energy !== undefined
-    ? normCap(features.rms_energy, max.rms_energy)
-    : (features.average_loudness !== undefined ? clamp01(features.average_loudness) : 0);
+  const rms_energy =
+    features.rms_energy !== undefined
+      ? normCap(features.rms_energy, max.rms_energy)
+      : features.average_loudness !== undefined
+        ? clamp01(features.average_loudness)
+        : 0;
   const dc = features.dynamic_complexity;
-  const dynamic_inverse = (typeof dc === 'number' && Number.isFinite(dc) && max.dynamic_complexity > 0)
-    ? clamp01((max.dynamic_complexity - dc) / max.dynamic_complexity) : 0;
+  const dynamic_inverse =
+    typeof dc === 'number' && Number.isFinite(dc) && max.dynamic_complexity > 0
+      ? clamp01((max.dynamic_complexity - dc) / max.dynamic_complexity)
+      : 0;
   const spectral_centroid = normCap(features.spectral_centroid, max.spectral_centroid);
   const bbr = features.beats_loudness_band_ratio;
-  const beat_bass_ratio = (Array.isArray(bbr) && bbr.length >= 2)
-    ? clamp01(((bbr[0] ?? 0) + (bbr[1] ?? 0)) / 2) : 0;
+  const beat_bass_ratio =
+    Array.isArray(bbr) && bbr.length >= 2 ? clamp01(((bbr[0] ?? 0) + (bbr[1] ?? 0)) / 2) : 0;
 
   const kick_strength = normCap(features.kick_strength, max.kick_strength);
   const spectral_density = normCap(features.spectral_density, max.spectral_density);

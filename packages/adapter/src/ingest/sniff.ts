@@ -30,11 +30,7 @@ function extractExtension(filename: string): string | null {
   return filename.slice(dot + 1).toLowerCase();
 }
 
-export function sniffForLocal(
-  bytes: Uint8Array,
-  filename: string,
-  warn?: WarnSink,
-): SniffResult {
+export function sniffForLocal(bytes: Uint8Array, filename: string, warn?: WarnSink): SniffResult {
   const format = sniffContainer(bytes);
   const expectedExt = extractExtension(filename);
   const hasKnownExt = expectedExt !== null && KNOWN_EXTS.includes(expectedExt);
@@ -49,8 +45,11 @@ export function sniffForLocal(
       detectedFormat: format,
       filename,
     };
-    if (warn) { warn(record); }
-    else if (typeof console !== 'undefined' && console.warn) { console.warn(record); }
+    if (warn) {
+      warn(record);
+    } else if (typeof console !== 'undefined' && console.warn) {
+      console.warn(record);
+    }
   }
 
   return { format, mismatch, expectedExt };

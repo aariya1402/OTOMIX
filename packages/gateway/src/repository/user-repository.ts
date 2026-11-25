@@ -1,4 +1,4 @@
-import { Pool } from 'pg';
+import type { Pool } from 'pg';
 import { withTenant } from '@otomix/db';
 import { randomUUID } from 'node:crypto';
 
@@ -19,7 +19,10 @@ export async function upsertGoogleUser(pool: Pool, data: GoogleUserData): Promis
       res = await client.query('SELECT user_id FROM users WHERE email = $1', [data.email]);
       if (res.rows.length > 0) {
         const userId = res.rows[0].user_id;
-        await client.query('UPDATE users SET google_id = $1 WHERE user_id = $2', [data.googleId, userId]);
+        await client.query('UPDATE users SET google_id = $1 WHERE user_id = $2', [
+          data.googleId,
+          userId,
+        ]);
         return userId;
       }
     }

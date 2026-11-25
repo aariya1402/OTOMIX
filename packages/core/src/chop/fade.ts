@@ -19,7 +19,7 @@ export function fadeGain(t: number, crossfadeBeats: number): number {
   if (!(crossfadeBeats > 0)) {
     throw new RangeError('fadeGain: crossfadeBeats must be > 0, got ' + crossfadeBeats);
   }
-  const clamped = t < 0 ? 0 : (t > crossfadeBeats ? crossfadeBeats : t);
+  const clamped = t < 0 ? 0 : t > crossfadeBeats ? crossfadeBeats : t;
   return 0.5 * (1 + Math.cos((Math.PI * clamped) / crossfadeBeats));
 }
 

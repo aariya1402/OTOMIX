@@ -2,7 +2,7 @@
 // Rule 25: Cache is for performance, not gating.
 // D9: No hardcoded tunables; currentVersion is a parameter.
 
-import { GlobalFeaturesRepository } from '../repository/global-features.js';
+import type { GlobalFeaturesRepository } from '../repository/global-features.js';
 
 export interface CacheInvalidator {
   repository: GlobalFeaturesRepository;
@@ -14,7 +14,7 @@ export function makeCacheInvalidator(repository: GlobalFeaturesRepository): Cach
 
 export async function purgeOlderMajorVersions(
   invalidator: CacheInvalidator,
-  currentVersion: string,
+  currentVersion: string
 ): Promise<string[]> {
   const currentMajor = Number(currentVersion.split('.')[0]);
   if (!Number.isFinite(currentMajor)) {

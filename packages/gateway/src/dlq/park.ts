@@ -5,7 +5,9 @@ import type { Logger } from '@otomix/core';
 import { DLQ_STREAM } from './types.js';
 import type { DlqMessage } from './types.js';
 
-export interface ParkDeps { logger?: Logger; }
+export interface ParkDeps {
+  logger?: Logger;
+}
 export interface ParkInput {
   job_id: string;
   reason: string;
@@ -17,7 +19,7 @@ export interface ParkInput {
 export async function parkToDlq(
   redis: Redis,
   input: ParkInput,
-  deps: ParkDeps = {},
+  deps: ParkDeps = {}
 ): Promise<string> {
   const logger = deps.logger ?? createLogger({ service: 'gateway-dlq' });
   const message: DlqMessage = {
@@ -31,12 +33,18 @@ export async function parkToDlq(
   const entryId = await redis.xadd(
     DLQ_STREAM,
     '*',
-    'job_id', message.job_id,
-    'reason', message.reason,
-    'trace_id', message.trace_id,
-    'attempts', String(message.attempts),
-    'parked_at', message.parked_at,
-    'payload', message.payload,
+    'job_id',
+    message.job_id,
+    'reason',
+    message.reason,
+    'trace_id',
+    message.trace_id,
+    'attempts',
+    String(message.attempts),
+    'parked_at',
+    message.parked_at,
+    'payload',
+    message.payload
   );
   if (entryId === null) throw new Error('parkToDlq: xadd returned null');
   logger.log({

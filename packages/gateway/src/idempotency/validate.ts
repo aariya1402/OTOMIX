@@ -1,5 +1,5 @@
 // OTOMIX §9.3 · Mother Add. §1–§2
-import { IncomingMessage, ServerResponse } from 'node:http';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 import { mapStatus } from '../status-map.js';
 
 const STATE_MUTATING_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
@@ -25,7 +25,9 @@ export function validateIdempotencyKey(
     const status = mapStatus('INVALID_ARGUMENT');
     res.statusCode = status;
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({ error: 'INVALID_ARGUMENT', message: 'Missing Idempotency-Key header' }));
+    res.end(
+      JSON.stringify({ error: 'INVALID_ARGUMENT', message: 'Missing Idempotency-Key header' })
+    );
     return;
   }
 
@@ -34,7 +36,12 @@ export function validateIdempotencyKey(
     const status = mapStatus('INVALID_ARGUMENT');
     res.statusCode = status;
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({ error: 'INVALID_ARGUMENT', message: 'Invalid Idempotency-Key: must be UUIDv4' }));
+    res.end(
+      JSON.stringify({
+        error: 'INVALID_ARGUMENT',
+        message: 'Invalid Idempotency-Key: must be UUIDv4',
+      })
+    );
     return;
   }
 

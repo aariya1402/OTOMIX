@@ -3,17 +3,17 @@
 import { randomBytes } from 'node:crypto';
 
 export interface TraceContext {
-  version: string;      // 2 hex
-  traceId: string;      // 32 hex
-  spanId: string;       // 16 hex (my own span)
+  version: string; // 2 hex
+  traceId: string; // 32 hex
+  spanId: string; // 16 hex (my own span)
   parentId: string | null; // 16 hex (my parent's span, null if root)
-  flags: string;        // 2 hex
+  flags: string; // 2 hex
 }
 
 export interface ExtractedContext {
   version: string;
   traceId: string;
-  parentId: string;     // the caller's span ID (my parent)
+  parentId: string; // the caller's span ID (my parent)
   flags: string;
 }
 
@@ -58,7 +58,12 @@ export function parseTraceparent(header: string): ExtractedContext | null {
   return { version: version!, traceId: traceId!, parentId: parentId!, flags: flags! };
 }
 
-export function formatTraceparent(ctx: { version: string; traceId: string; spanId: string; flags: string }): string {
+export function formatTraceparent(ctx: {
+  version: string;
+  traceId: string;
+  spanId: string;
+  flags: string;
+}): string {
   return `${ctx.version}-${ctx.traceId}-${ctx.spanId}-${ctx.flags}`;
 }
 
@@ -84,7 +89,10 @@ export function extract(carrier: Carrier): ExtractedContext | null {
   return parseTraceparent(header);
 }
 
-export function newChildSpan(parent: ExtractedContext, spanRng: () => string = defaultSpanRng): TraceContext {
+export function newChildSpan(
+  parent: ExtractedContext,
+  spanRng: () => string = defaultSpanRng
+): TraceContext {
   return {
     version: parent.version,
     traceId: parent.traceId,
@@ -97,7 +105,7 @@ export function newChildSpan(parent: ExtractedContext, spanRng: () => string = d
 export function newRootSpan(
   traceRng: () => string = defaultTraceRng,
   spanRng: () => string = defaultSpanRng,
-  flags = '01',
+  flags = '01'
 ): TraceContext {
   return {
     version: '00',

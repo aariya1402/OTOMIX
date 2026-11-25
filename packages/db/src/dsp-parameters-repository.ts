@@ -1,6 +1,7 @@
 import { createHmac, randomUUID } from 'node:crypto';
 import type { Pool } from 'pg';
-import { withTenant, TenantId } from './with-tenant.js';
+import { withTenant } from './with-tenant.js';
+import type { TenantId } from './with-tenant.js';
 
 export interface EnqueueDspPropagationInput {
   tenantId: TenantId;
@@ -23,19 +24,19 @@ function canonicalJson(obj: Record<string, unknown>): string {
 
 export async function enqueueDspPropagation(
   pool: Pool,
-  input: EnqueueDspPropagationInput,
+  input: EnqueueDspPropagationInput
 ): Promise<EnqueueDspPropagationResult> {
   return withTenant(pool, input.tenantId, async (client) => {
-    const seqRes = await client.query(
+    const seqRes = await client.query<{ sequence: number }>(
       'UPDATE tenant_sequences SET sequence = sequence + 1 WHERE tenant_id = $1 RETURNING sequence',
-      [input.tenantId],
+      [input.tenantId]
     );
-    const sequence = Number(seqRes.rows[0].sequence);
+    const sequence = Number(seqRes.rows[0]?.sequence ?? 0);
 
     await client.query(
       'INSERT INTO dsp_parameters (tenant_id, chop_grid, crossfade_beats, updated_at) VALUES ($1, $2, $3, now()) ' +
-      'ON CONFLICT (tenant_id) DO UPDATE SET chop_grid = EXCLUDED.chop_grid, crossfade_beats = EXCLUDED.crossfade_beats, updated_at = now()',
-      [input.tenantId, input.chopGrid, input.crossfadeBeats],
+        'ON CONFLICT (tenant_id) DO UPDATE SET chop_grid = EXCLUDED.chop_grid, crossfade_beats = EXCLUDED.crossfade_beats, updated_at = now()',
+      [input.tenantId, input.chopGrid, input.crossfadeBeats]
     );
 
     const messageId = randomUUID();
@@ -51,11 +52,13 @@ export async function enqueueDspPropagation(
       timestamp,
     };
     const bodyWithId = { ...signedBody, messageId };
-    const signature = createHmac('sha256', input.hmacSecret).update(canonicalJson(bodyWithId)).digest('hex');
+    const signature = createHmac('sha256', input.hmacSecret)
+      .update(canonicalJson(bodyWithId))
+      .digest('hex');
     const storedPayload = { ...bodyWithId, signature };
     await client.query(
       'INSERT INTO outbox (message_id, tenant_id, topic, payload) VALUES ($1, $2, $3, $4::jsonb)',
-      [messageId, input.tenantId, 'dsp.parameters.update', JSON.stringify(storedPayload)],
+      [messageId, input.tenantId, 'dsp.parameters.update', JSON.stringify(storedPayload)]
     );
 
     return { sequence, messageId };

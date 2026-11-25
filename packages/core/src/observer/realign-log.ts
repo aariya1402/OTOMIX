@@ -17,5 +17,5 @@ export function logRealign(beatOffset: number, deltaPhiQuanta: number): number {
   const n = Math.max(0, Math.min(beatOffset, OBSERVER_REALIGN_BEATS));
   if (n === 0) return 0;
   const ratio = n / OBSERVER_REALIGN_BEATS;
-  return deltaPhiQuanta * Math.log1p(LOG_REALIGN_K * ratio) / Math.log1p(LOG_REALIGN_K);
+  return (deltaPhiQuanta * Math.log1p(LOG_REALIGN_K * ratio)) / Math.log1p(LOG_REALIGN_K);
 }
