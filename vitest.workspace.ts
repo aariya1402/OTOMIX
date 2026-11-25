@@ -77,5 +77,14 @@ export default defineWorkspace([
         testTimeout: 1800000,
         hookTimeout: 120000
       }
+    },
+    {
+      test: {
+        name: 'ui-components',
+        include: ['packages/ui/test/**/*.spec.tsx'],
+        environment: 'jsdom',
+        setupFiles: ['packages/ui/test/setup.ts'],
+        testTimeout: 30000
+      }
     }
 ])

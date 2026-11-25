@@ -18,7 +18,14 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@otomix/core": "workspace:*"
+    "@otomix/core": "workspace:*",
+    "@testing-library/jest-dom": "^8.0.0",
+    "@testing-library/react": "^16.3.3",
+    "@types/react": "^19.3.1",
+    "@types/react-dom": "^19.3.0",
+    "jsdom": "^31.0.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
