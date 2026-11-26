@@ -1,0 +1,16 @@
+﻿=== Three-way sync check ===
+OK       P08-T01-S01-M01     plan.md=TODO            tasks.json=TODO
+OK       P08-T01-S02-M01     plan.md=TODO            tasks.json=TODO
+OK       P08-T01-S02-M02     plan.md=TODO            tasks.json=TODO
+OK       P08-T02-S01-M02     plan.md=TODO            tasks.json=TODO
+OK       P08-T03-S01-M01     plan.md=TODO            tasks.json=TODO
+OK       P08-T04-S02-M01     plan.md=TODO            tasks.json=TODO
+OK       P08-T04-S02-M03     plan.md=TODO            tasks.json=TODO
+OK       P08-T04-S02-M04     plan.md=TODO            tasks.json=TODO
+OK       P08-T05-S01-M01     plan.md=TODO            tasks.json=TODO
+OK       P08-T06-S01-M01     plan.md=TODO            tasks.json=TODO
+OK       P08-T04-S02-M02     plan.md=TODO            tasks.json=TODO
+DIVERGE  P08-T04-S01-M01     plan.md=TODO            tasks.json=BLOCKED:OQ-09
+DIVERGE  P08-T04-S01-M03     plan.md=TODO            tasks.json=BLOCKED:OQ-24
+
+DIVERGE count: 2  (expected: 0)

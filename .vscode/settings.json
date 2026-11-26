@@ -1,33 +1,7 @@
 {
-  "cloudcode.enableTelemetry": true,
-  "cloudcode.showWelcomeOnStartup": true,
-  "cloudcode.defaultProject": "",
-  "cloudcode.defaultRegion": "us-central1",
-  "cloudcode.containerRegistry": "gcr.io",
-  "cloudcode.enableMinikube": false,
-  "cloudcode.minikubeProfile": "minikube",
-  "cloudcode.enableSkaffold": true,
-  "cloudcode.skaffoldConfig": "skaffold.yaml",
-  "cloudcode.enableCloudRun": true,
-  "cloudcode.cloudRunRegion": "us-central1",
-  "cloudcode.enableCloudBuild": true,
-  "cloudcode.cloudBuildConfig": "cloudbuild.yaml",
-  "cloudcode.enableKubernetes": true,
-  "cloudcode.kubernetesContext": "",
-  "cloudcode.enableDebug": true,
-  "cloudcode.debugPort": 5005,
-  "cloudcode.enableHotReload": true,
-  "cloudcode.ignoredFiles": [
-    "**/node_modules/**",
-    "**/.git/**",
-    "**/dist/**",
-    "**/build/**",
-    "**/*.log"
-  ],
-  "cloudcode.autoSync": true,
-  "cloudcode.syncInterval": 30000,
-  "cloudcode.enableFileWatcher": true,
-  "cloudcode.terminalShell": "powershell.exe",
-  "cloudcode.outputChannel": "Cloud Code",
-  "cloudcode.logLevel": "info"
+  "github.copilot.proxy": "https://openrouter.ai/api/v1",
+  "github.copilot.proxyAuthorization": "Bearer ${env:OPENROUTER_API_KEY}",
+  "github.copilot.advanced": {
+    "model": "nvidia/nemotron-3-ultra-550b-a55b:free"
+  }
 }

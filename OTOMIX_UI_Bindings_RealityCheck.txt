@@ -1,0 +1,65 @@
+﻿OTOMIX UI Bindings Reality Check
+RepoRoot: C:\Oto Dj - Oto Mix\Oto Mix
+Generated: 2026-11-27 00:40:05
+
+Legend: PASS = claim matches disk; FAIL = missing/mismatch; INFO = manual review
+[PASS] FILE-REGISTRY - Feature Registry schema exists :: file exists: packages/contracts/schemas/feature-registry-1.2.json
+[PASS] FILE-LIBRARY-STATE - library.ts exists :: file exists: packages/ui/src/state/library.ts
+[PASS] FILE-LIBRARY-COLUMN - LibraryColumn.tsx exists :: file exists: packages/ui/src/components/LibraryColumn.tsx
+[PASS] FILE-QUEUE-STATE - queue.ts exists :: file exists: packages/ui/src/state/queue.ts
+[PASS] FILE-QUEUE-COLUMN - QueueColumn.tsx exists :: file exists: packages/ui/src/components/QueueColumn.tsx
+[PASS] FILE-TIMELINE-STATE - timeline.ts exists :: file exists: packages/ui/src/state/timeline.ts
+[PASS] FILE-MIXPLAN-STATE - mixplan.ts exists :: file exists: packages/ui/src/state/mixplan.ts
+[PASS] FILE-SCORE - score.ts exists :: file exists: packages/ui/src/mixplan/score.ts
+[FAIL] FILE-REORDER - reorder.ts exists :: missing file: packages/ui/src/mixplan/reorder.ts
+[PASS] FILE-FEATURES-REPO - features-repository.ts exists :: file exists: packages/gateway/src/repository/features-repository.ts
+[FAIL] REG-TRACK-ID - Feature Registry has track_id :: missing property: track_id
+[FAIL] REG-BPM - Feature Registry has bpm :: missing property: bpm
+[FAIL] REG-KEY - Feature Registry has key :: missing property: key
+[FAIL] REG-ENERGY-STARS - Feature Registry has energy.stars :: missing property: energy
+[FAIL] REG-ENERGY-SCALAR - Feature Registry has energy.scalar :: missing property: energy
+[FAIL] REG-MIXABILITY-SCORE - Feature Registry has mixability.score :: missing property: mixability
+[FAIL] REG-MIXABILITY-CLASS - Feature Registry has mixability.class :: missing property: mixability
+[FAIL] REG-GRID-GROOVE - Feature Registry has grid.groove_mode :: missing property: grid
+[FAIL] REG-GRID-BPM-SEED - Feature Registry has grid.bpm_seed :: missing property: grid
+[FAIL] REG-GRID-T0 - Feature Registry has grid.t0_seconds :: missing property: grid
+[FAIL] REG-GRID-DELTA-PHI - Feature Registry has grid.delta_phi_seconds :: missing property: grid
+[FAIL] REG-GRID-PRE-KICK - Feature Registry has grid.pre_kick_beats :: missing property: grid
+[FAIL] REG-VOCAL-THRESHOLD - Feature Registry has vocal_map.threshold :: missing property: vocal_map
+[FAIL] REG-VOCAL-FRAMES - Feature Registry has vocal_map.frames :: missing property: vocal_map
+[FAIL] REG-VOCAL-V - Feature Registry vocal_map frames have v=1 :: pattern not found: "v"\s*:\s*1
+[PASS] LIB-STATE - library.ts contains LibraryState / byId / LibraryTrack :: pattern found: LibraryState|byId|LibraryTrack
+[PASS] LIB-BPM - library.ts contains bpm :: pattern found: bpm
+[PASS] LIB-CAMELOT - library.ts contains camelotKey :: pattern found: camelotKey
+[PASS] LIB-ENERGY - library.ts contains energyStars :: pattern found: energyStars
+[PASS] LIB-MIXABILITY - library.ts contains mixability :: pattern found: mixability
+[PASS] LIB-WILDCARD - library.ts contains isWildcard :: pattern found: isWildcard
+[PASS] UNMIXABLE-THRESHOLD - UNMIXABLE_THRESHOLD=0.4 exists under ui/src :: pattern found in: C:\Oto Dj - Oto Mix\Oto Mix\packages\ui\src\state\library.ts
+[PASS] QUEUE-IDS - queue.ts contains queueIds :: pattern found: queueIds
+[PASS] TIMELINE-SELECT - timeline.ts contains selectTimeline :: pattern found: selectTimeline
+[PASS] TIMELINE-POINT - timeline.ts contains TimelinePoint :: pattern found: TimelinePoint
+[PASS] TIMELINE-BEAT - timeline.ts contains beatIndex :: pattern found: beatIndex
+[PASS] TIMELINE-ABS - timeline.ts contains absoluteTime :: pattern found: absoluteTime
+[PASS] TIMELINE-TRACK - timeline.ts contains trackId :: pattern found: trackId
+[PASS] MIXPLAN-SCORE - mixplan.ts contains compatibility_score :: pattern found: compatibility_score
+[PASS] MIXPLAN-STARTER-CANDIDATE - mixplan.ts contains StarterCandidate :: pattern found: StarterCandidate
+[PASS] MIXPLAN-STARTER-SCORE - mixplan.ts contains compatibilityScore :: pattern found: compatibilityScore
+[PASS] MIXPLAN-STARTER - mixplan.ts contains starter :: pattern found: starter
+[PASS] MIXPLAN-WARN - mixplan.ts contains warnings or fault :: pattern found: warnings|fault
+[FAIL] SCORE-COMPAT - score.ts contains compatibility :: pattern not found: compatibility
+[FAIL] REORDER-COMPAT - reorder.ts contains compatibilityScore :: missing file: packages/ui/src/mixplan/reorder.ts
+[PASS] REPO-TRACK-ID - features-repository.ts contains track_id :: pattern found: track_id
+[PASS] REPO-BPM - features-repository.ts contains bpm :: pattern found: bpm
+[PASS] REPO-CAMELOT - features-repository.ts contains camelot_key :: pattern found: camelot_key
+[PASS] REPO-ENERGY - features-repository.ts contains energy_stars :: pattern found: energy_stars
+[PASS] REPO-MIXABILITY - features-repository.ts contains mixability :: pattern found: mixability
+[PASS] REPO-GROOVE - features-repository.ts contains groove_mode :: pattern found: groove_mode
+[PASS] REPO-REGISTRY - features-repository.ts contains registry_json :: pattern found: registry_json
+[PASS] REPO-ANALYZED - features-repository.ts contains analyzed_at :: pattern found: analyzed_at
+[PASS] CATALOG-ROUTE - GET /api/v1/catalog/features route exists under gateway/src :: pattern found in: C:\Oto Dj - Oto Mix\Oto Mix\packages\gateway\src\scopes.ts
+[INFO] MANUAL-TBD - TBD/planned entries require manual review :: Script only verifies existing files, JSON paths, identifiers, and route strings; planned/TBD behavior is not runtime-tested.
+Summary
+PASS: 36
+FAIL: 18
+INFO: 1
+Failed IDs: FILE-REORDER, REG-TRACK-ID, REG-BPM, REG-KEY, REG-ENERGY-STARS, REG-ENERGY-SCALAR, REG-MIXABILITY-SCORE, REG-MIXABILITY-CLASS, REG-GRID-GROOVE, REG-GRID-BPM-SEED, REG-GRID-T0, REG-GRID-DELTA-PHI, REG-GRID-PRE-KICK, REG-VOCAL-THRESHOLD, REG-VOCAL-FRAMES, REG-VOCAL-V, SCORE-COMPAT, REORDER-COMPAT

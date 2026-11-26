@@ -1,0 +1,62 @@
+﻿OTOMIX Delegated Task Reality Check
+RepoRoot: C:\Oto Dj - Oto Mix\Oto Mix
+Generated: 2026-11-27 00:44:47
+
+Legend: PASS = claim matches disk; FAIL = contradicted/missing; INFO = skipped or context
+[PASS] T01-S01-M01-FILE - catalog route file :: file exists: packages/gateway/src/routes/catalog-features.ts
+[PASS] T01-S01-M01-TEST - catalog route test :: file exists: packages/gateway/test/catalog-features.spec.ts
+[FAIL] T01-S01-M01-BOOT - bootstrap wires catalog route :: pattern not found in packages/gateway/src/bootstrap.mts :: catalog
+[PASS] T01-S01-M01-PATH - catalog endpoint path literal :: pattern found in packages/gateway/src/routes/catalog-features.ts
+[PASS] T01-S02-M01-FILE - queue slice file :: file exists: packages/ui/src/state/queue.ts
+[PASS] T01-S02-M01-QUEUEIDS - queueIds present :: pattern found in packages/ui/src/state/queue.ts
+[PASS] T01-S02-M01-ADD - addToQueue present :: pattern found in packages/ui/src/state/queue.ts
+[PASS] T01-S02-M01-REMOVE - removeFromQueue present :: pattern found in packages/ui/src/state/queue.ts
+[PASS] T01-S02-M01-REORDER - reorderQueue present :: pattern found in packages/ui/src/state/queue.ts
+[PASS] T01-S02-M01-TEST - queue slice test :: file exists: packages/ui/test/queue.slice.spec.ts
+[PASS] T01-S02-M02-FILE - timeline file :: file exists: packages/ui/src/state/timeline.ts
+[PASS] T01-S02-M02-SELECT - selectTimeline present :: pattern found in packages/ui/src/state/timeline.ts
+[FAIL] T01-S02-M02-TEST - timeline test :: missing any of: packages/ui/test/timeline.spec.ts, packages/ui/test/timeline.spec.tsx, packages/ui/test/state.timeline.spec.ts
+[PASS] T01-S02-M02-REORDER-FILE - reorder state file (referenced in log) :: file exists: packages/ui/src/state/reorder.ts
+[PASS] T02-S01-M02-COMP - QueueColumn file :: file exists: packages/ui/src/components/QueueColumn.tsx
+[PASS] T02-S01-M02-REORDER - onReorderQueue present :: pattern found in packages/ui/src/components/QueueColumn.tsx
+[PASS] T02-S01-M02-DRAG - drag handlers present :: pattern found in packages/ui/src/components/QueueColumn.tsx
+[PASS] T03-S01-M01-FILE - starter-warning module :: file exists: packages/ui/src/state/starter-warning.ts
+[PASS] T03-S01-M01-FN - hasStarterTrackWarning present :: pattern found in packages/ui/src/state/starter-warning.ts
+[PASS] T03-S01-M01-MIX - MixPlanApp imports starter-warning :: pattern found in packages/ui/src/components/MixPlanApp.tsx
+[PASS] T04-S02-M01-FILE - vocal-gate file :: file exists: packages/ui/src/mixplan/vocal-gate.ts
+[PASS] T04-S02-M01-TEST - vocal-gate test :: file exists: packages/ui/test/mixplan.vocal-gate.spec.ts
+[PASS] T04-S02-M03-FILE - mixplan client file :: file exists: packages/ui/src/mixplan/client.ts
+[PASS] T04-S02-M03-TEST - mixplan client test :: file exists: packages/ui/test/mixplan.client.spec.ts
+[PASS] T04-S02-M03-CLIENT - createTransitionPlanClient present :: pattern found in packages/ui/src/mixplan/client.ts
+[PASS] T04-S02-M04-FILE - mixplan nodes file :: file exists: packages/ui/src/mixplan/nodes.ts
+[PASS] T04-S02-M04-TEST - mixplan nodes test :: file exists: packages/ui/test/mixplan.nodes.spec.ts
+[PASS] T04-S02-M04-BUILD - buildTransitionNodes/getTransitionNodeId present :: pattern found in packages/ui/src/mixplan/nodes.ts
+[PASS] T05-S01-M01-FILE - VocalOverlay component :: file exists: packages/ui/src/components/VocalOverlay.tsx
+[PASS] T05-S01-M01-TEST - VocalOverlay test :: file exists: packages/ui/test/VocalOverlay.spec.tsx
+[PASS] T05-S01-M01-THRESH - VocalOverlay uses 0.65 threshold :: pattern found in packages/ui/src/components/VocalOverlay.tsx
+[PASS] T05-S01-M02-FILE - PreKickOverlay component :: file exists: packages/ui/src/components/PreKickOverlay.tsx
+[PASS] T05-S01-M02-TEST - PreKickOverlay test :: file exists: packages/ui/test/PreKickOverlay.spec.tsx
+[PASS] T05-S01-M02-FN - getPreKickZones present :: pattern found in packages/ui/src/components/PreKickOverlay.tsx
+[PASS] T05-S01-M02-CORE - core prekick-map file :: file exists: packages/core/src/grid/prekick-map.ts
+[PASS] T06-S01-M01-FILE - preview controller file :: file exists: packages/ui/src/preview/controller.ts
+[PASS] T06-S01-M01-TEST - preview controller test :: file exists: packages/ui/test/preview.controller.spec.ts
+[PASS] T06-S01-M01-FN - createPreviewController present :: pattern found in packages/ui/src/preview/controller.ts
+[PASS] T06-S01-M02-BRIDGE - observer bridge file :: file exists: packages/ui/src/preview/observer-bridge.ts
+[PASS] T06-S01-M02-WORKER - observer worker file :: file exists: packages/ui/src/preview/observer.worker.ts
+[PASS] T06-S01-M02-STATUS - PreviewStatus component :: file exists: packages/ui/src/components/PreviewStatus.tsx
+[PASS] T06-S01-M02-TEST - observer test :: file exists: packages/ui/test/preview.observer.spec.ts
+[PASS] T06-S01-M02-BRIDGE-FN - createPreviewObserverBridge present :: pattern found in packages/ui/src/preview/observer-bridge.ts
+[PASS] T06-S01-M02-DEGRADED - degraded status exposed in PreviewStatus :: pattern found in packages/ui/src/components/PreviewStatus.tsx
+[PASS] T06-S01-M02-INTEG - MixPlanApp integrates PreviewStatus :: pattern found in packages/ui/src/components/MixPlanApp.tsx
+[PASS] T04-S02-M02-ROUTE - mixplan route file :: file exists: packages/gateway/src/routes/mixplan.ts
+[PASS] T04-S02-M02-TEST - mixplan route test :: file exists: packages/gateway/test/mixplan.spec.ts
+[PASS] T04-S02-M02-503 - mixplan route fail-closed with 503 :: pattern found in packages/gateway/src/routes/mixplan.ts
+[FAIL] T04-S02-M02-STATUS - P08-T04-S02-M02 status = TODO (reverted, backend missing) :: task P08-T04-S02-M02 not found
+[PASS] T06-S01-M02-MOCK - tests use MockObserverWorker (claim: production worker not connected) :: MockObserverWorker found in packages/ui/test/preview.observer.spec.ts
+[FAIL] T06-S01-M01-PLAN - P08-T06-S01-M01 status = TODO in plan (claim: stale status) :: task P08-T06-S01-M01 not found
+[INFO] P08-STATUS-OVERVIEW - All P08 statuses in plan :: 
+Summary
+PASS: 47
+FAIL: 4
+INFO: 1
+Failed IDs: T01-S01-M01-BOOT, T01-S02-M02-TEST, T04-S02-M02-STATUS, T06-S01-M01-PLAN

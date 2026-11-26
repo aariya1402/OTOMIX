@@ -1,0 +1,18 @@
+﻿=== OTOMIX P08 Test Runner (diagnostic) ===
+RepoRoot: C:\Oto Dj - Oto Mix\Oto Mix
+Generated: 2026-11-27 00:54:59
+Total files: 10
+Results recorded: 10
+
+Summary: PASS=10  FAIL=0  MISSING=0
+
+PASS      exit=0    packages/gateway/test/catalog-features.spec.ts
+PASS      exit=0    packages/ui/test/queue.slice.spec.ts
+PASS      exit=0    packages/ui/test/timeline.selector.spec.ts
+PASS      exit=0    packages/ui/test/MixPlanApp.spec.tsx
+PASS      exit=0    packages/ui/test/mixplan.vocal-gate.spec.ts
+PASS      exit=0    packages/ui/test/mixplan.client.spec.ts
+PASS      exit=0    packages/ui/test/mixplan.nodes.spec.ts
+PASS      exit=0    packages/ui/test/VocalOverlay.spec.tsx
+PASS      exit=0    packages/ui/test/PreKickOverlay.spec.tsx
+PASS      exit=0    packages/ui/test/preview.controller.spec.ts

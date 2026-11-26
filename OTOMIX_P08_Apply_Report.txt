@@ -1,0 +1,68 @@
+﻿=== STAGE -1: Restore deleted .bak files from git (so re-delete is auditable) ===
+  Restoring 8 file(s) from git:
+    git checkout -- packages/gateway/src/routes/catalog-features.ts.bak-20261124-061431
+    git checkout -- packages/gateway/src/routes/catalog-features.ts.bak-20261124-062105
+    git checkout -- packages/gateway/src/routes/catalog-features.ts.bak-20261124-062137
+    git checkout -- packages/gateway/src/routes/catalog-features.ts.bak-20261124-062744
+    git checkout -- packages/gateway/src/routes/dsp-parameters.ts.bak-20261124-060257
+    git checkout -- packages/gateway/src/routes/dsp-parameters.ts.bak-20261124-062105
+    git checkout -- packages/gateway/src/routes/dsp-parameters.ts.bak-20261124-062138
+    git checkout -- packages/gateway/src/routes/dsp-parameters.ts.bak-20261124-062204
+  Removing stale evidence file: C:\Oto Dj - Oto Mix\Oto Mix\Docs\OtoMix Todo-Plan\OTOMIX_P08_DONE_Evidence.md
+
+=== STAGE 0: Preflight ===
+  OK   P08-T01-S01-M01     plan=TODO       tasks=TODO
+  OK   P08-T01-S02-M01     plan=TODO       tasks=TODO
+  OK   P08-T01-S02-M02     plan=TODO       tasks=TODO
+  OK   P08-T02-S01-M02     plan=TODO       tasks=TODO
+  OK   P08-T03-S01-M01     plan=TODO       tasks=TODO
+  OK   P08-T04-S02-M01     plan=TODO       tasks=TODO
+  OK   P08-T04-S02-M03     plan=TODO       tasks=TODO
+  OK   P08-T04-S02-M04     plan=TODO       tasks=TODO
+  OK   P08-T05-S01-M01     plan=TODO       tasks=TODO
+  OK   P08-T06-S01-M01     plan=TODO       tasks=TODO
+  OK   P08-T04-S01-M01     plan=TODO       tasks=BLOCKED:OQ-09
+  OK   P08-T04-S01-M03     plan=TODO       tasks=BLOCKED:OQ-24
+  OQ-09 present in plan.md: True
+  OQ-24 present in plan.md: True
+Preflight OK.
+
+=== STAGE 0.5: Backup ===
+  C:\Oto Dj - Oto Mix\Oto Mix\Docs\OtoMix Todo-Plan\OTOMIX_MicroTask_Plan.md.bak-20261127-005907
+  C:\Oto Dj - Oto Mix\Oto Mix\Docs\OtoMix Todo-Plan\OTOMIX_MicroTask_Plan.tasks.json.bak-20261127-005907
+
+=== STAGE 1: Promote to DONE ===
+  P08-T01-S01-M01  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/gateway/test/catalog-features.spec.ts
+  P08-T01-S02-M01  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/queue.slice.spec.ts
+  P08-T01-S02-M02  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/timeline.selector.spec.ts
+  P08-T02-S01-M02  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/MixPlanApp.spec.tsx
+  P08-T03-S01-M01  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/MixPlanApp.spec.tsx
+  P08-T04-S02-M01  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/mixplan.vocal-gate.spec.ts
+  P08-T04-S02-M03  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/mixplan.client.spec.ts
+  P08-T04-S02-M04  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/mixplan.nodes.spec.ts
+  P08-T05-S01-M01  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/VocalOverlay.spec.tsx
+  P08-T06-S01-M01  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/preview.controller.spec.ts
+
+=== STAGE 2: Reflect BLOCKED in plan.md ===
+  P08-T04-S01-M01  plan=TODO -> BLOCKED (OQ-09)  tasks.json=BLOCKED:OQ-09 (unchanged)
+  P08-T04-S01-M03  plan=TODO -> BLOCKED (OQ-24)  tasks.json=BLOCKED:OQ-24 (unchanged)
+
+=== STAGE 3: .bak cleanup ===
+  DELETED     catalog-features.ts.bak-20261124-061431  (unreferenced)
+  DELETED     catalog-features.ts.bak-20261124-062105  (unreferenced)
+  DELETED     catalog-features.ts.bak-20261124-062137  (unreferenced)
+  DELETED     catalog-features.ts.bak-20261124-062744  (unreferenced)
+  DELETED     dsp-parameters.ts.bak-20261124-060257  (unreferenced)
+  DELETED     dsp-parameters.ts.bak-20261124-062105  (unreferenced)
+  DELETED     dsp-parameters.ts.bak-20261124-062138  (unreferenced)
+  DELETED     dsp-parameters.ts.bak-20261124-062204  (unreferenced)
+
+=== STAGE 3.5: Write plan.md + tasks.json ===
+  plan.md  written (BOM=True)
+  tasks.json written (BOM=False)
+  tasks.json re-parse OK (object count=260)
+
+=== STAGE 3.6: Evidence ===
+  C:\Oto Dj - Oto Mix\Oto Mix\Docs\OtoMix Todo-Plan\OTOMIX_P08_DONE_Evidence.md  (10 evidence lines)
+
+=== STAGE 3.7: git diff --check ===

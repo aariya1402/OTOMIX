@@ -4,8 +4,9 @@
 // the Starter Track. Provides actions for adding, removing, reordering, and
 // managing the starter track.
 //
-// Rule: The starter track at index 0 is immutable in position - it can be
-//       replaced but never moved from index 0 via reorder.
+// Rule: The track currently at index 0 cannot be moved out of that position.
+//       The plan's reorder acceptance case allows another track to be moved
+//       into index 0, making it the new Starter Track.
 
 export interface QueueState {
   readonly queueIds: readonly string[];
@@ -50,21 +51,17 @@ export function removeFromQueue(state: QueueState, trackId: string): QueueState 
 }
 
 export function reorderQueue(state: QueueState, fromIndex: number, toIndex: number): QueueState {
-  // Cannot move starter track (index 0) from its position
-  if (fromIndex === 0) {
-    return state;
-  }
-
-  // Cannot move to index 0 (starter track position)
-  if (toIndex === 0) {
-    return state;
-  }
-
   // Validate indices
   if (fromIndex < 0 || fromIndex >= state.queueIds.length) {
     return state;
   }
   if (toIndex < 0 || toIndex >= state.queueIds.length) {
+    return state;
+  }
+
+  // The current starter stays in Slot 1, but the plan allows replacing it by
+  // reordering another track into index 0.
+  if (fromIndex === 0) {
     return state;
   }
 

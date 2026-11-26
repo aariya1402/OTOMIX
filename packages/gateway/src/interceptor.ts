@@ -79,6 +79,7 @@ export function createInterceptor(deps: InterceptorDeps) {
   ): Promise<void> {
     const result = await verifyRequest(req, deps);
     if (result.ok) {
+      (req as any).claims = result.claims;
       next();
       return;
     }

@@ -1,0 +1,90 @@
+﻿=== DIAG START 2026-11-27 00:54:38 ===
+[00:54:38.378] PSVersion: 5.1.26100.9711
+[00:54:38.399] PSNativeCommandUseErrorActionPreference: 
+[00:54:38.414] RepoRoot: C:\Oto Dj - Oto Mix\Oto Mix
+[00:54:38.432] testFiles is array: True
+[00:54:38.481] testFiles.Count: 10
+[00:54:38.499]   [0] 'packages/gateway/test/catalog-features.spec.ts'
+[00:54:38.502]   [1] 'packages/ui/test/queue.slice.spec.ts'
+[00:54:38.514]   [2] 'packages/ui/test/timeline.selector.spec.ts'
+[00:54:38.526]   [3] 'packages/ui/test/MixPlanApp.spec.tsx'
+[00:54:38.535]   [4] 'packages/ui/test/mixplan.vocal-gate.spec.ts'
+[00:54:38.549]   [5] 'packages/ui/test/mixplan.client.spec.ts'
+[00:54:38.559]   [6] 'packages/ui/test/mixplan.nodes.spec.ts'
+[00:54:38.570]   [7] 'packages/ui/test/VocalOverlay.spec.tsx'
+[00:54:38.581]   [8] 'packages/ui/test/PreKickOverlay.spec.tsx'
+[00:54:38.592]   [9] 'packages/ui/test/preview.controller.spec.ts'
+[00:54:38.648] PWD: C:\Oto Dj - Oto Mix\Oto Mix
+[00:54:38.741] --- ITER: packages/gateway/test/catalog-features.spec.ts ---
+[00:54:38.744]   full: C:\Oto Dj - Oto Mix\Oto Mix\packages\gateway\test\catalog-features.spec.ts
+[00:54:38.753]   exists: True
+[00:54:38.762]   invoking: pnpm exec vitest run packages/gateway/test/catalog-features.spec.ts
+[00:54:43.687]   pnpm returned. LASTEXITCODE=0
+[00:54:43.702]   -> result added. results.Count=1  exit=0
+[00:54:43.705] --- ITER: packages/ui/test/queue.slice.spec.ts ---
+[00:54:43.715]   full: C:\Oto Dj - Oto Mix\Oto Mix\packages\ui\test\queue.slice.spec.ts
+[00:54:43.726]   exists: True
+[00:54:43.737]   invoking: pnpm exec vitest run packages/ui/test/queue.slice.spec.ts
+[00:54:44.962]   pnpm returned. LASTEXITCODE=0
+[00:54:44.964]   -> result added. results.Count=2  exit=0
+[00:54:44.976] --- ITER: packages/ui/test/timeline.selector.spec.ts ---
+[00:54:44.987]   full: C:\Oto Dj - Oto Mix\Oto Mix\packages\ui\test\timeline.selector.spec.ts
+[00:54:45.003]   exists: True
+[00:54:45.014]   invoking: pnpm exec vitest run packages/ui/test/timeline.selector.spec.ts
+[00:54:46.251]   pnpm returned. LASTEXITCODE=0
+[00:54:46.253]   -> result added. results.Count=3  exit=0
+[00:54:46.266] --- ITER: packages/ui/test/MixPlanApp.spec.tsx ---
+[00:54:46.280]   full: C:\Oto Dj - Oto Mix\Oto Mix\packages\ui\test\MixPlanApp.spec.tsx
+[00:54:46.288]   exists: True
+[00:54:46.296]   invoking: pnpm exec vitest run packages/ui/test/MixPlanApp.spec.tsx
+[00:54:48.922]   pnpm returned. LASTEXITCODE=0
+[00:54:48.923]   -> result added. results.Count=4  exit=0
+[00:54:48.931] --- ITER: packages/ui/test/mixplan.vocal-gate.spec.ts ---
+[00:54:48.939]   full: C:\Oto Dj - Oto Mix\Oto Mix\packages\ui\test\mixplan.vocal-gate.spec.ts
+[00:54:48.948]   exists: True
+[00:54:48.955]   invoking: pnpm exec vitest run packages/ui/test/mixplan.vocal-gate.spec.ts
+[00:54:50.094]   pnpm returned. LASTEXITCODE=0
+[00:54:50.096]   -> result added. results.Count=5  exit=0
+[00:54:50.110] --- ITER: packages/ui/test/mixplan.client.spec.ts ---
+[00:54:50.120]   full: C:\Oto Dj - Oto Mix\Oto Mix\packages\ui\test\mixplan.client.spec.ts
+[00:54:50.132]   exists: True
+[00:54:50.145]   invoking: pnpm exec vitest run packages/ui/test/mixplan.client.spec.ts
+[00:54:51.388]   pnpm returned. LASTEXITCODE=0
+[00:54:51.389]   -> result added. results.Count=6  exit=0
+[00:54:51.403] --- ITER: packages/ui/test/mixplan.nodes.spec.ts ---
+[00:54:51.415]   full: C:\Oto Dj - Oto Mix\Oto Mix\packages\ui\test\mixplan.nodes.spec.ts
+[00:54:51.427]   exists: True
+[00:54:51.440]   invoking: pnpm exec vitest run packages/ui/test/mixplan.nodes.spec.ts
+[00:54:52.560]   pnpm returned. LASTEXITCODE=0
+[00:54:52.562]   -> result added. results.Count=7  exit=0
+[00:54:52.569] --- ITER: packages/ui/test/VocalOverlay.spec.tsx ---
+[00:54:52.576]   full: C:\Oto Dj - Oto Mix\Oto Mix\packages\ui\test\VocalOverlay.spec.tsx
+[00:54:52.588]   exists: True
+[00:54:52.596]   invoking: pnpm exec vitest run packages/ui/test/VocalOverlay.spec.tsx
+[00:54:54.913]   pnpm returned. LASTEXITCODE=0
+[00:54:54.914]   -> result added. results.Count=8  exit=0
+[00:54:54.923] --- ITER: packages/ui/test/PreKickOverlay.spec.tsx ---
+[00:54:54.929]   full: C:\Oto Dj - Oto Mix\Oto Mix\packages\ui\test\PreKickOverlay.spec.tsx
+[00:54:54.942]   exists: True
+[00:54:54.954]   invoking: pnpm exec vitest run packages/ui/test/PreKickOverlay.spec.tsx
+[00:54:57.326]   pnpm returned. LASTEXITCODE=0
+[00:54:57.328]   -> result added. results.Count=9  exit=0
+[00:54:57.342] --- ITER: packages/ui/test/preview.controller.spec.ts ---
+[00:54:57.352]   full: C:\Oto Dj - Oto Mix\Oto Mix\packages\ui\test\preview.controller.spec.ts
+[00:54:57.365]   exists: True
+[00:54:57.375]   invoking: pnpm exec vitest run packages/ui/test/preview.controller.spec.ts
+[00:54:58.634]   pnpm returned. LASTEXITCODE=0
+[00:54:58.636]   -> result added. results.Count=10  exit=0
+[00:54:58.646] Pop-Location done
+[00:54:58.674] === FINAL: results.Count = 10 ===
+[00:54:58.695]   packages/gateway/test/catalog-features.spec.ts exit=0 threw=False
+[00:54:58.696]   packages/ui/test/queue.slice.spec.ts exit=0 threw=False
+[00:54:58.704]   packages/ui/test/timeline.selector.spec.ts exit=0 threw=False
+[00:54:58.716]   packages/ui/test/MixPlanApp.spec.tsx exit=0 threw=False
+[00:54:58.727]   packages/ui/test/mixplan.vocal-gate.spec.ts exit=0 threw=False
+[00:54:58.739]   packages/ui/test/mixplan.client.spec.ts exit=0 threw=False
+[00:54:58.757]   packages/ui/test/mixplan.nodes.spec.ts exit=0 threw=False
+[00:54:58.771]   packages/ui/test/VocalOverlay.spec.tsx exit=0 threw=False
+[00:54:58.785]   packages/ui/test/PreKickOverlay.spec.tsx exit=0 threw=False
+[00:54:58.797]   packages/ui/test/preview.controller.spec.ts exit=0 threw=False
+[00:54:58.929] JSON written: C:\Oto Dj - Oto Mix\Oto Mix\OTOMIX_P08_TestResults.json  (length=7314)

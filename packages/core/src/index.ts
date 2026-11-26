@@ -36,6 +36,11 @@ export * from './resilience/degraded.js';
 export * from './telemetry/logger.js';
 export * from './telemetry/propagation.js';
 export * from './glide/target.js';
+export { generateGlideAutomation } from './glide/schedule.js';
+export type {
+  GlideAutomationResult,
+  AudioParamAutomation as GlideRampAutomation,
+} from './glide/schedule.js';
 export * from './chop/slice.js';
 export * from './chop/passthrough.js';
 export * from './chop/groove-shift.js';

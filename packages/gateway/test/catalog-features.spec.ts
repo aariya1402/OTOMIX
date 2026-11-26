@@ -2,8 +2,8 @@ import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
 import { Pool } from 'pg';
 import request from 'supertest';
-import express from 'express';
-import { createCatalogFeaturesHandler } from '../src/routes/catalog-features.js';
+import { createGatewayApp } from '../src/index.js';
+import { createInterceptor } from '../src/interceptor.js';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -19,7 +19,7 @@ function loadUp(rel: string): string {
 describe('GET /api/v1/catalog/features (P08-T01-S01-M01)', () => {
   let ctr: StartedPostgreSqlContainer;
   let pool: Pool;
-  let app: express.Express;
+  let app: ReturnType<typeof createGatewayApp>;
 
   beforeAll(async () => {
     ctr = await new PostgreSqlContainer('postgres:16-alpine').start();
@@ -37,8 +37,8 @@ describe('GET /api/v1/catalog/features (P08-T01-S01-M01)', () => {
         const id = `00000000-0000-0000-0000-${i.toString().padStart(12, '0')}`;
         await client.query(
           `INSERT INTO features (feature_id, tenant_id, track_id, schema_version, bpm, camelot_key, energy_scalar, energy_stars, mixability, groove_mode, registry_json, analyzed_at)
-           VALUES ($1, 'otomix', $2, '1.0', 120, '8A', 0.5, 3, 0.5, 'straight', '{}', now() + ($3 || ' seconds')::interval)`,
-          [id, id, i]
+           VALUES ($1, 'otomix', $2, '1.0', 120, '8A', 0.5, 3, 0.5, 'straight', '{}', now())`,
+          [id, id]
         );
       }
       await client.query('COMMIT');
@@ -58,29 +58,26 @@ describe('GET /api/v1/catalog/features (P08-T01-S01-M01)', () => {
       client.release();
     }
 
-    app = express();
-    app.use(express.json());
-    // Mock interceptor to inject claims
-    app.use((req, res, next) => {
-      const scope = req.headers['x-test-scope'];
-      if (scope === 'none') {
-        (req as any).claims = { sub: 'u1', tenant_id: 'otomix' };
-      } else if (scope === 'wrong-tenant') {
-        (req as any).claims = { sub: 'u2', tenant_id: 'otodj' };
-      } else {
-        (req as any).claims = { sub: 'u1', tenant_id: 'otomix' }; // Assume scope passed
-      }
-      next();
+    const interceptor = createInterceptor({
+      verifyToken: {
+        verify: async (token: string) => {
+          if (token === 'valid-no-scope') {
+            return { sub: 'u1', tenant_id: 'otomix', jti: 'j1', iat: 0, exp: 0 };
+          }
+          if (token === 'valid-wrong-tenant') {
+            return { sub: 'u2', tenant_id: 'otodj', jti: 'j2', iat: 0, exp: 0 };
+          }
+          return { sub: 'u1', tenant_id: 'otomix', jti: 'j1', iat: 0, exp: 0 };
+        },
+      },
+      isDenied: async () => false,
+      getEffectivePermissions: async (_userId: string, _tenantId: string) => {
+        return new Set<string>(['user:read']);
+      },
+      expectedTenantId: 'otomix',
     });
 
-    const handler = createCatalogFeaturesHandler({ pool });
-    app.get('/api/v1/catalog/features', async (req, res, next) => {
-      // Enforce user:read scope mock
-      if (req.headers['x-test-scope'] === 'none') {
-        return res.status(403).json({ error: 'PERMISSION_DENIED' });
-      }
-      await handler(req, res, next);
-    });
+    app = createGatewayApp({ pool, interceptor });
   }, TEST_TIMEOUT);
 
   afterAll(async () => {
@@ -90,19 +87,19 @@ describe('GET /api/v1/catalog/features (P08-T01-S01-M01)', () => {
 
   it('paginates 100 -> 100 -> 50 and filters tenant', async () => {
     // Page 1
-    const r1 = await request(app).get('/api/v1/catalog/features?limit=100');
+    const r1 = await request(app).get('/api/v1/catalog/features?limit=100').set('Authorization', 'Bearer valid');
     expect(r1.status).toBe(200);
     expect(r1.body.items.length).toBe(100);
     expect(r1.body.next_cursor).not.toBeNull();
 
     // Page 2
-    const r2 = await request(app).get(`/api/v1/catalog/features?limit=100&cursor=${encodeURIComponent(r1.body.next_cursor)}`);
+    const r2 = await request(app).get(`/api/v1/catalog/features?limit=100&cursor=${encodeURIComponent(r1.body.next_cursor)}`).set('Authorization', 'Bearer valid');
     expect(r2.status).toBe(200);
     expect(r2.body.items.length).toBe(100);
     expect(r2.body.next_cursor).not.toBeNull();
 
     // Page 3
-    const r3 = await request(app).get(`/api/v1/catalog/features?limit=100&cursor=${encodeURIComponent(r2.body.next_cursor)}`);
+    const r3 = await request(app).get(`/api/v1/catalog/features?limit=100&cursor=${encodeURIComponent(r2.body.next_cursor)}`).set('Authorization', 'Bearer valid');
     expect(r3.status).toBe(200);
     expect(r3.body.items.length).toBe(50);
     expect(r3.body.next_cursor).toBeNull();
@@ -111,17 +108,35 @@ describe('GET /api/v1/catalog/features (P08-T01-S01-M01)', () => {
     const allItems = [...r1.body.items, ...r2.body.items, ...r3.body.items];
     const hasOtodj = allItems.some((item: any) => item.tenant_id === 'otodj');
     expect(hasOtodj).toBe(false);
+    const featureIds = allItems.map((item: any) => item.feature_id);
+    expect(new Set(featureIds).size).toBe(250);
+    expect(featureIds).toEqual([...featureIds].sort());
   });
 
-  it('returns 403 without scope', async () => {
-    const res = await request(app)
+  it('returns 403 when user:read scope is missing', async () => {
+    const noScopeInterceptor = createInterceptor({
+      verifyToken: {
+        verify: async () => ({ sub: 'u1', tenant_id: 'otomix', jti: 'j1', iat: 0, exp: 0 }),
+      },
+      isDenied: async () => false,
+      getEffectivePermissions: async () => new Set<string>(),
+      expectedTenantId: 'otomix',
+    });
+    const noScopeApp = createGatewayApp({ pool, interceptor: noScopeInterceptor });
+
+    const res = await request(noScopeApp)
       .get('/api/v1/catalog/features')
-      .set('x-test-scope', 'none');
+      .set('Authorization', 'Bearer valid');
     expect(res.status).toBe(403);
   });
 
+  it('returns 401 when bearer authentication is missing', async () => {
+    const res = await request(app).get('/api/v1/catalog/features');
+    expect(res.status).toBe(401);
+  });
+
   it('returns 400 for invalid cursor', async () => {
-    const res = await request(app).get('/api/v1/catalog/features?cursor=invalid-base64');
+    const res = await request(app).get('/api/v1/catalog/features?cursor=invalid-base64').set('Authorization', 'Bearer valid');
     expect(res.status).toBe(400);
   });
 });

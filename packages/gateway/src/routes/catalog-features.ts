@@ -1,6 +1,6 @@
 // OTOMIX 9.1 - GAP-001
 import type { Pool } from 'pg';
-import type { Request, Response, NextFunction } from 'express';
+import type { Express, Request, Response, NextFunction } from 'express';
 import { FeaturesRepository } from '../repository/features-repository.js';
 
 export interface CatalogFeaturesDeps {
@@ -69,4 +69,22 @@ export function createCatalogFeaturesHandler(deps: CatalogFeaturesDeps) {
       return next(err);
     }
   };
+}
+
+export interface MountCatalogFeaturesRouteDeps extends CatalogFeaturesDeps {
+  interceptor?: (req: Request, res: Response, next: NextFunction) => void | Promise<void>;
+}
+
+export function mountCatalogFeaturesRoute(app: Express, deps: MountCatalogFeaturesRouteDeps): Express {
+  const handler = createCatalogFeaturesHandler(deps);
+  app.get(
+    '/api/v1/catalog/features',
+    deps.interceptor
+      ? async (req: Request, res: Response, next: NextFunction) => {
+          await deps.interceptor!(req, res, next);
+        }
+      : (_req: Request, _res: Response, next: NextFunction) => next(),
+    handler
+  );
+  return app;
 }

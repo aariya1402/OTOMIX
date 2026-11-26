@@ -46,6 +46,16 @@ function TrackRow({
     <div
       className={`library-row ${isSelectable ? 'selectable' : 'unmixable'} ${track.isWildcard ? 'wildcard' : ''}`}
       data-testid={`track-row-${track.trackId}`}
+      draggable={isSelectable}
+      onDragStart={(event) => {
+        if (!isSelectable) {
+          event.preventDefault();
+          return;
+        }
+
+        event.dataTransfer.setData('text/plain', track.trackId);
+        event.dataTransfer.effectAllowed = 'copy';
+      }}
       onClick={handleClick}
       style={{ opacity: isSelectable ? 1 : 0.5, cursor: isSelectable ? 'pointer' : 'not-allowed' }}
     >

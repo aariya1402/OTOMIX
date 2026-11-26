@@ -1,0 +1,175 @@
+﻿=== Read Apply report file ===
+=== STAGE -1: Restore deleted .bak files from git (so re-delete is auditable) ===
+  Restoring 8 file(s) from git:
+    git checkout -- packages/gateway/src/routes/catalog-features.ts.bak-20261124-061431
+    git checkout -- packages/gateway/src/routes/catalog-features.ts.bak-20261124-062105
+    git checkout -- packages/gateway/src/routes/catalog-features.ts.bak-20261124-062137
+    git checkout -- packages/gateway/src/routes/catalog-features.ts.bak-20261124-062744
+    git checkout -- packages/gateway/src/routes/dsp-parameters.ts.bak-20261124-060257
+    git checkout -- packages/gateway/src/routes/dsp-parameters.ts.bak-20261124-062105
+    git checkout -- packages/gateway/src/routes/dsp-parameters.ts.bak-20261124-062138
+    git checkout -- packages/gateway/src/routes/dsp-parameters.ts.bak-20261124-062204
+  Removing stale evidence file: C:\Oto Dj - Oto Mix\Oto Mix\Docs\OtoMix Todo-Plan\OTOMIX_P08_DONE_Evidence.md
+
+=== STAGE 0: Preflight ===
+  OK   P08-T01-S01-M01     plan=TODO       tasks=TODO
+  OK   P08-T01-S02-M01     plan=TODO       tasks=TODO
+  OK   P08-T01-S02-M02     plan=TODO       tasks=TODO
+  OK   P08-T02-S01-M02     plan=TODO       tasks=TODO
+  OK   P08-T03-S01-M01     plan=TODO       tasks=TODO
+  OK   P08-T04-S02-M01     plan=TODO       tasks=TODO
+  OK   P08-T04-S02-M03     plan=TODO       tasks=TODO
+  OK   P08-T04-S02-M04     plan=TODO       tasks=TODO
+  OK   P08-T05-S01-M01     plan=TODO       tasks=TODO
+  OK   P08-T06-S01-M01     plan=TODO       tasks=TODO
+  OK   P08-T04-S01-M01     plan=TODO       tasks=BLOCKED:OQ-09
+  OK   P08-T04-S01-M03     plan=TODO       tasks=BLOCKED:OQ-24
+  OQ-09 present in plan.md: True
+  OQ-24 present in plan.md: True
+Preflight OK.
+
+=== STAGE 0.5: Backup ===
+  C:\Oto Dj - Oto Mix\Oto Mix\Docs\OtoMix Todo-Plan\OTOMIX_MicroTask_Plan.md.bak-20261127-005907
+  C:\Oto Dj - Oto Mix\Oto Mix\Docs\OtoMix Todo-Plan\OTOMIX_MicroTask_Plan.tasks.json.bak-20261127-005907
+
+=== STAGE 1: Promote to DONE ===
+  P08-T01-S01-M01  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/gateway/test/catalog-features.spec.ts
+  P08-T01-S02-M01  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/queue.slice.spec.ts
+  P08-T01-S02-M02  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/timeline.selector.spec.ts
+  P08-T02-S01-M02  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/MixPlanApp.spec.tsx
+  P08-T03-S01-M01  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/MixPlanApp.spec.tsx
+  P08-T04-S02-M01  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/mixplan.vocal-gate.spec.ts
+  P08-T04-S02-M03  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/mixplan.client.spec.ts
+  P08-T04-S02-M04  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/mixplan.nodes.spec.ts
+  P08-T05-S01-M01  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/VocalOverlay.spec.tsx
+  P08-T06-S01-M01  plan=TODO -> DONE  tasks=TODO -> DONE  test=packages/ui/test/preview.controller.spec.ts
+
+=== STAGE 2: Reflect BLOCKED in plan.md ===
+  P08-T04-S01-M01  plan=TODO -> BLOCKED (OQ-09)  tasks.json=BLOCKED:OQ-09 (unchanged)
+  P08-T04-S01-M03  plan=TODO -> BLOCKED (OQ-24)  tasks.json=BLOCKED:OQ-24 (unchanged)
+
+=== STAGE 3: .bak cleanup ===
+  DELETED     catalog-features.ts.bak-20261124-061431  (unreferenced)
+  DELETED     catalog-features.ts.bak-20261124-062105  (unreferenced)
+  DELETED     catalog-features.ts.bak-20261124-062137  (unreferenced)
+  DELETED     catalog-features.ts.bak-20261124-062744  (unreferenced)
+  DELETED     dsp-parameters.ts.bak-20261124-060257  (unreferenced)
+  DELETED     dsp-parameters.ts.bak-20261124-062105  (unreferenced)
+  DELETED     dsp-parameters.ts.bak-20261124-062138  (unreferenced)
+  DELETED     dsp-parameters.ts.bak-20261124-062204  (unreferenced)
+
+=== STAGE 3.5: Write plan.md + tasks.json ===
+  plan.md  written (BOM=True)
+  tasks.json written (BOM=False)
+  tasks.json re-parse OK (object count=260)
+
+=== STAGE 3.6: Evidence ===
+  C:\Oto Dj - Oto Mix\Oto Mix\Docs\OtoMix Todo-Plan\OTOMIX_P08_DONE_Evidence.md  (10 evidence lines)
+
+=== STAGE 3.7: git diff --check ===
+
+
+[VERDICT] Apply report TRUNCATED at STAGE 3.7 -> Apply threw there (but plan/tasks/evidence already written).
+
+=== Three-way sync check ===
+OK       P08-T01-S01-M01     plan=DONE           tasks=DONE
+OK       P08-T01-S02-M01     plan=DONE           tasks=DONE
+OK       P08-T01-S02-M02     plan=DONE           tasks=DONE
+OK       P08-T02-S01-M02     plan=DONE           tasks=DONE
+OK       P08-T03-S01-M01     plan=DONE           tasks=DONE
+OK       P08-T04-S02-M01     plan=DONE           tasks=DONE
+OK       P08-T04-S02-M03     plan=DONE           tasks=DONE
+OK       P08-T04-S02-M04     plan=DONE           tasks=DONE
+OK       P08-T05-S01-M01     plan=DONE           tasks=DONE
+OK       P08-T06-S01-M01     plan=DONE           tasks=DONE
+OK       P08-T04-S02-M02     plan=TODO           tasks=TODO
+OK       P08-T04-S01-M01     plan=BLOCKED:OQ-09  tasks=BLOCKED:OQ-09
+OK       P08-T04-S01-M03     plan=BLOCKED:OQ-24  tasks=BLOCKED:OQ-24
+
+DIVERGE count: 0  (expected 0)
+
+=== git diff --check ===
+git.exe : warning: in the working copy of '.vscode/settings.json', CRLF will be replaced by LF the 
+next time Git touches it
+At line:2 char:11
++     $dc = & git diff --check 2>&1 | Out-String
++           ~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteExc 
+   eption
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan.tasks.json', CRLF will 
+be replaced by LF the next time Git touches it
+warning: in the working copy of 'packages/gateway/src/routes/catalog-features.ts', CRLF will be 
+replaced by LF the next time Git touches it
+exit=0
+
+=== git status --porcelain ===
+ D .clineignore
+ D .vscode/extensions.json
+ D .vscode/launch.json
+ M .vscode/settings.json
+ D .vscode/tasks.json
+ M Dockerfile
+ M "Docs/.Agents/Agent Handoff.md"
+ M "Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan.md"
+ M "Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan.tasks.json"
+ M packages/core/src/index.ts
+ M packages/gateway/package.json
+ M packages/gateway/src/index.ts
+ M packages/gateway/src/interceptor.ts
+ M packages/gateway/src/routes/catalog-features.ts
+ D packages/gateway/src/routes/catalog-features.ts.bak-20261124-061431
+ D packages/gateway/src/routes/catalog-features.ts.bak-20261124-062105
+ D packages/gateway/src/routes/catalog-features.ts.bak-20261124-062137
+ D packages/gateway/src/routes/catalog-features.ts.bak-20261124-062744
+ D packages/gateway/src/routes/dsp-parameters.ts.bak-20261124-060257
+ D packages/gateway/src/routes/dsp-parameters.ts.bak-20261124-062105
+ D packages/gateway/src/routes/dsp-parameters.ts.bak-20261124-062138
+ D packages/gateway/src/routes/dsp-parameters.ts.bak-20261124-062204
+ M packages/gateway/test/catalog-features.spec.ts
+ M packages/ui/src/components/LibraryColumn.tsx
+ M packages/ui/src/components/MixPlanApp.tsx
+ M packages/ui/src/mixplan/client.ts
+ M packages/ui/src/state/queue.ts
+ M packages/ui/test/LibraryColumn.spec.tsx
+ M packages/ui/test/MixPlanApp.spec.tsx
+ M packages/ui/test/mixplan.client.spec.ts
+ M packages/ui/test/queue.slice.spec.ts
+ M pnpm-lock.yaml
+?? .github/agents/qa-subagent.agent.md
+?? Docs/FEATURES/OTOMIX_UI_Bindings.md
+?? "Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan.md.bak-20261127-005907"
+?? "Docs/OtoMix Todo-Plan/OTOMIX_MicroTask_Plan.tasks.json.bak-20261127-005907"
+?? "Docs/OtoMix Todo-Plan/OTOMIX_P08_DONE_Evidence.md"
+?? OTOMIX-P08-ThreeWay.ps1
+?? OTOMIX_DelegatedTask_RealityCheck.txt
+?? OTOMIX_Diagnostics_Report.txt
+?? OTOMIX_P08_Apply_Report.txt
+?? OTOMIX_P08_Diag.txt
+?? OTOMIX_P08_PreSync_Verification.txt
+?? OTOMIX_P08_TestResults.json
+?? OTOMIX_P08_TestRunner.txt
+?? OTOMIX_P08_ThreeWay.txt
+?? OTOMIX_P08_ThreeWay_Consistency.txt
+?? OTOMIX_UI_Bindings_RealityCheck.txt
+?? packages/gateway/src/bootstrap.mts
+?? packages/gateway/src/routes/mixplan.ts
+?? packages/gateway/test/bootstrap.spec.ts
+?? packages/gateway/test/mixplan.spec.ts
+?? packages/ui/src/components/PreKickOverlay.tsx
+?? packages/ui/src/components/PreviewStatus.tsx
+?? packages/ui/src/components/VocalOverlay.tsx
+?? packages/ui/src/mixplan/nodes.ts
+?? packages/ui/src/mixplan/vocal-gate.ts
+?? packages/ui/src/preview/
+?? packages/ui/src/state/starter-warning.ts
+?? packages/ui/test/PreKickOverlay.spec.tsx
+?? packages/ui/test/VocalOverlay.spec.tsx
+?? packages/ui/test/mixplan.nodes.spec.ts
+?? packages/ui/test/mixplan.vocal-gate.spec.ts
+?? packages/ui/test/preview.controller.spec.ts
+?? packages/ui/test/preview.observer.spec.ts
+?? packages/ui/test/starter-warning.spec.ts
+?? tasks_backup.json
+

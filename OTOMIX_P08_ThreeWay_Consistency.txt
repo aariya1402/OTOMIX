@@ -1,0 +1,73 @@
+﻿=== OTOMIX P08 Three-Way Consistency Check ===
+RepoRoot: C:\Oto Dj - Oto Mix\Oto Mix
+Generated: 2026-11-27 00:46:52
+
+tasks.json parsed as array with 260 elements.
+unique task ids indexed: 260
+
+Task | tasks.json | plan.md | disk | divergence?
+--------------------------------------------------------------------------------------------------------------
+P08-T01-S01-M01      | TODO       | TODO     | ALL-PRESENT                | DIVERGE :: code+tests exist but both plan and tasks.json still TODO (likely needs sync)
+P08-T01-S01-M02      | TODO       | TODO     | NO-FILE-CLAIMED            | ok 
+P08-T01-S02-M01      | TODO       | TODO     | ALL-PRESENT                | DIVERGE :: code+tests exist but both plan and tasks.json still TODO (likely needs sync)
+P08-T01-S02-M02      | TODO       | TODO     | ALL-PRESENT                | DIVERGE :: code+tests exist but both plan and tasks.json still TODO (likely needs sync)
+P08-T02-S01-M01      | TODO       | TODO     | NO-FILE-CLAIMED            | ok 
+P08-T02-S01-M02      | TODO       | TODO     | ALL-PRESENT                | DIVERGE :: code+tests exist but both plan and tasks.json still TODO (likely needs sync)
+P08-T03-S01-M01      | TODO       | TODO     | ALL-PRESENT                | DIVERGE :: code+tests exist but both plan and tasks.json still TODO (likely needs sync)
+P08-T04-S01-M01      | BLOCKED:OQ-09 | TODO     | NO-FILE-CLAIMED            | DIVERGE :: tasks.json=BLOCKED:OQ-09 vs plan.md=TODO
+P08-T04-S01-M02      | TODO       | TODO     | NO-FILE-CLAIMED            | ok 
+P08-T04-S01-M03      | BLOCKED:OQ-24 | TODO     | NO-FILE-CLAIMED            | DIVERGE :: tasks.json=BLOCKED:OQ-24 vs plan.md=TODO
+P08-T04-S02-M01      | TODO       | TODO     | ALL-PRESENT                | DIVERGE :: code+tests exist but both plan and tasks.json still TODO (likely needs sync)
+P08-T04-S02-M02      | TODO       | TODO     | ALL-PRESENT                | DIVERGE :: code+tests exist but both plan and tasks.json still TODO (likely needs sync)
+P08-T04-S02-M03      | TODO       | TODO     | ALL-PRESENT                | DIVERGE :: code+tests exist but both plan and tasks.json still TODO (likely needs sync)
+P08-T04-S02-M04      | TODO       | TODO     | ALL-PRESENT                | DIVERGE :: code+tests exist but both plan and tasks.json still TODO (likely needs sync)
+P08-T05-S01-M01      | TODO       | TODO     | ALL-PRESENT                | DIVERGE :: code+tests exist but both plan and tasks.json still TODO (likely needs sync)
+P08-T05-S01-M02      | DONE       | DONE     | ALL-PRESENT                | ok 
+P08-T06-S01-M01      | TODO       | TODO     | ALL-PRESENT                | DIVERGE :: code+tests exist but both plan and tasks.json still TODO (likely needs sync)
+P08-T06-S01-M02      | DONE       | DONE     | ALL-PRESENT                | ok 
+
+--- Divergences: 13 ---
+  P08-T01-S01-M01
+  P08-T01-S02-M01
+  P08-T01-S02-M02
+  P08-T02-S01-M02
+  P08-T03-S01-M01
+  P08-T04-S01-M01
+  P08-T04-S01-M03
+  P08-T04-S02-M01
+  P08-T04-S02-M02
+  P08-T04-S02-M03
+  P08-T04-S02-M04
+  P08-T05-S01-M01
+  P08-T06-S01-M01
+
+--- bootstrap.mts vs index.ts catalog mount ---
+bootstrap.mts references createApp? True
+bootstrap.mts calls of interest: createGatewayApp, readGatewayConfig, startGateway
+index.ts references catalog? True ; mixplan? True
+  L2: import { mountCatalogFeaturesRoute } from './routes/catalog-features.js';
+  L3: import type { MountCatalogFeaturesRouteDeps } from './routes/catalog-features.js';
+  L4: import { mountMixPlanRoute } from './routes/mixplan.js';
+  L5: import type { MixPlanDeps } from './routes/mixplan.js';
+  L10: deps: MountCatalogFeaturesRouteDeps & { mixplan?: MixPlanDeps }
+  L14: mountCatalogFeaturesRoute(app, deps);
+  L15: if (deps.mixplan && deps.interceptor) {
+  L16: mountMixPlanRoute(app, { ...deps.mixplan, interceptor: deps.interceptor });
+  L62: createCatalogFeaturesHandler,
+  L63: mountCatalogFeaturesRoute,
+  L64: } from './routes/catalog-features.js';
+  L65: export type { CatalogFeaturesDeps, MountCatalogFeaturesRouteDeps } from './routes/catalog-features.js';
+  L66: export { createMixPlanHandler, mountMixPlanRoute } from './routes/mixplan.js';
+  L67: export type { MixPlanDeps, MixPlanRequest, MixPlanResponse } from './routes/mixplan.js';
+
+--- stray .bak files under packages/gateway/src/routes ---
+found 8 backup files:
+  catalog-features.ts.bak-20261124-061431  (2344 bytes)
+  catalog-features.ts.bak-20261124-062105  (2352 bytes)
+  catalog-features.ts.bak-20261124-062137  (2352 bytes)
+  catalog-features.ts.bak-20261124-062744  (2352 bytes)
+  dsp-parameters.ts.bak-20261124-060257  (3585 bytes)
+  dsp-parameters.ts.bak-20261124-062105  (3575 bytes)
+  dsp-parameters.ts.bak-20261124-062138  (3560 bytes)
+  dsp-parameters.ts.bak-20261124-062204  (3560 bytes)
+

@@ -1,0 +1,62 @@
+﻿[
+    {
+        "File":  "packages/gateway/test/catalog-features.spec.ts",
+        "Exit":  0,
+        "Threw":  false,
+        "Tail":  " \u001b[32mΓ£ô\u001b[39m \u001b[30m\u001b[42m default \u001b[49m\u001b[39m packages/gateway/test/catalog-features.spec.ts \u001b[2m(\u001b[22m\u001b[2m4 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 2714\u001b[2mms\u001b[22m\u001b[39m | \u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m1 passed\u001b[39m\u001b[22m\u001b[90m (1)\u001b[39m | \u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m4 passed\u001b[39m\u001b[22m\u001b[90m (4)\u001b[39m | \u001b[2m   Start at \u001b[22m 00:54:39 | \u001b[2m   Duration \u001b[22m 4.24s\u001b[2m (transform 74ms, setup 0ms, collect 1.00s, tes…"
+    },
+    {
+        "File":  "packages/ui/test/queue.slice.spec.ts",
+        "Exit":  0,
+        "Threw":  false,
+        "Tail":  " \u001b[32mΓ£ô\u001b[39m \u001b[30m\u001b[42m default \u001b[49m\u001b[39m packages/ui/test/queue.slice.spec.ts \u001b[2m(\u001b[22m\u001b[2m31 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 6\u001b[2mms\u001b[22m\u001b[39m | \u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m1 passed\u001b[39m\u001b[22m\u001b[90m (1)\u001b[39m | \u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m31 passed\u001b[39m\u001b[22m\u001b[90m (31)\u001b[39m | \u001b[2m   Start at \u001b[22m 00:54:44 | \u001b[2m   Duration \u001b[22m 548ms\u001b[2m (transform 24ms, setup 0ms, collect 43ms, tests 6ms, env…"
+    },
+    {
+        "File":  "packages/ui/test/timeline.selector.spec.ts",
+        "Exit":  0,
+        "Threw":  false,
+        "Tail":  " \u001b[32mΓ£ô\u001b[39m \u001b[30m\u001b[42m default \u001b[49m\u001b[39m packages/ui/test/timeline.selector.spec.ts \u001b[2m(\u001b[22m\u001b[2m19 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 10\u001b[2mms\u001b[22m\u001b[39m | \u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m1 passed\u001b[39m\u001b[22m\u001b[90m (1)\u001b[39m | \u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m19 passed\u001b[39m\u001b[22m\u001b[90m (19)\u001b[39m | \u001b[2m   Start at \u001b[22m 00:54:45 | \u001b[2m   Duration \u001b[22m 594ms\u001b[2m (transform 39ms, setup 0ms, collect 94ms, tests 1…"
+    },
+    {
+        "File":  "packages/ui/test/MixPlanApp.spec.tsx",
+        "Exit":  0,
+        "Threw":  false,
+        "Tail":  " \u001b[32mΓ£ô\u001b[39m \u001b[30m\u001b[45m ui-components \u001b[49m\u001b[39m packages/ui/test/MixPlanApp.spec.tsx \u001b[2m(\u001b[22m\u001b[2m12 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 108\u001b[2mms\u001b[22m\u001b[39m | \u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m1 passed\u001b[39m\u001b[22m\u001b[90m (1)\u001b[39m | \u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m12 passed\u001b[39m\u001b[22m\u001b[90m (12)\u001b[39m | \u001b[2m   Start at \u001b[22m 00:54:46 | \u001b[2m   Duration \u001b[22m 2.02s\u001b[2m (transform 58ms, setup 330ms, collect 141ms, tes…"
+    },
+    {
+        "File":  "packages/ui/test/mixplan.vocal-gate.spec.ts",
+        "Exit":  0,
+        "Threw":  false,
+        "Tail":  " \u001b[32mΓ£ô\u001b[39m \u001b[30m\u001b[42m default \u001b[49m\u001b[39m packages/ui/test/mixplan.vocal-gate.spec.ts \u001b[2m(\u001b[22m\u001b[2m5 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 4\u001b[2mms\u001b[22m\u001b[39m | \u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m1 passed\u001b[39m\u001b[22m\u001b[90m (1)\u001b[39m | \u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m5 passed\u001b[39m\u001b[22m\u001b[90m (5)\u001b[39m | \u001b[2m   Start at \u001b[22m 00:54:49 | \u001b[2m   Duration \u001b[22m 509ms\u001b[2m (transform 22ms, setup 0ms, collect 33ms, tests 4ms,…"
+    },
+    {
+        "File":  "packages/ui/test/mixplan.client.spec.ts",
+        "Exit":  0,
+        "Threw":  false,
+        "Tail":  " \u001b[32mΓ£ô\u001b[39m \u001b[30m\u001b[42m default \u001b[49m\u001b[39m packages/ui/test/mixplan.client.spec.ts \u001b[2m(\u001b[22m\u001b[2m8 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 3\u001b[2mms\u001b[22m\u001b[39m | \u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m1 passed\u001b[39m\u001b[22m\u001b[90m (1)\u001b[39m | \u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m8 passed\u001b[39m\u001b[22m\u001b[90m (8)\u001b[39m | \u001b[2m   Start at \u001b[22m 00:54:50 | \u001b[2m   Duration \u001b[22m 531ms\u001b[2m (transform 26ms, setup 0ms, collect 41ms, tests 3ms, env…"
+    },
+    {
+        "File":  "packages/ui/test/mixplan.nodes.spec.ts",
+        "Exit":  0,
+        "Threw":  false,
+        "Tail":  " \u001b[32mΓ£ô\u001b[39m \u001b[30m\u001b[42m default \u001b[49m\u001b[39m packages/ui/test/mixplan.nodes.spec.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 3\u001b[2mms\u001b[22m\u001b[39m | \u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m1 passed\u001b[39m\u001b[22m\u001b[90m (1)\u001b[39m | \u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m3 passed\u001b[39m\u001b[22m\u001b[90m (3)\u001b[39m | \u001b[2m   Start at \u001b[22m 00:54:51 | \u001b[2m   Duration \u001b[22m 510ms\u001b[2m (transform 23ms, setup 0ms, collect 36ms, tests 3ms, envi…"
+    },
+    {
+        "File":  "packages/ui/test/VocalOverlay.spec.tsx",
+        "Exit":  0,
+        "Threw":  false,
+        "Tail":  " \u001b[32mΓ£ô\u001b[39m \u001b[30m\u001b[45m ui-components \u001b[49m\u001b[39m packages/ui/test/VocalOverlay.spec.tsx \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 21\u001b[2mms\u001b[22m\u001b[39m | \u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m1 passed\u001b[39m\u001b[22m\u001b[90m (1)\u001b[39m | \u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m3 passed\u001b[39m\u001b[22m\u001b[90m (3)\u001b[39m | \u001b[2m   Start at \u001b[22m 00:54:53 | \u001b[2m   Duration \u001b[22m 1.71s\u001b[2m (transform 27ms, setup 255ms, collect 56ms, tests …"
+    },
+    {
+        "File":  "packages/ui/test/PreKickOverlay.spec.tsx",
+        "Exit":  0,
+        "Threw":  false,
+        "Tail":  " \u001b[32mΓ£ô\u001b[39m \u001b[30m\u001b[45m ui-components \u001b[49m\u001b[39m packages/ui/test/PreKickOverlay.spec.tsx \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 22\u001b[2mms\u001b[22m\u001b[39m | \u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m1 passed\u001b[39m\u001b[22m\u001b[90m (1)\u001b[39m | \u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m3 passed\u001b[39m\u001b[22m\u001b[90m (3)\u001b[39m | \u001b[2m   Start at \u001b[22m 00:54:55 | \u001b[2m   Duration \u001b[22m 1.75s\u001b[2m (transform 30ms, setup 257ms, collect 99ms, test…"
+    },
+    {
+        "File":  "packages/ui/test/preview.controller.spec.ts",
+        "Exit":  0,
+        "Threw":  false,
+        "Tail":  " \u001b[32mΓ£ô\u001b[39m \u001b[30m\u001b[42m default \u001b[49m\u001b[39m packages/ui/test/preview.controller.spec.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 9\u001b[2mms\u001b[22m\u001b[39m | \u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m1 passed\u001b[39m\u001b[22m\u001b[90m (1)\u001b[39m | \u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m3 passed\u001b[39m\u001b[22m\u001b[90m (3)\u001b[39m | \u001b[2m   Start at \u001b[22m 00:54:57 | \u001b[2m   Duration \u001b[22m 541ms\u001b[2m (transform 22ms, setup 0ms, collect 61ms, tests 9ms,…"
+    }
+]

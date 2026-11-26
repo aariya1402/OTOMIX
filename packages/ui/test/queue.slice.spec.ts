@@ -97,14 +97,16 @@ describe('QueueSlice - Ordered Queue (P08-T01-S02-M01)', () => {
       expect(state.queueIds).toEqual(['track-a', 'track-b', 'track-c']);
     });
 
-    it('does not allow moving track to index 0 (starter position)', () => {
+    it('allows moving a track to index 0 to select a new starter', () => {
       let state = addToQueue(emptyQueueState(), 'track-a');
       state = addToQueue(state, 'track-b');
       state = addToQueue(state, 'track-c');
-      // Try to move track-b to starter position
-      state = reorderQueue(state, 1, 0);
+      const previousState = state;
+      state = reorderQueue(state, 2, 0);
 
-      expect(state.queueIds).toEqual(['track-a', 'track-b', 'track-c']);
+      expect(state.queueIds).toEqual(['track-c', 'track-a', 'track-b']);
+      expect(selectStarterTrack(state)).toBe('track-c');
+      expect(previousState.queueIds).toEqual(['track-a', 'track-b', 'track-c']);
     });
 
     it('returns same state for invalid fromIndex', () => {
@@ -252,7 +254,7 @@ describe('QueueSlice - Ordered Queue (P08-T01-S02-M01)', () => {
     });
   });
 
-  // Test spec from tasks.json:
+  // Test spec from the plan:
   // Input: add A,B,C; move C to index 0; remove B
   // Expected: queue [C,A]; slot 1 = C
   describe('Integration test - tasks.json spec', () => {
@@ -265,11 +267,7 @@ describe('QueueSlice - Ordered Queue (P08-T01-S02-M01)', () => {
       state = addToQueue(state, 'C');
       // queue: [A, B, C]
       
-      // move C to index 0 (but this should fail since index 0 is starter)
-      // Actually, the spec says "move C to index 0" - but our reorderQueue
-      // prevents moving to index 0. Let's use setStarterTrack instead
-      // which is the proper way to change the starter track.
-      state = setStarterTrack(state, 'C');
+      state = reorderQueue(state, 2, 0);
       // queue: [C, A, B]
       
       // remove B

@@ -110,6 +110,27 @@ describe('LibraryColumn (P08-T02-S01-M01)', () => {
     expect(mockOnTrackClick).toHaveBeenCalledWith('track-a');
   });
 
+  it('makes selectable library rows draggable and provides the track ID', () => {
+    const tracks = [createTrack({ trackId: 'track-a' })];
+
+    render(<LibraryColumn tracks={tracks} loading={false} selectableIds={['track-a']} onTrackClick={mockOnTrackClick} />);
+
+    const row = screen.getByTestId('track-row-track-a');
+    const dragEvent = new DragEvent('dragstart', { dataTransfer: new DataTransfer() });
+    fireEvent.dragStart(row, dragEvent);
+
+    expect(row).toHaveAttribute('draggable', 'true');
+    expect(dragEvent.dataTransfer.getData('text/plain')).toBe('track-a');
+  });
+
+  it('does not make unselectable library rows draggable', () => {
+    const tracks = [createTrack({ trackId: 'track-a', mixability: 0.39 })];
+
+    render(<LibraryColumn tracks={tracks} loading={false} selectableIds={[]} onTrackClick={mockOnTrackClick} />);
+
+    expect(screen.getByTestId('track-row-track-a')).toHaveAttribute('draggable', 'false');
+  });
+
   it('does not call onTrackClick for unmixable tracks when clicked', () => {
     const tracks = [
       createTrack({ trackId: 'selectable', mixability: 0.5 }),

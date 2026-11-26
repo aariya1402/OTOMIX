@@ -2,12 +2,14 @@
 
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
+import { useState, type ReactElement } from 'react';
 import { MixPlanApp } from '../src/components/MixPlanApp';
 import type { LibraryTrack } from '../src/state/library';
 import type { LibraryState } from '../src/state/library';
 import type { QueueState } from '../src/state/queue';
 import { emptyLibraryState, addTracks } from '../src/state/library';
-import { emptyQueueState, addToQueue, setStarterTrack } from '../src/state/queue';
+import { emptyQueueState, addToQueue, reorderQueue, setStarterTrack } from '../src/state/queue';
+import { getTimelineCache, resetTimelineCache } from '../src/state/timeline';
 
 const createTrack = (overrides: Partial<LibraryTrack> = {}): LibraryTrack => ({
   trackId: 'track-1',
@@ -83,6 +85,28 @@ describe('MixPlanApp (P08-T02-S02-M01)', () => {
     />);
 
     expect(screen.getByTestId('starter-indicator')).toHaveTextContent('Starter: track-a');
+  });
+
+  it('shows a warning when the starter and adjacent track have the same key and neighbor-relative delta below 1%', () => {
+    const warningLibraryState = addTracks(emptyLibraryState(), [
+      createTrack({ trackId: 'starter', bpm: 100, camelotKey: '8A' }),
+      createTrack({ trackId: 'neighbor', bpm: 101.006, camelotKey: '8A' })
+    ]);
+    const warningQueueState = { queueIds: ['starter', 'neighbor'] };
+
+    render(<MixPlanApp
+      libraryState={warningLibraryState}
+      queueState={warningQueueState}
+      onAddToQueue={mockOnAddToQueue}
+      onRemoveFromQueue={mockOnRemoveFromQueue}
+      onReorderQueue={mockOnReorderQueue}
+      onSetStarterTrack={mockOnSetStarterTrack}
+      onTrackSelect={mockOnTrackSelect}
+    />);
+
+    expect(screen.getByTestId('starter-warning')).toHaveTextContent(
+      'choose structurally distinct material'
+    );
   });
 
   it('renders LibraryColumn with all tracks', () => {
@@ -235,5 +259,78 @@ describe('MixPlanApp (P08-T02-S02-M01)', () => {
     expect(screen.getByTestId('queue-count')).toHaveTextContent('0 tracks');
     expect(screen.getByTestId('queue-empty-state')).toBeInTheDocument();
     expect(screen.getByTestId('empty-title')).toHaveTextContent('Drop tracks here to start your mix');
+  });
+
+  it('accepts dragged library tracks from the empty state and reorders the queue', () => {
+    resetTimelineCache();
+
+    function StatefulMixPlanApp(): ReactElement {
+      const [currentQueueState, setCurrentQueueState] = useState(emptyQueueState());
+
+      return (
+        <MixPlanApp
+          libraryState={libraryState}
+          queueState={currentQueueState}
+          onAddToQueue={(trackId) => {
+            mockOnAddToQueue(trackId);
+            setCurrentQueueState((state) => addToQueue(state, trackId));
+          }}
+          onRemoveFromQueue={mockOnRemoveFromQueue}
+          onReorderQueue={(fromIndex, toIndex) => {
+            mockOnReorderQueue(fromIndex, toIndex);
+            setCurrentQueueState((state) => reorderQueue(state, fromIndex, toIndex));
+          }}
+          onSetStarterTrack={mockOnSetStarterTrack}
+          onTrackSelect={mockOnTrackSelect}
+        />
+      );
+    }
+
+    render(<StatefulMixPlanApp />);
+
+    const dragLibraryTrack = (trackId: string, target: HTMLElement) => {
+      const dataTransfer = new DataTransfer();
+      fireEvent.dragStart(
+        screen.getByTestId(`track-row-${trackId}`),
+        new DragEvent('dragstart', { dataTransfer })
+      );
+      fireEvent.drop(target, new DragEvent('drop', { dataTransfer }));
+    };
+
+    dragLibraryTrack('track-a', screen.getByTestId('queue-empty-state'));
+    expect(mockOnAddToQueue).toHaveBeenLastCalledWith('track-a');
+    expect(screen.queryByTestId('queue-empty-state')).not.toBeInTheDocument();
+    expect(getTimelineCache().queueIds).toEqual(['track-a']);
+    expect(screen.getByTestId('mixplan-app')).toHaveAttribute(
+      'data-timeline-point-count',
+      String(getTimelineCache().result.length)
+    );
+
+    for (const trackId of ['track-b', 'track-c']) {
+      dragLibraryTrack(trackId, screen.getByTestId('queue-rows'));
+      expect(mockOnAddToQueue).toHaveBeenLastCalledWith(trackId);
+    }
+    expect(getTimelineCache().queueIds).toEqual(['track-a', 'track-b', 'track-c']);
+    expect(getTimelineCache().result.map((point) => point.trackId)).toEqual(
+      expect.arrayContaining(['track-a', 'track-b', 'track-c'])
+    );
+
+    const queueTrackB = screen.getByTestId('queue-row-track-b');
+    const timelineBeforeReorder = getTimelineCache().result;
+    const reorderDataTransfer = new DataTransfer();
+    fireEvent.dragStart(queueTrackB, new DragEvent('dragstart', { dataTransfer: reorderDataTransfer }));
+    fireEvent.drop(
+      screen.getByTestId('queue-row-track-c'),
+      new DragEvent('drop', { dataTransfer: reorderDataTransfer })
+    );
+
+    expect(mockOnReorderQueue).toHaveBeenCalledWith(1, 2);
+    expect(getTimelineCache().queueIds).toEqual(['track-a', 'track-c', 'track-b']);
+    expect(getTimelineCache().result).not.toBe(timelineBeforeReorder);
+    expect(screen.getAllByTestId(/^queue-row-/).map((row) => row.getAttribute('data-testid'))).toEqual([
+      'queue-row-track-a',
+      'queue-row-track-c',
+      'queue-row-track-b'
+    ]);
   });
 });

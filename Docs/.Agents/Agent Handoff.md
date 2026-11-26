@@ -1,4 +1,4 @@
-# DEEPSEEK AGENT HANDOFF - OTOMIX
+# OTOMIX AGENT HANDOFF
 
 **Purpose:** Operating procedure for the DeepSeek agent on the OTOMIX project. This is not a suggestion file. It is the contract. Read it fully before acting. Do NOT ask the admin "where do I start" - the answer is in Section 15 (FIRST ACTIONS) plus the live state you read from disk.
 

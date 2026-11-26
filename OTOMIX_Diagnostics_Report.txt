@@ -1,0 +1,114 @@
+﻿=== OTOMIX Follow-up Diagnostics ===
+RepoRoot: C:\Oto Dj - Oto Mix\Oto Mix
+Generated: 2026-11-27 00:46:01
+
+--- [1] tasks.json structure ---
+file size: 192512 bytes
+root type: Object[]
+top-level properties:
+  - Count : Int32
+  - Length : Int32
+  - LongLength : Int64
+  - Rank : Int32
+  - SyncRoot : Object[]
+  - IsReadOnly : Boolean
+  - IsFixedSize : Boolean
+  - IsSynchronized : Boolean
+distinct P08* id-like strings found in raw file: 19
+  "P08-end"
+  "P08-T01-S01-M01"
+  "P08-T01-S01-M02"
+  "P08-T01-S02-M01"
+  "P08-T01-S02-M02"
+  "P08-T02-S01-M01"
+  "P08-T02-S01-M02"
+  "P08-T03-S01-M01"
+  "P08-T04-S01-M01"
+  "P08-T04-S01-M02"
+  "P08-T04-S01-M03"
+  "P08-T04-S02-M01"
+  "P08-T04-S02-M02"
+  "P08-T04-S02-M03"
+  "P08-T04-S02-M04"
+  "P08-T05-S01-M01"
+  "P08-T05-S01-M02"
+  "P08-T06-S01-M01"
+  "P08-T06-S01-M02"
+
+deep search for T04-S02-M02 and T06-S01-M01 ids:
+  'T04-S02-M02' occurrences: 9
+  'T06-S01-M01' occurrences: 13
+  'P08-T04-S02-M02' occurrences: 2
+  'P08-T06-S01-M01' occurrences: 2
+  '"T04-S02-M02"' occurrences: 0
+  '"T06-S01-M01"' occurrences: 0
+
+sample of 'id' values that look like task ids:
+  - P01-T01-S01-M01
+  - P01-T01-S02-M01
+  - P01-T01-S02-M02
+  - P01-T02-S01-M01
+  - P01-T02-S01-M02
+  - P01-T02-S01-M03
+  - P01-T03-S01-M01
+  - P01-T03-S01-M02
+  - P01-T03-S01-M03
+  - P01-T03-S02-M01
+  - P01-T03-S02-M02
+  - P01-T04-S01-M01
+  - P01-T04-S02-M01
+  - P01-T05-S01-M01
+  - P01-T05-S01-M02
+  - P01-T05-S01-M03
+  - P01-T06-S01-M01
+  - P01-T06-S01-M02
+  - P01-T06-S02-M01
+  - P01-T07-S01-M01
+total distinct id values: 260
+
+--- [2] catalog wiring in gateway source ---
+files referencing 'catalog' under packages/gateway/src:
+  C:\Oto Dj - Oto Mix\Oto Mix\packages\gateway\src\index.ts  (8 hits)
+  C:\Oto Dj - Oto Mix\Oto Mix\packages\gateway\src\scopes.ts  (3 hits)
+  C:\Oto Dj - Oto Mix\Oto Mix\packages\gateway\src\routes\catalog-features.ts  (6 hits)
+  C:\Oto Dj - Oto Mix\Oto Mix\packages\gateway\src\routes\catalog-features.ts.bak-20261124-061431  (2 hits)
+  C:\Oto Dj - Oto Mix\Oto Mix\packages\gateway\src\routes\catalog-features.ts.bak-20261124-062105  (2 hits)
+  C:\Oto Dj - Oto Mix\Oto Mix\packages\gateway\src\routes\catalog-features.ts.bak-20261124-062137  (2 hits)
+  C:\Oto Dj - Oto Mix\Oto Mix\packages\gateway\src\routes\catalog-features.ts.bak-20261124-062744  (2 hits)
+
+bootstrap.mts raw snippet around route mount (if any):
+  L179: mixplan: {
+  L183: app.get('/health', async (_req, res) => {
+
+--- [3] timeline test search across all test files ---
+files under packages/ui/test referencing timeline:
+  C:\Oto Dj - Oto Mix\Oto Mix\packages\ui\test\MixPlanApp.spec.tsx
+  C:\Oto Dj - Oto Mix\Oto Mix\packages\ui\test\timeline.selector.spec.ts
+files under packages/ui/src referencing timeline:
+  C:\Oto Dj - Oto Mix\Oto Mix\packages\ui\src\components\MixPlanApp.tsx
+  C:\Oto Dj - Oto Mix\Oto Mix\packages\ui\src\state\timeline.ts
+
+--- [4] plan.md markers for claimed done tasks ---
+  P08-T01-S01-M01 : found at L2871 -> ###### P08-T01-S01-M01 — TODO
+  P08-T01-S02-M01 : found at L2899 -> ###### P08-T01-S02-M01 — TODO
+  P08-T01-S02-M02 : found at L2911 -> ###### P08-T01-S02-M02 — TODO
+  P08-T02-S01-M02 : found at L2941 -> ###### P08-T02-S01-M02 — TODO
+  P08-T03-S01-M01 : found at L2959 -> ###### P08-T03-S01-M01 — TODO
+  P08-T04-S02-M01 : found at L3018 -> ###### P08-T04-S02-M01 — TODO
+  P08-T04-S02-M03 : found at L3042 -> ###### P08-T04-S02-M03 — TODO
+  P08-T04-S02-M04 : found at L3054 -> ###### P08-T04-S02-M04 — TODO
+  P08-T05-S01-M01 : found at L3072 -> ###### P08-T05-S01-M01 — TODO
+  P08-T05-S01-M02 : found at L3084 -> ###### P08-T05-S01-M02 — DONE
+  P08-T06-S01-M01 : found at L3102 -> ###### P08-T06-S01-M01 — TODO
+  P08-T06-S01-M02 : found at L3114 -> ###### P08-T06-S01-M02 — DONE
+
+--- [5] PreviewStatus integration evidence ---
+  L16: import { PreviewStatus } from './PreviewStatus';
+  L17: import type { PreviewController } from '../preview/controller';
+  L28: readonly previewController?: PreviewController;
+  L40: previewController
+  L42: const previewObserverState = useSyncExternalStore(
+  L44: previewController?.subscribeObserver(() => onStoreChange()) ?? (() => undefined),
+  L45: () => previewController?.getObserverState() ?? null,
+  L103: {previewObserverState && <PreviewStatus state={previewObserverState} />}
+

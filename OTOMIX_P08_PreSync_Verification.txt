@@ -1,0 +1,41 @@
+﻿=== OTOMIX P08 Pre-Sync Verification ===
+RepoRoot: C:\Oto Dj - Oto Mix\Oto Mix
+Generated: 2026-11-27 00:47:52
+
+tasks.json: 260 tasks, 260 indexed by id
+
+--- Candidate promotion check (need PASS in test to promote) ---
+Task                 | tasks.json | plan.md    | test result                    | safe-to-promote?
+------------------------------------------------------------------------------------------------------------------------
+
+Safe to promote (0): 
+Needs work   (0): 
+
+--- Blocked tasks: OQ reference check ---
+  P08-T04-S01-M01 : tasks.json=BLOCKED:OQ-09 ; plan.md=TODO ; OQ=OQ-09
+    OQ-09 in plan.md: FOUND L2859
+    OQ-09 in tasks.json: FOUND L1845
+  P08-T04-S01-M03 : tasks.json=BLOCKED:OQ-24 ; plan.md=TODO ; OQ=OQ-24
+    OQ-24 in plan.md: FOUND L2859
+    OQ-24 in tasks.json: FOUND L1867
+
+--- .bak files audit ---
+found 8 .bak files
+  catalog-features.ts.bak-20261124-061431       referenced? False 
+  catalog-features.ts.bak-20261124-062105       referenced? False 
+  catalog-features.ts.bak-20261124-062137       referenced? False 
+  catalog-features.ts.bak-20261124-062744       referenced? False 
+  dsp-parameters.ts.bak-20261124-060257         referenced? False 
+  dsp-parameters.ts.bak-20261124-062105         referenced? False 
+  dsp-parameters.ts.bak-20261124-062138         referenced? False 
+  dsp-parameters.ts.bak-20261124-062204         referenced? False 
+deletable (unreferenced): 8
+  catalog-features.ts.bak-20261124-061431
+  catalog-features.ts.bak-20261124-062105
+  catalog-features.ts.bak-20261124-062137
+  catalog-features.ts.bak-20261124-062744
+  dsp-parameters.ts.bak-20261124-060257
+  dsp-parameters.ts.bak-20261124-062105
+  dsp-parameters.ts.bak-20261124-062138
+  dsp-parameters.ts.bak-20261124-062204
+
