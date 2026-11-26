@@ -1,5 +1,22 @@
-// Placeholder export
+import express, { type Express } from 'express';
+import { mountCatalogFeaturesRoute } from './routes/catalog-features.js';
+import type { MountCatalogFeaturesRouteDeps } from './routes/catalog-features.js';
+import { mountMixPlanRoute } from './routes/mixplan.js';
+import type { MixPlanDeps } from './routes/mixplan.js';
+
 export const gateway = { name: '@otomix/gateway' };
+
+export function createGatewayApp(
+  deps: MountCatalogFeaturesRouteDeps & { mixplan?: MixPlanDeps }
+): Express {
+  const app = express();
+  app.use(express.json());
+  mountCatalogFeaturesRoute(app, deps);
+  if (deps.mixplan && deps.interceptor) {
+    mountMixPlanRoute(app, { ...deps.mixplan, interceptor: deps.interceptor });
+  }
+  return app;
+}
 export * from './status-map.js';
 
 export { createCspMiddleware, buildCspHeader, CspConfigError } from './csp.js';
@@ -41,4 +58,14 @@ export type { RejectDeps, RejectFormat, RejectReason, RejectResult } from './ing
 export { extractTagsForGateway } from './ingest/tags.js';
 export type { TagsDeps, TagsResult } from './ingest/tags.js';
 
-export { createCatalogFeaturesHandler } from './routes/catalog-features.js';
+export {
+  createCatalogFeaturesHandler,
+  mountCatalogFeaturesRoute,
+} from './routes/catalog-features.js';
+export type { CatalogFeaturesDeps, MountCatalogFeaturesRouteDeps } from './routes/catalog-features.js';
+export { createMixPlanHandler, mountMixPlanRoute } from './routes/mixplan.js';
+export type { MixPlanDeps, MixPlanRequest, MixPlanResponse } from './routes/mixplan.js';
+export { createMixPlanAdapter } from './routes/mixplan-adapter.js';
+export type { MixPlanAdapterDeps, TrackRepository as MixPlanTrackRepositoryAdapter } from './routes/mixplan-adapter.js';
+export { TrackRepository } from './repository/track-repository.js';
+export type { TrackRow } from './repository/track-repository.js';

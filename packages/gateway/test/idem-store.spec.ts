@@ -113,4 +113,28 @@ describe('Idempotency Redis Store', () => {
       expect(r.response).toEqual({ data: 'concurrent' });
     }
   }, TEST_TIMEOUT);
+
+  it('isolates the same key across tenants', async () => {
+    const key = '123e4567-e89b-42d3-a456-426614174004';
+    const first = await store.withIdempotency('otomix', key, 'fp-a', async () => ({
+      tenant: 'otomix',
+    }));
+    const second = await store.withIdempotency('otodj', key, 'fp-a', async () => ({
+      tenant: 'otodj',
+    }));
+
+    expect(first.status).toBe('fresh');
+    expect(first.response).toEqual({ tenant: 'otomix' });
+    expect(second.status).toBe('fresh');
+    expect(second.response).toEqual({ tenant: 'otodj' });
+
+    const replayOtherTenant = await store.withIdempotency(
+      'otodj',
+      key,
+      'fp-a',
+      async () => ({ tenant: 'unexpected' }),
+    );
+    expect(replayOtherTenant.status).toBe('replay');
+    expect(replayOtherTenant.response).toEqual({ tenant: 'otodj' });
+  }, TEST_TIMEOUT);
 });

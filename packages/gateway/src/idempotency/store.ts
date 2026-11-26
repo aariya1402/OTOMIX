@@ -23,21 +23,35 @@ export interface StoredRecord {
 
 export interface IdempotencyStore {
   withIdempotency<T>(
+    tenantId: string,
     key: string,
     fingerprint: string,
     handler: () => Promise<T>
   ): Promise<IdempotencyResult<T>>;
+  withIdempotency<T>(
+    key: string,
+    fingerprint: string,
+    handler: () => Promise<T>
+  ): Promise<IdempotencyResult<T>>;
+  getResponse(tenantId: string, key: string): Promise<StoredRecord | null>;
   getResponse(key: string): Promise<StoredRecord | null>;
+  getTTL(tenantId: string, key: string): Promise<number>;
   getTTL(key: string): Promise<number>;
   close(): Promise<void>;
 }
 
 type ClaimResult = 'fresh' | StoredRecord | null;
 
-const redisKeyFor = (key: string): string => `${PREFIX}${key}`;
+const redisKeyFor = (tenantId: string, key: string): string =>
+  `${PREFIX}${tenantId}:${key}`;
 
-async function attemptClaim(redis: Redis, key: string, fingerprint: string): Promise<ClaimResult> {
-  const rk = redisKeyFor(key);
+async function attemptClaim(
+  redis: Redis,
+  tenantId: string,
+  key: string,
+  fingerprint: string
+): Promise<ClaimResult> {
+  const rk = redisKeyFor(tenantId, key);
   const marker: StoredRecord = { fingerprint, status: 'in_progress' };
   const claimed = await redis.set(rk, JSON.stringify(marker), 'EX', TTL_SECONDS, 'NX');
   if (claimed === 'OK') return 'fresh';
@@ -49,16 +63,26 @@ async function attemptClaim(redis: Redis, key: string, fingerprint: string): Pro
 export function createIdempotencyStore(redis: Redis): IdempotencyStore {
   return {
     async withIdempotency<T>(
-      key: string,
-      fingerprint: string,
-      handler: () => Promise<T>
+      tenantIdOrKey: string,
+      keyOrFingerprint: string,
+      fingerprintOrHandler: string | (() => Promise<T>),
+      maybeHandler?: () => Promise<T>
     ): Promise<IdempotencyResult<T>> {
-      const rk = redisKeyFor(key);
+      const tenantScoped = typeof fingerprintOrHandler === 'string';
+      const tenantId = tenantScoped ? tenantIdOrKey : '';
+      const key = tenantScoped ? keyOrFingerprint : tenantIdOrKey;
+      const fingerprint = tenantScoped
+        ? (fingerprintOrHandler as string)
+        : keyOrFingerprint;
+      const handler = tenantScoped
+        ? (maybeHandler as () => Promise<T>)
+        : (fingerprintOrHandler as () => Promise<T>);
+      const rk = redisKeyFor(tenantId, key);
 
       // 1. Try to claim the key (SET NX). Retry a few times if key vanished between NX and GET.
       let claim: ClaimResult = null;
       for (let i = 0; i < MAX_CLAIM_RETRIES; i++) {
-        claim = await attemptClaim(redis, key, fingerprint);
+        claim = await attemptClaim(redis, tenantId, key, fingerprint);
         if (claim !== null) break;
       }
       if (claim === null) {
@@ -101,14 +125,18 @@ export function createIdempotencyStore(redis: Redis): IdempotencyStore {
       return { status: 'conflict' };
     },
 
-    async getResponse(key: string): Promise<StoredRecord | null> {
-      const raw = await redis.get(redisKeyFor(key));
+    async getResponse(tenantIdOrKey: string, maybeKey?: string): Promise<StoredRecord | null> {
+      const tenantId = maybeKey === undefined ? '' : tenantIdOrKey;
+      const key = maybeKey === undefined ? tenantIdOrKey : maybeKey;
+      const raw = await redis.get(redisKeyFor(tenantId, key));
       if (!raw) return null;
       return JSON.parse(raw) as StoredRecord;
     },
 
-    async getTTL(key: string): Promise<number> {
-      return redis.ttl(redisKeyFor(key));
+    async getTTL(tenantIdOrKey: string, maybeKey?: string): Promise<number> {
+      const tenantId = maybeKey === undefined ? '' : tenantIdOrKey;
+      const key = maybeKey === undefined ? tenantIdOrKey : maybeKey;
+      return redis.ttl(redisKeyFor(tenantId, key));
     },
 
     async close(): Promise<void> {

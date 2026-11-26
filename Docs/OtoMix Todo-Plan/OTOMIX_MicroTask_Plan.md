@@ -3019,7 +3019,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.4 · Mother §3.4 |
 | Review Checkpoint | Confirm an all-instrumental window is not moved. |
 
-###### P08-T04-S02-M02 — TODO
+###### P08-T04-S02-M02 — DONE
 
 | Field | Value |
 |---|---|

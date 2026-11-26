@@ -1886,7 +1886,7 @@
     },
     {
         "id": "P08-T04-S02-M02",
-        "status": "TODO",
+        "status": "DONE",
         "description": "Implement `POST /api/v1/mixplan` requiring `local:process` and invoking `PlanTransition` with an idempotency key.",
         "prerequisites": [
             "P06-T02-S01-M03",
