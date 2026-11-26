@@ -2868,8 +2868,7 @@ flowchart LR
 
 ##### P08-T01-S01 Library data
 
-###### P08-T01-S01-M01 — TODO
-
+###### P08-T01-S01-M01 — DONE
 | Field | Value |
 |---|---|
 | ID | `P08-T01-S01-M01` |
@@ -2896,8 +2895,7 @@ flowchart LR
 
 ##### P08-T01-S02 Queue and timeline
 
-###### P08-T01-S02-M01 — TODO
-
+###### P08-T01-S02-M01 — DONE
 | Field | Value |
 |---|---|
 | ID | `P08-T01-S02-M01` |
@@ -2908,8 +2906,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.9 · Mother §6; Add. §11 |
 | Review Checkpoint | Confirm the queue stores ids only. |
 
-###### P08-T01-S02-M02 — TODO
-
+###### P08-T01-S02-M02 — DONE
 | Field | Value |
 |---|---|
 | ID | `P08-T01-S02-M02` |
@@ -2938,8 +2935,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.9 · Mother §6; Add. §11 |
 | Review Checkpoint | Review the component for accessible labels on each attribute. |
 
-###### P08-T02-S01-M02 — TODO
-
+###### P08-T02-S01-M02 — DONE
 | Field | Value |
 |---|---|
 | ID | `P08-T02-S01-M02` |
@@ -2956,8 +2952,7 @@ flowchart LR
 
 ##### P08-T03-S01 Warning rule
 
-###### P08-T03-S01-M01 — TODO
-
+###### P08-T03-S01-M01 — DONE
 | Field | Value |
 |---|---|
 | ID | `P08-T03-S01-M01` |
@@ -2974,8 +2969,7 @@ flowchart LR
 
 ##### P08-T04-S01 Recommendation scoring
 
-###### P08-T04-S01-M01 — TODO
-
+###### P08-T04-S01-M01 — BLOCKED (OQ-09)
 | Field | Value |
 |---|---|
 | ID | `P08-T04-S01-M01` |
@@ -3000,8 +2994,7 @@ flowchart LR
 | Review Checkpoint | Confirm weights come from `RECO_WEIGHTS`. |
 | Notes | **[ADDENDUM OVERRIDE]** See `P05-ADD-T02-S04-M01`: Must use `compatibility_score` and `camelot` as a hard gate, not a weighted score. |
 
-###### P08-T04-S01-M03 — TODO
-
+###### P08-T04-S01-M03 — BLOCKED (OQ-24)
 | Field | Value |
 |---|---|
 | ID | `P08-T04-S01-M03` |
@@ -3015,8 +3008,7 @@ flowchart LR
 
 ##### P08-T04-S02 Transition nodes
 
-###### P08-T04-S02-M01 — TODO
-
+###### P08-T04-S02-M01 — DONE
 | Field | Value |
 |---|---|
 | ID | `P08-T04-S02-M01` |
@@ -3039,8 +3031,7 @@ flowchart LR
 | Spec Reference | OTOMIX §9.2; §9.4 · Mother Add. §1–§2 |
 | Review Checkpoint | Confirm the gRPC deadline and retry policy are applied. |
 
-###### P08-T04-S02-M03 — TODO
-
+###### P08-T04-S02-M03 — DONE
 | Field | Value |
 |---|---|
 | ID | `P08-T04-S02-M03` |
@@ -3051,8 +3042,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.9; §3.9 · Mother §6; Add. §11; §2.9 |
 | Review Checkpoint | Confirm no exception path blocks the queue. |
 
-###### P08-T04-S02-M04 — TODO
-
+###### P08-T04-S02-M04 — DONE
 | Field | Value |
 |---|---|
 | ID | `P08-T04-S02-M04` |
@@ -3069,8 +3059,7 @@ flowchart LR
 
 ##### P08-T05-S01 Overlays
 
-###### P08-T05-S01-M01 — TODO
-
+###### P08-T05-S01-M01 — DONE
 | Field | Value |
 |---|---|
 | ID | `P08-T05-S01-M01` |
@@ -3081,7 +3070,7 @@ flowchart LR
 | Spec Reference | OTOMIX §4.4; §4.9 · Mother §3.4; §6; Add. §11 |
 | Review Checkpoint | Confirm the pattern id is unique per canvas instance. |
 
-###### P08-T05-S01-M02 — TODO
+###### P08-T05-S01-M02 — DONE
 
 | Field | Value |
 |---|---|
@@ -3099,8 +3088,7 @@ flowchart LR
 
 ##### P08-T06-S01 Preview controller
 
-###### P08-T06-S01-M01 — TODO
-
+###### P08-T06-S01-M01 — DONE
 | Field | Value |
 |---|---|
 | ID | `P08-T06-S01-M01` |
@@ -3111,13 +3099,13 @@ flowchart LR
 | Spec Reference | OTOMIX §4.8 · Mother §7 |
 | Review Checkpoint | Confirm preview uses the same executor as production playback. |
 
-###### P08-T06-S01-M02 — TODO
+###### P08-T06-S01-M02 — DONE
 
 | Field | Value |
 |---|---|
 | ID | `P08-T06-S01-M02` |
 | Description | Attach the Runtime Observer to the preview and surface starvation/degraded-mode state in the UI. |
-| Expected Outcome | `packages/ui/src/preview/observer-bridge.ts`. |
+| Expected Outcome | `packages/ui/src/preview/observer-bridge.ts`; observer worker and preview status UI. |
 | Prerequisites | `P08-T06-S01-M01` |
 | Independent Test(s) | **integration** · Vitest + mock driver · `packages/ui/test/preview.observer.spec.ts`<br>Input: inject a 12 ms frame. Expected: buffer switches 2048→4096 and the UI state shows degraded. Pass: both. |
 | Spec Reference | OTOMIX §3.6 · Mother §2.6 |

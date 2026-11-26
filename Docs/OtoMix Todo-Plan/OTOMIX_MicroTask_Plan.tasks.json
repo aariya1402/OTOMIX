@@ -1763,7 +1763,7 @@
     },
     {
         "id": "P08-T01-S01-M01",
-        "status": "TODO",
+        "status": "DONE",
         "description": "Implement `GET /api/v1/catalog/features` requiring `user:read` with cursor pagination (`next_cursor`, stable `(created_at,id)` order).",
         "prerequisites": [
             "P06-T02-S01-M03",
@@ -1786,7 +1786,7 @@
     },
     {
         "id": "P08-T01-S02-M01",
-        "status": "TODO",
+        "status": "DONE",
         "description": "Create the ordered `queueIndex` slice with add, remove and reorder actions where Slot 1 is the Starter Track.",
         "prerequisites": [
             "P08-T01-S01-M02"
@@ -1797,7 +1797,7 @@
     },
     {
         "id": "P08-T01-S02-M02",
-        "status": "TODO",
+        "status": "DONE",
         "description": "Trigger a memoized recomputation of the Absolute Locked Grid timeline on every queue mutation.",
         "prerequisites": [
             "P08-T01-S02-M01",
@@ -1820,7 +1820,7 @@
     },
     {
         "id": "P08-T02-S01-M02",
-        "status": "TODO",
+        "status": "DONE",
         "description": "Render the Right Column queue with drag-and-drop add/reorder and an explicit empty state.",
         "prerequisites": [
             "P08-T01-S02-M02"
@@ -1831,7 +1831,7 @@
     },
     {
         "id": "P08-T03-S01-M01",
-        "status": "TODO",
+        "status": "DONE",
         "description": "Show the Starter Track warning when the Slot 1 track has harmonic distance 0 (identical key) and tempo delta below 1% relative to adjacent tracks.",
         "prerequisites": [
             "P08-T01-S02-M01"
@@ -1875,7 +1875,7 @@
     },
     {
         "id": "P08-T04-S02-M01",
-        "status": "TODO",
+        "status": "DONE",
         "description": "Shift a transition window to the nearest instrumental block when it coincides with `V_map=1`.",
         "prerequisites": [
             "P05-T03-S01-M04"
@@ -1899,7 +1899,7 @@
     },
     {
         "id": "P08-T04-S02-M03",
-        "status": "TODO",
+        "status": "DONE",
         "description": "Build the client that creates `TransitionPlanRequest` objects for adjacent queue tracks and handles fallback rungs.",
         "prerequisites": [
             "P08-T04-S02-M02",
@@ -1911,7 +1911,7 @@
     },
     {
         "id": "P08-T04-S02-M04",
-        "status": "TODO",
+        "status": "DONE",
         "description": "Build transition nodes dynamically as tracks are added to the queue.",
         "prerequisites": [
             "P08-T04-S02-M03"
@@ -1922,7 +1922,7 @@
     },
     {
         "id": "P08-T05-S01-M01",
-        "status": "TODO",
+        "status": "DONE",
         "description": "Render vocal zones (`V_map>0.65`) as striped red SVG overlays on the waveform canvas.",
         "prerequisites": [
             "P08-T01-S01-M02"
@@ -1933,7 +1933,7 @@
     },
     {
         "id": "P08-T05-S01-M02",
-        "status": "TODO",
+        "status": "DONE",
         "description": "Render pre-kick offset segments as striped warning overlays.",
         "prerequisites": [
             "P08-T05-S01-M01"
@@ -1944,7 +1944,7 @@
     },
     {
         "id": "P08-T06-S01-M01",
-        "status": "TODO",
+        "status": "DONE",
         "description": "Connect a compiled plan to glide automation, the chopping engine and the DSP port (mock driver in tests) in a preview controller.",
         "prerequisites": [
             "P08-T04-S02-M04",
@@ -1957,7 +1957,7 @@
     },
     {
         "id": "P08-T06-S01-M02",
-        "status": "TODO",
+        "status": "DONE",
         "description": "Attach the Runtime Observer to the preview and surface starvation/degraded-mode state in the UI.",
         "prerequisites": [
             "P08-T06-S01-M01"
@@ -2864,5 +2864,31 @@
         ],
         "test": "integration|Vitest + Testcontainers PostgreSQL|packages/gateway/test/ingest-local.spec.ts|Input: POST /api/v1/ingest/local then wait for worker. Expected: features rows on completion match runEnrichment() output; second identical request hits cache. Pass: feature counts + cache_hit=true on second run.",
         "spec": "OTOMIX §4.1 - Mother §7"
+    },
+    {
+        "id": "REMINDER-ADMIN-UI",
+        "status": "TODO",
+        "description": "Reminder: When starting Admin Dashboard (P06-T07 or P09), use Framework + Tokens approach. Do NOT use ready-made templates directly. Use Refine framework with shadcn/ui library for admin panel to ensure high speed with full customization capability.",
+        "prerequisites": [],
+        "test": "manual|Review|N/A|Input: N/A. Expected: Admin panel built with Refine + shadcn/ui, not templates. Pass: architecture review confirms.",
+        "spec": "OTOMIX §6.7 · Mother §6; Add. §11",
+        "description_fa": "یادآور: هنگام شروع ساخت پنل ادمین (فاز P06-T07 یا P09)، از رویکرد چارچوب + توکن استفاده شود. از قالب‌های آماده (Templates) به صورت مستقیم استفاده نشود. از چارچوب Refine و کتابخانه shadcn/ui برای ساخت پنل ادمین استفاده گردد تا ضمن سرعت بالا، امکان شخصی‌سازی کامل وجود داشته باشد.",
+        "related_phases": [
+            "P06-T07",
+            "P09"
+        ]
+    },
+    {
+        "id": "REMINDER-DESIGN-TOKENS",
+        "status": "TODO",
+        "description": "Reminder: Before final UI/UX Polish phase (likely end of P08 or P11), define a Design Tokens system (colors, fonts, spacing, border-radius) in packages/ui/src/design-system/. All existing components (LibraryColumn, QueueColumn, MixPlanApp) must use these tokens instead of hardcoded values. Then provide final Figma design to agent.",
+        "prerequisites": [],
+        "test": "manual|Review|N/A|Input: N/A. Expected: Design tokens defined, components refactored to use tokens. Pass: design review confirms.",
+        "spec": "OTOMIX §4.9 · Mother §6; Add. §11",
+        "description_fa": "یادآور: قبل از شروع فاز طراحی بصری نهایی (UI/UX Polish)، یک سیستم توکن طراحی (Design Tokens) شامل رنگ‌ها، فونت‌ها، فاصله‌ها و شعاع گوشه‌ها در packages/ui/src/design-system/ تعریف شود. تمام کامپوننت‌های موجود (LibraryColumn, QueueColumn, MixPlanApp) باید از این توکن‌ها به جای مقادیر هاردکد شده استفاده کنند. سپس نمونه استایل نهایی (Figma) به ایجنت داده شود.",
+        "related_phases": [
+            "P08-end",
+            "P11"
+        ]
     }
 ]
